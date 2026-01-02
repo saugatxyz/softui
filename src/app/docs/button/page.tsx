@@ -111,7 +111,7 @@ export default function ButtonDocsPage() {
           {variantRows.map((variant) => (
             <div
               key={variant.value}
-              className="flex flex-col gap-[var(--space-10)] border-b border-border-subtle py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between"
+              className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between"
             >
               <div className="md:min-w-[220px]">
                 <p className="text-body-m text-content-strong">{variant.label}</p>
@@ -140,7 +140,7 @@ export default function ButtonDocsPage() {
           {sizes.map((size) => (
             <div
               key={size.value}
-              className="flex flex-col gap-[var(--space-10)] border-b border-border-subtle py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between"
+              className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between"
             >
               <div>
                 <p className="text-body-m text-content-strong">{size.label}</p>

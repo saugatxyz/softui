@@ -10,7 +10,11 @@ type TokenValue = {
   }
 }
 
-type TokenNode = TokenValue | Record<string, TokenNode>
+type TokenNode = TokenValue | TokenTree
+
+interface TokenTree {
+  [key: string]: TokenNode
+}
 
 const tokensDir = path.join(process.cwd(), "tokens")
 

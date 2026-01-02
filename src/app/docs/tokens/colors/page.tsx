@@ -29,15 +29,12 @@ export default function TokensColorsPage() {
                   className={`flex flex-col gap-[var(--space-10)] py-[var(--space-16)] ${
                     index === section.tokens.length - 1
                       ? ""
-                      : "border-b border-border-subtle"
+                      : "border-b border-border-muted"
                   } md:flex-row md:items-center md:justify-between`}
                 >
                   <div>
                     <div className="text-body-m text-content-strong">
                       {token.name}
-                    </div>
-                    <div className="text-body-s text-content-subtle">
-                      {token.description}
                     </div>
                   </div>
                   <div className="flex items-center gap-[var(--space-8)]">

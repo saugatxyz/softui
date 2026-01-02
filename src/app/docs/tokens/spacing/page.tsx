@@ -25,10 +25,10 @@ export default function TokensSpacingPage() {
           {spacingScale.map((item, index) => (
             <div
               key={item.token}
-              className={`flex flex-col gap-[var(--space-10)] py-[var(--space-24)] ${
+              className={`flex flex-col gap-[var(--space-10)] py-[var(--space-16)] ${
                 index === spacingScale.length - 1
                   ? ""
-                  : "border-b border-border-subtle"
+                  : "border-b border-border-muted"
               } md:flex-row md:items-center md:justify-between`}
             >
               <p className="text-body-m text-content-strong">{item.token}</p>
@@ -46,10 +46,10 @@ export default function TokensSpacingPage() {
           {radiusScale.map((item, index) => (
             <div
               key={item.token}
-              className={`flex flex-col gap-[var(--space-10)] py-[var(--space-24)] ${
+              className={`flex flex-col gap-[var(--space-10)] py-[var(--space-16)] ${
                 index === radiusScale.length - 1
                   ? ""
-                  : "border-b border-border-subtle"
+                  : "border-b border-border-muted"
               } md:flex-row md:items-center md:justify-between`}
             >
               <p className="text-body-m text-content-strong">{item.token}</p>

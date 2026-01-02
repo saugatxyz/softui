@@ -34,10 +34,10 @@ export default function TokensTypographyPage() {
           {typeScale.map((item, index) => (
             <div
               key={item.token}
-              className={`flex flex-col gap-[var(--space-10)] py-[var(--space-24)] ${
+              className={`flex flex-col gap-[var(--space-10)] py-[var(--space-16)] ${
                 index === typeScale.length - 1
                   ? ""
-                  : "border-b border-border-subtle"
+                  : "border-b border-border-muted"
               } md:grid md:grid-cols-[140px_240px_1fr] md:items-center md:gap-[var(--space-16)]`}
             >
               <p className="text-body-m text-content-strong">{item.token}</p>
