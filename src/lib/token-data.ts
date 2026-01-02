@@ -35,17 +35,17 @@ const getLightTokens = () => {
 
 const getValueTokens = () => {
   if (!cached.value) cached.value = readJson("value.tokens.json")
-  return cached.value
+  return cached.value ?? {}
 }
 
 const getTypographyTokens = () => {
   if (!cached.typography) cached.typography = readJson("typography.tokens.json")
-  return cached.typography
+  return cached.typography ?? {}
 }
 
 const getColorTokens = () => {
   if (!cached.color) cached.color = readJson("color.tokens.json")
-  return cached.color
+  return cached.color ?? {}
 }
 
 const flattenTokens = (
