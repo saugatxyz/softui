@@ -1,0 +1,11 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "soft-ui",
+  "type": "registry:ui",
+  "dependencies": [
+    "@base-ui/react",
+    "class-variance-authority",
+    "tailwind-merge"
+  ],
+  "files": []
+}

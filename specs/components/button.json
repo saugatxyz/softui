@@ -1,0 +1,101 @@
+{
+  "name": "Button",
+  "source": "shadcn/base-ui",
+  "notes": "Balanced icon padding with label container spacing; token-driven states.",
+  "layout": {
+    "gap": "space/4",
+    "labelPadding": {
+      "xs": "space/2",
+      "s": "space/4",
+      "m": "space/4",
+      "l": "space/6"
+    },
+    "iconSize": {
+      "xs": 16,
+      "s": 16,
+      "m": 16,
+      "l": 18
+    }
+  },
+  "sizes": {
+    "xs": {
+      "height": 28,
+      "paddingX": 8
+    },
+    "s": {
+      "height": 32,
+      "paddingX": 8
+    },
+    "m": {
+      "height": 36,
+      "paddingX": 12
+    },
+    "l": {
+      "height": 40,
+      "paddingX": 16
+    }
+  },
+  "variants": {
+    "primary": {
+      "background": "actions.primary.default",
+      "backgroundHover": "actions.primary.hover",
+      "backgroundDisabled": "actions.primary.disabled",
+      "text": "content.on.accent.strong",
+      "textDisabled": "content.on.accent.disabled"
+    },
+    "secondary": {
+      "background": "actions.secondary.default",
+      "backgroundHover": "actions.secondary.hover",
+      "backgroundDisabled": "actions.secondary.disabled",
+      "text": "content.strong",
+      "textDisabled": "content.disabled"
+    },
+    "tertiary": {
+      "background": "actions.tertiary.default",
+      "backgroundHover": "actions.tertiary.hover",
+      "backgroundDisabled": "actions.tertiary.disabled",
+      "text": "content.strong",
+      "textDisabled": "content.disabled",
+      "shadow": [
+        "0 1px 2px 0 utility.shadow.l3",
+        "0 0 1px 0 utility.shadow.l2",
+        "0 0 0 1px utility.shadow.l1"
+      ],
+      "overflowClip": true
+    },
+    "ghost": {
+      "background": "transparent",
+      "backgroundHover": "actions.secondary.hover",
+      "text": "content.subtle",
+      "textHover": "content.strong",
+      "textDisabled": "content.disabled"
+    },
+    "link": {
+      "background": "transparent",
+      "text": "content.link.default",
+      "textHover": "content.link.hover",
+      "textDisabled": "content.disabled",
+      "underlineOnHover": true,
+      "paddingX": 0
+    },
+    "link-alt": {
+      "background": "transparent",
+      "text": "content.strong",
+      "textHover": "content.strong",
+      "textDisabled": "content.disabled",
+      "underlineOnHover": true,
+      "paddingX": 0
+    },
+    "danger": {
+      "background": "actions.danger.default",
+      "backgroundHover": "actions.danger.hover",
+      "backgroundDisabled": "actions.danger.disabled",
+      "text": "content.inverse.strong",
+      "textDisabled": "content.inverse.disabled"
+    }
+  },
+  "focusRing": {
+    "inner": "1px utility.focus.inner",
+    "outer": "3px utility.focus.outer"
+  }
+}

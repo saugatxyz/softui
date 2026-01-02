@@ -9,9 +9,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@base-ui/react": "latest",
+    "@remixicon/react": "latest",
+    "class-variance-authority": "latest",
+    "clsx": "latest",
+    "motion": "latest",
     "next": "16.1.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "tailwind-merge": "latest",
+    "tw-animate-css": "latest"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
