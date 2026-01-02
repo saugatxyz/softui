@@ -10,6 +10,32 @@
   --letter-spacing-xl: -0.18px;
   --letter-spacing-2xl: -0.3px;
   --letter-spacing-3xl: -0.24px;
+  --sh-identifier: rgb(var(--purple-600));
+  --sh-keyword: rgb(var(--lime-600));
+  --sh-string: rgb(var(--yellow-600));
+  --sh-class: rgb(var(--neutral-600));
+  --sh-property: rgb(var(--orange-600));  
+  --sh-entity: rgb(var(--green-600));
+  --sh-jsxliterals: rgb(var(--pink-600));
+  --sh-sign: rgb(var(--cyan-600));
+  --sh-comment: rgb(var(--neutral-500));
+  --sh-break: rgb(var(--neutral-900));
+  --sh-space: rgb(var(--neutral-900));
+}
+
+
+html[data-mode="dark"] {
+  --sh-identifier: rgb(var(--purple-400));
+  --sh-keyword: rgb(var(--lime-400));
+  --sh-string: rgb(var(--amber-400));
+  --sh-class: rgb(var(--neutral-300));
+  --sh-property: rgb(var(--orange-300));
+  --sh-entity: rgb(var(--green-400));
+  --sh-jsxliterals: rgb(var(--pink-400));
+  --sh-sign: rgb(var(--cyan-400));
+  --sh-comment: rgb(var(--neutral-600));
+  --sh-break: rgb(var(--neutral-100));
+  --sh-space: rgb(var(--neutral-100));
 }
 
 @layer base {
@@ -150,5 +176,202 @@
     font-size: var(--font-size-m);
     line-height: var(--line-height-m);
     font-weight: var(--font-weight-medium);
+  }
+
+  [data-slot="accordion-item"]:has([data-slot="accordion-trigger"]:focus-visible) {
+    box-shadow: 0 0 0 1px var(--color-utility-focus-inner),
+      0 0 0 3px var(--color-utility-focus-outer);
+  }
+
+  [data-slot="accordion-item"][data-variant="list"]:has(
+      [data-slot="accordion-trigger"]:focus-visible
+    ) {
+    border-radius: var(--radius-10);
+  }
+
+  .sh__line {
+    display: block;
+    line-height: var(--line-height-s);
+  }
+
+  .code-block-surface {
+    overflow: hidden;
+    background: rgb(var(--darken-2, 0 0 0 / 0.02));
+    background: color(display-p3 var(--darken-2, 0 0 0 / 0.02));
+    box-shadow:
+      0 0 0 1px rgb(var(--darken-4, 0 0 0 / 0.04)),
+      0 1px 2px 0 rgb(var(--utility-shadow-l2, 0 0 0 / 0.04)),
+      0 3px 12px 0 rgb(var(--utility-shadow-l2, 0 0 0 / 0.04));
+    box-shadow:
+      0 0 0 1px color(display-p3 var(--darken-4, 0 0 0 / 0.04)),
+      0 1px 2px 0 color(display-p3 var(--utility-shadow-l2, 0 0 0 / 0.04)),
+      0 3px 12px 0 color(display-p3 var(--utility-shadow-l2, 0 0 0 / 0.04));
+  }
+
+  html[data-mode="dark"] .code-block-surface {
+    background: rgb(255 255 255 / 0.03);
+    background: color(display-p3 1 1 1 / 0.03);
+    box-shadow:
+      0 0 0 1px rgb(var(--lighten-6, 255 255 255 / 0.04)),
+      0 1px 2px 0 rgb(var(--darken-16, 0 0 0 / 0.16)),
+      0 1px 4px 0 rgb(var(--darken-16, 0 0 0 / 0.16));
+    box-shadow:
+      0 0 0 1px color(display-p3 1 1 1 / 0.05),
+      0 1px 2px 0 color(display-p3 var(--darken-16, 0 0 0 / 0.16)),
+      0 1px 4px 0 color(display-p3 var(--darken-16, 0 0 0 / 0.16));
+  }
+
+  .code-block-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-interactive-default) transparent;
+  }
+
+  .code-block-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .code-block-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-interactive-default);
+    border-radius: 999px;
+  }
+
+  .code-block-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .code-block-mask-bottom {
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 calc(100% - 32px),
+      transparent calc(100% - 16px),
+      transparent 100%
+    );
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 calc(100% - 32px),
+      transparent calc(100% - 16px),
+      transparent 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  .code-block-mask-top {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 16px,
+      #000 32px,
+      #000 100%
+    );
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 16px,
+      #000 32px,
+      #000 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  .code-block-mask-both {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 16px,
+      #000 32px,
+      #000 calc(100% - 32px),
+      transparent calc(100% - 16px),
+      transparent 100%
+    );
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 16px,
+      #000 32px,
+      #000 calc(100% - 32px),
+      transparent calc(100% - 16px),
+      transparent 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  .swatch-row-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .swatch-row-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .swatch-row-mask-left {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 16px,
+      #000 100%
+    );
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 16px,
+      #000 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  .swatch-row-mask-right {
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 calc(100% - 16px),
+      transparent 100%
+    );
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      #000 calc(100% - 16px),
+      transparent 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  .swatch-row-mask-both {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 16px,
+      #000 calc(100% - 16px),
+      transparent 100%
+    );
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 16px,
+      #000 calc(100% - 16px),
+      transparent 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
   }
 }

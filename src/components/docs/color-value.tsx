@@ -22,7 +22,7 @@ const formatHsl = (r: number, g: number, b: number, a: number) => {
   const l = (max + min) / 2
   const s =
     delta === 0 ? 0 : delta / (1 - Math.abs(2 * l - 1))
-  const hsl = `HSL(${h} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`
+  const hsl = `hsl(${h} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`
   return a < 1 ? `${hsl} / ${a.toFixed(2)})` : `${hsl})`
 }
 

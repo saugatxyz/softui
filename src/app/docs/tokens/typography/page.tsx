@@ -10,15 +10,15 @@ export default function TokensTypographyPage() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-24)] py-[var(--space-32)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex size-[20px] items-center justify-center text-content-strong">
-          <InputMethodIcon className="size-5" />
+        <div className="flex size-[32px] items-center justify-center text-content-strong">
+          <InputMethodIcon className="size-8" />
         </div>
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Typography</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            Inter is used as primary typeface.
+            Type styles for hierarchy and readability
           </p>
         </div>
       </header>
@@ -27,7 +27,7 @@ export default function TokensTypographyPage() {
         <div>
           <h2 className="text-body-xl-semibold">Scale</h2>
           <p className="text-body-s text-content-subtle">
-            Font size and line height pairs across the type system.
+            Inter used as primary typeface
           </p>
         </div>
         <div className="flex flex-col">

@@ -14,11 +14,11 @@ const buttonVariants = cva(
         secondary:
           "bg-actions-secondary-default text-content-strong hover:bg-actions-secondary-hover disabled:bg-actions-secondary-disabled disabled:text-content-disabled",
         tertiary:
-          "bg-actions-tertiary-default text-content-strong shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)] hover:bg-actions-tertiary-hover disabled:bg-actions-tertiary-disabled disabled:text-content-disabled disabled:shadow-none overflow-hidden",
+          "bg-actions-tertiary-default text-content-strong backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)] hover:bg-actions-tertiary-hover disabled:bg-actions-tertiary-disabled disabled:text-content-disabled disabled:shadow-none overflow-hidden",
         ghost:
           "bg-transparent text-content-subtle hover:bg-actions-secondary-hover hover:text-content-strong disabled:text-content-disabled",
         link: "bg-transparent text-content-link-default hover:text-content-link-hover disabled:text-content-disabled",
-        "link-alt":
+        "link-neutral":
           "bg-transparent text-content-strong hover:text-content-strong disabled:text-content-disabled",
         danger:
           "bg-actions-danger-default text-[color:rgb(var(--content-inverse-strong))] hover:bg-actions-danger-hover hover:text-[color:rgb(var(--content-inverse-strong))] disabled:bg-actions-danger-disabled disabled:text-[color:rgb(var(--content-inverse-disabled))]",
@@ -36,7 +36,7 @@ const buttonVariants = cva(
         className: "px-0 hover:underline underline-offset-4",
       },
       {
-        variant: "link-alt",
+        variant: "link-neutral",
         className: "px-0 hover:underline underline-offset-2",
       },
     ],
@@ -84,6 +84,9 @@ type ButtonProps = ButtonPrimitive.Props &
     trailingIcon?: React.ReactNode
   }
 
+const defaultVariant = "primary"
+const defaultSize = "m"
+
 function Button({
   className,
   variant,
@@ -93,26 +96,32 @@ function Button({
   children,
   ...props
 }: ButtonProps) {
+  const resolvedVariant = variant ?? defaultVariant
+  const resolvedSize = size ?? defaultSize
   const hasLabel = React.Children.count(children) > 0
   const hideIconFromAT = hasLabel ? true : undefined
 
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      data-variant={resolvedVariant}
+      data-size={resolvedSize}
+      className={cn(
+        buttonVariants({ variant: resolvedVariant, size: resolvedSize, className })
+      )}
       {...props}
     >
       {leadingIcon ? (
         <span
           aria-hidden={hideIconFromAT}
           data-slot="icon"
-          className={cn(iconVariants({ size }))}
+          className={cn(iconVariants({ size: resolvedSize }))}
         >
           {leadingIcon}
         </span>
       ) : null}
       {hasLabel ? (
-        <span data-slot="label" className={cn(labelVariants({ size }))}>
+        <span data-slot="label" className={cn(labelVariants({ size: resolvedSize }))}>
           {children}
         </span>
       ) : null}
@@ -120,7 +129,7 @@ function Button({
         <span
           aria-hidden={hideIconFromAT}
           data-slot="icon"
-          className={cn(iconVariants({ size }))}
+          className={cn(iconVariants({ size: resolvedSize }))}
         >
           {trailingIcon}
         </span>

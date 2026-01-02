@@ -6,15 +6,15 @@ export default function TokensSpacingPage() {
   const radiusScale = getRadiusScale()
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-24)] py-[var(--space-32)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex size-[20px] items-center justify-center text-content-strong">
-          <LayoutLeftIcon className="size-5" />
+        <div className="flex size-[32px] items-center justify-center text-content-strong">
+          <LayoutLeftIcon className="size-8" />
         </div>
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Spacing & Radius</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            Tokens keep spacing and sizing decisions consistent.
+            Standardized spacing and sizing decisions
           </p>
         </div>
       </header>

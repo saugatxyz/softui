@@ -1,0 +1,1494 @@
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://127.0.0.1:3000
+- Network:       http://127.0.0.1:3000
+
+✓ Starting...
+✓ Ready in 321ms
+ GET /docs/accordion 200 in 276ms (compile: 112ms, render: 164ms)
+ GET /docs/accordion 200 in 59ms (compile: 7ms, render: 52ms)
+✓ Compiled in 213ms
+ GET /docs/accordion 200 in 67ms (compile: 8ms, render: 59ms)
+ GET /docs/tokens/typography 200 in 159ms (compile: 101ms, render: 58ms)
+ GET /docs/tokens/spacing 200 in 70ms (compile: 50ms, render: 20ms)
+ GET /docs/tokens/colors 200 in 97ms (compile: 52ms, render: 45ms)
+ GET /docs 200 in 52ms (compile: 36ms, render: 16ms)
+ GET /docs/tokens/typography 200 in 29ms (compile: 2ms, render: 27ms)
+ GET /docs/button 200 in 64ms (compile: 31ms, render: 33ms)
+✓ Compiled in 55ms
+ GET /docs/accordion 200 in 97ms (compile: 72ms, render: 24ms)
+⨯ ReferenceError: policyItems is not defined
+    at AccordionDocsPage (src/app/docs/accordion/page.tsx:109:18)
+  107 |             <div className="w-full max-w-[420px] space-y-[2px]">
+  108 |               <AccordionRoot multiple defaultValue={["plan", "help"]}>
+> 109 |                 {policyItems.map((item) => (
+      |                  ^
+  110 |                   <AccordionItem key={item.value} value={item.value} variant="card">
+  111 |                     <AccordionTrigger icon={<item.icon className="size-5" />}>
+  112 |                       <span className="text-body-m-medium text-content-strong"> {
+  digest: '1283364226'
+}
+⨯ ReferenceError: policyItems is not defined
+    at AccordionDocsPage (src/app/docs/accordion/page.tsx:109:18)
+  107 |             <div className="w-full max-w-[420px] space-y-[2px]">
+  108 |               <AccordionRoot multiple defaultValue={["plan", "help"]}>
+> 109 |                 {policyItems.map((item) => (
+      |                  ^
+  110 |                   <AccordionItem key={item.value} value={item.value} variant="card">
+  111 |                     <AccordionTrigger icon={<item.icon className="size-5" />}>
+  112 |                       <span className="text-body-m-medium text-content-strong"> {
+  digest: '1283364226'
+}
+ GET /docs/accordion 200 in 136ms (compile: 71ms, render: 65ms)
+ GET /docs/accordion 200 in 13ms (compile: 919µs, render: 12ms)
+⨯ ReferenceError: policyItems is not defined
+    at AccordionDocsPage (src/app/docs/accordion/page.tsx:109:18)
+  107 |             <div className="w-full max-w-[420px] space-y-[2px]">
+  108 |               <AccordionRoot multiple defaultValue={["plan", "help"]}>
+> 109 |                 {policyItems.map((item) => (
+      |                  ^
+  110 |                   <AccordionItem key={item.value} value={item.value} variant="card">
+  111 |                     <AccordionTrigger icon={<item.icon className="size-5" />}>
+  112 |                       <span className="text-body-m-medium text-content-strong"> {
+  digest: '1283364226'
+}
+ GET /docs/accordion 500 in 158ms (compile: 3ms, render: 154ms)
+ GET /docs/accordion 200 in 302ms (compile: 81ms, render: 221ms)
+ GET /docs/accordion 200 in 48ms (compile: 968µs, render: 47ms)
+ GET /docs/accordion 200 in 33ms (compile: 1443µs, render: 32ms)
+ GET /docs/accordion 200 in 18ms (compile: 1453µs, render: 17ms)
+✓ Compiled in 35ms
+✓ Compiled in 30ms
+ GET /docs/accordion 200 in 272ms (compile: 96ms, render: 176ms)
+✓ Compiled in 51ms
+ GET /docs/accordion 200 in 150ms (compile: 83ms, render: 67ms)
+ GET /docs/tokens/typography 200 in 38ms (compile: 10ms, render: 28ms)
+ GET /docs/button 200 in 183ms (compile: 109ms, render: 74ms)
+ GET /docs/accordion 200 in 29ms (compile: 4ms, render: 25ms)
+ GET /docs/button 200 in 37ms (compile: 1927µs, render: 35ms)
+ GET /docs/accordion 200 in 31ms (compile: 3ms, render: 28ms)
+ GET /docs/button 200 in 35ms (compile: 5ms, render: 30ms)
+ GET /docs/accordion 200 in 35ms (compile: 4ms, render: 30ms)
+⚠ Fast Refresh had to perform a full reload when ./src/components/ui/accordion.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+✓ Compiled in 47ms
+⨯ ReferenceError: ArrowUpIcon is not defined
+    at AccordionTrigger (src/components/ui/accordion.tsx:146:12)
+  144 |         <span className="relative flex size-[20px] shrink-0 items-center justify-center text-content-strong">
+  145 |           <ArrowDownIcon className="absolute size-5 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-data-[panel-open]:-rotate-90 group-data-[panel-open]:scale-90 group-data-[panel-open]:opacity-0" />
+> 146 |           <ArrowUpIcon className="absolute size-5 opacity-0 rotate-90 scale-90 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-data-[panel-open]:opacity-100 group-data-[panel-open]:rotate-0 group-data-[panel-open]:scale-100" />
+      |            ^
+  147 |         </span>
+  148 |       </Accordion.Trigger>
+  149 |     </Accordion.Header> {
+  digest: '2015494449'
+}
+ GET /docs/accordion 500 in 276ms (compile: 79ms, render: 197ms)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 45ms
+ GET /docs/accordion 200 in 287ms (compile: 110ms, render: 176ms)
+ GET /docs/accordion 200 in 149ms (compile: 80ms, render: 69ms)
+ GET /docs/accordion 200 in 138ms (compile: 82ms, render: 56ms)
+ GET /docs/accordion 200 in 164ms (compile: 3ms, render: 161ms)
+ GET /docs/accordion 200 in 62ms (compile: 5ms, render: 57ms)
+✓ Compiled in 42ms
+ GET /docs/accordion 200 in 158ms (compile: 90ms, render: 68ms)
+ GET /docs/accordion 200 in 145ms (compile: 80ms, render: 64ms)
+⚠ Fast Refresh had to perform a full reload when ./src/components/ui/accordion.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ Fast Refresh had to perform a full reload when ./src/components/ui/accordion.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ Fast Refresh had to perform a full reload when ./src/components/ui/accordion.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ Fast Refresh had to perform a full reload when ./src/components/ui/accordion.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /docs/accordion 200 in 15ms (compile: 939µs, render: 14ms)
+ GET /docs/accordion 200 in 187ms (compile: 8ms, render: 179ms)
+ GET /docs/accordion 200 in 60ms (compile: 3ms, render: 57ms)
+✓ Compiled in 37ms
+ GET /docs/accordion 200 in 313ms (compile: 110ms, render: 203ms)
+✓ Compiled in 13ms
+ GET /docs/accordion 200 in 297ms (compile: 112ms, render: 185ms)
+ GET /docs/accordion 200 in 157ms (compile: 86ms, render: 71ms)
+ GET /docs/accordion 200 in 16ms (compile: 928µs, render: 15ms)
+ GET /docs/accordion 200 in 152ms (compile: 3ms, render: 150ms)
+ GET /docs/accordion 200 in 70ms (compile: 2ms, render: 68ms)
+ GET /docs/accordion 200 in 32ms (compile: 1098µs, render: 31ms)
+ GET /docs/accordion 200 in 35ms (compile: 973µs, render: 34ms)
+ GET /docs/accordion 200 in 30ms (compile: 1259µs, render: 29ms)
+✓ Compiled in 33ms
+✓ Compiled in 32ms
+✓ Compiled in 48ms
+✓ Compiled in 50ms
+✓ Compiled in 42ms
+ GET /docs/button 200 in 48ms (compile: 7ms, render: 41ms)
+ GET /docs/accordion 200 in 190ms (compile: 126ms, render: 64ms)
+ GET /docs/accordion 200 in 31ms (compile: 5ms, render: 26ms)
+✓ Compiled in 32ms
+✓ Compiled in 62ms
+✓ Compiled in 41ms
+ GET /docs/accordion 200 in 316ms (compile: 116ms, render: 200ms)
+✓ Compiled in 51ms
+✓ Compiled in 45ms
+ GET /docs/accordion 200 in 167ms (compile: 91ms, render: 76ms)
+ GET /docs/accordion 200 in 15ms (compile: 1005µs, render: 14ms)
+ GET /docs/accordion 200 in 187ms (compile: 3ms, render: 183ms)
+✓ Compiled in 32ms
+✓ Compiled in 62ms
+ GET /docs/accordion 200 in 320ms (compile: 119ms, render: 201ms)
+ GET /docs/accordion 200 in 173ms (compile: 102ms, render: 71ms)
+ GET /docs/accordion 200 in 14ms (compile: 899µs, render: 13ms)
+ GET /docs/accordion 200 in 181ms (compile: 7ms, render: 173ms)
+ GET /docs/accordion 200 in 72ms (compile: 3ms, render: 69ms)
+ GET /docs/button 200 in 57ms (compile: 8ms, render: 49ms)
+ GET /docs/accordion 200 in 38ms (compile: 4ms, render: 34ms)
+ GET /docs/button 200 in 43ms (compile: 4ms, render: 39ms)
+ GET /docs/accordion 200 in 38ms (compile: 3ms, render: 35ms)
+ GET /docs/button 200 in 47ms (compile: 5ms, render: 42ms)
+✓ Compiled in 32ms
+ GET /docs/accordion 200 in 332ms (compile: 122ms, render: 209ms)
+ GET /docs/accordion 200 in 174ms (compile: 93ms, render: 81ms)
+ GET /docs/button 200 in 174ms (compile: 155ms, render: 19ms)
+ GET /docs/accordion 200 in 176ms (compile: 3ms, render: 173ms)
+ GET /docs/accordion 200 in 80ms (compile: 3ms, render: 77ms)
+ GET /docs/accordion 200 in 82ms (compile: 6ms, render: 76ms)
+✓ Compiled in 30ms
+ GET /docs/accordion 200 in 333ms (compile: 120ms, render: 213ms)
+✓ Compiled in 30ms
+ GET /docs/accordion 200 in 325ms (compile: 120ms, render: 205ms)
+ GET /docs/accordion 200 in 82ms (compile: 2ms, render: 80ms)
+ GET /docs/accordion 200 in 74ms (compile: 2ms, render: 72ms)
+ GET /docs/tokens/typography 200 in 40ms (compile: 13ms, render: 27ms)
+ GET /docs/tokens/spacing 200 in 40ms (compile: 13ms, render: 27ms)
+ GET /docs/tokens/spacing 200 in 61ms (compile: 3ms, render: 59ms)
+ GET /docs/tokens/spacing 200 in 51ms (compile: 3ms, render: 48ms)
+ GET /docs/button 200 in 43ms (compile: 6ms, render: 37ms)
+ GET /docs/accordion 200 in 38ms (compile: 4ms, render: 34ms)
+ GET /docs/button 200 in 39ms (compile: 5ms, render: 34ms)
+✓ Compiled in 51ms
+ GET /docs/tokens/spacing 200 in 48ms (compile: 16ms, render: 32ms)
+ GET /docs/button 200 in 49ms (compile: 1090µs, render: 48ms)
+ GET /docs/button 200 in 21ms (compile: 1165µs, render: 20ms)
+✓ Compiled in 34ms
+ GET /docs/button 200 in 91ms (compile: 4ms, render: 87ms)
+ GET /docs/accordion 200 in 178ms (compile: 119ms, render: 59ms)
+ GET /docs/accordion 200 in 210ms (compile: 2ms, render: 207ms)
+ GET /docs/accordion 200 in 45ms (compile: 1122µs, render: 44ms)
+ GET /docs/accordion 200 in 48ms (compile: 1006µs, render: 47ms)
+ GET /docs/accordion 200 in 58ms (compile: 3ms, render: 55ms)
+ GET /docs/accordion 200 in 39ms (compile: 1280µs, render: 38ms)
+ GET /docs/accordion 200 in 72ms (compile: 2ms, render: 69ms)
+ GET /docs/accordion 200 in 74ms (compile: 1958µs, render: 72ms)
+ GET /docs/accordion 200 in 41ms (compile: 3ms, render: 38ms)
+ GET /docs/accordion 200 in 36ms (compile: 1055µs, render: 35ms)
+ GET /docs/accordion 200 in 36ms (compile: 1079µs, render: 35ms)
+ GET /docs/accordion 200 in 34ms (compile: 1245µs, render: 33ms)
+ GET /docs/accordion 200 in 36ms (compile: 4ms, render: 33ms)
+✓ Compiled in 33ms
+ GET /docs/accordion 200 in 352ms (compile: 107ms, render: 246ms)
+ GET /docs/button 200 in 46ms (compile: 5ms, render: 41ms)
+ GET /docs/accordion 200 in 44ms (compile: 4ms, render: 40ms)
+ GET /docs/accordion 200 in 92ms (compile: 9ms, render: 83ms)
+ GET /docs/button 200 in 49ms (compile: 7ms, render: 42ms)
+ GET /docs/accordion 200 in 42ms (compile: 3ms, render: 38ms)
+ GET /docs/tokens/typography 200 in 35ms (compile: 12ms, render: 23ms)
+ GET /docs/tokens/spacing 200 in 37ms (compile: 4ms, render: 32ms)
+ GET /docs/tokens/colors 200 in 75ms (compile: 12ms, render: 64ms)
+ GET /docs 200 in 31ms (compile: 10ms, render: 21ms)
+✓ Compiled in 252ms
+✓ Compiled in 60ms
+ GET /docs/tokens/spacing 200 in 38ms (compile: 11ms, render: 27ms)
+ GET /docs/button 200 in 43ms (compile: 5ms, render: 37ms)
+ GET /docs/accordion 200 in 42ms (compile: 7ms, render: 35ms)
+ GET /docs/button 200 in 43ms (compile: 3ms, render: 41ms)
+ GET /docs/accordion 200 in 43ms (compile: 4ms, render: 40ms)
+ GET /docs/button 200 in 38ms (compile: 4ms, render: 34ms)
+ GET /docs/accordion 200 in 40ms (compile: 4ms, render: 37ms)
+ GET /docs/accordion 200 in 42ms (compile: 2ms, render: 39ms)
+ GET /docs/tokens/typography 200 in 32ms (compile: 10ms, render: 21ms)
+ GET /docs/tokens/spacing 200 in 33ms (compile: 4ms, render: 29ms)
+ GET /docs/tokens/spacing 200 in 32ms (compile: 4ms, render: 29ms)
+⨯ ReferenceError: CodeBlock is not defined
+    at AccordionDocsPage (src/app/docs/accordion/page.tsx:59:10)
+  57 |       <section className="flex flex-col gap-[var(--space-10)]">
+  58 |         <h2 className="text-body-xl-semibold">Usage</h2>
+> 59 |         <CodeBlock
+     |          ^
+  60 |           code={`import {
+  61 |   AccordionRoot,
+  62 |   AccordionItem, {
+  digest: '3261824412'
+}
+⨯ ReferenceError: CodeBlock is not defined
+    at AccordionDocsPage (src/app/docs/accordion/page.tsx:59:10)
+  57 |       <section className="flex flex-col gap-[var(--space-10)]">
+  58 |         <h2 className="text-body-xl-semibold">Usage</h2>
+> 59 |         <CodeBlock
+     |          ^
+  60 |           code={`import {
+  61 |   AccordionRoot,
+  62 |   AccordionItem, {
+  digest: '3261824412'
+}
+ GET /docs/accordion 200 in 244ms (compile: 118ms, render: 126ms)
+ GET /docs/accordion 200 in 49ms (compile: 36ms, render: 14ms)
+ GET /docs/tokens/spacing 200 in 78ms (compile: 1302µs, render: 77ms)
+ GET /docs/button 200 in 249ms (compile: 1071µs, render: 248ms)
+ GET /docs/tokens/colors 200 in 92ms (compile: 28ms, render: 64ms)
+ GET /docs/button 200 in 38ms (compile: 5ms, render: 32ms)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 0ms
+ GET /docs/accordion 200 in 376ms (compile: 89ms, render: 287ms)
+ GET /docs/button 200 in 376ms (compile: 1195µs, render: 375ms)
+ GET /docs/button 200 in 58ms (compile: 1722µs, render: 56ms)
+ GET /docs/accordion 200 in 47ms (compile: 968µs, render: 46ms)
+✓ Compiled in 0ms
+ GET /docs/accordion 200 in 199ms (compile: 1175µs, render: 198ms)
+ GET /docs/accordion 200 in 38ms (compile: 1157µs, render: 37ms)
+ GET /docs/button 200 in 201ms (compile: 99ms, render: 102ms)
+ GET /docs/button 200 in 39ms (compile: 14ms, render: 25ms)
+✓ Compiled in 65ms
+ GET /docs/button 200 in 176ms (compile: 4ms, render: 172ms)
+ GET /docs/accordion 200 in 43ms (compile: 8ms, render: 35ms)
+ GET /docs/accordion 200 in 84ms (compile: 3ms, render: 81ms)
+ GET /docs/accordion 200 in 39ms (compile: 925µs, render: 38ms)
+ GET /docs/accordion 200 in 36ms (compile: 1166µs, render: 35ms)
+ GET /docs/button 200 in 40ms (compile: 6ms, render: 34ms)
+ GET /docs/accordion 200 in 34ms (compile: 4ms, render: 31ms)
+ GET /docs/accordion 200 in 66ms (compile: 4ms, render: 62ms)
+ GET /docs/accordion 200 in 61ms (compile: 3ms, render: 58ms)
+ GET /docs/accordion 200 in 42ms (compile: 1072µs, render: 41ms)
+ GET /docs/accordion 200 in 45ms (compile: 1772µs, render: 44ms)
+ GET /docs/accordion 200 in 74ms (compile: 2ms, render: 72ms)
+ GET /docs/button 200 in 40ms (compile: 6ms, render: 34ms)
+ GET /docs 200 in 26ms (compile: 7ms, render: 19ms)
+ GET /docs/tokens/colors 200 in 75ms (compile: 7ms, render: 68ms)
+ GET /docs/tokens/spacing 200 in 38ms (compile: 10ms, render: 28ms)
+ GET /docs/tokens/typography 200 in 31ms (compile: 7ms, render: 24ms)
+ GET /docs/tokens/spacing 200 in 33ms (compile: 5ms, render: 28ms)
+ GET /docs 200 in 25ms (compile: 3ms, render: 22ms)
+ GET /docs/tokens/typography 200 in 36ms (compile: 3ms, render: 33ms)
+ GET /docs/tokens/spacing 200 in 38ms (compile: 2ms, render: 36ms)
+ GET /docs/accordion 200 in 44ms (compile: 3ms, render: 41ms)
+ GET /docs/button 200 in 43ms (compile: 4ms, render: 39ms)
+ GET /docs/button 200 in 48ms (compile: 7ms, render: 41ms)
+ GET /docs/accordion 200 in 42ms (compile: 3ms, render: 38ms)
+ GET /docs/accordion 200 in 253ms (compile: 1488µs, render: 251ms)
+ GET /docs/accordion 200 in 19ms (compile: 1042µs, render: 18ms)
+ GET /docs/button 200 in 254ms (compile: 139ms, render: 115ms)
+ GET /docs/accordion 200 in 184ms (compile: 1249µs, render: 183ms)
+ GET /docs/accordion 200 in 15ms (compile: 1653µs, render: 14ms)
+ GET /docs/button 200 in 186ms (compile: 100ms, render: 86ms)
+✓ Compiled in 33ms
+✓ Compiled in 62ms
+ GET /docs/accordion 200 in 311ms (compile: 116ms, render: 195ms)
+✓ Compiled in 17ms
+ GET /docs/accordion 200 in 241ms (compile: 1501µs, render: 239ms)
+ GET /docs/accordion 200 in 202ms (compile: 186ms, render: 17ms)
+ GET /docs/button 200 in 203ms (compile: 112ms, render: 91ms)
+ GET /docs/accordion 200 in 86ms (compile: 4ms, render: 82ms)
+ GET /docs/button 200 in 39ms (compile: 3ms, render: 36ms)
+ GET /docs/button 200 in 35ms (compile: 3ms, render: 32ms)
+ GET /docs/accordion 200 in 38ms (compile: 4ms, render: 34ms)
+ GET /docs/button 200 in 38ms (compile: 5ms, render: 34ms)
+ GET /docs/accordion 200 in 35ms (compile: 4ms, render: 31ms)
+ GET /docs/button 200 in 38ms (compile: 4ms, render: 35ms)
+ GET /docs/accordion 200 in 36ms (compile: 2ms, render: 33ms)
+ GET /docs/button 200 in 38ms (compile: 3ms, render: 35ms)
+ GET /docs/accordion 200 in 40ms (compile: 3ms, render: 37ms)
+✓ Compiled in 34ms
+✓ Compiled in 67ms
+ GET /docs/accordion 200 in 326ms (compile: 118ms, render: 207ms)
+ GET /docs/button 200 in 176ms (compile: 116ms, render: 60ms)
+ GET /docs/button 200 in 147ms (compile: 3ms, render: 144ms)
+ GET /docs/accordion 200 in 36ms (compile: 4ms, render: 33ms)
+ GET /docs/accordion 200 in 42ms (compile: 3ms, render: 39ms)
+ GET /docs/button 200 in 38ms (compile: 6ms, render: 32ms)
+ GET /docs/accordion 200 in 36ms (compile: 2ms, render: 34ms)
+✓ Compiled in 63ms
+ GET /docs/accordion 200 in 80ms (compile: 3ms, render: 77ms)
+ GET /docs/button 200 in 41ms (compile: 7ms, render: 34ms)
+ GET /docs/accordion 200 in 41ms (compile: 4ms, render: 37ms)
+ GET /docs/button 200 in 35ms (compile: 3ms, render: 31ms)
+ GET /docs/accordion 200 in 47ms (compile: 10ms, render: 37ms)
+ GET /docs/button 200 in 43ms (compile: 4ms, render: 40ms)
+ GET /docs/accordion 200 in 45ms (compile: 4ms, render: 40ms)
+ GET /docs/tokens/spacing 200 in 195ms (compile: 132ms, render: 62ms)
+ GET /docs/tokens/typography 200 in 163ms (compile: 102ms, render: 61ms)
+ GET /docs/tokens/spacing 200 in 37ms (compile: 5ms, render: 32ms)
+ GET /docs/tokens/colors 200 in 209ms (compile: 111ms, render: 98ms)
+ GET /docs/button 200 in 44ms (compile: 4ms, render: 40ms)
+ GET /docs/button 200 in 64ms (compile: 3ms, render: 62ms)
+✓ Compiled in 50ms
+ GET /docs/accordion 200 in 167ms (compile: 112ms, render: 56ms)
+ GET /docs/button 200 in 188ms (compile: 120ms, render: 68ms)
+✓ Compiled in 56ms
+ GET /docs/accordion 200 in 32ms (compile: 3ms, render: 29ms)
+ GET /docs/accordion 200 in 192ms (compile: 7ms, render: 185ms)
+✓ Compiled in 32ms
+✓ Compiled in 60ms
+ GET /docs/accordion 200 in 350ms (compile: 128ms, render: 222ms)
+ GET /docs/accordion 200 in 100ms (compile: 5ms, render: 95ms)
+ GET /docs/button 200 in 201ms (compile: 139ms, render: 62ms)
+ GET /docs/accordion 200 in 40ms (compile: 3ms, render: 36ms)
+ GET /docs/button 200 in 35ms (compile: 3ms, render: 32ms)
+ GET /docs/accordion 200 in 42ms (compile: 4ms, render: 38ms)
+✓ Compiled in 52ms
+✓ Compiled in 56ms
+ GET /docs/accordion 200 in 404ms (compile: 135ms, render: 269ms)
+ GET /docs/button 200 in 195ms (compile: 119ms, render: 76ms)
+ GET /docs/accordion 200 in 46ms (compile: 6ms, render: 39ms)
+ GET /docs/accordion 200 in 32ms (compile: 4ms, render: 29ms)
+ GET /docs/button 200 in 38ms (compile: 3ms, render: 35ms)
+ GET /docs/accordion 200 in 42ms (compile: 4ms, render: 38ms)
+✓ Compiled in 33ms
+ GET /docs/accordion 200 in 334ms (compile: 124ms, render: 210ms)
+ GET /docs/button 200 in 174ms (compile: 117ms, render: 57ms)
+ GET /docs/accordion 200 in 39ms (compile: 10ms, render: 29ms)
+ GET /docs/button 200 in 36ms (compile: 5ms, render: 31ms)
+✓ Compiled in 70ms
+ GET /docs/button 200 in 171ms (compile: 5ms, render: 166ms)
+ GET /docs/accordion 200 in 51ms (compile: 4ms, render: 46ms)
+ GET /docs/button 200 in 47ms (compile: 4ms, render: 43ms)
+ GET /docs/button 200 in 84ms (compile: 3ms, render: 81ms)
+✓ Compiled in 31ms
+✓ Compiled in 56ms
+ GET /docs/accordion 200 in 334ms (compile: 135ms, render: 199ms)
+ GET /docs/accordion 200 in 84ms (compile: 2ms, render: 82ms)
+ GET /docs/accordion 200 in 82ms (compile: 4ms, render: 78ms)
+ GET /docs/button 200 in 196ms (compile: 130ms, render: 65ms)
+✓ Compiled in 37ms
+ GET /docs/accordion 200 in 255ms (compile: 166ms, render: 89ms)
+ GET /docs/accordion 200 in 191ms (compile: 2ms, render: 188ms)
+ GET /docs/accordion 200 in 48ms (compile: 1011µs, render: 47ms)
+ GET /docs/accordion 200 in 49ms (compile: 1583µs, render: 48ms)
+ GET /docs/accordion 200 in 94ms (compile: 6ms, render: 88ms)
+ GET /docs/button 200 in 209ms (compile: 134ms, render: 75ms)
+ GET /docs/accordion 200 in 42ms (compile: 4ms, render: 38ms)
+ GET /docs/accordion 200 in 78ms (compile: 4ms, render: 74ms)
+ GET /docs/button 200 in 50ms (compile: 5ms, render: 45ms)
+ GET /docs/accordion 200 in 40ms (compile: 4ms, render: 36ms)
+ GET /docs/tokens/typography 200 in 43ms (compile: 13ms, render: 30ms)
+ GET /docs/tokens/spacing 200 in 41ms (compile: 10ms, render: 31ms)
+ GET /docs/tokens/spacing 200 in 35ms (compile: 3ms, render: 32ms)
+ GET /docs/tokens/colors 200 in 78ms (compile: 12ms, render: 66ms)
+ GET /docs/tokens/typography 200 in 27ms (compile: 4ms, render: 23ms)
+ GET /docs/tokens/spacing 200 in 34ms (compile: 4ms, render: 30ms)
+ GET /docs/tokens/typography 200 in 30ms (compile: 4ms, render: 27ms)
+ GET /docs/tokens/colors 200 in 70ms (compile: 4ms, render: 65ms)
+ GET /docs/tokens/spacing 200 in 30ms (compile: 3ms, render: 27ms)
+✓ Compiled in 34ms
+✓ Compiled in 30ms
+✓ Compiled in 28ms
+✓ Compiled in 32ms
+ GET /docs/button 200 in 203ms (compile: 134ms, render: 69ms)
+ GET /docs/accordion 200 in 188ms (compile: 130ms, render: 58ms)
+ GET /docs/button 200 in 43ms (compile: 5ms, render: 39ms)
+ GET /docs/accordion 200 in 40ms (compile: 7ms, render: 33ms)
+✓ Compiled in 54ms
+ GET /docs/accordion 200 in 414ms (compile: 141ms, render: 273ms)
+ GET /docs/button 200 in 182ms (compile: 118ms, render: 64ms)
+ GET /docs/button 200 in 210ms (compile: 4ms, render: 206ms)
+✓ Compiled in 45ms
+ GET /docs/accordion 200 in 194ms (compile: 125ms, render: 68ms)
+ GET /docs/accordion 200 in 27ms (compile: 4ms, render: 23ms)
+ GET /docs/button 200 in 209ms (compile: 140ms, render: 69ms)
+ GET /docs/accordion 200 in 48ms (compile: 6ms, render: 42ms)
+ GET /docs/button 200 in 40ms (compile: 3ms, render: 37ms)
+✓ Compiled in 34ms
+ GET /docs/accordion 200 in 181ms (compile: 123ms, render: 58ms)
+ GET /docs/accordion 200 in 184ms (compile: 1520µs, render: 182ms)
+ GET /docs/button 200 in 185ms (compile: 106ms, render: 79ms)
+ GET /docs/accordion 200 in 164ms (compile: 99ms, render: 66ms)
+ GET /docs/button 200 in 165ms (compile: 1103µs, render: 164ms)
+ GET /docs/accordion 200 in 217ms (compile: 3ms, render: 213ms)
+ GET /docs/accordion 200 in 78ms (compile: 4ms, render: 74ms)
+ GET /docs/accordion 200 in 79ms (compile: 3ms, render: 76ms)
+ GET /docs/button 200 in 35ms (compile: 4ms, render: 31ms)
+ GET /docs/accordion 200 in 39ms (compile: 4ms, render: 35ms)
+ GET /docs/accordion 200 in 105ms (compile: 15ms, render: 90ms)
+ GET /docs/button 200 in 44ms (compile: 6ms, render: 38ms)
+ GET /docs/accordion 200 in 35ms (compile: 3ms, render: 32ms)
+ GET /docs/accordion 200 in 50ms (compile: 2ms, render: 47ms)
+✓ Compiled in 48ms
+ GET /docs/button 200 in 238ms (compile: 167ms, render: 71ms)
+ GET /docs/accordion 200 in 200ms (compile: 131ms, render: 70ms)
+✓ Compiled in 33ms
+ GET /docs/button 200 in 193ms (compile: 121ms, render: 72ms)
+✓ Compiled in 31ms
+ GET /docs/accordion 200 in 212ms (compile: 128ms, render: 83ms)
+ GET /docs/button 200 in 206ms (compile: 130ms, render: 75ms)
+ GET /docs/button 200 in 181ms (compile: 1450µs, render: 180ms)
+ GET /docs/button 200 in 45ms (compile: 1270µs, render: 44ms)
+ GET /docs/tokens/spacing 200 in 225ms (compile: 148ms, render: 77ms)
+ GET /docs/tokens/typography 200 in 189ms (compile: 123ms, render: 66ms)
+ GET /docs/tokens/colors 200 in 227ms (compile: 121ms, render: 106ms)
+✓ Compiled in 28ms
+ GET /docs/button 200 in 186ms (compile: 123ms, render: 63ms)
+ GET /docs/accordion 200 in 180ms (compile: 119ms, render: 61ms)
+✓ Compiled in 33ms
+✓ Compiled in 52ms
+ GET /docs/accordion 200 in 384ms (compile: 139ms, render: 245ms)
+✓ Compiled in 45ms
+ GET /docs/accordion 200 in 399ms (compile: 162ms, render: 238ms)
+ GET /docs/accordion 200 in 83ms (compile: 3ms, render: 80ms)
+✓ Compiled in 31ms
+ GET /docs/accordion 200 in 349ms (compile: 141ms, render: 208ms)
+ GET /docs/accordion 200 in 75ms (compile: 3ms, render: 72ms)
+ GET /docs/accordion 200 in 38ms (compile: 1006µs, render: 37ms)
+ GET /docs/accordion 200 in 40ms (compile: 1089µs, render: 39ms)
+ GET /docs/button 200 in 222ms (compile: 140ms, render: 82ms)
+ GET /docs/accordion 200 in 54ms (compile: 10ms, render: 44ms)
+ GET /docs/button 200 in 46ms (compile: 4ms, render: 42ms)
+ GET /docs/accordion 200 in 41ms (compile: 3ms, render: 37ms)
+✓ Compiled in 31ms
+ GET /docs/accordion 200 in 228ms (compile: 146ms, render: 82ms)
+ GET /docs/accordion 200 in 218ms (compile: 8ms, render: 210ms)
+ GET /docs/button 200 in 252ms (compile: 168ms, render: 84ms)
+✓ Compiled in 43ms
+✓ Compiled in 65ms
+ GET /docs/accordion 200 in 274ms (compile: 198ms, render: 76ms)
+ GET /docs/accordion 200 in 263ms (compile: 7ms, render: 256ms)
+ GET /docs/accordion 200 in 84ms (compile: 6ms, render: 78ms)
+ GET /docs/button 200 in 251ms (compile: 179ms, render: 72ms)
+ GET /docs/accordion 200 in 41ms (compile: 3ms, render: 38ms)
+ GET /docs/button 200 in 34ms (compile: 3ms, render: 30ms)
+ GET /docs/accordion 200 in 47ms (compile: 14ms, render: 33ms)
+ GET /docs/accordion 200 in 39ms (compile: 3ms, render: 36ms)
+✓ Compiled in 56ms
+ GET /docs/accordion 200 in 343ms (compile: 136ms, render: 207ms)
+✓ Compiled in 36ms
+✓ Compiled in 60ms
+ GET /docs/accordion 200 in 363ms (compile: 142ms, render: 221ms)
+ GET /docs/button 200 in 218ms (compile: 125ms, render: 93ms)
+ GET /docs/accordion 200 in 32ms (compile: 5ms, render: 27ms)
+✓ Compiled in 34ms
+✓ Compiled in 35ms
+✓ Compiled in 63ms
+ GET /docs/button 200 in 285ms (compile: 197ms, render: 87ms)
+ GET /docs/accordion 200 in 227ms (compile: 161ms, render: 66ms)
+✓ Compiled in 65ms
+ GET /docs/accordion 200 in 228ms (compile: 4ms, render: 224ms)
+ GET /docs/button 200 in 38ms (compile: 6ms, render: 32ms)
+ GET /docs/accordion 200 in 49ms (compile: 3ms, render: 46ms)
+ GET /docs/button 200 in 44ms (compile: 7ms, render: 37ms)
+ GET /docs/tokens/typography 200 in 36ms (compile: 13ms, render: 23ms)
+ GET /docs/tokens/spacing 200 in 47ms (compile: 12ms, render: 35ms)
+ GET /docs/button 200 in 46ms (compile: 4ms, render: 43ms)
+ GET /docs/accordion 200 in 54ms (compile: 5ms, render: 49ms)
+ GET /docs/button 200 in 55ms (compile: 4ms, render: 51ms)
+✓ Compiled in 55ms
+ GET /docs/accordion 200 in 212ms (compile: 150ms, render: 62ms)
+ GET /docs/accordion 200 in 41ms (compile: 17ms, render: 24ms)
+✓ Compiled in 64ms
+✓ Compiled in 49ms
+ GET /docs/accordion 200 in 473ms (compile: 224ms, render: 248ms)
+✓ Compiled in 57ms
+✓ Compiled in 61ms
+✓ Compiled in 48ms
+ GET /docs/accordion 200 in 334ms (compile: 115ms, render: 219ms)
+ GET /docs/button 200 in 274ms (compile: 129ms, render: 145ms)
+ GET /docs/accordion 200 in 44ms (compile: 6ms, render: 39ms)
+ GET /docs/accordion 200 in 100ms (compile: 3ms, render: 96ms)
+ GET /docs/accordion 200 in 87ms (compile: 2ms, render: 84ms)
+ GET /docs/button 200 in 49ms (compile: 5ms, render: 43ms)
+ GET /docs/accordion 200 in 46ms (compile: 4ms, render: 42ms)
+ GET /docs/button 200 in 55ms (compile: 3ms, render: 52ms)
+ GET /docs/tokens/spacing 200 in 45ms (compile: 12ms, render: 33ms)
+ GET /docs/tokens/typography 200 in 41ms (compile: 11ms, render: 30ms)
+ GET /docs/tokens/colors 200 in 96ms (compile: 11ms, render: 84ms)
+ GET /docs 200 in 253ms (compile: 190ms, render: 62ms)
+ GET /docs/button 200 in 45ms (compile: 4ms, render: 41ms)
+ GET /docs/accordion 200 in 35ms (compile: 4ms, render: 31ms)
+ GET /docs/accordion 200 in 85ms (compile: 4ms, render: 82ms)
+ GET /docs/button 200 in 47ms (compile: 6ms, render: 41ms)
+ GET /docs/button 200 in 219ms (compile: 5ms, render: 215ms)
+ GET /docs/button 200 in 78ms (compile: 4ms, render: 74ms)
+ GET /docs/button 200 in 96ms (compile: 3ms, render: 93ms)
+ GET /docs/button 200 in 87ms (compile: 3ms, render: 84ms)
+✓ Compiled in 62ms
+ GET /docs/button 200 in 93ms (compile: 3ms, render: 90ms)
+ GET /docs/accordion 200 in 50ms (compile: 6ms, render: 44ms)
+ GET /docs/accordion 200 in 99ms (compile: 3ms, render: 96ms)
+✓ Compiled in 61ms
+✓ Compiled in 40ms
+ GET /docs/button 200 in 229ms (compile: 154ms, render: 75ms)
+ GET /docs/button 200 in 207ms (compile: 3ms, render: 204ms)
+ GET /docs/accordion 200 in 213ms (compile: 141ms, render: 72ms)
+ GET /docs/accordion 200 in 22ms (compile: 1200µs, render: 21ms)
+✓ Compiled in 60ms
+✓ Compiled in 32ms
+ GET /docs/accordion 200 in 482ms (compile: 216ms, render: 266ms)
+ GET /docs/accordion 200 in 86ms (compile: 4ms, render: 82ms)
+ GET /docs/accordion 200 in 54ms (compile: 974µs, render: 53ms)
+ GET /docs/accordion 200 in 52ms (compile: 1444µs, render: 51ms)
+ GET /docs/accordion 200 in 693ms (compile: 23ms, render: 670ms)
+✓ Compiled in 65ms
+ GET /docs/accordion 200 in 65ms (compile: 3ms, render: 62ms)
+✓ Compiled in 65ms
+ GET /docs/accordion 200 in 97ms (compile: 4ms, render: 94ms)
+✓ Compiled in 67ms
+ GET /docs/accordion 200 in 96ms (compile: 4ms, render: 92ms)
+ GET /docs/accordion 200 in 60ms (compile: 1162µs, render: 58ms)
+ GET /docs/accordion 200 in 76ms (compile: 3ms, render: 73ms)
+✓ Compiled in 64ms
+ GET /docs/accordion 200 in 65ms (compile: 3ms, render: 62ms)
+ GET /docs/accordion 200 in 75ms (compile: 4ms, render: 71ms)
+ GET /docs/accordion 200 in 50ms (compile: 1104µs, render: 49ms)
+ GET /docs/accordion 200 in 44ms (compile: 964µs, render: 43ms)
+ GET /docs/accordion 200 in 39ms (compile: 1177µs, render: 38ms)
+✓ Compiled in 64ms
+ GET /docs/accordion 200 in 80ms (compile: 3ms, render: 77ms)
+ GET /docs/accordion 200 in 48ms (compile: 1702µs, render: 46ms)
+ GET /docs/accordion 200 in 44ms (compile: 1314µs, render: 43ms)
+ GET /docs/accordion 200 in 44ms (compile: 1012µs, render: 43ms)
+ GET /docs/accordion 200 in 63ms (compile: 3ms, render: 60ms)
+ GET /docs/accordion 200 in 40ms (compile: 1311µs, render: 38ms)
+ GET /docs/accordion 200 in 40ms (compile: 1024µs, render: 39ms)
+ GET /docs/accordion 200 in 41ms (compile: 1177µs, render: 40ms)
+✓ Compiled in 66ms
+ GET /docs/accordion 200 in 57ms (compile: 2ms, render: 55ms)
+ GET /docs/button 200 in 295ms (compile: 220ms, render: 75ms)
+ GET /docs/accordion 200 in 34ms (compile: 5ms, render: 30ms)
+ GET /docs/accordion 200 in 80ms (compile: 4ms, render: 76ms)
+ GET /docs/accordion 200 in 106ms (compile: 3ms, render: 103ms)
+ GET /docs/accordion 200 in 55ms (compile: 1452µs, render: 54ms)
+ GET /docs/accordion 200 in 51ms (compile: 1102µs, render: 50ms)
+ GET /docs/accordion 200 in 48ms (compile: 1136µs, render: 46ms)
+ GET /docs/accordion 200 in 41ms (compile: 981µs, render: 40ms)
+✓ Compiled in 68ms
+✓ Compiled in 59ms
+ GET /docs/accordion 200 in 138ms (compile: 12ms, render: 127ms)
+ GET /docs/accordion 200 in 106ms (compile: 3ms, render: 104ms)
+ GET /docs/accordion 200 in 105ms (compile: 6ms, render: 99ms)
+ GET /docs/accordion 200 in 97ms (compile: 4ms, render: 93ms)
+ GET /docs/tokens/spacing 200 in 278ms (compile: 203ms, render: 75ms)
+ GET /docs/tokens/typography 200 in 182ms (compile: 125ms, render: 57ms)
+ GET /docs/tokens/spacing 200 in 40ms (compile: 4ms, render: 37ms)
+ GET /docs/button 200 in 47ms (compile: 31ms, render: 17ms)
+✓ Compiled in 77ms
+ GET /docs/accordion 200 in 41ms (compile: 5ms, render: 36ms)
+ GET /docs/button 200 in 37ms (compile: 4ms, render: 33ms)
+✓ Compiled in 58ms
+ GET /docs/button 200 in 235ms (compile: 3ms, render: 233ms)
+✓ Compiled in 64ms
+ GET /docs/button 200 in 65ms (compile: 3ms, render: 62ms)
+ GET /docs/accordion 200 in 44ms (compile: 7ms, render: 37ms)
+✓ Compiled in 60ms
+✓ Compiled in 70ms
+✓ Compiled in 33ms
+✓ Compiled in 70ms
+✓ Compiled in 65ms
+✓ Compiled in 69ms
+✓ Compiled in 61ms
+✓ Compiled in 69ms
+✓ Compiled in 66ms
+✓ Compiled in 70ms
+✓ Compiled in 69ms
+ GET /docs/button 200 in 64ms (compile: 21ms, render: 44ms)
+ GET /docs/accordion 200 in 53ms (compile: 7ms, render: 46ms)
+✓ Compiled in 60ms
+✓ Compiled in 67ms
+ GET /docs/accordion 200 in 110ms (compile: 6ms, render: 104ms)
+✓ Compiled in 64ms
+✓ Compiled in 66ms
+✓ Compiled in 64ms
+✓ Compiled in 64ms
+✓ Compiled in 52ms
+✓ Compiled in 65ms
+✓ Compiled in 58ms
+✓ Compiled in 69ms
+✓ Compiled in 67ms
+✓ Compiled in 65ms
+✓ Compiled in 58ms
+✓ Compiled in 57ms
+✓ Compiled in 57ms
+⨯ ./src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: /Users/saugat/Desktop/code/soft/src/app/globals.css:17:21: Unclosed bracket
+    [at Input.error (turbopack:///[project]/node_modules/.pnpm/postcss@8.4.31/node_modules/postcss/lib/input.js:106:16)]
+    [at Parser.unclosedBracket (turbopack:///[project]/node_modules/.pnpm/postcss@8.4.31/node_modules/postcss/lib/parser.js:578:22)]
+    [at Parser.other (turbopack:///[project]/node_modules/.pnpm/postcss@8.4.31/node_modules/postcss/lib/parser.js:424:35)]
+    [at Parser.parse (turbopack:///[project]/node_modules/.pnpm/postcss@8.4.31/node_modules/postcss/lib/parser.js:471:16)]
+    [at parse (turbopack:///[project]/node_modules/.pnpm/postcss@8.4.31/node_modules/postcss/lib/parse.js:11:12)]
+    [at new LazyResult (turbopack:///[project]/node_modules/.pnpm/postcss@8.4.31/node_modules/postcss/lib/lazy-result.js:133:16)]
+    [at Processor.process (turbopack:///[project]/node_modules/.pnpm/postcss@8.4.31/node_modules/postcss/lib/processor.js:53:14)]
+    [at transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:51)]
+    [at run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:29)]
+    [at run (turbopack:///[turbopack-node]/ipc/evaluate.ts:115:11)]
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET /docs/accordion 500 in 217ms (compile: 141ms, render: 76ms)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+✓ Compiled in 413ms
+ GET /docs/accordion 200 in 109ms (compile: 3ms, render: 105ms)
+✓ Compiled in 79ms
+✓ Compiled in 85ms
+✓ Compiled in 59ms
+ GET /docs/accordion 200 in 86ms (compile: 5ms, render: 81ms)
+ GET /docs/accordion 200 in 97ms (compile: 4ms, render: 93ms)
+ GET /docs/accordion 200 in 59ms (compile: 1123µs, render: 58ms)
+✓ Compiled in 59ms
+ GET /docs/accordion 200 in 61ms (compile: 7ms, render: 54ms)
+ GET /docs/accordion 200 in 78ms (compile: 2ms, render: 76ms)
+✓ Compiled in 51ms
+ GET /docs/accordion 200 in 116ms (compile: 4ms, render: 112ms)
+✓ Compiled in 57ms
+✓ Compiled in 65ms
+✓ Compiled in 62ms
+✓ Compiled in 66ms
+ GET /docs/button 200 in 58ms (compile: 8ms, render: 50ms)
+ GET /docs/accordion 200 in 50ms (compile: 7ms, render: 43ms)
+✓ Compiled in 67ms
+ GET /docs/accordion 200 in 109ms (compile: 5ms, render: 104ms)
+✓ Compiled in 65ms
+ GET /docs/accordion 200 in 100ms (compile: 3ms, render: 97ms)
+ GET /docs/accordion 200 in 92ms (compile: 3ms, render: 89ms)
+✓ Compiled in 64ms
+✓ Compiled in 57ms
+✓ Compiled in 66ms
+✓ Compiled in 65ms
+✓ Compiled in 77ms
+✓ Compiled in 55ms
+✓ Compiled in 60ms
+ GET /docs/button 200 in 57ms (compile: 7ms, render: 50ms)
+ GET /docs/accordion 200 in 58ms (compile: 7ms, render: 51ms)
+ GET /docs/accordion 200 in 105ms (compile: 2ms, render: 103ms)
+ GET /docs 200 in 337ms (compile: 261ms, render: 76ms)
+ GET /docs/tokens/colors 200 in 227ms (compile: 129ms, render: 99ms)
+ GET /docs/tokens/typography 200 in 36ms (compile: 12ms, render: 25ms)
+ GET /docs/tokens/spacing 200 in 40ms (compile: 10ms, render: 30ms)
+ GET /docs/button 200 in 45ms (compile: 4ms, render: 40ms)
+ GET /docs/accordion 200 in 35ms (compile: 4ms, render: 31ms)
+ GET /docs/tokens/colors 200 in 71ms (compile: 4ms, render: 67ms)
+ GET /docs/tokens/typography 200 in 41ms (compile: 3ms, render: 38ms)
+ GET /docs/tokens/spacing 200 in 32ms (compile: 5ms, render: 28ms)
+ GET /docs/tokens/colors 200 in 74ms (compile: 4ms, render: 70ms)
+ GET /docs/button 200 in 44ms (compile: 4ms, render: 40ms)
+ GET /docs/accordion 200 in 37ms (compile: 5ms, render: 33ms)
+ GET /docs/button 200 in 31ms (compile: 3ms, render: 28ms)
+ GET /docs/button 200 in 241ms (compile: 140ms, render: 102ms)
+ GET /docs/button 200 in 106ms (compile: 6ms, render: 101ms)
+ GET /docs/button 200 in 102ms (compile: 813µs, render: 101ms)
+ GET /docs/button 200 in 86ms (compile: 767µs, render: 85ms)
+ GET /docs/button 200 in 89ms (compile: 694µs, render: 88ms)
+ GET /docs/button 200 in 96ms (compile: 725µs, render: 96ms)
+ GET /docs/button 200 in 83ms (compile: 1234µs, render: 81ms)
+ GET /docs/button 200 in 92ms (compile: 803µs, render: 92ms)
+ GET /docs/button 200 in 95ms (compile: 759µs, render: 95ms)
+ GET /docs/button 200 in 77ms (compile: 1049µs, render: 76ms)
+ GET /docs/button 200 in 66ms (compile: 830µs, render: 65ms)
+ GET /docs/button 200 in 81ms (compile: 1078µs, render: 80ms)
+ GET /docs/button 200 in 74ms (compile: 928µs, render: 73ms)
+ GET /docs/button 200 in 91ms (compile: 944µs, render: 90ms)
+ GET /docs/button 200 in 89ms (compile: 919µs, render: 88ms)
+ GET /docs/button 200 in 78ms (compile: 1273µs, render: 77ms)
+ GET /docs/button 200 in 62ms (compile: 1192µs, render: 61ms)
+ GET /docs/button 200 in 50ms (compile: 875µs, render: 49ms)
+ GET /docs/button 200 in 39ms (compile: 7ms, render: 33ms)
+ GET /docs/button 200 in 21ms (compile: 832µs, render: 20ms)
+✓ Compiled in 27ms
+ GET /docs/icon-button 200 in 610ms (compile: 533ms, render: 77ms)
+ GET /docs/accordion 200 in 205ms (compile: 132ms, render: 72ms)
+ GET /docs/button 200 in 196ms (compile: 130ms, render: 66ms)
+ GET /docs/icon-button 200 in 70ms (compile: 6ms, render: 64ms)
+ GET /docs/accordion 200 in 38ms (compile: 4ms, render: 33ms)
+ GET /docs/button 200 in 43ms (compile: 8ms, render: 34ms)
+ GET /docs/icon-button 200 in 42ms (compile: 7ms, render: 36ms)
+ GET /docs/button 200 in 51ms (compile: 4ms, render: 47ms)
+ GET /docs/accordion 200 in 239ms (compile: 10ms, render: 229ms)
+ GET /docs/accordion 200 in 191ms (compile: 3ms, render: 188ms)
+ GET /docs/accordion 200 in 166ms (compile: 1511µs, render: 165ms)
+ GET /docs/accordion 200 in 155ms (compile: 1162µs, render: 153ms)
+ GET /docs/accordion 200 in 153ms (compile: 977µs, render: 152ms)
+ GET /docs/accordion 200 in 86ms (compile: 1589µs, render: 84ms)
+ GET /docs/accordion 200 in 90ms (compile: 1117µs, render: 89ms)
+ GET /docs/accordion 200 in 100ms (compile: 5ms, render: 94ms)
+ GET /docs/accordion 200 in 85ms (compile: 846µs, render: 84ms)
+ GET /docs/accordion 200 in 91ms (compile: 760µs, render: 91ms)
+ GET /docs/accordion 200 in 92ms (compile: 843µs, render: 91ms)
+ GET /docs/accordion 200 in 79ms (compile: 697µs, render: 78ms)
+ GET /docs/accordion 200 in 89ms (compile: 910µs, render: 88ms)
+ GET /docs/accordion 200 in 81ms (compile: 1140µs, render: 80ms)
+ GET /docs/accordion 200 in 71ms (compile: 1003µs, render: 70ms)
+ GET /docs/accordion 200 in 77ms (compile: 677µs, render: 76ms)
+ GET /docs/accordion 200 in 60ms (compile: 943µs, render: 59ms)
+ GET /docs/accordion 200 in 50ms (compile: 704µs, render: 50ms)
+ GET /docs/accordion 200 in 34ms (compile: 848µs, render: 33ms)
+ GET /docs/accordion 200 in 19ms (compile: 1221µs, render: 18ms)
+ GET /docs/button 200 in 37ms (compile: 4ms, render: 32ms)
+ GET /docs/icon-button 200 in 44ms (compile: 6ms, render: 38ms)
+ GET /docs/accordion 200 in 32ms (compile: 4ms, render: 27ms)
+ GET /docs/icon-button 200 in 34ms (compile: 4ms, render: 30ms)
+ GET /docs/tokens/colors 200 in 326ms (compile: 234ms, render: 93ms)
+ GET /docs/button 200 in 47ms (compile: 7ms, render: 40ms)
+ GET /docs/icon-button 200 in 48ms (compile: 14ms, render: 34ms)
+ GET /docs/accordion 200 in 63ms (compile: 8ms, render: 55ms)
+ GET /docs/button 200 in 60ms (compile: 8ms, render: 52ms)
+ GET /docs/tokens/spacing 200 in 228ms (compile: 154ms, render: 74ms)
+ GET /docs/tokens/typography 200 in 196ms (compile: 134ms, render: 63ms)
+ GET /docs/tokens/colors 200 in 86ms (compile: 7ms, render: 78ms)
+ GET /docs/tokens/typography 200 in 29ms (compile: 4ms, render: 25ms)
+ GET /docs/tokens/spacing 200 in 34ms (compile: 5ms, render: 29ms)
+ GET /docs/tokens/colors 200 in 82ms (compile: 6ms, render: 76ms)
+ GET /docs/tokens/typography 200 in 42ms (compile: 7ms, render: 36ms)
+ GET /docs/tokens/colors 200 in 84ms (compile: 4ms, render: 80ms)
+ GET /docs/tokens/typography 200 in 34ms (compile: 6ms, render: 28ms)
+ GET /docs/tokens/spacing 200 in 42ms (compile: 7ms, render: 35ms)
+ GET /docs/tokens/typography 200 in 35ms (compile: 5ms, render: 30ms)
+ GET /docs/tokens/colors 200 in 78ms (compile: 16ms, render: 62ms)
+ GET /docs/tokens/spacing 200 in 36ms (compile: 4ms, render: 32ms)
+ GET /docs/tokens/typography 200 in 39ms (compile: 3ms, render: 36ms)
+ GET /docs/tokens/colors 200 in 79ms (compile: 5ms, render: 74ms)
+ GET /docs/tokens/spacing 200 in 43ms (compile: 6ms, render: 37ms)
+ GET /docs/tokens/typography 200 in 44ms (compile: 6ms, render: 38ms)
+ GET /docs/tokens/typography 200 in 276ms (compile: 4ms, render: 272ms)
+ GET /docs/tokens/colors 200 in 75ms (compile: 6ms, render: 69ms)
+ GET /docs/tokens/typography 200 in 39ms (compile: 2ms, render: 37ms)
+ GET /docs/tokens/spacing 200 in 31ms (compile: 5ms, render: 26ms)
+ GET /docs/tokens/colors 200 in 69ms (compile: 3ms, render: 66ms)
+ GET /docs/tokens/typography 200 in 39ms (compile: 4ms, render: 34ms)
+ GET /docs/tokens/spacing 200 in 32ms (compile: 3ms, render: 29ms)
+ GET /docs/tokens/colors 200 in 72ms (compile: 3ms, render: 69ms)
+ GET /docs 200 in 272ms (compile: 216ms, render: 57ms)
+ GET /docs/button 200 in 33ms (compile: 4ms, render: 29ms)
+ GET /docs/icon-button 200 in 34ms (compile: 4ms, render: 30ms)
+ GET /docs/accordion 200 in 47ms (compile: 6ms, render: 41ms)
+ GET /docs/button 200 in 45ms (compile: 4ms, render: 41ms)
+ GET /docs/icon-button 200 in 36ms (compile: 3ms, render: 33ms)
+ GET /docs/accordion 200 in 44ms (compile: 3ms, render: 41ms)
+ GET /docs/button 200 in 36ms (compile: 3ms, render: 33ms)
+ GET /docs/icon-button 200 in 49ms (compile: 9ms, render: 40ms)
+ GET /docs/accordion 200 in 51ms (compile: 6ms, render: 45ms)
+ GET /docs/button 200 in 60ms (compile: 5ms, render: 56ms)
+ GET /docs/button 200 in 253ms (compile: 12ms, render: 241ms)
+ GET /docs/icon-button 200 in 44ms (compile: 9ms, render: 35ms)
+✓ Compiled in 71ms
+ GET /docs/accordion 200 in 210ms (compile: 147ms, render: 63ms)
+ GET /docs/button 200 in 345ms (compile: 135ms, render: 210ms)
+ GET /docs/tokens/typography 200 in 421ms (compile: 355ms, render: 67ms)
+ GET /docs/button 200 in 425ms (compile: 196ms, render: 229ms)
+✓ Compiled in 26ms
+ GET /docs/tokens/typography 200 in 54ms (compile: 20ms, render: 34ms)
+ GET /docs/button 200 in 57ms (compile: 2ms, render: 55ms)
+✓ Compiled in 31ms
+ GET /docs/tokens/typography 200 in 62ms (compile: 45ms, render: 18ms)
+ GET /docs/button 200 in 65ms (compile: 1526µs, render: 64ms)
+ GET /docs/icon-button 200 in 253ms (compile: 161ms, render: 92ms)
+✓ Compiled in 30ms
+ GET /docs/tokens/typography 200 in 44ms (compile: 16ms, render: 28ms)
+ GET /docs/icon-button 200 in 46ms (compile: 1331µs, render: 45ms)
+ GET /docs/accordion 200 in 203ms (compile: 135ms, render: 68ms)
+ GET /docs/button 200 in 49ms (compile: 4ms, render: 45ms)
+ GET /docs/tokens/colors 200 in 229ms (compile: 129ms, render: 101ms)
+ GET /docs/tokens/typography 200 in 37ms (compile: 3ms, render: 34ms)
+ GET /docs/tokens/spacing 200 in 195ms (compile: 131ms, render: 65ms)
+ GET /docs/tokens/typography 200 in 214ms (compile: 112ms, render: 102ms)
+ GET /docs/tokens/spacing 200 in 216ms (compile: 1463µs, render: 214ms)
+ GET /docs/tokens/colors 200 in 49ms (compile: 1118µs, render: 48ms)
+ GET /docs 200 in 190ms (compile: 132ms, render: 58ms)
+ GET /docs 200 in 29ms (compile: 11ms, render: 19ms)
+ GET /docs/tokens/typography 200 in 30ms (compile: 1030µs, render: 29ms)
+✓ Compiled in 26ms
+ GET /docs/tokens/colors 200 in 59ms (compile: 3ms, render: 56ms)
+ GET /docs/tokens/typography 200 in 26ms (compile: 3ms, render: 23ms)
+ GET /docs/tokens/spacing 200 in 240ms (compile: 172ms, render: 68ms)
+ GET /docs/tokens/colors 200 in 81ms (compile: 3ms, render: 78ms)
+ GET /docs 200 in 25ms (compile: 3ms, render: 22ms)
+ GET /docs/tokens/typography 200 in 26ms (compile: 4ms, render: 22ms)
+ GET /docs/tokens/spacing 200 in 29ms (compile: 5ms, render: 25ms)
+ GET /docs/tokens/typography 200 in 37ms (compile: 4ms, render: 33ms)
+ GET /docs/tokens/colors 200 in 73ms (compile: 4ms, render: 68ms)
+ GET /docs/tokens/spacing 200 in 30ms (compile: 4ms, render: 26ms)
+ GET /docs/tokens/colors 200 in 81ms (compile: 7ms, render: 74ms)
+ GET /docs 200 in 41ms (compile: 6ms, render: 35ms)
+ GET /docs/button 200 in 53ms (compile: 5ms, render: 49ms)
+✓ Compiled in 80ms
+✓ Compiled in 40ms
+ GET /docs/button 200 in 467ms (compile: 189ms, render: 278ms)
+ GET /docs/icon-button 200 in 207ms (compile: 135ms, render: 72ms)
+ GET /docs/accordion 200 in 922ms (compile: 136ms, render: 786ms)
+ GET /docs/icon-button 200 in 37ms (compile: 7ms, render: 29ms)
+ GET /docs/button 200 in 48ms (compile: 6ms, render: 42ms)
+ GET /docs/tokens/spacing 200 in 290ms (compile: 226ms, render: 64ms)
+ GET /docs/tokens/typography 200 in 199ms (compile: 129ms, render: 70ms)
+ GET /docs/button 200 in 40ms (compile: 7ms, render: 33ms)
+ GET /docs/button 200 in 113ms (compile: 4ms, render: 109ms)
+ GET /docs/icon-button 200 in 35ms (compile: 5ms, render: 31ms)
+ GET /docs/button 200 in 35ms (compile: 5ms, render: 31ms)
+ GET /docs/icon-button 200 in 57ms (compile: 24ms, render: 33ms)
+ GET /docs/accordion 200 in 61ms (compile: 16ms, render: 45ms)
+ GET /docs/icon-button 200 in 35ms (compile: 2ms, render: 33ms)
+ GET /docs/button 200 in 59ms (compile: 3ms, render: 56ms)
+✓ Compiled in 33ms
+✓ Compiled in 49ms
+ GET /docs/button 200 in 509ms (compile: 208ms, render: 300ms)
+ GET /docs/icon-button 200 in 186ms (compile: 123ms, render: 63ms)
+ GET /docs/accordion 200 in 203ms (compile: 131ms, render: 71ms)
+ GET /docs/button 200 in 47ms (compile: 5ms, render: 42ms)
+ GET /docs/button 200 in 166ms (compile: 16ms, render: 150ms)
+ GET /docs/button 200 in 98ms (compile: 5ms, render: 93ms)
+ GET /docs/button 200 in 87ms (compile: 3ms, render: 84ms)
+ GET /docs/icon-button 200 in 45ms (compile: 8ms, render: 37ms)
+ GET /docs/accordion 200 in 42ms (compile: 5ms, render: 37ms)
+ GET /docs/accordion 200 in 35ms (compile: 3ms, render: 32ms)
+ GET /docs/icon-button 200 in 41ms (compile: 4ms, render: 38ms)
+ GET /docs/icon-button 200 in 277ms (compile: 3ms, render: 274ms)
+✓ Compiled in 42ms
+✓ Compiled in 48ms
+ GET /docs/icon-button 200 in 513ms (compile: 257ms, render: 256ms)
+ GET /docs/accordion 200 in 204ms (compile: 126ms, render: 78ms)
+✓ Compiled in 52ms
+ GET /docs/icon-button 200 in 216ms (compile: 144ms, render: 72ms)
+ GET /docs/button 200 in 274ms (compile: 145ms, render: 129ms)
+✓ Compiled in 40ms
+ GET /docs/icon-button 200 in 221ms (compile: 164ms, render: 57ms)
+ GET /docs/accordion 200 in 254ms (compile: 183ms, render: 71ms)
+✓ Compiled in 30ms
+ GET /docs/icon-button 200 in 193ms (compile: 123ms, render: 70ms)
+ GET /docs/button 200 in 47ms (compile: 6ms, render: 41ms)
+ GET /docs/accordion 200 in 186ms (compile: 125ms, render: 61ms)
+ GET /docs/button 200 in 82ms (compile: 12ms, render: 70ms)
+ GET /docs/icon-button 200 in 83ms (compile: 9ms, render: 74ms)
+ GET /docs/accordion 200 in 72ms (compile: 6ms, render: 66ms)
+ GET /docs/button 200 in 60ms (compile: 4ms, render: 56ms)
+ GET /docs/button 200 in 63ms (compile: 4ms, render: 60ms)
+ GET /docs/icon-button 200 in 60ms (compile: 4ms, render: 57ms)
+ GET /docs/button 200 in 62ms (compile: 3ms, render: 59ms)
+ GET /docs/tokens/typography 200 in 373ms (compile: 291ms, render: 82ms)
+ GET /docs/tokens/colors 200 in 239ms (compile: 142ms, render: 98ms)
+ GET /docs/button 200 in 51ms (compile: 5ms, render: 46ms)
+ GET /docs/icon-button 200 in 52ms (compile: 10ms, render: 43ms)
+ GET /docs/accordion 200 in 41ms (compile: 4ms, render: 37ms)
+✓ Compiled in 38ms
+✓ Compiled in 37ms
+ GET /docs/icon-button 200 in 305ms (compile: 226ms, render: 78ms)
+ GET /docs/tokens/colors 200 in 248ms (compile: 138ms, render: 110ms)
+ GET /docs/tokens/typography 200 in 190ms (compile: 129ms, render: 61ms)
+ GET /docs/tokens/spacing 200 in 203ms (compile: 130ms, render: 73ms)
+ GET /docs/button 200 in 197ms (compile: 130ms, render: 67ms)
+ GET /docs/icon-button 200 in 55ms (compile: 5ms, render: 50ms)
+ GET /docs/tokens/spacing 200 in 31ms (compile: 3ms, render: 27ms)
+ GET /docs/tokens/colors 200 in 87ms (compile: 4ms, render: 84ms)
+ GET /docs/button 200 in 39ms (compile: 3ms, render: 36ms)
+ GET /docs/icon-button 200 in 36ms (compile: 6ms, render: 30ms)
+ GET /docs/accordion 200 in 222ms (compile: 151ms, render: 71ms)
+ GET /docs/button 200 in 38ms (compile: 5ms, render: 34ms)
+ GET /docs/icon-button 200 in 46ms (compile: 4ms, render: 43ms)
+ GET /docs/button 200 in 75ms (compile: 6ms, render: 70ms)
+ GET /docs/accordion 200 in 61ms (compile: 18ms, render: 43ms)
+ GET /docs/icon-button 200 in 48ms (compile: 5ms, render: 44ms)
+ GET /docs/button 200 in 47ms (compile: 4ms, render: 43ms)
+ GET /docs/button 200 in 279ms (compile: 3ms, render: 276ms)
+ GET /docs/button 200 in 36ms (compile: 7ms, render: 30ms)
+ GET /docs/icon-button 200 in 46ms (compile: 8ms, render: 38ms)
+ GET /docs/accordion 200 in 60ms (compile: 6ms, render: 53ms)
+ GET /docs/icon-button 200 in 56ms (compile: 3ms, render: 54ms)
+ GET /docs/button 200 in 55ms (compile: 4ms, render: 51ms)
+ GET /docs/button 200 in 96ms (compile: 2ms, render: 94ms)
+ GET /docs/icon-button 200 in 55ms (compile: 5ms, render: 50ms)
+ GET /docs/accordion 200 in 61ms (compile: 5ms, render: 56ms)
+ GET /docs/tokens/spacing 200 in 53ms (compile: 4ms, render: 49ms)
+ GET /docs/button 200 in 57ms (compile: 3ms, render: 54ms)
+ GET /docs/icon-button 200 in 41ms (compile: 5ms, render: 37ms)
+ GET /docs/tokens/spacing 200 in 38ms (compile: 3ms, render: 35ms)
+ GET /docs/button 200 in 53ms (compile: 2ms, render: 51ms)
+ GET /docs/icon-button 200 in 39ms (compile: 4ms, render: 35ms)
+ GET /docs/accordion 200 in 46ms (compile: 3ms, render: 43ms)
+ GET /docs/tokens/typography 200 in 40ms (compile: 4ms, render: 36ms)
+ GET /docs/tokens/colors 200 in 79ms (compile: 6ms, render: 73ms)
+ GET /docs/tokens/spacing 200 in 45ms (compile: 3ms, render: 42ms)
+ GET /docs 200 in 234ms (compile: 170ms, render: 64ms)
+ GET /docs/accordion 200 in 37ms (compile: 4ms, render: 33ms)
+ GET /docs/icon-button 200 in 47ms (compile: 5ms, render: 43ms)
+ GET /docs/button 200 in 44ms (compile: 6ms, render: 38ms)
+ GET /docs/accordion 200 in 45ms (compile: 4ms, render: 41ms)
+ GET /docs/icon-button 200 in 60ms (compile: 3ms, render: 57ms)
+ GET /docs/button 200 in 64ms (compile: 3ms, render: 60ms)
+ GET /docs/tokens/typography 200 in 42ms (compile: 4ms, render: 38ms)
+ GET /docs/tokens/colors 200 in 91ms (compile: 6ms, render: 85ms)
+ GET /docs/tokens/spacing 200 in 35ms (compile: 7ms, render: 28ms)
+ GET /docs/button 200 in 43ms (compile: 4ms, render: 39ms)
+ GET /docs/accordion 200 in 46ms (compile: 3ms, render: 42ms)
+ GET /docs/icon-button 200 in 44ms (compile: 4ms, render: 40ms)
+ GET /docs/button 200 in 66ms (compile: 3ms, render: 63ms)
+✓ Compiled in 45ms
+ GET /docs/icon-button 200 in 333ms (compile: 246ms, render: 87ms)
+ GET /docs/accordion 200 in 1074ms (compile: 109ms, render: 965ms)
+ GET /docs/accordion 200 in 329ms (compile: 193ms, render: 136ms)
+ GET /docs/accordion 200 in 94ms (compile: 1367µs, render: 92ms)
+ GET /docs/accordion 200 in 72ms (compile: 1268µs, render: 71ms)
+ GET /docs/accordion 200 in 59ms (compile: 1284µs, render: 58ms)
+ GET /docs/accordion 200 in 40ms (compile: 874µs, render: 39ms)
+ GET /docs/accordion 200 in 31ms (compile: 614µs, render: 30ms)
+ GET /docs/accordion 200 in 13ms (compile: 1111µs, render: 12ms)
+ GET /docs/button 200 in 240ms (compile: 177ms, render: 63ms)
+ GET /docs/icon-button 200 in 218ms (compile: 140ms, render: 78ms)
+ GET /docs/accordion 200 in 47ms (compile: 3ms, render: 44ms)
+ GET /docs/icon-button 200 in 34ms (compile: 4ms, render: 29ms)
+✓ Compiled in 43ms
+ GET /docs/accordion 200 in 203ms (compile: 133ms, render: 71ms)
+ GET /docs/button 200 in 222ms (compile: 136ms, render: 86ms)
+ GET /docs/icon-button 200 in 225ms (compile: 145ms, render: 79ms)
+ GET /docs/accordion 200 in 45ms (compile: 6ms, render: 39ms)
+ GET /docs/button 200 in 36ms (compile: 4ms, render: 31ms)
+✓ Compiled in 100ms
+✓ Compiled in 58ms
+✓ Compiled in 53ms
+ GET /docs/icon-button 200 in 233ms (compile: 155ms, render: 78ms)
+ GET /docs/accordion 200 in 219ms (compile: 148ms, render: 71ms)
+ GET /docs/button 200 in 217ms (compile: 145ms, render: 72ms)
+ GET /docs/icon-button 200 in 47ms (compile: 4ms, render: 43ms)
+ GET /docs/accordion 200 in 45ms (compile: 5ms, render: 40ms)
+ GET /docs/icon-button 200 in 49ms (compile: 5ms, render: 44ms)
+ GET /docs/button 200 in 37ms (compile: 6ms, render: 31ms)
+ GET /docs/tokens/spacing 200 in 252ms (compile: 191ms, render: 62ms)
+ GET /docs/tokens/colors 200 in 257ms (compile: 141ms, render: 116ms)
+ GET /docs/accordion 200 in 35ms (compile: 4ms, render: 30ms)
+ GET /docs/icon-button 200 in 41ms (compile: 4ms, render: 37ms)
+ GET /docs/tokens/colors 200 in 76ms (compile: 4ms, render: 72ms)
+ GET /docs/icon-button 200 in 32ms (compile: 4ms, render: 28ms)
+ GET /docs/tokens/typography 200 in 211ms (compile: 147ms, render: 63ms)
+ GET /docs/tokens/colors 200 in 97ms (compile: 6ms, render: 91ms)
+ GET /docs/tokens/spacing 200 in 34ms (compile: 5ms, render: 29ms)
+ GET /docs/tokens/typography 200 in 30ms (compile: 7ms, render: 23ms)
+ GET /docs/tokens/colors 200 in 96ms (compile: 4ms, render: 92ms)
+ GET /docs/button 200 in 38ms (compile: 6ms, render: 32ms)
+ GET /docs/icon-button 200 in 34ms (compile: 4ms, render: 30ms)
+ GET /docs/accordion 200 in 44ms (compile: 5ms, render: 39ms)
+ GET /docs/button 200 in 34ms (compile: 4ms, render: 30ms)
+ GET /docs 200 in 206ms (compile: 136ms, render: 70ms)
+ GET /docs/tokens/colors 200 in 79ms (compile: 4ms, render: 75ms)
+ GET /docs/tokens/typography 200 in 32ms (compile: 4ms, render: 28ms)
+ GET /docs/tokens/spacing 200 in 31ms (compile: 6ms, render: 26ms)
+ GET /docs/button 200 in 44ms (compile: 4ms, render: 40ms)
+ GET /docs/accordion 200 in 31ms (compile: 4ms, render: 28ms)
+ GET /docs 200 in 22ms (compile: 4ms, render: 18ms)
+ GET /docs/tokens/typography 200 in 28ms (compile: 3ms, render: 25ms)
+ GET /docs/button 200 in 45ms (compile: 4ms, render: 42ms)
+✓ Compiled in 64ms
+ GET /docs/icon-button 200 in 58ms (compile: 12ms, render: 46ms)
+ GET /docs/accordion 200 in 46ms (compile: 6ms, render: 41ms)
+ GET /docs/button 200 in 73ms (compile: 6ms, render: 67ms)
+ GET /docs/tokens/spacing 200 in 53ms (compile: 9ms, render: 44ms)
+ GET /docs/tokens/typography 200 in 42ms (compile: 11ms, render: 32ms)
+ GET /docs/tokens/colors 200 in 92ms (compile: 5ms, render: 86ms)
+ GET /docs 200 in 33ms (compile: 5ms, render: 28ms)
+ GET /docs/icon-button 200 in 32ms (compile: 4ms, render: 28ms)
+ GET /docs/accordion 200 in 37ms (compile: 16ms, render: 22ms)
+ GET /docs 200 in 32ms (compile: 3ms, render: 30ms)
+ GET /docs/tokens/typography 200 in 29ms (compile: 3ms, render: 26ms)
+ GET /docs/tokens/spacing 200 in 38ms (compile: 3ms, render: 34ms)
+ GET /docs/icon-button 200 in 34ms (compile: 1767µs, render: 32ms)
+ GET /docs/button 200 in 51ms (compile: 30ms, render: 22ms)
+ GET /docs/icon-button 200 in 31ms (compile: 1965µs, render: 29ms)
+ GET /docs/button 200 in 46ms (compile: 5ms, render: 41ms)
+ GET /docs/tokens/spacing 200 in 39ms (compile: 3ms, render: 36ms)
+ GET /docs/tokens/typography 200 in 29ms (compile: 4ms, render: 25ms)
+ GET /docs/tokens/spacing 200 in 39ms (compile: 4ms, render: 35ms)
+ GET /docs/button 200 in 35ms (compile: 4ms, render: 31ms)
+ GET /docs/icon-button 200 in 32ms (compile: 1975µs, render: 30ms)
+ GET /docs/accordion 200 in 47ms (compile: 2ms, render: 45ms)
+ GET /docs/icon-button 200 in 32ms (compile: 3ms, render: 29ms)
+ GET /docs/button 200 in 36ms (compile: 4ms, render: 32ms)
+ GET /docs/accordion 200 in 51ms (compile: 1916µs, render: 49ms)
+ GET /docs/accordion 200 in 34ms (compile: 3ms, render: 31ms)
+ GET /docs/button 200 in 45ms (compile: 4ms, render: 41ms)
+ GET /docs/icon-button 200 in 33ms (compile: 1842µs, render: 32ms)
+ GET /docs/button 200 in 35ms (compile: 6ms, render: 29ms)
+ GET /docs/accordion 200 in 48ms (compile: 3ms, render: 45ms)
+ GET /docs/tokens/typography 200 in 39ms (compile: 5ms, render: 34ms)
+ GET /docs/icon-button 200 in 50ms (compile: 4ms, render: 46ms)
+✓ Compiled in 55ms
+✓ Compiled in 54ms
+ GET /docs/accordion 200 in 444ms (compile: 357ms, render: 87ms)
+ GET /docs/accordion 200 in 39ms (compile: 4ms, render: 35ms)
+ GET /docs/button 200 in 233ms (compile: 145ms, render: 88ms)
+ GET /docs/tokens/typography 200 in 189ms (compile: 129ms, render: 59ms)
+ GET /docs/tokens/spacing 200 in 290ms (compile: 142ms, render: 148ms)
+ GET /docs/button 200 in 567ms (compile: 26ms, render: 541ms)
+ GET /docs/icon-button 200 in 501ms (compile: 377ms, render: 124ms)
+ GET /docs/accordion 200 in 60ms (compile: 7ms, render: 53ms)
+ GET /docs/accordion 200 in 418ms (compile: 15ms, render: 403ms)
+✓ Compiled in 73ms
+ GET /docs/icon-button 200 in 411ms (compile: 318ms, render: 94ms)
+ GET /docs/button 200 in 247ms (compile: 150ms, render: 97ms)
+ GET /docs/tokens/typography 200 in 58ms (compile: 12ms, render: 46ms)
+ GET /docs/tokens/colors 200 in 233ms (compile: 134ms, render: 99ms)
+ GET /docs/tokens/typography 200 in 57ms (compile: 7ms, render: 50ms)
+✓ Compiled in 63ms
+ GET /docs/tokens/spacing 200 in 48ms (compile: 13ms, render: 35ms)
+ GET /docs/button 200 in 37ms (compile: 9ms, render: 28ms)
+ GET /docs/icon-button 200 in 79ms (compile: 9ms, render: 69ms)
+ GET /docs/accordion 200 in 284ms (compile: 196ms, render: 88ms)
+ GET /docs/icon-button 200 in 45ms (compile: 7ms, render: 38ms)
+ GET /docs/button 200 in 76ms (compile: 22ms, render: 55ms)
+ GET /docs/icon-button 200 in 59ms (compile: 5ms, render: 54ms)
+ GET /docs/accordion 200 in 63ms (compile: 21ms, render: 42ms)
+ GET /docs/icon-button 200 in 64ms (compile: 8ms, render: 56ms)
+ GET /docs/button 200 in 69ms (compile: 7ms, render: 62ms)
+ GET /docs/accordion 200 in 59ms (compile: 5ms, render: 54ms)
+ GET /docs/icon-button 200 in 62ms (compile: 6ms, render: 56ms)
+ GET /docs/button 200 in 73ms (compile: 6ms, render: 67ms)
+✓ Compiled in 57ms
+✓ Compiled in 48ms
+ GET /docs/icon-button 200 in 454ms (compile: 356ms, render: 98ms)
+ GET /docs/accordion 200 in 245ms (compile: 166ms, render: 80ms)
+ GET /docs/button 200 in 244ms (compile: 155ms, render: 88ms)
+ GET /docs/icon-button 200 in 57ms (compile: 5ms, render: 51ms)
+ GET /docs/accordion 200 in 62ms (compile: 5ms, render: 57ms)
+ GET /docs/icon-button 200 in 90ms (compile: 12ms, render: 77ms)
+ GET /docs/button 200 in 75ms (compile: 18ms, render: 56ms)
+ GET /docs/icon-button 200 in 75ms (compile: 3ms, render: 72ms)
+ GET /docs/accordion 200 in 65ms (compile: 4ms, render: 62ms)
+ GET /docs/icon-button 200 in 64ms (compile: 3ms, render: 61ms)
+ GET /docs/button 200 in 71ms (compile: 5ms, render: 66ms)
+ GET /docs/tokens/spacing 200 in 434ms (compile: 347ms, render: 86ms)
+ GET /docs/tokens/typography 200 in 206ms (compile: 146ms, render: 61ms)
+ GET /docs/tokens/typography 200 in 131ms (compile: 3ms, render: 128ms)
+ GET /docs/tokens/typography 200 in 119ms (compile: 25ms, render: 94ms)
+ GET /docs/tokens/typography 200 in 82ms (compile: 3ms, render: 80ms)
+ GET /docs/tokens/typography 200 in 67ms (compile: 965µs, render: 66ms)
+ GET /docs/tokens/typography 200 in 38ms (compile: 982µs, render: 37ms)
+ GET /docs/tokens/typography 200 in 30ms (compile: 1597µs, render: 28ms)
+ GET /docs/tokens/typography 200 in 20ms (compile: 890µs, render: 20ms)
+ GET /docs/tokens/typography 200 in 207ms (compile: 3ms, render: 204ms)
+ GET /docs/button 200 in 43ms (compile: 4ms, render: 40ms)
+ GET /docs/icon-button 200 in 47ms (compile: 6ms, render: 42ms)
+ GET /docs/accordion 200 in 38ms (compile: 5ms, render: 33ms)
+ GET /docs/icon-button 200 in 47ms (compile: 5ms, render: 42ms)
+ GET /docs/button 200 in 51ms (compile: 4ms, render: 47ms)
+✓ Compiled in 33ms
+ GET /docs/icon-button 200 in 417ms (compile: 333ms, render: 85ms)
+ GET /docs/accordion 200 in 223ms (compile: 152ms, render: 72ms)
+✓ Compiled in 56ms
+✓ Compiled in 33ms
+✓ Compiled in 35ms
+ GET /docs/tokens/typography 200 in 1815ms (compile: 161ms, render: 1655ms)
+ GET /docs/tokens/spacing 200 in 1159ms (compile: 815ms, render: 344ms)
+ GET /docs/button 200 in 279ms (compile: 193ms, render: 85ms)
+ GET /docs/button 200 in 20ms (compile: 3ms, render: 18ms)
+ GET /docs/icon-button 200 in 222ms (compile: 147ms, render: 75ms)
+ GET /docs/accordion 200 in 237ms (compile: 151ms, render: 86ms)
+✓ Compiled in 67ms
+✓ Compiled in 51ms
+ GET /docs/icon-button 200 in 318ms (compile: 240ms, render: 78ms)
+ GET /docs/button 200 in 236ms (compile: 157ms, render: 79ms)
+ GET /docs/icon-button 200 in 40ms (compile: 10ms, render: 31ms)
+ GET /docs/accordion 200 in 303ms (compile: 226ms, render: 78ms)
+✓ Compiled in 55ms
+✓ Compiled in 36ms
+✓ Compiled in 31ms
+✓ Compiled in 52ms
+✓ Compiled in 52ms
+✓ Compiled in 53ms
+✓ Compiled in 48ms
+✓ Compiled in 113ms
+✓ Compiled in 48ms
+ GET /docs/icon-button 200 in 508ms (compile: 390ms, render: 118ms)
+ GET /docs 200 in 241ms (compile: 163ms, render: 77ms)
+ GET /docs 200 in 237ms (compile: 4ms, render: 234ms)
+ GET /docs/tokens/spacing 200 in 301ms (compile: 186ms, render: 115ms)
+ GET /docs/tokens/typography 200 in 239ms (compile: 156ms, render: 83ms)
+ GET /docs/tokens/spacing 200 in 35ms (compile: 6ms, render: 29ms)
+ GET /docs/tokens/colors 200 in 263ms (compile: 141ms, render: 121ms)
+ GET /docs/tokens/spacing 200 in 48ms (compile: 4ms, render: 44ms)
+✓ Compiled in 30ms
+ GET /docs/tokens/typography 200 in 267ms (compile: 194ms, render: 74ms)
+ GET /docs/tokens/colors 200 in 255ms (compile: 146ms, render: 110ms)
+ GET /docs/tokens/spacing 200 in 200ms (compile: 139ms, render: 61ms)
+ GET /docs/icon-button 200 in 219ms (compile: 138ms, render: 81ms)
+ GET /docs/button 200 in 828ms (compile: 145ms, render: 683ms)
+ GET /docs/icon-button 200 in 14ms (compile: 1277µs, render: 12ms)
+ GET /docs/button 200 in 35ms (compile: 5ms, render: 31ms)
+ GET /docs/tokens/typography 200 in 49ms (compile: 5ms, render: 44ms)
+ GET /docs/tokens/colors 200 in 76ms (compile: 6ms, render: 70ms)
+ GET /docs/tokens/spacing 200 in 29ms (compile: 3ms, render: 26ms)
+ GET /docs/icon-button 200 in 46ms (compile: 4ms, render: 42ms)
+ GET /docs/button 200 in 35ms (compile: 4ms, render: 32ms)
+ GET /docs/accordion 200 in 280ms (compile: 215ms, render: 65ms)
+ GET /docs/icon-button 200 in 47ms (compile: 1802µs, render: 46ms)
+ GET /docs/button 200 in 34ms (compile: 4ms, render: 30ms)
+ GET /docs/icon-button 200 in 46ms (compile: 3ms, render: 43ms)
+ GET /docs/accordion 200 in 34ms (compile: 3ms, render: 31ms)
+ GET /docs/tokens/spacing 200 in 31ms (compile: 4ms, render: 27ms)
+ GET /docs/tokens/spacing 200 in 43ms (compile: 5ms, render: 38ms)
+ GET /docs/button 200 in 34ms (compile: 1988µs, render: 32ms)
+ GET /docs/icon-button 200 in 32ms (compile: 4ms, render: 28ms)
+ GET /docs/tokens/colors 200 in 93ms (compile: 10ms, render: 83ms)
+ GET /docs 200 in 336ms (compile: 275ms, render: 61ms)
+ GET /docs/button 200 in 60ms (compile: 4ms, render: 56ms)
+ GET /docs/icon-button 200 in 35ms (compile: 6ms, render: 29ms)
+ GET /docs/accordion 200 in 51ms (compile: 4ms, render: 48ms)
+ GET /docs/tokens/spacing 200 in 34ms (compile: 5ms, render: 29ms)
+ GET /docs/button 200 in 110ms (compile: 8ms, render: 103ms)
+ GET /docs/icon-button 200 in 72ms (compile: 6ms, render: 66ms)
+ GET /docs/accordion 200 in 62ms (compile: 4ms, render: 58ms)
+ GET /docs/button 200 in 60ms (compile: 4ms, render: 56ms)
+ GET /docs/icon-button 200 in 56ms (compile: 3ms, render: 53ms)
+ GET /docs/accordion 200 in 42ms (compile: 5ms, render: 37ms)
+ GET /docs 200 in 40ms (compile: 4ms, render: 35ms)
+ GET /docs/tokens/colors 200 in 95ms (compile: 5ms, render: 89ms)
+ GET /docs/tokens/typography 200 in 43ms (compile: 28ms, render: 14ms)
+ GET /docs/tokens/spacing 200 in 44ms (compile: 5ms, render: 39ms)
+ GET /docs/button 200 in 35ms (compile: 3ms, render: 32ms)
+ GET /docs/icon-button 200 in 23ms (compile: 3ms, render: 21ms)
+ GET /docs/accordion 200 in 52ms (compile: 3ms, render: 49ms)
+ GET /docs 200 in 25ms (compile: 5ms, render: 20ms)
+ GET /docs/tokens/colors 200 in 172ms (compile: 9ms, render: 163ms)
+ GET /docs/button 200 in 48ms (compile: 4ms, render: 45ms)
+ GET /docs/tokens/typography 200 in 67ms (compile: 5ms, render: 62ms)
+ GET /docs/tokens/spacing 200 in 77ms (compile: 6ms, render: 71ms)
+ GET /docs/icon-button 200 in 73ms (compile: 6ms, render: 67ms)
+ GET /docs/button 200 in 70ms (compile: 4ms, render: 66ms)
+ GET /docs/accordion 200 in 80ms (compile: 4ms, render: 77ms)
+✓ Compiled in 67ms
+ GET /docs/icon-button 200 in 82ms (compile: 17ms, render: 66ms)
+ GET /docs/button 200 in 86ms (compile: 19ms, render: 67ms)
+ GET /docs/icon-button 200 in 72ms (compile: 5ms, render: 67ms)
+ GET /docs/accordion 200 in 70ms (compile: 8ms, render: 62ms)
+ GET /docs/button 200 in 64ms (compile: 4ms, render: 59ms)
+ GET /docs/accordion 200 in 85ms (compile: 7ms, render: 77ms)
+ GET /docs/icon-button 200 in 83ms (compile: 5ms, render: 78ms)
+ GET /docs/button 200 in 76ms (compile: 5ms, render: 71ms)
+ GET /docs/icon-button 200 in 59ms (compile: 4ms, render: 55ms)
+ GET /docs/accordion 200 in 68ms (compile: 3ms, render: 65ms)
+ GET /docs/icon-button 200 in 80ms (compile: 7ms, render: 74ms)
+ GET /docs/button 200 in 69ms (compile: 5ms, render: 64ms)
+ GET /docs/icon-button 200 in 62ms (compile: 2ms, render: 60ms)
+ GET /docs/accordion 200 in 58ms (compile: 5ms, render: 53ms)
+ GET /docs/accordion 200 in 332ms (compile: 2ms, render: 330ms)
+✓ Compiled in 60ms
+ GET /docs/icon-button 200 in 101ms (compile: 14ms, render: 87ms)
+ GET /docs/accordion 200 in 63ms (compile: 4ms, render: 59ms)
+ GET /docs/button 200 in 66ms (compile: 8ms, render: 59ms)
+ GET /docs/icon-button 200 in 54ms (compile: 3ms, render: 51ms)
+ GET /docs/accordion 200 in 73ms (compile: 4ms, render: 69ms)
+ GET /docs/button 200 in 71ms (compile: 5ms, render: 66ms)
+ GET /docs 200 in 54ms (compile: 16ms, render: 38ms)
+ GET /docs/tokens/colors 200 in 179ms (compile: 23ms, render: 156ms)
+ GET /docs/tokens/typography 200 in 47ms (compile: 12ms, render: 35ms)
+ GET /docs/tokens/spacing 200 in 50ms (compile: 10ms, render: 40ms)
+ GET /docs/button 200 in 52ms (compile: 3ms, render: 49ms)
+ GET /docs/accordion 200 in 36ms (compile: 6ms, render: 30ms)
+ GET /docs/icon-button 200 in 41ms (compile: 4ms, render: 37ms)
+ GET /docs 200 in 26ms (compile: 3ms, render: 23ms)
+ GET /docs/tokens/colors 200 in 90ms (compile: 4ms, render: 86ms)
+ GET /docs/accordion 200 in 64ms (compile: 4ms, render: 61ms)
+ GET /docs/icon-button 200 in 32ms (compile: 3ms, render: 28ms)
+ GET /docs/button 200 in 36ms (compile: 5ms, render: 30ms)
+ GET /docs/tokens/typography 200 in 40ms (compile: 4ms, render: 36ms)
+ GET /docs 200 in 21ms (compile: 3ms, render: 19ms)
+ GET /docs/tokens/colors 200 in 77ms (compile: 5ms, render: 72ms)
+ GET /docs/tokens/typography 200 in 33ms (compile: 3ms, render: 29ms)
+ GET /docs 200 in 36ms (compile: 3ms, render: 33ms)
+ GET /docs/tokens/spacing 200 in 33ms (compile: 5ms, render: 28ms)
+ GET /docs/tokens/typography 200 in 28ms (compile: 2ms, render: 25ms)
+ GET /docs/tokens/colors 200 in 95ms (compile: 4ms, render: 91ms)
+ GET /docs 200 in 31ms (compile: 3ms, render: 28ms)
+ GET /docs/tokens/colors 200 in 152ms (compile: 13ms, render: 139ms)
+ GET /docs/tokens/spacing 200 in 59ms (compile: 6ms, render: 53ms)
+ GET /docs 200 in 57ms (compile: 6ms, render: 51ms)
+ GET /docs/tokens/colors 200 in 116ms (compile: 6ms, render: 110ms)
+ GET /docs/tokens/typography 200 in 39ms (compile: 5ms, render: 34ms)
+ GET /docs/tokens/spacing 200 in 43ms (compile: 5ms, render: 38ms)
+ GET /docs/button 200 in 45ms (compile: 4ms, render: 41ms)
+ GET /docs 200 in 38ms (compile: 5ms, render: 33ms)
+ GET /docs/tokens/colors 200 in 125ms (compile: 7ms, render: 118ms)
+ GET /docs/tokens/typography 200 in 38ms (compile: 6ms, render: 32ms)
+ GET /docs/tokens/spacing 200 in 41ms (compile: 6ms, render: 35ms)
+ GET /docs/tokens/colors 200 in 93ms (compile: 3ms, render: 90ms)
+ GET /docs 200 in 24ms (compile: 5ms, render: 20ms)
+ GET /docs/tokens/colors 200 in 99ms (compile: 4ms, render: 95ms)
+ GET /docs 200 in 21ms (compile: 3ms, render: 18ms)
+ GET /docs/tokens/spacing 200 in 127ms (compile: 17ms, render: 110ms)
+ GET /docs/tokens/typography 200 in 33ms (compile: 7ms, render: 26ms)
+ GET /docs/button 200 in 86ms (compile: 6ms, render: 80ms)
+ GET /docs/icon-button 200 in 76ms (compile: 7ms, render: 69ms)
+ GET /docs 200 in 50ms (compile: 5ms, render: 45ms)
+ GET /docs 200 in 165ms (compile: 9ms, render: 156ms)
+ GET /docs/tokens/typography 200 in 73ms (compile: 4ms, render: 69ms)
+ GET /docs/tokens/spacing 200 in 51ms (compile: 6ms, render: 45ms)
+ GET /docs/button 200 in 44ms (compile: 7ms, render: 37ms)
+ GET /docs/icon-button 200 in 56ms (compile: 6ms, render: 50ms)
+ GET /docs/accordion 200 in 54ms (compile: 7ms, render: 46ms)
+✓ Compiled in 106ms
+ GET /docs 200 in 985ms (compile: 772ms, render: 213ms)
+ GET /docs/accordion 200 in 990ms (compile: 353ms, render: 637ms)
+✓ Compiled in 80ms
+ GET /docs/accordion 200 in 659ms (compile: 347ms, render: 312ms)
+ GET /docs/accordion 200 in 40ms (compile: 11ms, render: 30ms)
+ GET /docs 200 in 85ms (compile: 35ms, render: 50ms)
+ GET /docs 200 in 667ms (compile: 167ms, render: 499ms)
+ GET /docs 200 in 9ms (compile: 1027µs, render: 8ms)
+ GET /docs 200 in 241ms (compile: 153ms, render: 88ms)
+ GET /docs/accordion 200 in 246ms (compile: 1835µs, render: 244ms)
+✓ Compiled in 43ms
+ GET /docs/button 200 in 337ms (compile: 253ms, render: 83ms)
+✓ Compiled in 138ms
+ GET /docs 200 in 873ms (compile: 233ms, render: 640ms)
+ GET /docs 200 in 328ms (compile: 30ms, render: 298ms)
+ GET /docs/button 200 in 90ms (compile: 46ms, render: 43ms)
+ GET /docs/button 200 in 893ms (compile: 466ms, render: 427ms)
+ GET /docs/button 200 in 14ms (compile: 1324µs, render: 12ms)
+ GET /docs 200 in 321ms (compile: 10ms, render: 311ms)
+ GET /docs/button 200 in 112ms (compile: 3ms, render: 109ms)
+✓ Compiled in 44ms
+ GET /docs/accordion 200 in 410ms (compile: 319ms, render: 90ms)
+ GET /docs/accordion 200 in 22ms (compile: 1297µs, render: 20ms)
+ GET /docs/button 200 in 654ms (compile: 414ms, render: 240ms)
+ GET /docs/icon-button 200 in 638ms (compile: 487ms, render: 151ms)
+ GET /docs/icon-button 200 in 91ms (compile: 35ms, render: 56ms)
+ GET /docs/accordion 200 in 64ms (compile: 4ms, render: 60ms)
+ GET /docs/tokens/spacing 200 in 422ms (compile: 335ms, render: 87ms)
+ GET /docs/tokens/typography 200 in 948ms (compile: 197ms, render: 751ms)
+ GET /docs/tokens/colors 200 in 2.5s (compile: 1017ms, render: 1523ms)
+ GET /docs/tokens/colors 200 in 97ms (compile: 3ms, render: 94ms)
+ GET /docs/icon-button 200 in 34ms (compile: 8ms, render: 26ms)
+ GET /docs/accordion 200 in 35ms (compile: 6ms, render: 28ms)
+ GET /docs/tokens/colors 200 in 84ms (compile: 4ms, render: 80ms)
+ GET /docs/tokens/typography 200 in 29ms (compile: 4ms, render: 24ms)
+ GET /docs/tokens/spacing 200 in 31ms (compile: 5ms, render: 27ms)
+ GET /docs/accordion 200 in 45ms (compile: 4ms, render: 41ms)
+ GET /docs/tokens/colors 200 in 87ms (compile: 3ms, render: 84ms)
+ GET /docs/button 200 in 40ms (compile: 5ms, render: 35ms)
+ GET /docs/accordion 200 in 45ms (compile: 3ms, render: 42ms)
+✓ Compiled in 50ms
+✓ Compiled in 30ms
+ GET /docs/icon-button 200 in 506ms (compile: 401ms, render: 104ms)
+ GET /docs/accordion 200 in 228ms (compile: 153ms, render: 74ms)
+ GET /docs/tokens/spacing 200 in 487ms (compile: 379ms, render: 108ms)
+ GET /docs/tokens/typography 200 in 239ms (compile: 156ms, render: 83ms)
+ GET /docs/tokens/colors 200 in 265ms (compile: 147ms, render: 118ms)
+ GET /docs/icon-button 200 in 53ms (compile: 5ms, render: 48ms)
+ GET /docs/accordion 200 in 36ms (compile: 6ms, render: 30ms)
+ GET /docs 200 in 228ms (compile: 147ms, render: 81ms)
+ GET /docs/button 200 in 292ms (compile: 180ms, render: 112ms)
+ GET /docs/accordion 200 in 43ms (compile: 3ms, render: 40ms)
+ GET /docs/tokens/typography 200 in 28ms (compile: 4ms, render: 24ms)
+ GET /docs/icon-button 200 in 49ms (compile: 4ms, render: 44ms)
+ GET /docs/button 200 in 37ms (compile: 4ms, render: 33ms)
+ GET /docs/accordion 200 in 49ms (compile: 4ms, render: 45ms)
+ GET /docs/tokens/spacing 200 in 46ms (compile: 4ms, render: 41ms)
+ GET /docs/tokens/typography 200 in 45ms (compile: 3ms, render: 42ms)
+ GET /docs/tokens/colors 200 in 82ms (compile: 5ms, render: 77ms)
+ GET /docs/accordion 200 in 62ms (compile: 4ms, render: 58ms)
+✓ Compiled in 39ms
+✓ Compiled in 60ms
+✓ Compiled in 48ms
+ GET /docs/accordion 200 in 251ms (compile: 137ms, render: 114ms)
+ GET /docs/accordion 200 in 365ms (compile: 4ms, render: 360ms)
+ GET /docs 200 in 264ms (compile: 185ms, render: 79ms)
+ GET /docs 200 in 212ms (compile: 6ms, render: 206ms)
+ GET /docs 200 in 27ms (compile: 1187µs, render: 26ms)
+ GET /docs/button 200 in 313ms (compile: 233ms, render: 79ms)
+ GET /docs/icon-button 200 in 241ms (compile: 158ms, render: 83ms)
+ GET /docs/tokens/spacing 200 in 230ms (compile: 144ms, render: 86ms)
+ GET /docs/tokens/typography 200 in 218ms (compile: 148ms, render: 71ms)
+ GET /docs/accordion 200 in 58ms (compile: 6ms, render: 52ms)
+ GET /docs/accordion 200 in 140ms (compile: 4ms, render: 135ms)
+ GET /docs/tokens/colors 200 in 316ms (compile: 186ms, render: 130ms)
+ GET /docs/tokens/typography 200 in 38ms (compile: 6ms, render: 32ms)
+ GET /docs/tokens/spacing 200 in 74ms (compile: 6ms, render: 68ms)
+ GET /docs/button 200 in 40ms (compile: 5ms, render: 36ms)
+ GET /docs/icon-button 200 in 41ms (compile: 6ms, render: 35ms)
+ GET /docs/accordion 200 in 52ms (compile: 3ms, render: 49ms)
+ GET /docs/icon-button 200 in 35ms (compile: 3ms, render: 32ms)
+ GET /docs 200 in 26ms (compile: 5ms, render: 21ms)
+ GET /docs/tokens/colors 200 in 116ms (compile: 3ms, render: 113ms)
+ GET /docs/tokens/colors 200 in 111ms (compile: 3ms, render: 108ms)
+ GET /docs 200 in 22ms (compile: 3ms, render: 19ms)
+✓ Compiled in 51ms
+ GET /docs/tokens/colors 200 in 180ms (compile: 4ms, render: 176ms)
+ GET /docs/button 200 in 301ms (compile: 199ms, render: 102ms)
+ GET /docs/icon-button 200 in 327ms (compile: 194ms, render: 133ms)
+ GET /docs/tokens/spacing 200 in 55ms (compile: 18ms, render: 37ms)
+ GET /docs/accordion 200 in 1795ms (compile: 535ms, render: 1261ms)
+ GET /docs/accordion 200 in 167ms (compile: 152ms, render: 15ms)
+ GET /docs 200 in 28ms (compile: 10ms, render: 17ms)
+✓ Compiled in 92ms
+ GET /docs/button 200 in 612ms (compile: 476ms, render: 137ms)
+ GET /docs/button 200 in 334ms (compile: 3ms, render: 332ms)
+ GET /docs/icon-button 200 in 228ms (compile: 142ms, render: 86ms)
+ GET /docs/accordion 200 in 231ms (compile: 149ms, render: 82ms)
+ GET /docs/accordion 200 in 210ms (compile: 2ms, render: 208ms)
+ GET /docs/accordion 200 in 202ms (compile: 22ms, render: 180ms)
+✓ Compiled in 27ms
+ GET /docs/accordion 200 in 568ms (compile: 455ms, render: 113ms)
+✓ Compiled in 29ms
+ GET /docs/accordion 200 in 251ms (compile: 137ms, render: 113ms)
+✓ Compiled in 69ms
+✓ Compiled in 48ms
+✓ Compiled in 56ms
+ GET /docs/accordion 200 in 842ms (compile: 446ms, render: 396ms)
+✓ Compiled in 54ms
+✓ Compiled in 59ms
+✓ Compiled in 44ms
+✓ Compiled in 32ms
+ GET /docs 200 in 571ms (compile: 429ms, render: 143ms)
+ GET /docs/tokens/colors 200 in 325ms (compile: 155ms, render: 170ms)
+ GET /docs/tokens/typography 200 in 206ms (compile: 128ms, render: 78ms)
+ GET /docs/button 200 in 259ms (compile: 155ms, render: 104ms)
+ GET /docs/icon-button 200 in 224ms (compile: 148ms, render: 76ms)
+ GET /docs/accordion 200 in 254ms (compile: 168ms, render: 86ms)
+ GET /docs/icon-button 200 in 51ms (compile: 5ms, render: 46ms)
+ GET /docs/button 200 in 34ms (compile: 5ms, render: 29ms)
+ GET /docs/icon-button 200 in 49ms (compile: 3ms, render: 46ms)
+ GET /docs/accordion 200 in 35ms (compile: 6ms, render: 29ms)
+ GET /docs/button 200 in 38ms (compile: 4ms, render: 33ms)
+ GET /docs/icon-button 200 in 51ms (compile: 6ms, render: 46ms)
+ GET /docs/accordion 200 in 56ms (compile: 5ms, render: 51ms)
+ GET /docs/tokens/typography 200 in 59ms (compile: 5ms, render: 54ms)
+ GET /docs/tokens/spacing 200 in 295ms (compile: 200ms, render: 94ms)
+ GET /docs/accordion 200 in 37ms (compile: 3ms, render: 34ms)
+ GET /docs/tokens/typography 200 in 53ms (compile: 4ms, render: 49ms)
+ GET /docs/button 200 in 38ms (compile: 5ms, render: 33ms)
+ GET /docs/button 200 in 386ms (compile: 9ms, render: 377ms)
+ GET /docs/icon-button 200 in 44ms (compile: 11ms, render: 33ms)
+ GET /docs/accordion 200 in 98ms (compile: 6ms, render: 92ms)
+ GET /docs/icon-button 200 in 59ms (compile: 4ms, render: 55ms)
+ GET /docs/tokens/typography 200 in 71ms (compile: 5ms, render: 66ms)
+ GET /docs/tokens/colors 200 in 191ms (compile: 7ms, render: 184ms)
+ GET /docs 200 in 43ms (compile: 5ms, render: 39ms)
+ GET /docs/tokens/colors 200 in 167ms (compile: 3ms, render: 163ms)
+ GET /docs/button 200 in 59ms (compile: 5ms, render: 54ms)
+ GET /docs/button 200 in 180ms (compile: 2ms, render: 177ms)
+✓ Compiled in 59ms
+✓ Compiled in 48ms
+ GET /docs/icon-button 200 in 540ms (compile: 423ms, render: 117ms)
+ GET /docs/tokens/typography 200 in 59ms (compile: 12ms, render: 47ms)
+ GET /docs/tokens/spacing 200 in 33ms (compile: 10ms, render: 23ms)
+ GET /docs/tokens/colors 200 in 104ms (compile: 11ms, render: 93ms)
+ GET /docs/button 200 in 228ms (compile: 153ms, render: 75ms)
+ GET /docs/accordion 200 in 265ms (compile: 171ms, render: 95ms)
+ GET /docs 200 in 37ms (compile: 16ms, render: 22ms)
+ GET /docs 200 in 943ms (compile: 470ms, render: 473ms)
+ GET /docs 200 in 701ms (compile: 616ms, render: 86ms)
+ GET /docs 200 in 165ms (compile: 11ms, render: 154ms)
+ GET /docs 200 in 167ms (compile: 1279µs, render: 166ms)
+ GET /docs 200 in 85ms (compile: 1085µs, render: 83ms)
+ GET /docs 200 in 66ms (compile: 1092µs, render: 65ms)
+ GET /docs 200 in 48ms (compile: 10ms, render: 38ms)
+ GET /docs/tokens/colors 200 in 249ms (compile: 10ms, render: 238ms)
+ GET /docs 200 in 45ms (compile: 6ms, render: 40ms)
+✓ Compiled in 110ms
+ GET /docs 200 in 845ms (compile: 498ms, render: 347ms)
+ GET /docs 200 in 56ms (compile: 1123µs, render: 55ms)
+ GET /docs 200 in 225ms (compile: 122ms, render: 103ms)
+ GET /docs 200 in 28ms (compile: 1038µs, render: 27ms)
+ GET /docs 200 in 20ms (compile: 1664µs, render: 18ms)
+ GET /docs 200 in 11ms (compile: 1070µs, render: 10ms)
+✓ Compiled in 30ms
+✓ Compiled in 29ms
+ GET /docs 200 in 69ms (compile: 1321µs, render: 68ms)
+ GET /docs 200 in 8ms (compile: 946µs, render: 8ms)
+ GET /docs 200 in 31ms (compile: 1089µs, render: 30ms)
+ GET /docs 200 in 11ms (compile: 1094µs, render: 10ms)
+✓ Compiled in 27ms
+ GET /docs 200 in 31ms (compile: 1174µs, render: 30ms)
+ GET /docs 200 in 21ms (compile: 1493µs, render: 20ms)
+✓ Compiled in 28ms
+ GET /docs 200 in 33ms (compile: 15ms, render: 18ms)
+ GET /docs 200 in 11ms (compile: 1170µs, render: 10ms)
+✓ Compiled in 28ms
+ GET /docs 200 in 39ms (compile: 1153µs, render: 37ms)
+ GET /docs 200 in 26ms (compile: 985µs, render: 25ms)
+✓ Compiled in 29ms
+ GET /docs 200 in 465ms (compile: 351ms, render: 113ms)
+ GET /docs 200 in 36ms (compile: 1151µs, render: 35ms)
+ GET /docs/tokens/colors 200 in 602ms (compile: 329ms, render: 273ms)
+ GET /docs/tokens/typography 200 in 302ms (compile: 210ms, render: 93ms)
+ GET /docs/tokens/spacing 200 in 237ms (compile: 161ms, render: 76ms)
+ GET /docs/button 200 in 291ms (compile: 162ms, render: 128ms)
+ GET /docs/icon-button 200 in 220ms (compile: 148ms, render: 72ms)
+ GET /docs/button 200 in 31ms (compile: 1180µs, render: 30ms)
+ GET /docs/icon-button 200 in 36ms (compile: 3ms, render: 33ms)
+ GET /docs/accordion 200 in 233ms (compile: 158ms, render: 75ms)
+⚠ Server is approaching the used memory threshold, restarting...
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://127.0.0.1:3000
+- Network:       http://127.0.0.1:3000
+
+✓ Starting...
+✓ Ready in 818ms
+ GET /docs/accordion 200 in 468ms (compile: 216ms, render: 251ms)
+ GET /docs 200 in 57ms (compile: 25ms, render: 32ms)
+ GET /docs/icon-button 200 in 69ms (compile: 35ms, render: 33ms)
+ GET /docs/button 200 in 64ms (compile: 35ms, render: 29ms)
+ GET /docs/tokens/spacing 200 in 60ms (compile: 35ms, render: 25ms)
+ GET /docs/tokens/typography 200 in 53ms (compile: 34ms, render: 19ms)
+ GET /docs/tokens/colors 200 in 85ms (compile: 32ms, render: 52ms)
+ GET /docs 200 in 25ms (compile: 4ms, render: 21ms)
+ GET /docs/tokens/colors 200 in 78ms (compile: 9ms, render: 69ms)
+ GET /docs/tokens/typography 200 in 33ms (compile: 5ms, render: 27ms)
+ GET /docs/tokens/spacing 200 in 33ms (compile: 4ms, render: 29ms)
+ GET /docs/button 200 in 37ms (compile: 3ms, render: 34ms)
+ GET /docs/icon-button 200 in 32ms (compile: 3ms, render: 28ms)
+ GET /docs/accordion 200 in 38ms (compile: 2ms, render: 36ms)
+ GET /docs/icon-button 200 in 35ms (compile: 4ms, render: 31ms)
+ GET /docs/button 200 in 34ms (compile: 2ms, render: 32ms)
+ GET /docs/icon-button 200 in 29ms (compile: 2ms, render: 27ms)
+ GET /docs/accordion 200 in 35ms (compile: 4ms, render: 31ms)
+ GET /docs/tokens/spacing 200 in 33ms (compile: 3ms, render: 30ms)
+ GET /docs/tokens/typography 200 in 27ms (compile: 3ms, render: 24ms)
+ GET /docs/tokens/colors 200 in 60ms (compile: 5ms, render: 55ms)
+ GET /docs 200 in 28ms (compile: 3ms, render: 24ms)
+ GET /docs/icon-button 200 in 34ms (compile: 4ms, render: 30ms)
+ GET /docs/tokens/colors 200 in 80ms (compile: 3ms, render: 76ms)
+ GET /docs/tokens/typography 200 in 30ms (compile: 5ms, render: 25ms)
+ GET /docs/tokens/spacing 200 in 31ms (compile: 2ms, render: 29ms)
+ GET /docs/button 200 in 35ms (compile: 4ms, render: 31ms)
+ GET /docs/icon-button 200 in 34ms (compile: 4ms, render: 30ms)
+ GET /docs/accordion 200 in 33ms (compile: 4ms, render: 29ms)
+ GET /docs 200 in 54ms (compile: 3ms, render: 51ms)
+✓ Compiled in 259ms
+✓ Compiled in 80ms
+✓ Compiled in 49ms
+ GET /docs 200 in 135ms (compile: 69ms, render: 67ms)
+ GET /docs/accordion 200 in 291ms (compile: 83ms, render: 207ms)
+ GET /docs 200 in 172ms (compile: 87ms, render: 85ms)
+ GET /docs/accordion 200 in 172ms (compile: 157ms, render: 15ms)
+ GET /docs 200 in 139ms (compile: 4ms, render: 135ms)
+ GET /docs/tokens/colors 200 in 215ms (compile: 116ms, render: 99ms)
+ GET /docs/tokens/typography 200 in 172ms (compile: 116ms, render: 56ms)
+ GET /docs/tokens/typography 200 in 27ms (compile: 3ms, render: 25ms)
+ GET /docs/tokens/colors 200 in 62ms (compile: 4ms, render: 58ms)
+ GET /docs/button 200 in 174ms (compile: 110ms, render: 64ms)
+ GET /docs/icon-button 200 in 176ms (compile: 105ms, render: 71ms)
+ GET /docs/accordion 200 in 41ms (compile: 4ms, render: 37ms)
+ GET /docs/tokens/colors 200 in 39ms (compile: 1611µs, render: 38ms)
+ GET /docs 200 in 32ms (compile: 3ms, render: 29ms)
+ GET /docs/tokens/colors 200 in 76ms (compile: 5ms, render: 71ms)
+ GET /docs 200 in 26ms (compile: 2ms, render: 24ms)
+ GET /docs/tokens/colors 200 in 72ms (compile: 3ms, render: 69ms)
+ GET /docs 200 in 23ms (compile: 3ms, render: 20ms)
+ GET /docs/tokens/colors 200 in 56ms (compile: 3ms, render: 54ms)
+ GET /docs 200 in 23ms (compile: 3ms, render: 20ms)
+ GET /docs/tokens/colors 200 in 71ms (compile: 4ms, render: 67ms)
+ GET /docs 200 in 23ms (compile: 3ms, render: 20ms)
+ GET /docs/tokens/colors 200 in 64ms (compile: 3ms, render: 61ms)
+ GET /docs 200 in 30ms (compile: 3ms, render: 27ms)
+ GET /docs/tokens/colors 200 in 66ms (compile: 4ms, render: 62ms)
+ GET /docs/tokens/typography 200 in 24ms (compile: 3ms, render: 22ms)
+ GET /docs/tokens/spacing 200 in 203ms (compile: 110ms, render: 93ms)
+ GET /docs/icon-button 200 in 40ms (compile: 4ms, render: 36ms)
+ GET /docs/accordion 200 in 31ms (compile: 2ms, render: 29ms)
+ GET /docs/button 200 in 49ms (compile: 5ms, render: 44ms)
+ GET /docs/icon-button 200 in 42ms (compile: 3ms, render: 39ms)
+ GET /docs/accordion 200 in 39ms (compile: 4ms, render: 35ms)
+ GET /docs/icon-button 200 in 40ms (compile: 4ms, render: 36ms)
+ GET /docs/button 200 in 43ms (compile: 3ms, render: 39ms)
+✓ Compiled in 52ms
+ GET /docs/icon-button 200 in 182ms (compile: 110ms, render: 72ms)
+ GET /docs/accordion 200 in 130ms (compile: 71ms, render: 59ms)
+✓ Compiled in 51ms
+✓ Compiled in 66ms
+✓ Compiled in 35ms
+ GET /docs/tokens/colors 200 in 196ms (compile: 100ms, render: 96ms)
+✓ Compiled in 34ms
+ GET /docs/tokens/typography 200 in 159ms (compile: 96ms, render: 63ms)
+ GET /docs/button 200 in 150ms (compile: 85ms, render: 64ms)
+✓ Compiled in 35ms
+ GET /docs/tokens/typography 200 in 165ms (compile: 107ms, render: 58ms)
+ GET /docs/tokens/colors 200 in 207ms (compile: 107ms, render: 100ms)
+ GET /docs/tokens/spacing 200 in 171ms (compile: 111ms, render: 60ms)

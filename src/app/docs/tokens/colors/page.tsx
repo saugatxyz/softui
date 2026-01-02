@@ -6,13 +6,16 @@ export default function TokensColorsPage() {
   const colorSections = getColorTokenSections()
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-24)] py-[var(--space-32)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex size-[20px] items-center justify-center text-content-strong">
-          <PaletteIcon className="size-5" />
+        <div className="flex size-[32px] items-center justify-center text-content-strong">
+          <PaletteIcon className="size-8" />
         </div>
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Colors</h1>
+          <p className="max-w-2xl text-body-l text-content-subtle">
+            Semantic palette for the interface
+          </p>
         </div>
       </header>
 

@@ -1,69 +1,62 @@
 import { CodeBlock } from "@/components/docs/code-block"
-import { Button } from "@/components/ui/button"
-import { ArrowLeftIcon, ArrowRightIcon } from "@/icons"
+import { IconButton } from "@/components/ui/icon-button"
+import { SearchIcon } from "@/icons"
 
 const variantRows = [
   {
     value: "primary",
     label: "Primary",
-    description: "Main call to action for primary workflows",
+    description: "Compact primary action for focused tools",
   },
   {
     value: "secondary",
     label: "Secondary",
-    description: "Supporting actions with subtle emphasis",
+    description: "Default icon action for most surfaces",
   },
   {
     value: "tertiary",
     label: "Tertiary",
-    description: "Elevated neutral action for surfaces",
+    description: "Elevated icon action for layered surfaces",
   },
   {
     value: "ghost",
     label: "Ghost",
-    description: "Low-emphasis action without fill",
-  },
-  {
-    value: "link",
-    label: "Link",
-    description: "Inline navigation with link styling",
-  },
-  {
-    value: "link-neutral",
-    label: "Neutral link",
-    description: "Text-colored link with underline on hover",
+    description: "Low-emphasis icon action without fill",
   },
   {
     value: "danger",
     label: "Danger",
-    description: "Destructive actions that require attention",
+    description: "Destructive icon action that signals risk",
   },
 ] as const
 
 const sizes = [
-  { value: "xs", label: "XS", height: 28 },
-  { value: "s", label: "S", height: 32 },
-  { value: "m", label: "M", height: 36 },
-  { value: "l", label: "L", height: 40 },
+  { value: "xs", label: "XS", height: 28, iconSize: 16 },
+  { value: "s", label: "S", height: 32, iconSize: 16 },
+  { value: "m", label: "M", height: 36, iconSize: 16 },
+  { value: "l", label: "L", height: 40, iconSize: 18 },
 ] as const
 
-export default function ButtonDocsPage() {
+export default function IconButtonDocsPage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
-          <h1 className="text-body-3xl-semibold">Button</h1>
+          <h1 className="text-body-3xl-semibold">Icon Button</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            Triggers an action
+            Small control for quick actions
           </p>
         </div>
       </header>
 
       <section className="flex flex-col gap-[var(--space-10)]">
         <CodeBlock
-          code={`import { Button } from "@/components/ui/button"
+          code={`import { IconButton } from "@/components/ui/icon-button"
+import { SearchIcon } from "@/icons"
 
-<Button variant="primary">Button</Button>`}
+<IconButton variant="secondary">
+  <SearchIcon />
+</IconButton>`}
         />
       </section>
 
@@ -82,10 +75,12 @@ export default function ButtonDocsPage() {
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-                <Button variant={variant.value}>Default</Button>
-                <Button variant={variant.value} disabled>
-                  Disabled
-                </Button>
+                <IconButton variant={variant.value}>
+                  <SearchIcon />
+                </IconButton>
+                <IconButton variant={variant.value} disabled>
+                  <SearchIcon />
+                </IconButton>
               </div>
             </div>
           ))}
@@ -94,10 +89,6 @@ export default function ButtonDocsPage() {
 
       <section className="flex flex-col gap-[var(--space-10)]">
         <h2 className="text-body-xl-semibold">Sizings</h2>
-        <p className="text-body-s text-content-subtle">
-          Label padding is separated from button padding to maintain optical
-          balance across icon configurations.
-        </p>
         <div className="flex flex-col">
           {sizes.map((size) => (
             <div
@@ -107,18 +98,13 @@ export default function ButtonDocsPage() {
               <div>
                 <p className="text-body-m text-content-strong">{size.label}</p>
                 <p className="text-body-s text-content-subtle">
-                  {size.height}px height
+                  {size.height}px height · {size.iconSize}px icon
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-                <Button size={size.value}>Label</Button>
-                <Button
-                  size={size.value}
-                  leadingIcon={<ArrowLeftIcon />}
-                  trailingIcon={<ArrowRightIcon />}
-                >
-                  Label
-                </Button>
+                <IconButton size={size.value}>
+                  <SearchIcon />
+                </IconButton>
               </div>
             </div>
           ))}
