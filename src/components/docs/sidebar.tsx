@@ -1,17 +1,41 @@
 "use client"
 
 import * as React from "react"
+import { motion } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
 import { navSections } from "@/components/docs/nav-sections"
 
+type SpringControls = {
+  bounce: number
+  duration: number
+  delay?: number
+}
+
+const springFromControls = ({ bounce, duration, delay = 0 }: SpringControls) => {
+  const clampedBounce = Math.min(Math.max(bounce, 0), 1)
+  const clampedDuration = Math.max(duration, 0.15)
+  const mass = 1
+  const dampingRatio = 1 - clampedBounce * 0.9
+  const angularFrequency = 4 / (dampingRatio * clampedDuration)
+  const stiffness = mass * angularFrequency * angularFrequency
+  const damping = 2 * dampingRatio * angularFrequency * mass
+
+  return { type: "spring" as const, stiffness, damping, mass, delay }
+}
+
 export function DocsSidebar() {
   const pathname = usePathname()
   const navRef = React.useRef<HTMLDivElement | null>(null)
   const [indicatorTop, setIndicatorTop] = React.useState<number | null>(null)
   const [indicatorMotion, setIndicatorMotion] = React.useState(false)
+  const indicatorSpring = springFromControls({
+    bounce: 0.25,
+    duration: 0.3,
+    delay: 0.05,
+  })
   const previousTop = React.useRef<number | null>(null)
 
   const updateIndicator = React.useCallback(() => {
@@ -56,21 +80,18 @@ export function DocsSidebar() {
           ref={navRef}
           className="relative flex flex-1 flex-col gap-[var(--space-20)]"
         >
-          <span
+          <motion.span
             aria-hidden="true"
             className={cn(
-              "pointer-events-none absolute right-[calc(var(--space-12)*-1-0.75px)] top-0 h-[12px] w-[1.5px] rounded-full bg-[var(--color-border-interactive-active)]",
-              indicatorMotion
-                ? "transition-transform duration-200 ease-out"
-                : "transition-none"
+              "pointer-events-none absolute right-[calc(var(--space-12)*-1-0.75px)] top-0 h-[12px] w-[1.5px] rounded-full bg-[var(--color-border-interactive-active)]"
             )}
-            style={{
-              transform:
-                indicatorTop === null
-                  ? "translateY(0)"
-                  : `translateY(${indicatorTop}px)`,
-              opacity: indicatorTop === null ? 0 : 1,
-            }}
+            initial={false}
+            animate={
+              indicatorTop === null
+                ? { opacity: 0, y: 0 }
+                : { opacity: 1, y: indicatorTop }
+            }
+            transition={indicatorMotion ? indicatorSpring : { duration: 0 }}
           />
           {navSections.map((section) => (
             <div key={section.title} className="flex flex-col gap-[var(--space-2)]">

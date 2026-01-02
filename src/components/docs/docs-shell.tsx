@@ -41,6 +41,17 @@ export function DocsShell({ children }: DocsShellProps) {
     duration: 0.1,
     delay: 0,
   })
+  const sheetContentVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.04, delayChildren: 0.04 },
+    },
+  }
+  const sheetItemVariants = {
+    hidden: { opacity: 0, y: 6 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+  }
   const dragStartY = React.useRef(0)
   const dragOffsetRef = React.useRef(0)
   const dragThreshold = 96
@@ -155,19 +166,27 @@ export function DocsShell({ children }: DocsShellProps) {
                 isDragging ? { duration: 0 } : sheetSpring
               }
             >
-              <div className="flex flex-col gap-[var(--space-16)] p-[var(--space-8)]">
-                <div
-                  className="flex items-center justify-center pb-[var(--space-8)] touch-none"
+              <motion.div
+                className="flex flex-col gap-[var(--space-16)] p-[var(--space-8)]"
+                variants={sheetContentVariants}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+              >
+                <motion.div
+                  variants={sheetItemVariants}
+                  className="flex items-center justify-center py-[var(--space-8)] touch-none"
                   onPointerDown={handleDragStart}
                   onPointerMove={handleDragMove}
                   onPointerUp={handleDragEnd}
                   onPointerCancel={handleDragEnd}
                 >
                   <span className="h-[4px] w-[40px] rounded-full bg-border-muted" />
-                </div>
+                </motion.div>
                 {navSections.map((section) => (
-                  <div
+                  <motion.div
                     key={section.title}
+                    variants={sheetItemVariants}
                     className="flex flex-col gap-[var(--space-2)]"
                   >
                     <div className="flex h-[32px] items-center px-[var(--space-12)] text-[12px] uppercase leading-[20px] font-[var(--font-weight-semibold)] tracking-[0.75px] text-content-muted">
@@ -197,9 +216,9 @@ export function DocsShell({ children }: DocsShellProps) {
                         )
                       })}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         ) : null}

@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { AnimatePresence, motion } from "motion/react"
 
 import {
   baseColors,
@@ -107,7 +108,7 @@ function SwatchButton({
       onClick={onSelect}
       onKeyDown={onKeyDown}
       className={cn(
-        "h-[28px] w-[28px] flex-none rounded-full border transition focus-visible:outline-none",
+        "h-[32px] w-[32px] flex-none rounded-full border transition focus-visible:outline-none",
         selected
           ? "border-border-interactive-default ring-2 ring-utility-focus-inner ring-offset-2 ring-offset-surface-page"
           : "border-border-subtle hover:border-border-interactive-hover"
@@ -122,6 +123,24 @@ type ThemeSwitcherProps = {
   menuOpen?: boolean
 }
 
+type SpringControls = {
+  bounce: number
+  duration: number
+  delay?: number
+}
+
+const springFromControls = ({ bounce, duration, delay = 0 }: SpringControls) => {
+  const clampedBounce = Math.min(Math.max(bounce, 0), 1)
+  const clampedDuration = Math.max(duration, 0.15)
+  const mass = 1
+  const dampingRatio = 1 - clampedBounce * 0.9
+  const angularFrequency = 4 / (dampingRatio * clampedDuration)
+  const stiffness = mass * angularFrequency * angularFrequency
+  const damping = 2 * dampingRatio * angularFrequency * mass
+
+  return { type: "spring" as const, stiffness, damping, mass, delay }
+}
+
 export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
   const [state, setState] = React.useState<ThemeState>(initialState)
   const [mobileExpanded, setMobileExpanded] = React.useState(false)
@@ -129,10 +148,31 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
   const [showThemeRightFade, setShowThemeRightFade] = React.useState(false)
   const [showBaseLeftFade, setShowBaseLeftFade] = React.useState(false)
   const [showBaseRightFade, setShowBaseRightFade] = React.useState(false)
+  const [popoverDragOffset, setPopoverDragOffset] = React.useState(0)
+  const [popoverDragging, setPopoverDragging] = React.useState(false)
+  const popoverSpring = springFromControls({
+    bounce: 0.1,
+    duration: 0.1,
+    delay: 0,
+  })
+  const popoverContentVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.04, delayChildren: 0.04 },
+    },
+  }
+  const popoverItemVariants = {
+    hidden: { opacity: 0, y: 6 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+  }
   const themeOptions = ["mono", ...themeColors]
   const swatchRefs = React.useRef<(HTMLButtonElement | null)[]>([])
   const themeRowRef = React.useRef<HTMLDivElement | null>(null)
   const baseRowRef = React.useRef<HTMLDivElement | null>(null)
+  const popoverDragStartY = React.useRef(0)
+  const popoverDragOffsetRef = React.useRef(0)
+  const popoverDragThreshold = 96
 
   React.useEffect(() => {
     const stored = loadStoredState()
@@ -149,6 +189,12 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
     }
     document.addEventListener("keydown", handleKeyDown)
     return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [mobileExpanded])
+
+  React.useEffect(() => {
+    if (mobileExpanded) return
+    setPopoverDragOffset(0)
+    setPopoverDragging(false)
   }, [mobileExpanded])
 
   React.useEffect(() => {
@@ -192,6 +238,32 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
       baseRow.removeEventListener("scroll", updateBase)
     }
   }, [mobileExpanded, themeOptions.length, baseColors.length])
+
+  const handlePopoverDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!mobileExpanded) return
+    popoverDragStartY.current = event.clientY
+    popoverDragOffsetRef.current = 0
+    setPopoverDragging(true)
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  const handlePopoverDragMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!popoverDragging) return
+    const nextOffset = Math.max(0, event.clientY - popoverDragStartY.current)
+    popoverDragOffsetRef.current = nextOffset
+    setPopoverDragOffset(nextOffset)
+  }
+
+  const handlePopoverDragEnd = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!popoverDragging) return
+    event.currentTarget.releasePointerCapture(event.pointerId)
+    const shouldClose = popoverDragOffsetRef.current > popoverDragThreshold
+    setPopoverDragging(false)
+    setPopoverDragOffset(0)
+    if (shouldClose) {
+      setMobileExpanded(false)
+    }
+  }
 
   const updateState = (partial: Partial<ThemeState>) => {
     setState((prev) => {
@@ -315,82 +387,127 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
             </IconButton>
           </div>
         </div>
-        {mobileExpanded ? (
-          <div className="fixed inset-0 z-50 md:hidden">
-            <button
-              type="button"
-              aria-label="Close theme settings"
-              onClick={() => setMobileExpanded(false)}
-              className="absolute inset-0 bg-[color:rgb(var(--darken-40))]"
-            />
-            <div className="absolute left-[var(--space-8)] right-[var(--space-8)] top-[calc(var(--space-12)+var(--space-12)+var(--space-36)-var(--space-4))] flex flex-col gap-[var(--space-12)] rounded-[var(--radius-12)] bg-surface-overlay p-[var(--space-12)]">
-              <div className="text-body-l-semibold text-content-strong">
-                Customize library
-              </div>
-              <div className="text-body-xs-medium text-content-strong">
-                Theme colors
-              </div>
-              <div
-                ref={themeRowRef}
-                className={cn(
-                  "swatch-row-scroll flex flex-nowrap items-center gap-[var(--space-6)] overflow-x-auto overflow-y-visible px-[var(--space-4)] py-[var(--space-4)]",
-                  showThemeLeftFade && showThemeRightFade
-                    ? "swatch-row-mask-both"
-                    : showThemeLeftFade
-                      ? "swatch-row-mask-left"
-                      : showThemeRightFade
-                        ? "swatch-row-mask-right"
-                        : ""
-                )}
-                role="radiogroup"
-                aria-label="Theme colors"
+        <AnimatePresence>
+          {mobileExpanded ? (
+            <motion.div
+              className="fixed inset-0 z-50 md:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <motion.button
+                type="button"
+                aria-label="Close theme settings"
+                onClick={() => setMobileExpanded(false)}
+                className="absolute inset-0 bg-[color:rgb(var(--darken-40))]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              />
+              <motion.div
+                className="absolute bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)] max-h-[80vh] rounded-[16px] bg-surface-overlay"
+                initial={{ y: "100%", opacity: 0, filter: "blur(20px)" }}
+                animate={{ y: popoverDragOffset, opacity: 1, filter: "blur(0px)" }}
+                exit={{ y: "100%", opacity: 0, filter: "blur(20px)" }}
+                transition={popoverDragging ? { duration: 0 } : popoverSpring}
               >
-                {themeOptions.map((value, index) => (
-                  <SwatchButton
-                    key={value}
-                    label={value}
-                    selected={currentTheme === value}
-                    color={themeSwatchColor(value)}
-                    onSelect={() => handleThemeChange(value)}
-                    onKeyDown={handleSwatchKeyDown(index)}
-                    buttonRef={(node) => {
-                      swatchRefs.current[index] = node
-                    }}
-                    tabIndex={currentTheme === value ? 0 : -1}
-                  />
-                ))}
-              </div>
-              <div className="text-body-xs-medium text-content-strong">
-                Neutral colors
-              </div>
-              <div
-                ref={baseRowRef}
-                className={cn(
-                  "swatch-row-scroll flex flex-nowrap items-center gap-[var(--space-6)] overflow-x-auto overflow-y-visible px-[var(--space-4)] py-[var(--space-4)]",
-                  showBaseLeftFade && showBaseRightFade
-                    ? "swatch-row-mask-both"
-                    : showBaseLeftFade
-                      ? "swatch-row-mask-left"
-                      : showBaseRightFade
-                        ? "swatch-row-mask-right"
-                        : ""
-                )}
-                role="radiogroup"
-                aria-label="Neutral colors"
-              >
-                {baseColors.map((value) => (
-                  <SwatchButton
-                    key={value}
-                    label={value}
-                    selected={state.baseColor === value}
-                    color={baseSwatchColor(value)}
-                    onSelect={() => updateState({ baseColor: value })}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : null}
+                <motion.div
+                  variants={popoverContentVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="hidden"
+                  className="flex flex-col gap-[var(--space-16)] p-[var(--space-12)]"
+                >
+                  <motion.div
+                    variants={popoverItemVariants}
+                    className="flex flex-col items-center justify-center gap-[var(--space-8)] pb-[var(--space-8)] touch-none"
+                    onPointerDown={handlePopoverDragStart}
+                    onPointerMove={handlePopoverDragMove}
+                    onPointerUp={handlePopoverDragEnd}
+                    onPointerCancel={handlePopoverDragEnd}
+                  >
+                    <span className="h-[4px] w-[40px] rounded-full bg-border-muted" />
+                    <span className="text-body-l-semibold text-content-strong">
+                      Customize library
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    variants={popoverItemVariants}
+                    className="flex flex-col gap-[var(--space-4)]"
+                  >
+                    <div className="text-body-xs-medium text-content-strong">
+                      Theme color
+                    </div>
+                    <div
+                      ref={themeRowRef}
+                      className={cn(
+                        "swatch-row-scroll flex flex-nowrap items-center gap-[var(--space-6)] overflow-x-auto overflow-y-visible px-[var(--space-4)] py-[var(--space-4)]",
+                        showThemeLeftFade && showThemeRightFade
+                          ? "swatch-row-mask-both"
+                          : showThemeLeftFade
+                            ? "swatch-row-mask-left"
+                            : showThemeRightFade
+                              ? "swatch-row-mask-right"
+                              : ""
+                      )}
+                      role="radiogroup"
+                      aria-label="Theme color"
+                    >
+                      {themeOptions.map((value, index) => (
+                        <SwatchButton
+                          key={value}
+                          label={value}
+                          selected={currentTheme === value}
+                          color={themeSwatchColor(value)}
+                          onSelect={() => handleThemeChange(value)}
+                          onKeyDown={handleSwatchKeyDown(index)}
+                          buttonRef={(node) => {
+                            swatchRefs.current[index] = node
+                          }}
+                          tabIndex={currentTheme === value ? 0 : -1}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+                  <motion.div
+                    variants={popoverItemVariants}
+                    className="flex flex-col gap-[var(--space-4)]"
+                  >
+                    <div className="text-body-xs-medium text-content-strong">
+                      Neutral color
+                    </div>
+                    <div
+                      ref={baseRowRef}
+                      className={cn(
+                        "swatch-row-scroll flex flex-nowrap items-center gap-[var(--space-6)] overflow-x-auto overflow-y-visible px-[var(--space-4)] py-[var(--space-4)]",
+                        showBaseLeftFade && showBaseRightFade
+                          ? "swatch-row-mask-both"
+                          : showBaseLeftFade
+                            ? "swatch-row-mask-left"
+                            : showBaseRightFade
+                              ? "swatch-row-mask-right"
+                              : ""
+                      )}
+                      role="radiogroup"
+                      aria-label="Neutral color"
+                    >
+                      {baseColors.map((value) => (
+                        <SwatchButton
+                          key={value}
+                          label={value}
+                          selected={state.baseColor === value}
+                          color={baseSwatchColor(value)}
+                          onSelect={() => updateState({ baseColor: value })}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
 
         <div className="hidden items-center md:flex">
           <div className="relative">
