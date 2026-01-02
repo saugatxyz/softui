@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { AnimatePresence, motion } from "motion/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -13,10 +14,33 @@ type DocsShellProps = {
   children: React.ReactNode
 }
 
+type SpringControls = {
+  bounce: number
+  duration: number
+  delay?: number
+}
+
+const springFromControls = ({ bounce, duration, delay = 0 }: SpringControls) => {
+  const clampedBounce = Math.min(Math.max(bounce, 0), 1)
+  const clampedDuration = Math.max(duration, 0.15)
+  const mass = 1
+  const dampingRatio = 1 - clampedBounce * 0.9
+  const angularFrequency = 4 / (dampingRatio * clampedDuration)
+  const stiffness = mass * angularFrequency * angularFrequency
+  const damping = 2 * dampingRatio * angularFrequency * mass
+
+  return { type: "spring" as const, stiffness, damping, mass, delay }
+}
+
 export function DocsShell({ children }: DocsShellProps) {
   const [menuOpen, setMenuOpen] = React.useState(false)
   const [dragOffset, setDragOffset] = React.useState(0)
   const [isDragging, setIsDragging] = React.useState(false)
+  const sheetSpring = springFromControls({
+    bounce: 0.1,
+    duration: 0.1,
+    delay: 0,
+  })
   const dragStartY = React.useRef(0)
   const dragOffsetRef = React.useRef(0)
   const dragThreshold = 96
@@ -84,78 +108,102 @@ export function DocsShell({ children }: DocsShellProps) {
         </main>
       </div>
 
-      <div
-        className={cn(
-          "fixed inset-0 z-50 md:hidden",
-          menuOpen ? "pointer-events-auto" : "pointer-events-none"
-        )}
-      >
-        <button
-          type="button"
-          aria-hidden={!menuOpen}
-          onClick={() => setMenuOpen(false)}
-          className={cn(
-            "absolute inset-0 bg-[color:rgb(var(--darken-40))] transition-opacity",
-            menuOpen ? "opacity-100" : "opacity-0"
-          )}
-        />
-        <div
-          id="docs-mobile-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Navigation"
-          className={cn(
-            "absolute bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)] max-h-[80vh] rounded-[16px] bg-surface-overlay",
-            isDragging
-              ? "transition-none"
-              : "transition-transform duration-200 ease-out"
-          )}
-          style={{
-            transform: menuOpen ? `translateY(${dragOffset}px)` : "translateY(100%)",
-          }}
-        >
-          <div className="flex flex-col gap-[var(--space-16)] p-[var(--space-8)]">
-            <div
-              className="flex items-center justify-center pb-[var(--space-8)] touch-none"
-              onPointerDown={handleDragStart}
-              onPointerMove={handleDragMove}
-              onPointerUp={handleDragEnd}
-              onPointerCancel={handleDragEnd}
+      <AnimatePresence>
+        {menuOpen ? (
+          <motion.div
+            className="fixed inset-0 z-50 md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.button
+              type="button"
+              aria-label="Close navigation"
+              onClick={() => setMenuOpen(false)}
+              className="absolute inset-0 bg-[color:rgb(var(--darken-40))]"
+              initial={{
+                opacity: 0,
+                backdropFilter: "blur(0px)",
+                WebkitBackdropFilter: "blur(0px)",
+              }}
+              animate={{
+                opacity: 1,
+                backdropFilter: "blur(0px)",
+                WebkitBackdropFilter: "blur(0px)",
+              }}
+              exit={{
+                opacity: 0,
+                backdropFilter: "blur(0px)",
+                WebkitBackdropFilter: "blur(0px)",
+              }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            />
+            <motion.div
+              id="docs-mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation"
+              className="absolute bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)] max-h-[80vh] rounded-[16px] bg-surface-overlay"
+              initial={{ y: "100%", opacity: 0, filter: "blur(20px)" }}
+              animate={{
+                y: dragOffset,
+                opacity: 1,
+                filter: "blur(0px)",
+              }}
+              exit={{ y: "100%", opacity: 0, filter: "blur(20px)" }}
+              transition={
+                isDragging ? { duration: 0 } : sheetSpring
+              }
             >
-              <span className="h-[4px] w-[40px] rounded-full bg-border-muted" />
-            </div>
-            {navSections.map((section) => (
-              <div key={section.title} className="flex flex-col gap-[var(--space-4)]">
-                <div className="px-[var(--space-12)] text-[12px] uppercase leading-[20px] font-[var(--font-weight-semibold)] tracking-[0.75px] text-content-muted">
-                  {section.title}
+              <div className="flex flex-col gap-[var(--space-16)] p-[var(--space-8)]">
+                <div
+                  className="flex items-center justify-center pb-[var(--space-8)] touch-none"
+                  onPointerDown={handleDragStart}
+                  onPointerMove={handleDragMove}
+                  onPointerUp={handleDragEnd}
+                  onPointerCancel={handleDragEnd}
+                >
+                  <span className="h-[4px] w-[40px] rounded-full bg-border-muted" />
                 </div>
-                <div className="flex flex-col gap-[var(--space-4)]">
-                  {section.items.map((item) => {
-                    const isActive = pathname === item.href
-                    const Icon = "icon" in item ? item.icon : null
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setMenuOpen(false)}
-                        className={cn(
-                          "flex h-[36px] items-center rounded-[var(--radius-10)] px-[var(--space-12)] text-[14px] leading-[20px] font-[var(--font-weight-default)] transition",
-                          isActive
-                            ? "bg-surface-interactive-default text-content-strong font-[var(--font-weight-medium)]"
-                            : "text-content-subtle hover:bg-surface-interactive-hover"
-                        )}
-                      >
-                        {Icon ? <Icon className="mr-[var(--space-6)] size-4" /> : null}
-                        {item.label}
-                      </Link>
-                    )
-                  })}
-                </div>
+                {navSections.map((section) => (
+                  <div
+                    key={section.title}
+                    className="flex flex-col gap-[var(--space-2)]"
+                  >
+                    <div className="flex h-[32px] items-center px-[var(--space-12)] text-[12px] uppercase leading-[20px] font-[var(--font-weight-semibold)] tracking-[0.75px] text-content-muted">
+                      {section.title}
+                    </div>
+                    <div className="flex flex-col gap-[var(--space-2)]">
+                      {section.items.map((item) => {
+                        const isActive = pathname === item.href
+                        const Icon = "icon" in item ? item.icon : null
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={() => setMenuOpen(false)}
+                            className={cn(
+                              "flex h-[36px] items-center rounded-[var(--radius-10)] px-[var(--space-12)] text-[14px] leading-[20px] font-[var(--font-weight-default)] transition",
+                              isActive
+                                ? "bg-surface-interactive-default text-content-strong font-[var(--font-weight-medium)]"
+                                : "text-content-subtle hover:bg-surface-interactive-hover"
+                            )}
+                          >
+                            {Icon ? (
+                              <Icon className="mr-[var(--space-6)] size-4" />
+                            ) : null}
+                            {item.label}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </div>
   )
 }
