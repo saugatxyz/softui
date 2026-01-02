@@ -30,7 +30,7 @@ const cached = {
 
 const getLightTokens = () => {
   if (!cached.light) cached.light = readJson("light.tokens.json")
-  return cached.light
+  return cached.light ?? {}
 }
 
 const getValueTokens = () => {
