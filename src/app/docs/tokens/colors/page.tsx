@@ -41,7 +41,7 @@ export default function TokensColorsPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-[var(--space-8)]">
-                    <ColorValue cssVar={token.cssVar} />
+                    <ColorValue cssVar={token.cssVar} alias={token.alias} />
                     <div
                       className="size-[20px] rounded-full border border-border-subtle"
                       style={{ background: `rgb(var(${token.cssVar}))` }}

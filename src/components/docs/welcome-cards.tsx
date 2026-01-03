@@ -4,6 +4,11 @@ import Link from "next/link"
 import { motion } from "motion/react"
 
 import { AiGenerate3dIcon, HashtagIcon } from "@/icons"
+import { navSections } from "@/components/docs/nav-sections"
+
+const componentsHref =
+  navSections.find((section) => section.title === "Components")?.items[0]
+    ?.href ?? "/docs/button"
 
 const quickLinks = [
   {
@@ -15,7 +20,7 @@ const quickLinks = [
   {
     title: "Components",
     description: "Built on top of Shadcn and BaseUI.",
-    href: "/docs/button",
+    href: componentsHref,
     icon: AiGenerate3dIcon,
   },
 ]

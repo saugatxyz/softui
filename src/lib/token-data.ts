@@ -164,6 +164,12 @@ const describeColorToken = (name: string) => {
   )
 }
 
+const getAliasName = (token: TokenValue) => {
+  const alias = token.$extensions?.["com.figma.aliasData"]?.targetVariableName
+  if (!alias) return null
+  return alias.replace(/\//g, "-")
+}
+
 export const getColorTokenSections = () => {
   const lightTokens = getLightTokens()
   const sections = [
@@ -201,6 +207,7 @@ export const getColorTokenSections = () => {
       return {
         name: normalized,
         cssVar: `--${normalized.replace(/\./g, "-")}`,
+        alias: getAliasName(entry.token),
         description: describeColorToken(normalized),
       }
     })

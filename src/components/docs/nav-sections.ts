@@ -1,4 +1,11 @@
-import { HomeIcon, InputMethodIcon, LayoutLeftIcon, PaletteIcon } from "@/icons"
+import {
+  AppsFillIcon,
+  HashtagIcon,
+  HomeIcon,
+  InputMethodIcon,
+  LayoutLeftIcon,
+  PaletteIcon,
+} from "@/icons"
 
 export const navSections = [
   {
@@ -15,6 +22,7 @@ export const navSections = [
     title: "Tokens",
     items: [
       { label: "Colors", href: "/docs/tokens/colors", icon: PaletteIcon },
+      { label: "Icons", href: "/docs/tokens/icons", icon: AppsFillIcon },
       {
         label: "Typography",
         href: "/docs/tokens/typography",

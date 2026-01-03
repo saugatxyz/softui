@@ -81,12 +81,17 @@ const resolveVar = (value: string, resolver: (name: string) => string) => {
 
 type ColorValueProps = {
   cssVar: string
+  alias?: string | null
 }
 
-export function ColorValue({ cssVar }: ColorValueProps) {
+export function ColorValue({ cssVar, alias }: ColorValueProps) {
   const [hsl, setHsl] = React.useState<string>("")
 
   React.useEffect(() => {
+    if (alias) {
+      setHsl("")
+      return
+    }
     const root = document.documentElement
     const style = getComputedStyle(root)
 
@@ -107,9 +112,11 @@ export function ColorValue({ cssVar }: ColorValueProps) {
       attributeFilter: ["data-theme-color", "data-base-color", "data-mode", "data-scheme"],
     })
     return () => observer.disconnect()
-  }, [cssVar])
+  }, [alias, cssVar])
+
+  const displayValue = alias || hsl || "--"
 
   return (
-    <span className="text-body-m text-content-subtle">{hsl || "--"}</span>
+    <span className="text-body-m text-content-subtle">{displayValue}</span>
   )
 }
