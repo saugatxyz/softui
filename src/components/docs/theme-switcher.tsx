@@ -44,7 +44,10 @@ const applyToRoot = (state: ThemeState) => {
   const root = document.documentElement
   root.dataset.mode = state.mode
   root.dataset.scheme = state.scheme
-  root.dataset.themeColor = state.themeColor
+  root.dataset.themeColor =
+    state.scheme === "mono"
+      ? designSystemConfig.defaultThemeColor
+      : state.themeColor
   root.dataset.baseColor = state.baseColor
 }
 
@@ -237,7 +240,7 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
       themeRow.removeEventListener("scroll", updateTheme)
       baseRow.removeEventListener("scroll", updateBase)
     }
-  }, [mobileExpanded, themeOptions.length, baseColors.length])
+  }, [mobileExpanded])
 
   const handlePopoverDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
     if (!mobileExpanded) return
@@ -421,13 +424,13 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
                 >
                   <motion.div
                     variants={popoverItemVariants}
-                    className="flex flex-col items-center justify-center gap-[var(--space-8)] pb-[var(--space-8)] touch-none"
+                    className="flex flex-col items-start justify-center gap-[var(--space-8)] pb-[var(--space-8)] touch-none"
                     onPointerDown={handlePopoverDragStart}
                     onPointerMove={handlePopoverDragMove}
                     onPointerUp={handlePopoverDragEnd}
                     onPointerCancel={handlePopoverDragEnd}
                   >
-                    <span className="h-[4px] w-[40px] rounded-full bg-border-muted" />
+                    <span className="h-[4px] w-[40px] self-center rounded-full bg-border-muted" />
                     <span className="text-body-l-semibold text-content-strong">
                       Customize library
                     </span>

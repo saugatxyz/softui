@@ -111,6 +111,11 @@ const describeColorToken = (name: string) => {
         parts[3]
       )})`
     }
+    if (role === "decorative") {
+      return `Decorative content for ${humanize(parts[2])} (${humanize(
+        parts[3]
+      )})`
+    }
     if (role === "inverse") {
       return `Content on inverse surfaces (${humanize(parts[2])})`
     }
@@ -134,6 +139,11 @@ const describeColorToken = (name: string) => {
     }
     if (role === "feedback") {
       return `Feedback border for ${humanize(parts[2])} (${humanize(
+        parts[3]
+      )})`
+    }
+    if (role === "decorative") {
+      return `Decorative border for ${humanize(parts[2])} (${humanize(
         parts[3]
       )})`
     }

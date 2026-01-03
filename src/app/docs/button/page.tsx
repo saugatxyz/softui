@@ -93,11 +93,13 @@ export default function ButtonDocsPage() {
       </section>
 
       <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">Sizings</h2>
-        <p className="text-body-s text-content-subtle">
-          Label padding is separated from button padding to maintain optical
-          balance across icon configurations.
-        </p>
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Sizings</h2>
+          <p className="text-body-s text-content-subtle">
+            Label has separate padding to maintain optical
+            balance.
+          </p>
+        </div>
         <div className="flex flex-col">
           {sizes.map((size) => (
             <div

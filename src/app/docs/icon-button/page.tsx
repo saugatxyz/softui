@@ -6,27 +6,22 @@ const variantRows = [
   {
     value: "primary",
     label: "Primary",
-    description: "Compact primary action for focused tools",
   },
   {
     value: "secondary",
     label: "Secondary",
-    description: "Default icon action for most surfaces",
   },
   {
     value: "tertiary",
     label: "Tertiary",
-    description: "Elevated icon action for layered surfaces",
   },
   {
     value: "ghost",
     label: "Ghost",
-    description: "Low-emphasis icon action without fill",
   },
   {
     value: "danger",
     label: "Danger",
-    description: "Destructive icon action that signals risk",
   },
 ] as const
 
@@ -70,9 +65,6 @@ import { SearchIcon } from "@/icons"
             >
               <div className="md:min-w-[220px]">
                 <p className="text-body-m text-content-strong">{variant.label}</p>
-                <p className="text-body-s text-content-subtle">
-                  {variant.description}
-                </p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-8)]">
                 <IconButton variant={variant.value}>

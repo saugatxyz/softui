@@ -32,7 +32,10 @@ export const navSections = [
     items: [
       { label: "Button", href: "/docs/button" },
       { label: "Icon Button", href: "/docs/icon-button" },
+      { label: "Badge", href: "/docs/badge" },
       { label: "Accordion", href: "/docs/accordion" },
-    ],
+    ]
+      .slice()
+      .sort((a, b) => a.label.localeCompare(b.label)),
   },
 ] as const

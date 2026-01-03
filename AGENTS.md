@@ -50,5 +50,6 @@ When a component has a Figma source:
 
 ## Guardrails
 - Avoid hardcoded colors or spacing.
+- For any task that involves updating design tokens, ask a user for confirmation with a summary table.
 - Use tokens + existing utilities first.
 - Keep spacing and typography consistent with other pages.
