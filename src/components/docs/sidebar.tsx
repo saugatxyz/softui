@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
 import { navSections } from "@/components/docs/nav-sections"
+import { SoftLogo } from "@/components/docs/soft-logo"
 
 type SpringControls = {
   bounce: number
@@ -74,7 +75,7 @@ export function DocsSidebar() {
     <aside className="hidden h-screen w-[280px] shrink-0 flex-col bg-surface-canvas md:flex">
       <div className="flex h-full flex-col gap-[var(--space-16)] px-[var(--space-12)] pb-[var(--space-12)] pt-[var(--space-20)]">
         <div className="flex h-[36px] items-center px-[var(--space-12)] text-body-xl-semibold text-content-strong">
-          SoftUI
+          <SoftLogo />
         </div>
         <nav
           ref={navRef}

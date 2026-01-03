@@ -18,6 +18,7 @@ import {
 } from "@/icons"
 import { cn } from "@/lib/utils"
 import { IconButton } from "@/components/ui/icon-button"
+import { SoftLogo } from "@/components/docs/soft-logo"
 
 const storageKeys = {
   mode: "ds-mode",
@@ -357,7 +358,9 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
               <MenuIcon />
             </IconButton>
           ) : null}
-          <div className="text-body-l-semibold text-content-strong">SoftUI</div>
+          <div className="text-body-l-semibold text-content-strong">
+            <SoftLogo />
+          </div>
           <div className="ml-auto flex items-center gap-[var(--space-8)]">
             <IconButton
               type="button"
