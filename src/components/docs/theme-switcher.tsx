@@ -52,27 +52,51 @@ const applyToRoot = (state: ThemeState) => {
   root.dataset.baseColor = state.baseColor
 }
 
-const loadStoredState = (): ThemeState => {
-  const stored = {
-    mode: localStorage.getItem(storageKeys.mode) ?? initialState.mode,
-    scheme: localStorage.getItem(storageKeys.scheme) ?? initialState.scheme,
-    themeColor:
-      localStorage.getItem(storageKeys.theme) ?? initialState.themeColor,
-    baseColor: localStorage.getItem(storageKeys.base) ?? initialState.baseColor,
+const getPreferredMode = () => {
+  if (typeof window === "undefined") {
+    return initialState.mode
   }
-  if (!modes.includes(stored.mode as (typeof modes)[number])) {
-    stored.mode = initialState.mode
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+  return prefersDark ? "dark" : "light"
+}
+
+type LoadedThemeState = {
+  state: ThemeState
+  followsSystem: boolean
+}
+
+const loadStoredState = (): LoadedThemeState => {
+  if (typeof window === "undefined") {
+    return { state: initialState, followsSystem: false }
   }
-  if (!["mono", "color"].includes(stored.scheme)) {
-    stored.scheme = initialState.scheme
+  const storedMode = localStorage.getItem(storageKeys.mode)
+  const storedScheme = localStorage.getItem(storageKeys.scheme)
+  const storedTheme = localStorage.getItem(storageKeys.theme)
+  const storedBase = localStorage.getItem(storageKeys.base)
+  const hasModeOverride =
+    storedMode !== null && modes.includes(storedMode as (typeof modes)[number])
+  const mode = hasModeOverride ? storedMode! : getPreferredMode()
+  const scheme =
+    storedScheme === "mono" || storedScheme === "color"
+      ? (storedScheme as ThemeState["scheme"])
+      : initialState.scheme
+  const themeColor =
+    storedTheme && themeColors.includes(storedTheme as (typeof themeColors)[number])
+      ? storedTheme
+      : initialState.themeColor
+  const baseColor =
+    storedBase && baseColors.includes(storedBase as (typeof baseColors)[number])
+      ? storedBase
+      : initialState.baseColor
+  return {
+    state: {
+      mode,
+      scheme,
+      themeColor,
+      baseColor,
+    },
+    followsSystem: !hasModeOverride,
   }
-  if (!themeColors.includes(stored.themeColor as (typeof themeColors)[number])) {
-    stored.themeColor = initialState.themeColor
-  }
-  if (!baseColors.includes(stored.baseColor as (typeof baseColors)[number])) {
-    stored.baseColor = initialState.baseColor
-  }
-  return stored
 }
 
 const persistState = (state: ThemeState) => {
@@ -147,6 +171,7 @@ const springFromControls = ({ bounce, duration, delay = 0 }: SpringControls) => 
 
 export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
   const [state, setState] = React.useState<ThemeState>(initialState)
+  const [followsSystemPreference, setFollowsSystemPreference] = React.useState(false)
   const [mobileExpanded, setMobileExpanded] = React.useState(false)
   const [showThemeLeftFade, setShowThemeLeftFade] = React.useState(false)
   const [showThemeRightFade, setShowThemeRightFade] = React.useState(false)
@@ -179,8 +204,9 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
   const popoverDragThreshold = 96
 
   React.useEffect(() => {
-    const stored = loadStoredState()
+    const { state: stored, followsSystem } = loadStoredState()
     setState(stored)
+    setFollowsSystemPreference(followsSystem)
     applyToRoot(stored)
   }, [])
 
@@ -242,6 +268,24 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
       baseRow.removeEventListener("scroll", updateBase)
     }
   }, [mobileExpanded])
+
+  React.useEffect(() => {
+    if (!followsSystemPreference) return
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+    const handleChange = (event: MediaQueryListEvent) => {
+      setState((prev) => {
+        const nextMode = event.matches ? "dark" : "light"
+        if (prev.mode === nextMode) {
+          return prev
+        }
+        const nextState = { ...prev, mode: nextMode }
+        applyToRoot(nextState)
+        return nextState
+      })
+    }
+    mediaQuery.addEventListener("change", handleChange)
+    return () => mediaQuery.removeEventListener("change", handleChange)
+  }, [followsSystemPreference])
 
   const handlePopoverDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
     if (!mobileExpanded) return
