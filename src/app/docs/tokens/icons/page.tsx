@@ -71,9 +71,8 @@ function getGroupedIcons(
       title,
       icons: names
         .map((name) => iconLookup.get(name))
-        .filter(
-          (icon): icon is IconEntry => Boolean(icon) && matchesQuery(icon.name)
-        ),
+        .filter((icon): icon is IconEntry => Boolean(icon))
+        .filter((icon) => matchesQuery(icon.name)),
     }))
     .filter((group) => group.icons.length > 0)
 }

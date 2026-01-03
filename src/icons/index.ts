@@ -23,6 +23,7 @@ export {
   RiLightbulbAiFill as LightbulbAiFillIcon,
   RiLoader4Line as LoaderIcon,
   RiMoonLine as MoonIcon,
+  RiMoonFill as MoonFillIcon,
   RiMenuLine as MenuIcon,
   RiMenuSearchLine as MenuSearchLineIcon,
   RiPaletteFill as PaletteIcon,
@@ -34,5 +35,6 @@ export {
   RiSpamFill as SpamFillIcon,
   RiSwapFill as SwapIcon,
   RiSunLine as SunIcon,
+  RiSunFill as SunFillIcon,
   RiUserAddFill as UserAddIcon,
 } from "@remixicon/react"

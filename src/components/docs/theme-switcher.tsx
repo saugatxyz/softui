@@ -12,9 +12,9 @@ import {
 import {
   ExpandUpDownIcon,
   MenuIcon,
-  MoonIcon,
+  MoonFillIcon,
   SettingsIcon,
-  SunIcon,
+  SunFillIcon,
 } from "@/icons"
 import { cn } from "@/lib/utils"
 import { IconButton } from "@/components/ui/icon-button"
@@ -373,9 +373,9 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
               }
             >
               {state.mode === "dark" ? (
-                <SunIcon className="size-4" />
+                <SunFillIcon className="size-4" />
               ) : (
-                <MoonIcon className="size-4" />
+                <MoonFillIcon className="size-4" />
               )}
             </IconButton>
             <IconButton
@@ -547,9 +547,9 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
           className="ml-auto hidden size-[36px] items-center justify-center rounded-full bg-transparent text-content-subtle transition-[background-color,color,box-shadow] focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)] hover:bg-actions-secondary-hover hover:text-content-strong md:flex"
         >
           {state.mode === "dark" ? (
-            <SunIcon className="size-4" />
+            <SunFillIcon className="size-4" />
           ) : (
-            <MoonIcon className="size-4" />
+            <MoonFillIcon className="size-4" />
           )}
         </button>
       </div>
