@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "motion/react"
 
 import { AiGenerate3dIcon, HashtagIcon } from "@/icons"
 import { navSections } from "@/components/docs/nav-sections"
@@ -25,29 +24,11 @@ const quickLinks = [
   },
 ]
 
-const cardContainerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.06, delayChildren: 0.06 },
-  },
-}
-
-const cardItemVariants = {
-  hidden: { opacity: 0, y: 6 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
-}
-
 export function WelcomeCards() {
   return (
-    <motion.div
-      className="grid gap-[var(--space-4)] md:grid-cols-2"
-      variants={cardContainerVariants}
-      initial="hidden"
-      animate="show"
-    >
+    <div className="grid gap-[var(--space-4)] md:grid-cols-2">
       {quickLinks.map((link) => (
-        <motion.div key={link.href} variants={cardItemVariants}>
+        <div key={link.href}>
           <Link
             href={link.href}
             className="flex flex-col gap-[var(--space-24)] rounded-[var(--radius-12)] bg-surface-interactive-default p-[var(--space-16)] transition hover:bg-surface-interactive-hover"
@@ -64,8 +45,8 @@ export function WelcomeCards() {
               </p>
             </div>
           </Link>
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   )
 }
