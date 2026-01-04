@@ -2,10 +2,9 @@ import { CodeBlock } from "@/components/docs/code-block"
 import { Badge } from "@/components/ui/badge"
 import {
   CheckCircleIcon,
-  DraftFillIcon,
-  LightbulbAiFillIcon,
+  InformationFillIcon,
   Spam2FillIcon,
-  SpamFillIcon,
+  StickyNoteFillIcon,
 } from "@/icons"
 
 const statusRows = [
@@ -13,19 +12,19 @@ const statusRows = [
     value: "neutral",
     label: "Neutral",
     badgeLabel: "Draft",
-    icon: DraftFillIcon,
+    icon: StickyNoteFillIcon,
   },
   {
     value: "info",
     label: "Info",
-    badgeLabel: "Tip",
-    icon: LightbulbAiFillIcon,
+    badgeLabel: "Info",
+    icon: InformationFillIcon,
   },
   {
     value: "warning",
     label: "Warning",
     badgeLabel: "Review",
-    icon: SpamFillIcon,
+    icon: Spam2FillIcon,
   },
   {
     value: "danger",
@@ -97,7 +96,7 @@ import { PriceTagIcon } from "@/icons"
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Statuses</h2>
           <p className="text-body-s text-content-subtle">
-            Feedback badges are used to show status. Available in colored or simple styles.
+            Feedback badges are used to show status.
           </p>
         </div>
         <div className="flex flex-col">
@@ -157,7 +156,6 @@ import { PriceTagIcon } from "@/icons"
                   color={color.value}
                   style="colored"
                   leadingDot
-                  trailingDot
                 >
                   {color.label}
                 </Badge>
@@ -166,7 +164,6 @@ import { PriceTagIcon } from "@/icons"
                   color={color.value}
                   style="simple"
                   leadingDot
-                  trailingDot
                 >
                   {color.label}
                 </Badge>
@@ -180,7 +177,7 @@ import { PriceTagIcon } from "@/icons"
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Sizings</h2>
           <p className="text-body-s text-content-subtle">
-            Label padding is separated from button padding to maintain optical balance across icon configurations.
+            Icons are available for S or M sizes.
           </p>
         </div>
         <div className="flex flex-col">
@@ -196,7 +193,7 @@ import { PriceTagIcon } from "@/icons"
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-                <Badge size={size.value} status="success" leadingDot trailingDot>
+                <Badge size={size.value} status="success" leadingDot>
                   Approved
                 </Badge>
                 {size.value === "s" || size.value === "m" ? (
