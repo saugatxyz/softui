@@ -101,17 +101,44 @@ Use custom easing functions over built-in CSS easings for more natural motion.
 - **Origin-aware**: Animate from the trigger (e.g., dropdown animates from button). Set `transform-origin` accordingly
  
 ## 3. Motion/Framer Motion
- 
+
 - Prefer **spring animations** for natural feel (avoid bouncy springs unless using drag gestures)
 - Use `transform` instead of `x`/`y` for hardware acceleration:
- 
+
 ```tsx
 // Prefer this (hardware accelerated)
 <motion.div style={{ transform: "translateX(100px)" }} />
- 
+
 // Over this
 <motion.div animate={{ x: 100 }} />
 ```
+
+### Spring Configuration
+
+**Always use `bounce` and `duration`** instead of `stiffness`, `mass`, `damping` for spring animations. This is more intuitive and easier to tweak.
+
+```tsx
+// ✅ Preferred - intuitive and easy to adjust
+const transition = {
+  type: "spring",
+  bounce: 0.4,    // 0 = no bounce, 1 = very bouncy (0.25-0.5 is usually good)
+  duration: 0.5   // total duration in seconds
+}
+
+// ❌ Avoid - harder to reason about
+const transition = {
+  type: "spring",
+  stiffness: 300,
+  mass: 1,
+  damping: 20
+}
+```
+
+**Recommended starting values (UI should never exceed 300ms):**
+- **Instant/Snappy**: `bounce: 0, duration: 0.15` — micro-interactions, icon swaps, tooltips
+- **Fast/Responsive**: `bounce: 0, duration: 0.2` — buttons, toggles, small state changes
+- **Smooth/Subtle**: `bounce: 0.1, duration: 0.25` — modals, dropdowns, panels
+- **Expressive/Playful**: `bounce: 0.2, duration: 0.3` — onboarding, celebrations, attention-grabbing
  
 ## 4. Performance
  

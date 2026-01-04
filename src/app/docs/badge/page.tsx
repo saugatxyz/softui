@@ -83,10 +83,10 @@ export default function BadgeDocsPage() {
           code={`import { Badge } from "@/components/ui/badge"
 import { PriceTagIcon } from "@/icons"
 
-<Badge status="info" style="colored" leadingDot trailingDot>
+<Badge variant="info" isEmphasized leadingDot trailingDot>
   Tip
 </Badge>
-<Badge type="decorative" color="violet" style="simple" leadingIcon={<PriceTagIcon />}>
+<Badge variant="violet" leadingIcon={<PriceTagIcon />}>
   New
 </Badge>`}
         />
@@ -114,15 +114,14 @@ import { PriceTagIcon } from "@/icons"
                 </div>
                 <div className="flex flex-wrap items-center gap-[var(--space-8)]">
                   <Badge
-                    status={status.value}
-                    style="colored"
+                    variant={status.value}
+                    isEmphasized
                     leadingIcon={<StatusIcon />}
                   >
                     {status.badgeLabel}
                   </Badge>
                   <Badge
-                    status={status.value}
-                    style="simple"
+                    variant={status.value}
                     leadingIcon={<StatusIcon />}
                   >
                     {status.badgeLabel}
@@ -138,7 +137,7 @@ import { PriceTagIcon } from "@/icons"
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Decorative</h2>
           <p className="text-body-s text-content-subtle">
-            Decorative badges are used when status bagdes aren't enough.
+            Decorative badges are used when status badges aren&apos;t enough.
           </p>
         </div>
         <div className="flex flex-col">
@@ -151,20 +150,10 @@ import { PriceTagIcon } from "@/icons"
                 <p className="text-body-m text-content-strong">{color.label}</p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-                <Badge
-                  type="decorative"
-                  color={color.value}
-                  style="colored"
-                  leadingDot
-                >
+                <Badge variant={color.value} isEmphasized leadingDot>
                   {color.label}
                 </Badge>
-                <Badge
-                  type="decorative"
-                  color={color.value}
-                  style="simple"
-                  leadingDot
-                >
+                <Badge variant={color.value} leadingDot>
                   {color.label}
                 </Badge>
               </div>
@@ -193,14 +182,13 @@ import { PriceTagIcon } from "@/icons"
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-                <Badge size={size.value} status="success" leadingDot>
+                <Badge size={size.value} variant="success" isEmphasized leadingDot>
                   Approved
                 </Badge>
                 {size.value === "s" || size.value === "m" ? (
                   <Badge
                     size={size.value}
-                    status="success"
-                    style="simple"
+                    variant="success"
                     leadingIcon={<CheckCircleIcon />}
                   >
                     Approved

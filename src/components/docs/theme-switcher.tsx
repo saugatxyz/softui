@@ -419,11 +419,32 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
                 updateState({ mode: state.mode === "dark" ? "light" : "dark" })
               }
             >
-              {state.mode === "dark" ? (
-                <SunFillIcon className="size-4" />
-              ) : (
-                <MoonFillIcon className="size-4" />
-              )}
+              <span className="relative size-4">
+                <motion.span
+                  className="absolute inset-0 flex items-center justify-center"
+                  animate={{
+                    y: state.mode === "dark" ? 0 : 6,
+                    scale: state.mode === "dark" ? 1 : 0.5,
+                    opacity: state.mode === "dark" ? 1 : 0,
+                    filter: state.mode === "dark" ? "blur(0px)" : "blur(8px)",
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <SunFillIcon className="size-full" />
+                </motion.span>
+                <motion.span
+                  className="absolute inset-0 flex items-center justify-center"
+                  animate={{
+                    y: state.mode === "dark" ? -6 : 0,
+                    scale: state.mode === "dark" ? 0.5 : 1,
+                    opacity: state.mode === "dark" ? 0 : 1,
+                    filter: state.mode === "dark" ? "blur(8px)" : "blur(0px)",
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <MoonFillIcon className="size-full" />
+                </motion.span>
+              </span>
             </IconButton>
             <IconButton
               type="button"
@@ -591,13 +612,34 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
           onClick={() =>
             updateState({ mode: state.mode === "dark" ? "light" : "dark" })
           }
-          className="ml-auto hidden size-[36px] items-center justify-center rounded-full bg-transparent text-content-subtle transition-[background-color,color,box-shadow] focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)] hover:bg-actions-secondary-hover hover:text-content-strong md:flex"
+          className="ml-auto hidden size-[36px] items-center justify-center rounded-full bg-transparent text-content-subtle transition-[background-color,color,box-shadow] duration-200 focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)] hover:bg-actions-secondary-hover hover:text-content-strong md:flex"
         >
-          {state.mode === "dark" ? (
-            <SunFillIcon className="size-4" />
-          ) : (
-            <MoonFillIcon className="size-4" />
-          )}
+          <span className="relative size-4">
+            <motion.span
+              className="absolute inset-0 flex items-center justify-center"
+              animate={{
+                y: state.mode === "dark" ? 0 : 6,
+                scale: state.mode === "dark" ? 1 : 0.5,
+                opacity: state.mode === "dark" ? 1 : 0,
+                filter: state.mode === "dark" ? "blur(0px)" : "blur(8px)",
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <SunFillIcon className="size-full" />
+            </motion.span>
+            <motion.span
+              className="absolute inset-0 flex items-center justify-center"
+              animate={{
+                y: state.mode === "dark" ? -6 : 0,
+                scale: state.mode === "dark" ? 0.5 : 1,
+                opacity: state.mode === "dark" ? 0 : 1,
+                filter: state.mode === "dark" ? "blur(8px)" : "blur(0px)",
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <MoonFillIcon className="size-full" />
+            </motion.span>
+          </span>
         </button>
       </div>
     </div>

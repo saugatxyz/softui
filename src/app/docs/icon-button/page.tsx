@@ -1,6 +1,12 @@
 import { CodeBlock } from "@/components/docs/code-block"
 import { IconButton } from "@/components/ui/icon-button"
-import { SearchIcon } from "@/icons"
+import {
+  CheckCircleIcon,
+  InformationFillIcon,
+  SearchIcon,
+  Spam2FillIcon,
+  StickyNoteFillIcon,
+} from "@/icons"
 
 const variantRows = [
   {
@@ -30,6 +36,20 @@ const sizes = [
   { value: "s", label: "S", height: 32, iconSize: 16 },
   { value: "m", label: "M", height: 36, iconSize: 16 },
   { value: "l", label: "L", height: 40, iconSize: 18 },
+] as const
+
+const toneRows = [
+  { value: "default", label: "Default", icon: StickyNoteFillIcon },
+  { value: "info", label: "Info", icon: InformationFillIcon },
+  { value: "warning", label: "Warning", icon: Spam2FillIcon },
+  { value: "danger", label: "Danger", icon: Spam2FillIcon },
+  { value: "success", label: "Success", icon: CheckCircleIcon },
+  { value: "red", label: "Red" },
+  { value: "orange", label: "Orange" },
+  { value: "amber", label: "Amber" },
+  { value: "blue", label: "Blue" },
+  { value: "violet", label: "Violet" },
+  { value: "pink", label: "Pink" },
 ] as const
 
 export default function IconButtonDocsPage() {
@@ -100,6 +120,35 @@ import { SearchIcon } from "@/icons"
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-10)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Tones</h2>
+          <p className="text-body-s text-content-subtle">
+            Apply semantic or decorative colors to button.
+          </p>
+        </div>
+        <div className="flex flex-col">
+          {toneRows.map((tone) => {
+            const ToneIcon = "icon" in tone ? tone.icon : SearchIcon
+            return (
+              <div
+                key={tone.value}
+                className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between"
+              >
+                <div className="md:min-w-[220px]">
+                  <p className="text-body-m text-content-strong">{tone.label}</p>
+                </div>
+                <div className="flex flex-wrap items-center gap-[var(--space-8)]">
+                  <IconButton variant="tertiary" tone={tone.value}>
+                    <ToneIcon />
+                  </IconButton>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
     </div>

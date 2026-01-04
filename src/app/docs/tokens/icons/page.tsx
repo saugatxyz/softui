@@ -2,16 +2,16 @@
 
 import * as React from "react"
 import * as RemixIcons from "@remixicon/react"
+import { motion } from "motion/react"
 
 import {
   AppsFillIcon,
-  CheckIcon,
+  CheckCircleIcon,
   CloseIcon,
   CopyIcon,
   MenuSearchLineIcon,
   SearchIcon,
 } from "@/icons"
-import { IconButton } from "@/components/ui/icon-button"
 
 type IconEntry = {
   name: string
@@ -80,14 +80,9 @@ function getGroupedIcons(
 export default function TokensIconsPage() {
   const [query, setQuery] = React.useState("")
   const [copiedName, setCopiedName] = React.useState<string | null>(null)
-  const handleCopy = React.useCallback(async (iconName: string) => {
-    if (!navigator?.clipboard) return
-    try {
-      await navigator.clipboard.writeText(iconName)
-      setCopiedName(iconName)
-    } catch {
-      // Ignore clipboard errors silently.
-    }
+  const handleCopy = React.useCallback((iconName: string) => {
+    setCopiedName(iconName)
+    navigator?.clipboard?.writeText(iconName).catch(() => {})
   }, [])
   const iconGroups = React.useMemo(
     () => getGroupedIcons(query, categorySource),
@@ -195,26 +190,56 @@ export default function TokensIconsPage() {
                       <div
                         key={icon.name}
                         onClick={() => handleCopy(icon.name)}
-                        className="group relative flex aspect-square w-full cursor-pointer items-center justify-center rounded-[var(--radius-12)] bg-surface-interactive-default text-content-strong transition hover:bg-surface-interactive-hover"
+                        className="group relative flex aspect-square w-full cursor-pointer items-center justify-center rounded-[var(--radius-12)] bg-surface-interactive-default text-content-strong hover:bg-surface-interactive-hover"
                         title={icon.name}
                       >
-                        <IconComponent className="size-[20px] md:size-[28px] text-content-link-default" />
-                        <div className="absolute right-[var(--space-8)] top-[var(--space-8)] hidden md:block">
-                          <IconButton
-                            variant="ghost"
-                            size="xs"
-                            onClick={(event) => {
-                              event.stopPropagation()
-                              handleCopy(icon.name)
-                            }}
-                            className="opacity-0 transition group-hover:opacity-100 focus-visible:opacity-100"
-                            aria-label={`Copy ${icon.name}`}
-                            title={`Copy ${icon.name}`}
+                        {/* Main icon - static on desktop, morphs on mobile */}
+                        <div className="relative size-[20px] md:size-[28px]">
+                          <span
+                            className={`absolute inset-0 flex items-center justify-center text-content-link-default transition-[opacity,transform,filter] duration-300 ease-out ${
+                              isCopied ? "max-md:scale-50 max-md:opacity-0 max-md:blur-[8px]" : ""
+                            }`}
                           >
-                            {isCopied ? <CheckIcon /> : <CopyIcon />}
-                          </IconButton>
+                            <IconComponent className="size-full" />
+                          </span>
+                          <span
+                            className={`absolute inset-0 flex items-center justify-center text-content-feedback-success-strong transition-[opacity,transform,filter] duration-300 ease-out md:hidden ${
+                              isCopied ? "scale-100 opacity-100 blur-0" : "scale-50 opacity-0 blur-[8px]"
+                            }`}
+                          >
+                            <CheckCircleIcon className="size-full" />
+                          </span>
                         </div>
-                        <div className="absolute bottom-[var(--space-16)] left-[var(--space-8)] right-[var(--space-8)] hidden truncate text-center text-body-xs text-content-subtle md:block">
+                        {/* Desktop copy/success indicator */}
+                        <div
+                          className={`absolute right-[var(--space-12)] top-[var(--space-12)] hidden size-[20px] items-center justify-center md:flex ${
+                            isCopied ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                          }`}
+                        >
+                          <motion.span
+                            className="absolute inset-0 flex items-center justify-center text-content-subtle"
+                            animate={{
+                              scale: isCopied ? 0.8 : 1,
+                              opacity: isCopied ? 0 : 1,
+                              filter: isCopied ? "blur(8px)" : "blur(0px)",
+                            }}
+                            transition={{ duration: 0.15, ease: "easeOut" }}
+                          >
+                            <CopyIcon className="size-[16px]" />
+                          </motion.span>
+                          <motion.span
+                            className="absolute inset-0 flex items-center justify-center text-content-feedback-success-strong"
+                            animate={{
+                              scale: isCopied ? 1 : 0.8,
+                              opacity: isCopied ? 1 : 0,
+                              filter: isCopied ? "blur(0px)" : "blur(8px)",
+                            }}
+                            transition={{ duration: 0.15, ease: "easeOut" }}
+                          >
+                            <CheckCircleIcon className="size-[20px]" />
+                          </motion.span>
+                        </div>
+                        <div className="pointer-events-none absolute bottom-[var(--space-16)] left-[var(--space-8)] right-[var(--space-8)] hidden truncate text-center text-body-xs text-content-subtle opacity-0 group-hover:opacity-100 md:block">
                           {formatIconLabel(icon.name)}
                         </div>
                       </div>

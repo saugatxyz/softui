@@ -12,15 +12,15 @@ const badgeVariants = cva(
         s: "h-[var(--space-24)] gap-[var(--space-4)] px-[var(--space-8)]",
         m: "h-[var(--space-28)] gap-[var(--space-6)] px-[var(--space-12)]",
       },
-      style: {
-        colored: "border",
-        simple:
+      isEmphasized: {
+        true: "border",
+        false:
           "bg-actions-tertiary-default backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
       },
     },
-    defaultVariants: {  
+    defaultVariants: {
       size: "s",
-      style: "colored",
+      isEmphasized: false,
     },
   }
 )
@@ -89,15 +89,14 @@ const decorativeColors = [
   "rose",
 ] as const
 
-type BadgeStatus = "neutral" | "info" | "warning" | "danger" | "success"
-type BadgeType = "feedback" | "decorative"
-type BadgeColor = (typeof decorativeColors)[number]
+const semanticVariants = ["neutral", "info", "warning", "danger", "success"] as const
+type SemanticVariant = (typeof semanticVariants)[number]
+type DecorativeVariant = (typeof decorativeColors)[number]
+type BadgeVariant = SemanticVariant | DecorativeVariant
 
-type BadgeProps = Omit<React.HTMLAttributes<HTMLSpanElement>, "style"> &
+type BadgeProps = React.HTMLAttributes<HTMLSpanElement> &
   VariantProps<typeof badgeVariants> & {
-    type?: BadgeType
-    status?: BadgeStatus
-    color?: BadgeColor
+    variant?: BadgeVariant
     leadingIcon?: React.ReactNode
     trailingIcon?: React.ReactNode
     leadingDot?: boolean
@@ -210,19 +209,18 @@ const decorativeSubtleClass = {
   rose: "text-content-decorative-rose-subtle",
 } as const
 
-const defaultStatus: BadgeStatus = "neutral"
+const defaultVariant: BadgeVariant = "neutral"
 const defaultSize = "s"
-const defaultStyle = "colored"
-const defaultType: BadgeType = "feedback"
-const defaultColor: BadgeColor = "blue"
+
+function isSemanticVariant(variant: BadgeVariant): variant is SemanticVariant {
+  return (semanticVariants as readonly string[]).includes(variant)
+}
 
 function Badge({
   className,
-  status,
+  variant,
   size,
-  style,
-  type,
-  color,
+  isEmphasized,
   leadingIcon,
   trailingIcon,
   leadingDot,
@@ -230,42 +228,38 @@ function Badge({
   children,
   ...props
 }: BadgeProps) {
-  const resolvedStatus = status ?? defaultStatus
+  const resolvedVariant = variant ?? defaultVariant
   const resolvedSize = size ?? defaultSize
-  const resolvedStyle = style ?? defaultStyle
-  const resolvedType = type ?? defaultType
-  const resolvedColor = color ?? defaultColor
+  const resolvedIsEmphasized = isEmphasized ?? false
   const canShowIcons = resolvedSize === "s" || resolvedSize === "m"
   const hasLabel = React.Children.count(children) > 0
   const hideAdornmentFromAT = hasLabel ? true : undefined
   const iconSize = resolvedSize === "m" ? "m" : "s"
 
-  const isDecorative = resolvedType === "decorative"
-  const toneClass =
-    resolvedStyle === "colored"
-      ? isDecorative
-        ? cn(
-            decorativeSurfaceSubtleClass[resolvedColor],
-            decorativeBorderSubtleClass[resolvedColor]
-          )
-        : feedbackColoredClass[resolvedStatus]
-      : ""
+  const isSemantic = isSemanticVariant(resolvedVariant)
 
-  const labelColorClass =
-    resolvedStyle === "colored"
-      ? isDecorative
-        ? decorativeSubtleClass[resolvedColor]
-        : feedbackSubtleClass[resolvedStatus]
-      : "text-content-strong"
+  const toneClass = resolvedIsEmphasized
+    ? isSemantic
+      ? feedbackColoredClass[resolvedVariant]
+      : cn(
+          decorativeSurfaceSubtleClass[resolvedVariant],
+          decorativeBorderSubtleClass[resolvedVariant]
+        )
+    : ""
 
-  const adornmentColorClass =
-    resolvedStyle === "colored"
-      ? isDecorative
-        ? decorativeSubtleClass[resolvedColor]
-        : feedbackSubtleClass[resolvedStatus]
-      : isDecorative
-        ? decorativeStrongClass[resolvedColor]
-        : feedbackStrongClass[resolvedStatus]
+  const labelColorClass = resolvedIsEmphasized
+    ? isSemantic
+      ? feedbackSubtleClass[resolvedVariant]
+      : decorativeSubtleClass[resolvedVariant]
+    : "text-content-strong"
+
+  const adornmentColorClass = resolvedIsEmphasized
+    ? isSemantic
+      ? feedbackSubtleClass[resolvedVariant]
+      : decorativeSubtleClass[resolvedVariant]
+    : isSemantic
+      ? feedbackStrongClass[resolvedVariant]
+      : decorativeStrongClass[resolvedVariant]
 
   const showLeadingIcon = Boolean(canShowIcons && leadingIcon)
   const showTrailingIcon = Boolean(canShowIcons && trailingIcon)
@@ -275,15 +269,13 @@ function Badge({
   return (
     <span
       data-slot="badge"
-      data-type={resolvedType}
-      data-status={isDecorative ? undefined : resolvedStatus}
-      data-color={isDecorative ? resolvedColor : undefined}
+      data-variant={resolvedVariant}
       data-size={resolvedSize}
-      data-style={resolvedStyle}
+      data-emphasized={resolvedIsEmphasized || undefined}
       className={cn(
         badgeVariants({
           size: resolvedSize,
-          style: resolvedStyle,
+          isEmphasized: resolvedIsEmphasized,
         }),
         toneClass,
         className

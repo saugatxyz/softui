@@ -230,7 +230,8 @@ html[data-mode="dark"] {
 
   .code-block-surface {
     overflow: hidden;
-    background: rgb(var(--darken-2, 0 0 0 / 0.02));
+    --code-block-bg: rgb(var(--darken-2, 0 0 0 / 0.02));
+    background: var(--code-block-bg);
     background: color(display-p3 var(--darken-2, 0 0 0 / 0.02));
     box-shadow:
       0 0 0 1px rgb(var(--darken-4, 0 0 0 / 0.04)),
@@ -243,7 +244,8 @@ html[data-mode="dark"] {
   }
 
   html[data-mode="dark"] .code-block-surface {
-    background: rgb(255 255 255 / 0.03);
+    --code-block-bg: rgb(255 255 255 / 0.03);
+    background: var(--code-block-bg);
     background: color(display-p3 1 1 1 / 0.03);
     box-shadow:
       0 0 0 1px rgb(var(--lighten-6, 255 255 255 / 0.04)),
@@ -336,6 +338,25 @@ html[data-mode="dark"] {
       #000 calc(100% - 32px),
       transparent calc(100% - 16px),
       transparent 100%
+    );
+    -webkit-mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  .code-block-mask-left {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 24px,
+      #000 100%
+    );
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 24px,
+      #000 100%
     );
     -webkit-mask-size: 100% 100%;
     -webkit-mask-repeat: no-repeat;

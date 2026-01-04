@@ -4,6 +4,54 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+const feedbackTones = ["default", "info", "warning", "danger", "success"] as const
+const decorativeTones = [
+  "red", "orange", "amber", "yellow", "lime", "green", "emerald",
+  "teal", "cyan", "sky", "blue", "indigo", "violet", "purple",
+  "fuchsia", "pink", "rose",
+] as const
+
+type FeedbackTone = (typeof feedbackTones)[number]
+type DecorativeTone = (typeof decorativeTones)[number]
+type ButtonTone = FeedbackTone | DecorativeTone
+
+const feedbackToneClass: Record<FeedbackTone, string> = {
+  default: "",
+  info: "text-content-feedback-info-strong",
+  warning: "text-content-feedback-warning-strong",
+  danger: "text-content-feedback-danger-strong",
+  success: "text-content-feedback-success-strong",
+}
+
+const decorativeToneClass: Record<DecorativeTone, string> = {
+  red: "text-content-decorative-red-strong",
+  orange: "text-content-decorative-orange-strong",
+  amber: "text-content-decorative-amber-strong",
+  yellow: "text-content-decorative-yellow-strong",
+  lime: "text-content-decorative-lime-strong",
+  green: "text-content-decorative-green-strong",
+  emerald: "text-content-decorative-emerald-strong",
+  teal: "text-content-decorative-teal-strong",
+  cyan: "text-content-decorative-cyan-strong",
+  sky: "text-content-decorative-sky-strong",
+  blue: "text-content-decorative-blue-strong",
+  indigo: "text-content-decorative-indigo-strong",
+  violet: "text-content-decorative-violet-strong",
+  purple: "text-content-decorative-purple-strong",
+  fuchsia: "text-content-decorative-fuchsia-strong",
+  pink: "text-content-decorative-pink-strong",
+  rose: "text-content-decorative-rose-strong",
+}
+
+function isFeedbackTone(tone: ButtonTone): tone is FeedbackTone {
+  return (feedbackTones as readonly string[]).includes(tone)
+}
+
+function getToneClass(tone: ButtonTone | undefined): string {
+  if (!tone) return ""
+  return isFeedbackTone(tone) ? feedbackToneClass[tone] : decorativeToneClass[tone]
+}
+
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-[var(--radius-max)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] transition-[background-color,color,box-shadow,transform] outline-none select-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)] active:scale-[0.98] disabled:pointer-events-none disabled:cursor-not-allowed",
   {
@@ -82,6 +130,7 @@ type ButtonProps = ButtonPrimitive.Props &
   VariantProps<typeof buttonVariants> & {
     leadingIcon?: React.ReactNode
     trailingIcon?: React.ReactNode
+    tone?: ButtonTone
   }
 
 const defaultVariant = "primary"
@@ -91,6 +140,7 @@ function Button({
   className,
   variant,
   size,
+  tone,
   leadingIcon,
   trailingIcon,
   children,
@@ -100,14 +150,17 @@ function Button({
   const resolvedSize = size ?? defaultSize
   const hasLabel = React.Children.count(children) > 0
   const hideIconFromAT = hasLabel ? true : undefined
+  const toneClass = getToneClass(tone)
 
   return (
     <ButtonPrimitive
       data-slot="button"
       data-variant={resolvedVariant}
       data-size={resolvedSize}
+      data-tone={tone}
       className={cn(
-        buttonVariants({ variant: resolvedVariant, size: resolvedSize, className })
+        buttonVariants({ variant: resolvedVariant, size: resolvedSize, className }),
+        toneClass
       )}
       {...props}
     >
