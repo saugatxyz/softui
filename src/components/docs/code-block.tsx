@@ -19,7 +19,7 @@ function CopyButtonIcon({ copied }: { copied: boolean }) {
           opacity: copied ? 0 : 1,
           filter: copied ? "blur(8px)" : "blur(0px)",
         }}
-        transition={{ type: "spring", bounce: 0.2, duration: 0.15 }}
+        transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
       >
         <CopyFillIcon className="size-4" />
       </motion.span>
@@ -31,7 +31,7 @@ function CopyButtonIcon({ copied }: { copied: boolean }) {
           opacity: copied ? 1 : 0,
           filter: copied ? "blur(0px)" : "blur(8px)",
         }}
-        transition={{ type: "spring", bounce: 0.2, duration: 0.15 }}
+        transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
       >
         <CheckCircleIcon className="size-4" />
       </motion.span>
