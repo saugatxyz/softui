@@ -29,21 +29,19 @@ export default function TokensColorsPage() {
               {section.tokens.map((token, index) => (
                 <div
                   key={token.name}
-                  className={`flex flex-col gap-[var(--space-10)] py-[var(--space-16)] ${
+                  className={`flex items-center justify-between py-[var(--space-16)] ${
                     index === section.tokens.length - 1
                       ? ""
                       : "border-b border-border-muted"
-                  } md:flex-row md:items-center md:justify-between`}
+                  }`}
                 >
-                  <div>
-                    <div className="text-body-m text-content-strong">
-                      {token.name}
-                    </div>
+                  <div className="text-body-m text-content-strong">
+                    {token.name}
                   </div>
                   <div className="flex items-center gap-[var(--space-8)]">
                     <ColorValue cssVar={token.cssVar} alias={token.alias} />
                     <div
-                      className="size-[20px] rounded-full border border-border-subtle"
+                      className="size-[20px] shrink-0 rounded-full border border-border-subtle"
                       style={{ background: `rgb(var(${token.cssVar}))` }}
                     />
                   </div>
