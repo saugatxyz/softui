@@ -114,6 +114,7 @@ type SwatchButtonProps = {
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
   buttonRef?: React.Ref<HTMLButtonElement>
   tabIndex?: number
+  size?: "s" | "m"
 }
 
 function SwatchButton({
@@ -124,6 +125,7 @@ function SwatchButton({
   onKeyDown,
   buttonRef,
   tabIndex,
+  size = "m",
 }: SwatchButtonProps) {
   return (
     <button
@@ -136,7 +138,8 @@ function SwatchButton({
       onClick={onSelect}
       onKeyDown={onKeyDown}
       className={cn(
-        "h-[32px] w-[32px] flex-none rounded-full border transition focus-visible:outline-none",
+        "flex-none rounded-full border transition focus-visible:outline-none",
+        size === "s" ? "h-[20px] w-[20px]" : "h-[32px] w-[32px]",
         selected
           ? "border-border-interactive-default ring-2 ring-utility-focus-inner ring-offset-2 ring-offset-surface-page"
           : "border-border-subtle hover:border-border-interactive-hover"
@@ -384,6 +387,7 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
                   swatchRefs.current[index] = node
                 }}
                 tabIndex={currentTheme === value ? 0 : -1}
+                size="s"
               />
             ))}
           </div>
