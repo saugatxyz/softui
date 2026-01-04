@@ -8,9 +8,9 @@ const badgeVariants = cva(
   {
     variants: {
       size: {
-        xs: "h-[var(--space-20)] gap-[var(--space-2)] px-[var(--space-8)]",
-        s: "h-[var(--space-24)] gap-[var(--space-2)] px-[var(--space-8)]",
-        m: "h-[var(--space-28)] gap-[var(--space-2)] px-[var(--space-10)]",
+        xs: "h-[var(--space-20)] gap-[var(--space-4)] px-[var(--space-8)]",
+        s: "h-[var(--space-24)] gap-[var(--space-4)] px-[var(--space-8)]",
+        m: "h-[var(--space-28)] gap-[var(--space-6)] px-[var(--space-12)]",
       },
       style: {
         colored: "border",
@@ -18,7 +18,7 @@ const badgeVariants = cva(
           "bg-actions-tertiary-default backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
       },
     },
-    defaultVariants: {
+    defaultVariants: {  
       size: "s",
       style: "colored",
     },
@@ -26,13 +26,13 @@ const badgeVariants = cva(
 )
 
 const labelVariants = cva(
-  "flex shrink-0 items-center justify-center py-0 font-[var(--font-weight-medium)]",
+  "flex shrink-0 items-center justify-center px-0 py-0 font-[var(--font-weight-medium)]",
   {
     variants: {
       size: {
-        xs: "px-[var(--space-2)] text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
-        s: "px-[var(--space-4)] text-[length:var(--font-size-m)] leading-[var(--line-height-xs)]",
-        m: "px-[var(--space-4)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
+        xs: "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
+        s: "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
+        m: "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
       },
     },
     defaultVariants: {

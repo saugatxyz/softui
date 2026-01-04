@@ -28,6 +28,7 @@ export {
   RiMenuSearchLine as MenuSearchLineIcon,
   RiPaletteFill as PaletteIcon,
   RiPriceTag3Fill as PriceTagIcon,
+  RiInformationFill as InformationFillIcon,
   RiQuestionFill as QuestionIcon,
   RiSearchLine as SearchIcon,
   RiSettings6Fill as SettingsIcon,
@@ -36,5 +37,6 @@ export {
   RiSwapFill as SwapIcon,
   RiSunLine as SunIcon,
   RiSunFill as SunFillIcon,
+  RiStickyNoteFill as StickyNoteFillIcon,
   RiUserAddFill as UserAddIcon,
 } from "@remixicon/react"
