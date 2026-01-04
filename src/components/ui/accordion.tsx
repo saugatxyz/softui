@@ -263,7 +263,7 @@ function AccordionContent({
                 opacity: 1,
                 y: 0,
                 filter: "blur(0px)",
-                transition: { type: "spring", bounce: 0.1, duration: 0.25, delay: 0.1 },
+                transition: { type: "spring", bounce: 0.1, duration: 0.25},
               }}
               exit={{
                 opacity: 0,
