@@ -367,7 +367,7 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
     }
 
   return (
-    <div className="border-b border-border-muted bg-surface-page">
+    <div className="sticky top-0 z-40 border-b border-border-muted bg-surface-page">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-12)] md:flex-row md:items-center md:px-[var(--space-24)]">
         <div className="hidden flex-1 flex-wrap items-center gap-[var(--space-8)] md:flex">
           <div

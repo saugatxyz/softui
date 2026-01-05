@@ -112,9 +112,9 @@ export function DocsShell({ children }: DocsShellProps) {
   return (
     <div className="flex h-screen bg-surface-page">
       <DocsSidebar />
-      <div className="flex h-screen flex-1 flex-col overflow-hidden">
+      <div className="flex h-screen flex-1 flex-col overflow-y-auto">
         <ThemeSwitcher onMenuOpen={() => setMenuOpen(true)} menuOpen={menuOpen} />
-        <main className="flex-1 overflow-y-auto pt-0 md:pt-[80px]">
+        <main className="flex-1 pt-0 md:pt-[80px]">
           {children}
         </main>
       </div>
@@ -151,7 +151,7 @@ export function DocsShell({ children }: DocsShellProps) {
               role="dialog"
               aria-modal="true"
               aria-label="Navigation"
-              className="absolute bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)] max-h-[80vh] rounded-[16px] bg-surface-overlay"
+              className="absolute bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)] flex max-h-[80vh] flex-col rounded-[16px] bg-surface-overlay"
               initial={{ y: "100%", opacity: 0, filter: "blur(20px)" }}
               animate={{
                 y: dragOffset,
@@ -164,22 +164,25 @@ export function DocsShell({ children }: DocsShellProps) {
               }
             >
               <motion.div
-                className="flex flex-col gap-[var(--space-16)] p-[var(--space-8)]"
+                className="flex shrink-0 items-center justify-center p-[var(--space-8)] touch-none"
+                variants={sheetContentVariants}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                onPointerDown={handleDragStart}
+                onPointerMove={handleDragMove}
+                onPointerUp={handleDragEnd}
+                onPointerCancel={handleDragEnd}
+              >
+                <span className="h-[4px] w-[40px] rounded-full bg-border-muted" />
+              </motion.div>
+              <motion.div
+                className="flex flex-col gap-[var(--space-16)] overflow-y-auto px-[var(--space-8)] pb-[var(--space-8)]"
                 variants={sheetContentVariants}
                 initial="hidden"
                 animate="show"
                 exit="hidden"
               >
-                <motion.div
-                  variants={sheetItemVariants}
-                  className="flex items-center justify-center py-[var(--space-8)] touch-none"
-                  onPointerDown={handleDragStart}
-                  onPointerMove={handleDragMove}
-                  onPointerUp={handleDragEnd}
-                  onPointerCancel={handleDragEnd}
-                >
-                  <span className="h-[4px] w-[40px] rounded-full bg-border-muted" />
-                </motion.div>
                 {navSections.map((section) => (
                   <motion.div
                     key={section.title}
