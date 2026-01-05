@@ -44,10 +44,16 @@ export const navSections = [
       { label: "Button Group", href: "/docs/button-group" },
       { label: "Checkbox", href: "/docs/checkbox" },
       { label: "Checkbox Group", href: "/docs/checkbox-group" },
-      { label: "Logo", href: "/docs/logo" },
       { label: "Icon Button", href: "/docs/icon-button" },
+      { label: "Radio Group", href: "/docs/radio-group" },
       { label: "Toggle Button", href: "/docs/toggle-button" },
       { label: "Toggle Group", href: "/docs/toggle-group" },
+    ],
+  },
+  {
+    title: "Assets",
+    items: [
+      { label: "Logo", href: "/docs/logo" },
       { label: "Crypto", href: "/docs/crypto" },
     ],
   },

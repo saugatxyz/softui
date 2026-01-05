@@ -32,8 +32,7 @@ export default function ToggleGroupDocsPage() {
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Toggle Group</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            A group of independently toggleable buttons with smooth icon and
-            label transitions
+            A group of independently toggleable buttons
           </p>
         </div>
       </header>

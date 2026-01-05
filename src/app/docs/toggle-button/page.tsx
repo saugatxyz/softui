@@ -26,8 +26,7 @@ export default function ToggleButtonDocsPage() {
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Toggle Button</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            A button that toggles between two states with smooth icon and label
-            transitions
+            A button that toggles between two states
           </p>
         </div>
       </header>

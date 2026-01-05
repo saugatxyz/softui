@@ -17,6 +17,7 @@ export {
   RiCloseLine as CloseIcon,
   RiDraftFill as DraftFillIcon,
   RiBankCardFill as BankCardIcon,
+  RiBankFill as BankIcon,
   RiFileCopyLine as CopyIcon,
   RiFileCopyFill as CopyFillIcon,
   RiCustomerService2Fill as CustomerServiceIcon,

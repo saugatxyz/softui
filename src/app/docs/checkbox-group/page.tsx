@@ -6,24 +6,30 @@ import { CheckboxGroup } from "@/components/ui/checkbox-group"
 import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
 import { CheckboxPrefix } from "@/components/ui/checkbox-prefix"
 import { Badge } from "@/components/ui/badge"
-import { BankCardIcon, SettingsIcon, HomeIcon, NotificationIcon } from "@/icons"
+import {
+  StarIcon,
+  HeartIcon,
+  BookmarkIcon,
+  SunIcon,
+  MoonIcon,
+} from "@/icons"
 
 function IndeterminateDemo() {
   const [items, setItems] = React.useState({
-    email: true,
-    push: false,
+    slack: true,
+    email: false,
     sms: false,
   })
 
-  const allChecked = items.email && items.push && items.sms
-  const noneChecked = !items.email && !items.push && !items.sms
+  const allChecked = items.slack && items.email && items.sms
+  const noneChecked = !items.slack && !items.email && !items.sms
   const isIndeterminate = !allChecked && !noneChecked
 
   const handleSelectAll = () => {
     const newValue = !allChecked
     setItems({
+      slack: newValue,
       email: newValue,
-      push: newValue,
       sms: newValue,
     })
   }
@@ -31,27 +37,27 @@ function IndeterminateDemo() {
   return (
     <CheckboxGroup style="list" stack="vertical">
       <CheckboxGroupItem
-        label="Select all notifications"
-        description="Toggle all notification types"
+        label="Select all channels"
+        description="Enable all notification channels"
         checked={allChecked}
         indeterminate={isIndeterminate}
         onCheckedChange={handleSelectAll}
       />
       <CheckboxGroupItem
-        label="Email notifications"
-        description="Get notified via email"
+        label="Slack notifications"
+        description="Get alerts in your Slack workspace"
+        checked={items.slack}
+        onCheckedChange={(checked) => setItems((prev) => ({ ...prev, slack: checked }))}
+      />
+      <CheckboxGroupItem
+        label="Email digest"
+        description="Daily summary sent to your inbox"
         checked={items.email}
         onCheckedChange={(checked) => setItems((prev) => ({ ...prev, email: checked }))}
       />
       <CheckboxGroupItem
-        label="Push notifications"
-        description="Get notified on your device"
-        checked={items.push}
-        onCheckedChange={(checked) => setItems((prev) => ({ ...prev, push: checked }))}
-      />
-      <CheckboxGroupItem
-        label="SMS notifications"
-        description="Get notified via text message"
+        label="SMS alerts"
+        description="Critical alerts via text message"
         checked={items.sms}
         onCheckedChange={(checked) => setItems((prev) => ({ ...prev, sms: checked }))}
       />
@@ -66,7 +72,7 @@ export default function CheckboxGroupDocsPage() {
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Checkbox Group</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            Composable checkbox lists with multiple layout styles and configurations
+            Multi-select lists with multiple layout styles and configurations
           </p>
         </div>
       </header>
@@ -93,9 +99,9 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <CheckboxGroup style="simple" stack="vertical">
-                <CheckboxGroupItem label="Email notifications" />
-                <CheckboxGroupItem label="Push notifications" />
-                <CheckboxGroupItem label="SMS notifications" />
+                <CheckboxGroupItem label="Vegetarian" />
+                <CheckboxGroupItem label="Vegan" />
+                <CheckboxGroupItem label="Gluten-free" />
               </CheckboxGroup>
             </div>
           </div>
@@ -105,9 +111,10 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <CheckboxGroup style="simple" stack="horizontal">
-                <CheckboxGroupItem label="Red" />
-                <CheckboxGroupItem label="Green" />
-                <CheckboxGroupItem label="Blue" />
+                <CheckboxGroupItem label="S" />
+                <CheckboxGroupItem label="M" />
+                <CheckboxGroupItem label="L" />
+                <CheckboxGroupItem label="XL" />
               </CheckboxGroup>
             </div>
           </div>
@@ -124,17 +131,18 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
             <div className="w-full max-w-md">
               <CheckboxGroup style="list" stack="vertical">
                 <CheckboxGroupItem
-                  label="Order confirmations"
-                  description="Receive emails when your order is confirmed"
-                  badge={<Badge variant="orange" size="xs" isEmphasized>Recommended</Badge>}
+                  label="Gift wrapping"
+                  description="Elegant packaging with a personalized note"
+                  badge={<Badge variant="green" size="xs" isEmphasized>Free</Badge>}
                 />
                 <CheckboxGroupItem
-                  label="Shipping updates"
-                  description="Get notified when your package ships"
+                  label="Priority handling"
+                  description="Your order ships first"
+                  badge={<Badge variant="orange" size="xs" isEmphasized>+ $3</Badge>}
                 />
                 <CheckboxGroupItem
-                  label="Delivery notifications"
-                  description="Know when your package arrives"
+                  label="Package protection"
+                  description="Full coverage for lost or damaged items"
                 />
               </CheckboxGroup>
             </div>
@@ -146,20 +154,20 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
             <div className="w-full max-w-md">
               <CheckboxGroup style="list" stack="horizontal">
                 <CheckboxGroupItem
-                  label="JavaScript"
-                  description="Modern web development"
+                  label="React"
+                  description="UI library"
                 />
                 <CheckboxGroupItem
                   label="TypeScript"
-                  description="Type-safe JavaScript"
+                  description="Type safety"
                 />
                 <CheckboxGroupItem
-                  label="Python"
-                  description="Data science and automation"
+                  label="Tailwind"
+                  description="Utility CSS"
                 />
                 <CheckboxGroupItem
-                  label="Rust"
-                  description="Systems programming"
+                  label="Next.js"
+                  description="Framework"
                 />
               </CheckboxGroup>
             </div>
@@ -178,22 +186,18 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
             <div className="w-full max-w-md">
               <CheckboxGroup style="card-small" stack="vertical">
                 <CheckboxGroupItem
-                  label="Payment methods"
-                  description="Manage cards and accounts"
-                  prefix={<CheckboxPrefix type="icon" size="s" icon={<BankCardIcon />} />}
+                  label="Order updates"
+                  description="When your order ships or arrives"
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<StarIcon />} />}
                 />
                 <CheckboxGroupItem
-                  label="Security"
-                  prefix={<CheckboxPrefix type="icon" size="s" icon={<SettingsIcon />} />}
+                  label="Promotions"
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<HeartIcon />} />}
                 />
                 <CheckboxGroupItem
-                  label="Push notifications"
-                  description="Mobile alerts"
-                  prefix={<CheckboxPrefix type="icon" size="s" icon={<NotificationIcon />} />}
-                />
-                <CheckboxGroupItem
-                  label="Home address"
-                  prefix={<CheckboxPrefix type="icon" size="s" icon={<HomeIcon />} />}
+                  label="Account alerts"
+                  description="Security and billing notifications"
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<BookmarkIcon />} />}
                 />
               </CheckboxGroup>
             </div>
@@ -205,20 +209,16 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
             <div className="w-full max-w-md">
               <CheckboxGroup style="card-small" stack="horizontal">
                 <CheckboxGroupItem
-                  label="Payments"
-                  prefix={<CheckboxPrefix type="icon-emphasized-blue" size="s" icon={<BankCardIcon />} />}
+                  label="Favorites"
+                  prefix={<CheckboxPrefix type="icon-emphasized-orange" size="s" icon={<StarIcon />} />}
                 />
                 <CheckboxGroupItem
-                  label="Privacy"
-                  prefix={<CheckboxPrefix type="icon-emphasized-green" size="s" icon={<SettingsIcon />} />}
+                  label="Liked"
+                  prefix={<CheckboxPrefix type="icon-emphasized-red" size="s" icon={<HeartIcon />} />}
                 />
                 <CheckboxGroupItem
-                  label="Notifications"
-                  prefix={<CheckboxPrefix type="icon-emphasized-orange" size="s" icon={<NotificationIcon />} />}
-                />
-                <CheckboxGroupItem
-                  label="Home"
-                  prefix={<CheckboxPrefix type="icon-emphasized-purple" size="s" icon={<HomeIcon />} />}
+                  label="Saved"
+                  prefix={<CheckboxPrefix type="icon-emphasized-blue" size="s" icon={<BookmarkIcon />} />}
                 />
               </CheckboxGroup>
             </div>
@@ -239,18 +239,19 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
                   label="Bitcoin"
                   description="BTC"
                   prefix={<CheckboxPrefix type="token" size="m" token="btc" />}
-                  badge={<Badge variant="warning" size="xs" isEmphasized>1.2%</Badge>}
+                  badge={<Badge variant="success" size="xs" isEmphasized>+2.4%</Badge>}
                 />
                 <CheckboxGroupItem
                   label="Ethereum"
                   description="ETH"
                   prefix={<CheckboxPrefix type="token" size="m" token="eth" />}
+                  badge={<Badge variant="danger" size="xs" isEmphasized>-1.2%</Badge>}
                 />
                 <CheckboxGroupItem
                   label="Solana"
                   description="SOL"
                   prefix={<CheckboxPrefix type="token" size="m" token="sol" />}
-                  badge={<Badge variant="success" size="xs" isEmphasized>2.5%</Badge>}
+                  badge={<Badge variant="success" size="xs" isEmphasized>+5.1%</Badge>}
                 />
               </CheckboxGroup>
             </div>
@@ -262,24 +263,24 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
             <div className="w-full max-w-md">
               <CheckboxGroup style="card-big" stack="horizontal">
                 <CheckboxGroupItem
-                  label="Discord"
-                  description="Community chat"
-                  prefix={<CheckboxPrefix type="logo" size="m" logo="discord" />}
+                  label="Google"
+                  description="google.com"
+                  prefix={<CheckboxPrefix type="logo" size="m" logo="google" />}
+                />
+                <CheckboxGroupItem
+                  label="Apple"
+                  description="apple.com"
+                  prefix={<CheckboxPrefix type="logo" size="m" logo="apple" />}
                 />
                 <CheckboxGroupItem
                   label="Linear"
-                  description="Issue tracking"
+                  description="linear.app"
                   prefix={<CheckboxPrefix type="logo" size="m" logo="linear" />}
                 />
                 <CheckboxGroupItem
                   label="Framer"
-                  description="Design tool"
+                  description="framer.com"
                   prefix={<CheckboxPrefix type="logo" size="m" logo="framer" />}
-                />
-                <CheckboxGroupItem
-                  label="Loom"
-                  description="Video recording"
-                  prefix={<CheckboxPrefix type="logo" size="m" logo="loom" />}
                 />
               </CheckboxGroup>
             </div>
@@ -291,32 +292,29 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">States</h2>
           <p className="text-body-s text-content-subtle">
-            Different checkbox states including disabled and indeterminate.
+            Disabled and indeterminate checkbox states.
           </p>
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled</p>
-              <p className="text-body-s text-content-subtle">Non-interactive</p>
             </div>
             <div className="w-full max-w-md">
               <CheckboxGroup style="card-small" stack="vertical">
                 <CheckboxGroupItem
-                  label="Available option"
-                  description="This option can be selected"
-                  prefix={<CheckboxPrefix type="icon" size="s" icon={<BankCardIcon />} />}
+                  label="Light mode"
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<SunIcon />} />}
                 />
                 <CheckboxGroupItem
-                  label="Disabled option"
-                  description="This option is not available"
-                  prefix={<CheckboxPrefix type="icon" size="s" icon={<SettingsIcon />} />}
+                  label="Dark mode"
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<MoonIcon />} />}
                   disabled
                 />
                 <CheckboxGroupItem
-                  label="Disabled checked"
-                  description="Already selected, cannot change"
-                  prefix={<CheckboxPrefix type="icon" size="s" icon={<NotificationIcon />} />}
+                  label="Auto (system)"
+                  description="Locked by admin"
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<SunIcon />} />}
                   disabled
                   defaultChecked
                 />
@@ -339,7 +337,7 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Prefix</h2>
           <p className="text-body-s text-content-subtle">
-            Different prefix types for card-based checkbox items.
+            Prefix types for card-based checkbox items.
           </p>
         </div>
         <div className="flex flex-col">
@@ -348,8 +346,8 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
               <p className="text-body-m text-content-strong">Icon</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <CheckboxPrefix type="icon" size="s" icon={<BankCardIcon />} />
-              <CheckboxPrefix type="icon" size="m" icon={<BankCardIcon />} />
+              <CheckboxPrefix type="icon" size="s" icon={<StarIcon />} />
+              <CheckboxPrefix type="icon" size="m" icon={<StarIcon />} />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -357,8 +355,8 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
               <p className="text-body-m text-content-strong">Icon Emphasized</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <CheckboxPrefix type="icon-emphasized" size="s" icon={<SettingsIcon />} />
-              <CheckboxPrefix type="icon-emphasized" size="m" icon={<SettingsIcon />} />
+              <CheckboxPrefix type="icon-emphasized" size="s" icon={<HeartIcon />} />
+              <CheckboxPrefix type="icon-emphasized" size="m" icon={<HeartIcon />} />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -366,12 +364,12 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
               <p className="text-body-m text-content-strong">Icon Emphasized Colors</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <CheckboxPrefix type="icon-emphasized-blue" size="s" icon={<BankCardIcon />} />
-              <CheckboxPrefix type="icon-emphasized-green" size="s" icon={<SettingsIcon />} />
-              <CheckboxPrefix type="icon-emphasized-orange" size="s" icon={<NotificationIcon />} />
-              <CheckboxPrefix type="icon-emphasized-purple" size="s" icon={<HomeIcon />} />
-              <CheckboxPrefix type="icon-emphasized-red" size="s" icon={<BankCardIcon />} />
-              <CheckboxPrefix type="icon-emphasized-cyan" size="s" icon={<SettingsIcon />} />
+              <CheckboxPrefix type="icon-emphasized-blue" size="s" icon={<BookmarkIcon />} />
+              <CheckboxPrefix type="icon-emphasized-green" size="s" icon={<StarIcon />} />
+              <CheckboxPrefix type="icon-emphasized-orange" size="s" icon={<HeartIcon />} />
+              <CheckboxPrefix type="icon-emphasized-purple" size="s" icon={<BookmarkIcon />} />
+              <CheckboxPrefix type="icon-emphasized-red" size="s" icon={<StarIcon />} />
+              <CheckboxPrefix type="icon-emphasized-cyan" size="s" icon={<HeartIcon />} />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
