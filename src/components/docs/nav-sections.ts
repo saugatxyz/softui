@@ -38,15 +38,17 @@ export const navSections = [
   {
     title: "Components",
     items: [
+      { label: "Accordion", href: "/docs/accordion" },
+      { label: "Badge", href: "/docs/badge" },
       { label: "Button", href: "/docs/button" },
       { label: "Button Group", href: "/docs/button-group" },
+      { label: "Checkbox", href: "/docs/checkbox" },
+      { label: "Checkbox Group", href: "/docs/checkbox-group" },
+      { label: "Logo", href: "/docs/logo" },
       { label: "Icon Button", href: "/docs/icon-button" },
-      { label: "Badge", href: "/docs/badge" },
-      { label: "Accordion", href: "/docs/accordion" },
       { label: "Toggle Button", href: "/docs/toggle-button" },
       { label: "Toggle Group", href: "/docs/toggle-group" },
-    ]
-      .slice()
-      .sort((a, b) => a.label.localeCompare(b.label)),
+      { label: "Crypto", href: "/docs/crypto" },
+    ],
   },
 ] as const

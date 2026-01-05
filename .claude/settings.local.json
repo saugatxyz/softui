@@ -5,7 +5,15 @@
       "Bash(pnpm build:*)",
       "Bash(pkill:*)",
       "Bash(pnpm dev)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(claude mcp list:*)",
+      "WebFetch(domain:www.figma.com)",
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp remove:*)",
+      "Bash(curl:*)",
+      "mcp__figma__get_design_context",
+      "mcp__figma__get_screenshot",
+      "WebFetch(domain:base-ui.com)"
     ]
   }
 }

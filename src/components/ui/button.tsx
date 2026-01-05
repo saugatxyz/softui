@@ -53,23 +53,23 @@ function getToneClass(tone: ButtonTone | undefined): string {
 }
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-[var(--radius-max)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] transition-[background-color,color,box-shadow,transform] outline-none select-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)] active:scale-[0.98] disabled:pointer-events-none disabled:cursor-not-allowed",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-[var(--radius-max)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] transition-[background-color,color,box-shadow,transform] outline-none select-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)] active:enabled:scale-[0.98] disabled:cursor-not-allowed",
   {
     variants: {
       variant: {
         primary:
-          "bg-actions-primary-default text-content-on-accent-strong hover:bg-actions-primary-hover disabled:bg-actions-primary-disabled disabled:text-content-on-accent-disabled",
+          "bg-actions-primary-default text-content-on-accent-strong hover:enabled:bg-actions-primary-hover disabled:bg-actions-primary-disabled disabled:text-content-on-accent-disabled",
         secondary:
-          "bg-actions-secondary-default text-content-strong hover:bg-actions-secondary-hover disabled:bg-actions-secondary-disabled disabled:text-content-disabled",
+          "bg-actions-secondary-default text-content-strong hover:enabled:bg-actions-secondary-hover disabled:bg-actions-secondary-disabled disabled:text-content-disabled",
         tertiary:
-          "bg-actions-tertiary-default text-content-strong backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)] hover:bg-actions-tertiary-hover disabled:bg-actions-tertiary-disabled disabled:text-content-disabled disabled:shadow-none overflow-hidden",
+          "bg-actions-tertiary-default text-content-strong backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)] hover:enabled:bg-actions-tertiary-hover disabled:bg-actions-tertiary-disabled disabled:text-content-disabled disabled:shadow-none overflow-hidden",
         ghost:
-          "bg-transparent text-content-subtle hover:bg-actions-secondary-hover hover:text-content-strong disabled:text-content-disabled",
-        link: "bg-transparent text-content-link-default hover:text-content-link-hover disabled:text-content-disabled",
+          "bg-transparent text-content-subtle hover:enabled:bg-actions-secondary-hover hover:enabled:text-content-strong disabled:text-content-disabled",
+        link: "bg-transparent text-content-link-default hover:enabled:text-content-link-hover disabled:text-content-disabled",
         "link-neutral":
-          "bg-transparent text-content-strong hover:text-content-strong disabled:text-content-disabled",
+          "bg-transparent text-content-strong hover:enabled:text-content-strong disabled:text-content-disabled",
         danger:
-          "bg-actions-danger-default text-[color:rgb(var(--content-inverse-strong))] hover:bg-actions-danger-hover hover:text-[color:rgb(var(--content-inverse-strong))] disabled:bg-actions-danger-disabled disabled:text-[color:rgb(var(--content-inverse-disabled))]",
+          "bg-actions-danger-default text-[color:rgb(var(--content-inverse-strong))] hover:enabled:bg-actions-danger-hover hover:enabled:text-[color:rgb(var(--content-inverse-strong))] disabled:bg-actions-danger-disabled disabled:text-[color:rgb(var(--content-inverse-disabled))]",
       },
       size: {
         xs: "h-[var(--space-28)] gap-[var(--space-2)] px-[var(--space-10)]",
@@ -81,11 +81,11 @@ const buttonVariants = cva(
     compoundVariants: [
       {
         variant: "link",
-        className: "px-0 hover:underline underline-offset-4",
+        className: "px-0 hover:enabled:underline underline-offset-4",
       },
       {
         variant: "link-neutral",
-        className: "px-0 hover:underline underline-offset-2",
+        className: "px-0 hover:enabled:underline underline-offset-2",
       },
     ],
     defaultVariants: {

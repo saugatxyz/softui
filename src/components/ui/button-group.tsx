@@ -130,7 +130,7 @@ function ButtonGroup({
 }
 
 const itemVariants = cva(
-  "relative inline-flex items-center justify-center whitespace-nowrap font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] transition-[background-color,color,box-shadow] outline-none select-none bg-transparent text-content-strong hover:bg-actions-tertiary-hover disabled:pointer-events-none disabled:cursor-not-allowed disabled:text-content-disabled focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+  "relative inline-flex items-center justify-center whitespace-nowrap font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] transition-[background-color,color,box-shadow] outline-none select-none bg-transparent text-content-strong hover:enabled:bg-actions-tertiary-hover active:enabled:scale-[0.98] disabled:cursor-not-allowed disabled:text-content-disabled focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
   {
     variants: {
       size: {
