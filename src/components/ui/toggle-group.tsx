@@ -287,7 +287,7 @@ function MorphingIcon({
   )
 }
 
-type ToggleGroupItemProps = Omit<TogglePrimitive.Props, "children"> & {
+type ToggleGroupItemProps = Omit<TogglePrimitive.Props, "children" | "onPressedChange"> & {
   icon: React.ReactNode
   pressedIcon?: React.ReactNode
   children?: React.ReactNode
@@ -295,6 +295,7 @@ type ToggleGroupItemProps = Omit<TogglePrimitive.Props, "children"> & {
   pressedTone?: ToggleGroupTone
   labelWidth?: number
   pressedLabelWidth?: number
+  onPressedChange?: (pressed: boolean) => void
   /** Enable morphing animation between icons (blur, scale, y-position). Defaults to false (smooth fade). */
   morph?: boolean
 }
@@ -319,7 +320,7 @@ function ToggleGroupItem({
   const isControlled = controlledPressed !== undefined
   const pressed = isControlled ? controlledPressed : internalPressed
 
-  const handlePressedChange: TogglePrimitive.Props["onPressedChange"] = React.useCallback(
+  const handlePressedChange = React.useCallback(
     (newPressed: boolean) => {
       if (!isControlled) {
         setInternalPressed(newPressed)
