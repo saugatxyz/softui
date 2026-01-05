@@ -13,6 +13,7 @@ function CopyButtonIcon({ copied }: { copied: boolean }) {
     <span className="relative flex size-4 items-center justify-center overflow-hidden">
       <motion.span
         className="absolute inset-0 flex items-center justify-center"
+        initial={false}
         animate={{
           y: copied ? -8 : 0,
           scale: copied ? 0.5 : 1,
@@ -25,6 +26,7 @@ function CopyButtonIcon({ copied }: { copied: boolean }) {
       </motion.span>
       <motion.span
         className="absolute inset-0 flex items-center justify-center text-content-feedback-success-strong"
+        initial={false}
         animate={{
           y: copied ? 0 : 8,
           scale: copied ? 1 : 0.5,

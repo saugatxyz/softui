@@ -192,6 +192,7 @@ function MorphingIcon({
     >
       <motion.span
         className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
+        initial={false}
         animate={{
           y: pressed ? -8 : 0,
           scale: pressed ? 0.5 : 1,
@@ -207,6 +208,7 @@ function MorphingIcon({
           "absolute inset-0 flex items-center justify-center [&_svg]:size-full",
           toneClass
         )}
+        initial={false}
         animate={{
           y: pressed ? 0 : 8,
           scale: pressed ? 1 : 0.5,
