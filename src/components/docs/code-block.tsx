@@ -5,7 +5,7 @@ import { motion } from "motion/react"
 import { highlight } from "sugar-high"
 
 import { Button } from "@/components/ui/button"
-import { CheckCircleIcon, CopyFillIcon } from "@/icons"
+import { CheckCircleIcon, CopyIcon } from "@/icons"
 import { cn } from "@/lib/utils"
 
 function CopyButtonIcon({ copied }: { copied: boolean }) {
@@ -21,7 +21,7 @@ function CopyButtonIcon({ copied }: { copied: boolean }) {
         }}
         transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
       >
-        <CopyFillIcon className="size-4" />
+        <CopyIcon className="size-4" />
       </motion.span>
       <motion.span
         className="absolute inset-0 flex items-center justify-center text-content-feedback-success-strong"
