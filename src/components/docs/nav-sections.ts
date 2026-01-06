@@ -48,6 +48,7 @@ export const navSections = [
       { label: "Icon Button", href: "/docs/icon-button" },
       { label: "Input", href: "/docs/input" },
       { label: "Input Group", href: "/docs/input-group" },
+      { label: "Menu", href: "/docs/menu" },
       { label: "Pagination", href: "/docs/pagination" },
       { label: "Radio Group", href: "/docs/radio-group" },
       { label: "Select", href: "/docs/select" },

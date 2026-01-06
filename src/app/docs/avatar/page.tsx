@@ -1,5 +1,5 @@
 import { CodeBlock } from "@/components/docs/code-block"
-import { Avatar } from "@/components/ui/avatar"
+import { Avatar, decorativeColors } from "@/components/ui/avatar"
 import { AvatarGroup } from "@/components/ui/avatar-group"
 
 const sizes = [
@@ -41,6 +41,10 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
 <Avatar src="/avatar.jpg" alt="User" />
 <Avatar initials="SA" fallback="initials" />
 <Avatar /> {/* Shows icon fallback */}
+
+{/* Colored emphasized avatars */}
+<Avatar initials="JD" color="blue" isEmphasized />
+<Avatar color="rose" isEmphasized />
 
 <AvatarGroup max={3}>
   <Avatar src="/user1.jpg" />
@@ -192,10 +196,60 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
 
       <section className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Colors</h2>
+          <p className="text-body-s text-content-subtle">
+            Avatars can be emphasized with colors.
+          </p>
+        </div>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] md:flex-row md:items-center md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Initials</p>
+              <p className="text-body-s text-content-subtle">
+                Colored initials fallback
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
+              {decorativeColors.map((color) => (
+                <Avatar
+                  key={color}
+                  size="m"
+                  shape="circular"
+                  initials={color.slice(0, 2).toUpperCase()}
+                  fallback="initials"
+                  color={color}
+                  isEmphasized
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Icon</p>
+              <p className="text-body-s text-content-subtle">
+                Colored icon fallback
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
+              {decorativeColors.map((color) => (
+                <Avatar
+                  key={color}
+                  size="m"
+                  shape="circular"
+                  color={color}
+                  isEmphasized
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-10)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Avatar Group</h2>
           <p className="text-body-s text-content-subtle">
-            Stack multiple avatars with automatic overflow count. Uses CSS mask
-            for true background transparency between avatars.
+            Stack multiple avatars with automatic overflow count.
           </p>
         </div>
         <div className="flex flex-col">

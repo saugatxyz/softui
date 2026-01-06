@@ -20,7 +20,12 @@
       "Bash(for i in 1 2 3 4 5)",
       "Bash(do curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/docs/switch-group)",
       "Bash(done)",
-      "Bash(for i in 1 2 3)"
+      "Bash(for i in 1 2 3)",
+      "Bash(pnpm build:check:*)",
+      "Bash(for f in *.tsx)",
+      "Bash(do mv \"$f\" \"$f%.tsx.txt\")",
+      "Bash(grep:*)",
+      "Bash(xargs ls:*)"
     ]
   }
 }

@@ -33,6 +33,35 @@ Components follow this structure:
 4. Use `label` wrapper for optical balance with icon padding
 5. Add `data-slot`, `data-variant`, `data-size`, `data-tone` attributes for semantic styling
 
+### Menu Ecosystem (Dropdowns)
+
+**Menu is the master component** for all dropdown/popup list UIs. Three components share visual patterns:
+
+| Component | Use Case | Primitive |
+|-----------|----------|-----------|
+| **Menu** | Actions/commands (clicking does something) | `@base-ui/react/menu` |
+| **Select** | Pick a value from options (form input) | `@base-ui/react/select` |
+| **Autocomplete** | Search + select with free-form typing | `@base-ui/react/combobox` |
+
+**When to use which:**
+- Use **Menu** for context menus, action dropdowns, navigation menus
+- Use **Select** for form fields where user picks from predefined options
+- Use **Autocomplete** when users need to search/filter or can type custom values
+
+**Shared styles in `list-item-styles.tsx`:**
+- `listPopupStyles` - Popup container (shadow, animation, sizing)
+- `listItemVariants` - Item hover, focus, disabled states
+- `listItemLabelVariants` - Text styling
+- `ListSearch` - Search input component for filtering dropdown items
+- `LIST_MAX_HEIGHT` (320px), `LIST_SEARCH_THRESHOLD` (7 items)
+
+**Rules for new dropdown components:**
+1. Import shared styles from `list-item-styles.tsx`
+2. Use `ScrollFadeContainer` for scrollable content
+3. Use `MenuPrefix`/`MenuSuffix` for item decorations when applicable
+4. Follow Menu's popup styling (shadow, animation, border-radius)
+5. Support `searchable` prop for lists > 7 items
+
 ### Token System
 - All colors and spacing use CSS variables from `src/design-system/tokens.css`
 - Theme switching via `data-theme-color` and `data-base-color` attributes
@@ -66,6 +95,24 @@ Components follow this structure:
 - Fast/Responsive: `bounce: 0, duration: 0.2`
 - Smooth/Subtle: `bounce: 0.1, duration: 0.25`
 - Expressive: `bounce: 0.2, duration: 0.3`
+
+## Documentation Structure
+
+Documentation pages should be organized around **component capabilities** (what the component can do), not around **content or use cases** (what data you might use with it).
+
+**Good section names** (capability-focused):
+- "Sizes" - the component supports different sizes
+- "With Icon" - the component can display icons
+- "With Label" - the component supports labels
+- "Custom Options" - the component allows custom option rendering
+- "States" - the component has different states
+
+**Bad section names** (content-focused):
+- "Company Search" - describes what data is being searched
+- "Crypto Tokens" - describes the content type
+- "User List" - describes the data
+
+The key principle: section headers should describe **what the component is capable of**, not **what example content is being shown**. Multiple content examples can live under a single capability section.
 
 ## Path Aliases
 
