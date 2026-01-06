@@ -299,7 +299,7 @@ function Select(props: SelectProps) {
                       data-slot="indicator"
                       className="flex size-[20px] shrink-0 items-center justify-center"
                     >
-                      <span className="flex size-[16px] items-center justify-center text-actions-primary-default [&_svg]:size-full">
+                      <span className="flex size-[16px] items-center justify-center text-content-strong [&_svg]:size-full">
                         <RiCheckFill />
                       </span>
                     </SelectPrimitive.ItemIndicator>
