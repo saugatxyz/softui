@@ -13,7 +13,9 @@
       "Bash(curl:*)",
       "mcp__figma__get_design_context",
       "mcp__figma__get_screenshot",
-      "WebFetch(domain:base-ui.com)"
+      "WebFetch(domain:base-ui.com)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)"
     ]
   }
 }
