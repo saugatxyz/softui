@@ -69,6 +69,8 @@ const iconButtonVariants = cva(
           "bg-actions-danger-default text-[color:rgb(var(--content-inverse-strong))] hover:enabled:bg-actions-danger-hover hover:enabled:text-[color:rgb(var(--content-inverse-strong))] disabled:bg-actions-danger-disabled disabled:text-[color:rgb(var(--content-inverse-disabled))]",
       },
       size: {
+        "3xs": "size-[20px]",
+        "2xs": "size-[var(--space-24)]",
         xs: "size-[var(--space-28)]",
         s: "size-[var(--space-32)]",
         m: "size-[var(--space-36)]",
@@ -87,6 +89,8 @@ const iconVariants = cva(
   {
     variants: {
       size: {
+        "3xs": "size-[12px]",
+        "2xs": "size-[16px]",
         xs: "size-[16px]",
         s: "size-[16px]",
         m: "size-[16px]",

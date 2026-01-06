@@ -32,6 +32,8 @@ const variantRows = [
 ] as const
 
 const sizes = [
+  { value: "3xs", label: "3XS", height: 20, iconSize: 12 },
+  { value: "2xs", label: "2XS", height: 24, iconSize: 16 },
   { value: "xs", label: "XS", height: 28, iconSize: 16 },
   { value: "s", label: "S", height: 32, iconSize: 16 },
   { value: "m", label: "M", height: 36, iconSize: 16 },
@@ -69,7 +71,7 @@ export default function IconButtonDocsPage() {
           code={`import { IconButton } from "@/components/ui/icon-button"
 import { SearchIcon } from "@/icons"
 
-<IconButton variant="secondary">
+<IconButton variant="secondary" size="3xs">
   <SearchIcon />
 </IconButton>`}
         />

@@ -87,7 +87,13 @@ function SwitchControl({
             transition={thumbTransition}
             className={cn(
               "block size-[12px] rounded-full shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
-              disabled ? "bg-neutral-400" : isChecked ? "bg-content-on-accent-strong" : "bg-white"
+              disabled
+                        ? isChecked
+                          ? "bg-content-on-accent-disabled"
+                          : "bg-neutral-400"
+                        : isChecked
+                          ? "bg-content-on-accent-strong"
+                          : "bg-white"
             )}
           />
         }
