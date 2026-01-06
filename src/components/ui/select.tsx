@@ -2,13 +2,12 @@
 
 import * as React from "react"
 import { Field } from "@base-ui/react/field"
-import { Input as InputPrimitive } from "@base-ui/react/input"
 import { cva, type VariantProps } from "class-variance-authority"
-import { RiErrorWarningFill } from "@remixicon/react"
+import { RiErrorWarningFill, RiExpandUpDownLine } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 
-const inputFieldVariants = cva(
+const selectFieldVariants = cva(
   "flex w-full items-center gap-[var(--space-2)] rounded-[var(--radius-10)] bg-actions-secondary-default transition-colors duration-200",
   {
     variants: {
@@ -24,8 +23,8 @@ const inputFieldVariants = cva(
   }
 )
 
-const inputVariants = cva(
-  "flex-1 bg-transparent text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] outline-none placeholder:text-content-muted caret-actions-primary-default",
+const selectVariants = cva(
+  "flex-1 appearance-none bg-transparent text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] outline-none cursor-pointer",
   {
     variants: {
       size: {
@@ -69,38 +68,57 @@ const labelVariants = cva("flex w-full flex-col items-start", {
   },
 })
 
-type InputSize = "s" | "m" | "l"
+type SelectSize = "s" | "m" | "l"
 
-type InputProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
-  VariantProps<typeof inputFieldVariants> & {
+type SelectProps = Omit<React.ComponentProps<"select">, "size"> &
+  VariantProps<typeof selectFieldVariants> & {
     label?: string
     description?: string
     error?: string
     leadingIcon?: React.ReactNode
-    trailingIcon?: React.ReactNode
     /** Only show focus ring on keyboard navigation */
     focusVisibleOnly?: boolean
   }
 
-function Input({
+function Select({
   className,
   size,
   label,
   description,
   error,
   leadingIcon,
-  trailingIcon,
   focusVisibleOnly,
   disabled,
+  children,
+  value,
+  defaultValue,
+  onChange,
   ...props
-}: InputProps) {
-  const resolvedSize: InputSize = size ?? "m"
+}: SelectProps) {
+  const resolvedSize: SelectSize = size ?? "m"
   const hasLabel = Boolean(label)
   const hasDescription = Boolean(description)
   const hasError = Boolean(error)
   const [showFocusRing, setShowFocusRing] = React.useState(false)
   const wasMouseDown = React.useRef(false)
-  const inputRef = React.useRef<HTMLInputElement>(null)
+  const selectRef = React.useRef<HTMLSelectElement>(null)
+  const [hasValue, setHasValue] = React.useState(() => {
+    if (value !== undefined) return value !== ""
+    if (defaultValue !== undefined) return defaultValue !== ""
+    return false
+  })
+
+  // Update hasValue when controlled value changes
+  React.useEffect(() => {
+    if (value !== undefined) {
+      setHasValue(value !== "")
+    }
+  }, [value])
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setHasValue(e.target.value !== "")
+    onChange?.(e)
+  }
 
   const handleMouseDown = () => {
     wasMouseDown.current = true
@@ -144,9 +162,7 @@ function Input({
           data-slot="description"
           className={cn(
             "font-[var(--font-weight-default)]",
-            resolvedSize === "s"
-              ? "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]"
-              : "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
+            "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
             disabled ? "text-content-muted" : "text-content-subtle"
           )}
         >
@@ -158,27 +174,25 @@ function Input({
 
   return (
     <Field.Root
-      data-slot="input"
+      data-slot="select"
       data-size={resolvedSize}
       disabled={disabled}
       invalid={hasError}
       className={cn("flex w-full flex-col gap-[var(--space-8)]", className)}
     >
-      {/* Label always above */}
       {labelSection}
 
-      {/* Input field */}
       <div
         data-slot="field"
         className={cn(
-          inputFieldVariants({ size: resolvedSize }),
-          "group relative cursor-text",
+          selectFieldVariants({ size: resolvedSize }),
+          "group relative cursor-pointer",
           !disabled && "hover:bg-actions-secondary-hover",
           showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           disabled && "bg-actions-secondary-disabled"
         )}
         onMouseDown={handleMouseDown}
-        onClick={() => inputRef.current?.focus()}
+        onClick={() => selectRef.current?.focus()}
       >
         {leadingIcon && (
           <span
@@ -192,35 +206,39 @@ function Input({
           </span>
         )}
 
-        <InputPrimitive
-          ref={inputRef}
+        <select
+          ref={selectRef}
           data-slot="control"
           disabled={disabled}
+          value={value}
+          defaultValue={defaultValue}
+          onChange={handleChange}
           className={cn(
-            inputVariants({ size: resolvedSize }),
+            selectVariants({ size: resolvedSize }),
             disabled
-              ? "text-content-disabled placeholder:text-content-disabled"
-              : "text-content-strong"
+              ? "text-content-disabled"
+              : hasValue
+                ? "text-content-strong"
+                : "text-content-muted"
           )}
           onFocus={handleFocus}
           onBlur={handleBlur}
           {...props}
-        />
+        >
+          {children}
+        </select>
 
-        {trailingIcon && (
-          <span
-            data-slot="icon"
-            className={cn(
-              iconVariants({ size: resolvedSize }),
-              disabled && "text-content-disabled"
-            )}
-          >
-            {trailingIcon}
-          </span>
-        )}
+        <span
+          data-slot="icon"
+          className={cn(
+            iconVariants({ size: resolvedSize }),
+            disabled ? "text-content-disabled" : "text-content-muted"
+          )}
+        >
+          <RiExpandUpDownLine />
+        </span>
       </div>
 
-      {/* Error message */}
       {hasError && (
         <div
           data-slot="error"
@@ -236,5 +254,5 @@ function Input({
   )
 }
 
-export { Input }
-export type { InputProps }
+export { Select }
+export type { SelectProps }
