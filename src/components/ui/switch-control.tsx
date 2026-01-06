@@ -46,11 +46,11 @@ function SwitchControl({
   // Use controlled value if provided, otherwise use internal state
   const isChecked = controlledChecked !== undefined ? controlledChecked : internalChecked
 
-  const handleCheckedChange = (newChecked: boolean) => {
+  const handleCheckedChange: Switch.Root.Props["onCheckedChange"] = (newChecked, event) => {
     if (controlledChecked === undefined) {
       setInternalChecked(newChecked)
     }
-    onCheckedChange?.(newChecked)
+    onCheckedChange?.(newChecked, event)
   }
 
   const getStateClasses = () => {

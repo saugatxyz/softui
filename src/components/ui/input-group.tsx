@@ -126,7 +126,7 @@ const labelVariants = cva("flex w-full flex-col items-start", {
 type InputGroupSize = "s" | "m" | "l"
 type SegmentType = "static" | "action" | "select"
 
-type InputGroupProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
+type InputGroupProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size" | "prefix" | "suffix"> &
   VariantProps<typeof fieldContainerVariants> & {
     label?: string
     description?: string
