@@ -15,7 +15,12 @@
       "mcp__figma__get_screenshot",
       "WebFetch(domain:base-ui.com)",
       "Bash(lsof:*)",
-      "Bash(xargs kill:*)"
+      "Bash(xargs kill:*)",
+      "Bash(npx tsc:*)",
+      "Bash(for i in 1 2 3 4 5)",
+      "Bash(do curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/docs/switch-group)",
+      "Bash(done)",
+      "Bash(for i in 1 2 3)"
     ]
   }
 }

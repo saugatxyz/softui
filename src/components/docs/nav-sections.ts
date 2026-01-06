@@ -51,6 +51,8 @@ export const navSections = [
       { label: "Pagination", href: "/docs/pagination" },
       { label: "Radio Group", href: "/docs/radio-group" },
       { label: "Select", href: "/docs/select" },
+      { label: "Switch", href: "/docs/switch" },
+      { label: "Switch Group", href: "/docs/switch-group" },
       { label: "Toggle Button", href: "/docs/toggle-button" },
       { label: "Toggle Group", href: "/docs/toggle-group" },
     ],
