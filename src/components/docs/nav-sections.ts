@@ -45,6 +45,7 @@ export const navSections = [
       { label: "Checkbox", href: "/docs/checkbox" },
       { label: "Checkbox Group", href: "/docs/checkbox-group" },
       { label: "Icon Button", href: "/docs/icon-button" },
+      { label: "Pagination", href: "/docs/pagination" },
       { label: "Radio Group", href: "/docs/radio-group" },
       { label: "Toggle Button", href: "/docs/toggle-button" },
       { label: "Toggle Group", href: "/docs/toggle-group" },
