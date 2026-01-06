@@ -266,7 +266,7 @@ import { SwitchGroupItem } from "@/components/ui/switch-group-item"
                   label="Discord"
                   description="Requires admin approval"
                   prefix={<SwitchPrefix type="logo" size="m" logo="discord" />}
-                  badge={<Badge variant="neutral" size="xs" isEmphasized>Disconnected</Badge>}
+                  badge={<Badge variant="warning" size="xs" isEmphasized>Disconnected</Badge>}
                   disabled
                 />
               </SwitchGroup>
