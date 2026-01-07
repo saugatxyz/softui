@@ -147,7 +147,7 @@ export default function TokensIconsPage() {
 
       <section className="flex flex-1 flex-col gap-[var(--space-24)]">
         {showEmptyState ? (
-          <div className="flex flex-1 flex-col justify-between border-b border-border-muted px-[var(--space-24)] py-[var(--space-32)] text-center">
+          <div className="flex flex-1 flex-col justify-between border-b border-border-muted px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)] text-center">
             <div className="flex flex-1 flex-col items-center justify-center gap-[var(--space-16)]">
               <MenuSearchLineIcon className="size-[28px] text-content-strong" />
               <div className="flex flex-col gap-[var(--space-6)]">

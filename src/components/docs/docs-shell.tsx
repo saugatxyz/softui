@@ -24,7 +24,7 @@ export function DocsShell({ children }: DocsShellProps) {
       <ThemeSwitcher onMenuOpen={() => setMenuOpen(true)} menuOpen={menuOpen} />
       <div className="flex flex-1 overflow-hidden">
         <DocsSidebar />
-        <main className="flex-1 overflow-y-auto pt-[48px]">
+        <main className="flex-1 overflow-y-auto">
           {children}
         </main>
       </div>
