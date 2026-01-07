@@ -134,14 +134,15 @@ const popupPositionStyles: Record<DialogPosition, string> = {
     "before:rounded-[var(--radius-24)]"
   ),
   right: cn(
-    "fixed top-[8px] right-[8px] bottom-[8px] z-50",
+    "fixed top-[8px] right-[8px] z-50",
+    "h-[calc(100dvh-16px)]",
     "w-full max-w-[400px]",
     "rounded-[var(--radius-24)]",
     "before:rounded-[var(--radius-24)]"
   ),
   sheet: cn(
     "fixed left-[8px] right-[8px] bottom-[8px] z-50",
-    "max-h-[calc(100vh-16px)]",
+    "max-h-[calc(100dvh-16px)]",
     "rounded-[var(--radius-24)]",
     "before:rounded-[var(--radius-24)]"
   ),

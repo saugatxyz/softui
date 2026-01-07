@@ -20,7 +20,7 @@ export function DocsShell({ children }: DocsShellProps) {
   const pathname = usePathname()
 
   return (
-    <div className="flex h-screen flex-col bg-surface-page">
+    <div className="flex h-dvh flex-col bg-surface-page">
       <ThemeSwitcher onMenuOpen={() => setMenuOpen(true)} menuOpen={menuOpen} />
       <div className="flex flex-1 overflow-hidden">
         <DocsSidebar />
