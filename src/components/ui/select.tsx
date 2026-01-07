@@ -15,7 +15,7 @@ import { MenuPrefix, type DecorativeColor } from "./menu-prefix"
 
 const triggerVariants = cva(
   [
-    "flex w-full items-center gap-[var(--space-8)] rounded-[var(--radius-10)]",
+    "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
     "bg-actions-secondary-default transition-colors duration-200 outline-none cursor-pointer",
   ].join(" "),
   {
@@ -287,7 +287,7 @@ function Select(props: SelectProps) {
                           className={cn(
                             "truncate",
                             "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
-                            option.disabled ? "text-content-disabled" : "text-content-muted"
+                            option.disabled ? "text-content-disabled" : "text-content-subtle"
                           )}
                         >
                           {option.description}

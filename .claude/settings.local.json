@@ -25,7 +25,10 @@
       "Bash(for f in *.tsx)",
       "Bash(do mv \"$f\" \"$f%.tsx.txt\")",
       "Bash(grep:*)",
-      "Bash(xargs ls:*)"
+      "Bash(xargs ls:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "WebSearch"
     ]
   }
 }

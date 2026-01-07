@@ -9,7 +9,7 @@ import { RiErrorWarningFill } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 
 const inputFieldVariants = cva(
-  "flex w-full items-center gap-[var(--space-2)] rounded-[var(--radius-10)] bg-actions-secondary-default transition-colors duration-200",
+  "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)] bg-actions-secondary-default transition-colors duration-200",
   {
     variants: {
       size: {
@@ -29,9 +29,9 @@ const inputVariants = cva(
   {
     variants: {
       size: {
-        s: "px-[var(--space-4)]",
-        m: "px-[var(--space-4)]",
-        l: "px-[var(--space-4)]",
+        s: "",
+        m: "",
+        l: "",
       },
     },
     defaultVariants: {

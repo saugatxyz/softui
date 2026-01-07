@@ -33,35 +33,6 @@ Components follow this structure:
 4. Use `label` wrapper for optical balance with icon padding
 5. Add `data-slot`, `data-variant`, `data-size`, `data-tone` attributes for semantic styling
 
-### Menu Ecosystem (Dropdowns)
-
-**Menu is the master component** for all dropdown/popup list UIs. Three components share visual patterns:
-
-| Component | Use Case | Primitive |
-|-----------|----------|-----------|
-| **Menu** | Actions/commands (clicking does something) | `@base-ui/react/menu` |
-| **Select** | Pick a value from options (form input) | `@base-ui/react/select` |
-| **Autocomplete** | Search + select with free-form typing | `@base-ui/react/combobox` |
-
-**When to use which:**
-- Use **Menu** for context menus, action dropdowns, navigation menus
-- Use **Select** for form fields where user picks from predefined options
-- Use **Autocomplete** when users need to search/filter or can type custom values
-
-**Shared styles in `list-item-styles.tsx`:**
-- `listPopupStyles` - Popup container (shadow, animation, sizing)
-- `listItemVariants` - Item hover, focus, disabled states
-- `listItemLabelVariants` - Text styling
-- `ListSearch` - Search input component for filtering dropdown items
-- `LIST_MAX_HEIGHT` (320px), `LIST_SEARCH_THRESHOLD` (7 items)
-
-**Rules for new dropdown components:**
-1. Import shared styles from `list-item-styles.tsx`
-2. Use `ScrollFadeContainer` for scrollable content
-3. Use `MenuPrefix`/`MenuSuffix` for item decorations when applicable
-4. Follow Menu's popup styling (shadow, animation, border-radius)
-5. Support `searchable` prop for lists > 7 items
-
 ### Token System
 - All colors and spacing use CSS variables from `src/design-system/tokens.css`
 - Theme switching via `data-theme-color` and `data-base-color` attributes
@@ -82,6 +53,8 @@ Components follow this structure:
 **Never hardcode colors or spacing values.** Use CSS variables from tokens.css.
 
 **Token changes require user confirmation** with a summary table before implementation.
+
+**Component changes require a summary table** after creation or update to summarize what changed.
 
 **Animation guidelines:**
 - UI animations must not exceed 300ms

@@ -233,18 +233,21 @@ type ChipProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "prefix"> &
     onRemove?: () => void
   }
 
-function Chip({
-  className,
-  size: sizeProp,
-  selected = false,
-  disabled = false,
-  icon,
-  prefix,
-  onRemove,
-  children,
-  onClick,
-  ...props
-}: ChipProps) {
+const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
+  {
+    className,
+    size: sizeProp,
+    selected = false,
+    disabled = false,
+    icon,
+    prefix,
+    onRemove,
+    children,
+    onClick,
+    ...props
+  },
+  ref
+) {
   const context = useChipContext()
   const size = sizeProp ?? context?.size ?? "s"
   const hasIcon = Boolean(icon)
@@ -283,6 +286,7 @@ function Chip({
 
   return (
     <button
+      ref={ref}
       type="button"
       data-slot="chip"
       data-size={size}
@@ -335,7 +339,7 @@ function Chip({
       )}
     </button>
   )
-}
+})
 
 export { Chip, ChipContext, useChipContext, chipVariants }
 export type { ChipProps, ChipSize, ChipContextValue }
