@@ -180,6 +180,11 @@
   --color-utility-shadow-l2: rgb(var(--utility-shadow-l2));
   --color-utility-shadow-l3: rgb(var(--utility-shadow-l3));
   --color-utility-shadow-l4: rgb(var(--utility-shadow-l4));
+  --color-utility-backdrop: rgb(var(--utility-backdrop));
+
+  /* Composite shadows for modals/dialogs */
+  --shadow-modal: 0 0 0 1px var(--color-utility-shadow-l1), 0 1px 2px 0 var(--color-utility-shadow-l2), 0 3px 12px 0 var(--color-utility-shadow-l2), 0 4px 16px 0 var(--color-utility-shadow-l3);
+  --shadow-modal-content: 0 0 0 1px var(--color-utility-shadow-l1), 0 0 1px 0 var(--color-utility-shadow-l2), 0 1px 2px 1px var(--color-utility-shadow-l2);
 }
 
 :root {
@@ -1031,6 +1036,7 @@ html[data-mode="light"][data-scheme="color"] {
   --utility-shadow-l2: var(--darken-4);
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
+  --utility-backdrop: var(--darken-64);
 }
 
 html[data-mode="dark"][data-scheme="color"] {
@@ -1202,6 +1208,7 @@ html[data-mode="dark"][data-scheme="color"] {
   --utility-shadow-l2: var(--darken-6);
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
+  --utility-backdrop: var(--darken-64);
 }
 
 html[data-mode="light"][data-scheme="mono"] {
@@ -1373,6 +1380,7 @@ html[data-mode="light"][data-scheme="mono"] {
   --utility-shadow-l2: var(--darken-4);
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
+  --utility-backdrop: var(--darken-64);
 }
 
 html[data-mode="dark"][data-scheme="mono"] {
@@ -1544,4 +1552,5 @@ html[data-mode="dark"][data-scheme="mono"] {
   --utility-shadow-l2: var(--darken-6);
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
+  --utility-backdrop: var(--darken-64);
 }

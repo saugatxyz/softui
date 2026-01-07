@@ -39,6 +39,7 @@ export const navSections = [
     title: "Components",
     items: [
       { label: "Accordion", href: "/docs/accordion" },
+      { label: "Alert Dialog", href: "/docs/alert-dialog" },
       { label: "Autocomplete", href: "/docs/autocomplete" },
       { label: "Avatar", href: "/docs/avatar" },
       { label: "Badge", href: "/docs/badge" },
