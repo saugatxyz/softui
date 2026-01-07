@@ -1,10 +1,13 @@
 "use client"
 
 import { CodeBlock } from "@/components/docs/code-block"
+import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox"
 import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
 import { Avatar } from "@/components/ui/avatar"
 import { Crypto } from "@/components/ui/crypto"
 import { Logo } from "@/components/ui/logo"
+import { listPopupStyles, listItemVariants } from "@/components/ui/list-item-styles"
+import { cn } from "@/lib/utils"
 import {
   RiSearchLine,
   RiGlobalLine,
@@ -16,6 +19,8 @@ import {
   RiStarLine,
   RiTeamLine,
   RiDeleteBinLine,
+  RiExpandUpDownLine,
+  RiCheckFill,
 } from "@remixicon/react"
 
 // Basic options
@@ -195,6 +200,162 @@ const regionGroups = [
     ],
   },
 ]
+
+// Countries for searchable select example
+const allCountries = [
+  { value: "us", label: "United States" },
+  { value: "uk", label: "United Kingdom" },
+  { value: "ca", label: "Canada" },
+  { value: "de", label: "Germany" },
+  { value: "fr", label: "France" },
+  { value: "jp", label: "Japan" },
+  { value: "au", label: "Australia" },
+  { value: "br", label: "Brazil" },
+  { value: "in", label: "India" },
+  { value: "mx", label: "Mexico" },
+  { value: "es", label: "Spain" },
+  { value: "it", label: "Italy" },
+  { value: "nl", label: "Netherlands" },
+  { value: "kr", label: "South Korea" },
+  { value: "sg", label: "Singapore" },
+]
+
+// ============================================================================
+// Searchable Select Component (Input Inside Popup)
+// ============================================================================
+
+function SearchableSelect({
+  options,
+  placeholder = "Select an option",
+  defaultValue,
+}: {
+  options: { value: string; label: string }[]
+  placeholder?: string
+  defaultValue?: string
+}) {
+  const defaultOption = defaultValue ? options.find(o => o.value === defaultValue) : undefined
+
+  return (
+    <ComboboxPrimitive.Root
+      items={options}
+      defaultValue={defaultOption}
+      itemToStringLabel={(item) => (item as { label: string })?.label ?? ""}
+      itemToStringValue={(item) => (item as { value: string })?.value ?? ""}
+    >
+      <ComboboxPrimitive.Trigger
+        className={cn(
+          "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
+          "h-[var(--space-36)] px-[var(--space-12)]",
+          "bg-actions-secondary-default transition-colors duration-200 outline-none cursor-pointer",
+          "hover:bg-actions-secondary-hover",
+          "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
+        )}
+      >
+        <ComboboxPrimitive.Value
+          className={cn(
+            "min-w-0 flex-1 truncate text-left",
+            "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
+            "text-content-strong data-[placeholder]:text-content-muted"
+          )}
+        >
+          {(value) => {
+            const selected = value as { label: string } | null
+            if (selected?.label) {
+              return <span className="text-content-strong text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">{selected.label}</span>
+            }
+            return <span className="text-content-muted text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">{placeholder}</span>
+          }}
+        </ComboboxPrimitive.Value>
+        <ComboboxPrimitive.Icon
+          className={cn(
+            "ml-auto flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full",
+            "text-content-muted"
+          )}
+        >
+          <RiExpandUpDownLine />
+        </ComboboxPrimitive.Icon>
+      </ComboboxPrimitive.Trigger>
+
+      <ComboboxPrimitive.Portal>
+        <ComboboxPrimitive.Positioner
+          align="start"
+          sideOffset={4}
+          collisionPadding={8}
+          className="outline-none"
+        >
+          <ComboboxPrimitive.Popup
+            className={cn(listPopupStyles.base, listPopupStyles.width)}
+          >
+            {/* Search input inside popup */}
+            <div className="p-[var(--space-4)]">
+              <div
+                className={cn(
+                  "flex w-full items-center gap-[var(--space-2)] rounded-[var(--radius-10)]",
+                  "h-[var(--space-36)] px-[var(--space-12)]",
+                  "bg-actions-secondary-default transition-colors duration-200",
+                  "hover:bg-actions-secondary-hover"
+                )}
+              >
+                <span className="flex size-[16px] shrink-0 items-center justify-center text-content-subtle [&_svg]:size-full">
+                  <RiSearchLine />
+                </span>
+                <ComboboxPrimitive.Input
+                  placeholder="Search..."
+                  className={cn(
+                    "flex-1 bg-transparent outline-none px-[var(--space-4)]",
+                    "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
+                    "text-content-strong placeholder:text-content-muted",
+                    "caret-actions-primary-default"
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className="flex max-h-[280px] flex-col gap-[var(--space-2)] overflow-auto p-[var(--space-4)] pt-0">
+              <ComboboxPrimitive.Empty
+                className={cn(
+                  "flex w-full items-center justify-center empty:hidden",
+                  "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
+                  "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
+                  "text-content-muted"
+                )}
+              >
+                No results found
+              </ComboboxPrimitive.Empty>
+
+              <ComboboxPrimitive.List>
+                {(item: { value: string; label: string }) => (
+                  <ComboboxPrimitive.Item
+                    key={item.value}
+                    value={item}
+                    className={cn(listItemVariants())}
+                  >
+                    <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
+                      <span
+                        className={cn(
+                          "truncate",
+                          "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
+                          "text-content-strong"
+                        )}
+                      >
+                        {item.label}
+                      </span>
+                    </div>
+                    <ComboboxPrimitive.ItemIndicator className="flex size-[20px] shrink-0 items-center justify-center">
+                      <span className="flex size-[16px] items-center justify-center text-content-strong [&_svg]:size-full">
+                        <RiCheckFill />
+                      </span>
+                    </ComboboxPrimitive.ItemIndicator>
+                  </ComboboxPrimitive.Item>
+                )}
+              </ComboboxPrimitive.List>
+            </div>
+          </ComboboxPrimitive.Popup>
+        </ComboboxPrimitive.Positioner>
+      </ComboboxPrimitive.Portal>
+    </ComboboxPrimitive.Root>
+  )
+}
 
 export default function ComboboxDocsPage() {
   return (
@@ -614,6 +775,42 @@ const groups = [
                 groups={regionGroups}
                 label="Markets"
                 placeholder="Select regions..."
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Input Inside Popup */}
+      <section className="flex flex-col gap-[var(--space-10)]">
+        <h2 className="text-body-xl-semibold">Input Inside Popup</h2>
+        <p className="text-body-m text-content-subtle">
+          A searchable select pattern where the input appears inside the popup, similar to a native select with search.
+          This is composed using Base UI primitives with our design system styles.
+        </p>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Searchable select</p>
+              <p className="text-body-s text-content-subtle">Click to open, then search</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <SearchableSelect
+                options={allCountries}
+                placeholder="Select country"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">With default value</p>
+              <p className="text-body-s text-content-subtle">Pre-selected option</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <SearchableSelect
+                options={allCountries}
+                placeholder="Select country"
+                defaultValue="us"
               />
             </div>
           </div>
