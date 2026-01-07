@@ -244,19 +244,13 @@ function SearchableSelect({
           "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
         )}
       >
-        <ComboboxPrimitive.Value
-          className={cn(
-            "min-w-0 flex-1 truncate text-left",
-            "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-            "text-content-strong data-[placeholder]:text-content-muted"
-          )}
-        >
+        <ComboboxPrimitive.Value>
           {(value) => {
             const selected = value as { label: string } | null
             if (selected?.label) {
-              return <span className="text-content-strong text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">{selected.label}</span>
+              return <span className="min-w-0 flex-1 truncate text-left text-content-strong text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">{selected.label}</span>
             }
-            return <span className="text-content-muted text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">{placeholder}</span>
+            return <span className="min-w-0 flex-1 truncate text-left text-content-muted text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">{placeholder}</span>
           }}
         </ComboboxPrimitive.Value>
         <ComboboxPrimitive.Icon

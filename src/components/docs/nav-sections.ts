@@ -48,6 +48,7 @@ export const navSections = [
       { label: "Checkbox Group", href: "/docs/checkbox-group" },
       { label: "Chip", href: "/docs/chip" },
       { label: "Combobox", href: "/docs/combobox" },
+      { label: "Context Menu", href: "/docs/context-menu" },
       { label: "Icon Button", href: "/docs/icon-button" },
       { label: "Input", href: "/docs/input" },
       { label: "Input Group", href: "/docs/input-group" },
