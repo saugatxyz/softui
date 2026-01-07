@@ -81,6 +81,7 @@ function SwitchControl({
         render={
           <motion.span
             data-slot="switch-thumb"
+            initial={false}
             animate={{
               x: isChecked ? 16 : 0,
             }}

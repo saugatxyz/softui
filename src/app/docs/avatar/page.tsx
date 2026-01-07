@@ -11,13 +11,17 @@ const sizes = [
   { value: "l", label: "L", size: 40 },
 ] as const
 
+const singleAvatar = { src: "/avatars/avatar-8.png", alt: "User" }
+
 const sampleAvatars = [
-  { src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop", alt: "Sarah" },
-  { src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop", alt: "Mike" },
-  { src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop", alt: "Emma" },
-  { src: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&h=100&fit=crop", alt: "John" },
-  { src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop", alt: "Lisa" },
-  { src: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=100&h=100&fit=crop", alt: "Anna" },
+  { src: "/avatars/avatar-1.png", alt: "User 1" },
+  { src: "/avatars/avatar-2.png", alt: "User 2" },
+  { src: "/avatars/avatar-3.png", alt: "User 3" },
+  { src: "/avatars/avatar-4.png", alt: "User 4" },
+  { src: "/avatars/avatar-5.png", alt: "User 5" },
+  { src: "/avatars/avatar-6.png", alt: "User 6" },
+  { src: "/avatars/avatar-7.png", alt: "User 7" },
+  { src: "/avatars/avatar-8.png", alt: "User 8" },
 ]
 
 export default function AvatarDocsPage() {
@@ -74,14 +78,14 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
               <Avatar
                 size="m"
                 shape="circular"
-                src={sampleAvatars[0].src}
-                alt={sampleAvatars[0].alt}
+                src={singleAvatar.src}
+                alt={singleAvatar.alt}
               />
               <Avatar
                 size="m"
                 shape="square"
-                src={sampleAvatars[0].src}
-                alt={sampleAvatars[0].alt}
+                src={singleAvatar.src}
+                alt={singleAvatar.alt}
               />
             </div>
           </div>
@@ -135,8 +139,8 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
                 <Avatar
                   size={size.value}
                   shape="circular"
-                  src={sampleAvatars[0].src}
-                  alt={sampleAvatars[0].alt}
+                  src={singleAvatar.src}
+                  alt={singleAvatar.alt}
                 />
                 <Avatar
                   size={size.value}
@@ -169,8 +173,8 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
                   key={size.value}
                   size={size.value}
                   shape="circular"
-                  src={sampleAvatars[0].src}
-                  alt={sampleAvatars[0].alt}
+                  src={singleAvatar.src}
+                  alt={singleAvatar.alt}
                 />
               ))}
             </div>
@@ -185,8 +189,8 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
                   key={size.value}
                   size={size.value}
                   shape="square"
-                  src={sampleAvatars[0].src}
-                  alt={sampleAvatars[0].alt}
+                  src={singleAvatar.src}
+                  alt={singleAvatar.alt}
                 />
               ))}
             </div>

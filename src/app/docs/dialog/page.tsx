@@ -18,6 +18,8 @@ import {
 
 export default function DialogDocsPage() {
   const [basicOpen, setBasicOpen] = React.useState(false)
+  const [rightOpen, setRightOpen] = React.useState(false)
+  const [sheetOpen, setSheetOpen] = React.useState(false)
   const [accountOpen, setAccountOpen] = React.useState(false)
   const [nestedOpen, setNestedOpen] = React.useState(false)
   const [nestedInnerOpen, setNestedInnerOpen] = React.useState(false)
@@ -101,6 +103,82 @@ import { Button } from "@/components/ui/button"
                       <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
                       <Button variant="primary" onClick={() => setBasicOpen(false)}>
                         Got it
+                      </Button>
+                    </Dialog.Footer>
+                  </Dialog.Popup>
+                </Dialog.Portal>
+              </Dialog.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-10)]">
+        <h2 className="text-body-xl-semibold">Position</h2>
+        <p className="text-body-m text-content-subtle">
+          Use the <code className="rounded bg-surface-muted px-[var(--space-4)] py-[var(--space-2)] text-body-s">position</code> prop to change the dialog placement and animation.
+        </p>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Right panel</p>
+              <p className="text-body-s text-content-subtle">Slides in from right</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
+              <Dialog.Root open={rightOpen} onOpenChange={setRightOpen}>
+                <Dialog.Trigger render={<Button variant="secondary">Open panel</Button>} />
+                <Dialog.Portal>
+                  <Dialog.Backdrop />
+                  <Dialog.Popup position="right">
+                    <Dialog.Content>
+                      <Dialog.Header>
+                        <Dialog.Title>Settings</Dialog.Title>
+                        <Dialog.Close />
+                      </Dialog.Header>
+                      <Dialog.Body>
+                        <p className="text-body-m text-content-default">
+                          Right-positioned dialogs are useful for settings panels, detail views, or any content that should slide in from the side.
+                        </p>
+                      </Dialog.Body>
+                    </Dialog.Content>
+                    <Dialog.Footer>
+                      <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
+                      <Button variant="primary" onClick={() => setRightOpen(false)}>
+                        Save
+                      </Button>
+                    </Dialog.Footer>
+                  </Dialog.Popup>
+                </Dialog.Portal>
+              </Dialog.Root>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Bottom sheet</p>
+              <p className="text-body-s text-content-subtle">Slides up from bottom</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
+              <Dialog.Root open={sheetOpen} onOpenChange={setSheetOpen}>
+                <Dialog.Trigger render={<Button variant="secondary">Open sheet</Button>} />
+                <Dialog.Portal>
+                  <Dialog.Backdrop />
+                  <Dialog.Popup position="sheet">
+                    <Dialog.Content>
+                      <Dialog.Header>
+                        <Dialog.Title>Actions</Dialog.Title>
+                        <Dialog.Close />
+                      </Dialog.Header>
+                      <Dialog.Body>
+                        <p className="text-body-m text-content-default">
+                          Bottom sheets are ideal for mobile navigation, action menus, or any content that should slide up from the bottom of the screen.
+                        </p>
+                      </Dialog.Body>
+                    </Dialog.Content>
+                    <Dialog.Footer>
+                      <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
+                      <Button variant="primary" onClick={() => setSheetOpen(false)}>
+                        Done
                       </Button>
                     </Dialog.Footer>
                   </Dialog.Popup>

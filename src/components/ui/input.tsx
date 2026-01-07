@@ -69,7 +69,7 @@ function Input({
   size,
   leadingIcon,
   trailingIcon,
-  focusVisibleOnly,
+  focusVisibleOnly = true,
   disabled,
   ...props
 }: InputProps) {

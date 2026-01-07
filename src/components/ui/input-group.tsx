@@ -151,7 +151,7 @@ function InputGroup({
   onSuffixClick,
   leadingIcon,
   trailingIcon,
-  focusVisibleOnly,
+  focusVisibleOnly = true,
   disabled,
   ...props
 }: InputGroupProps) {

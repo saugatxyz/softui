@@ -30,7 +30,9 @@
       "WebFetch(domain:github.com)",
       "WebSearch",
       "Bash(ls:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm remove:*)"
     ]
   }
 }

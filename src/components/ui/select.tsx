@@ -202,7 +202,7 @@ function Select(props: SelectProps) {
             sideOffset={sideOffset}
             alignItemWithTrigger={false}
             collisionPadding={8}
-            className="outline-none"
+            className="z-[100] outline-none"
           >
             <SelectPrimitive.Popup
               data-slot="popup"

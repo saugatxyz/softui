@@ -119,22 +119,65 @@ function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
 // Dialog Popup
 // ============================================================================
 
+type DialogPosition = "center" | "right" | "sheet"
+
 type DialogPopupProps = Omit<DialogPrimitive.Popup.Props, "className"> & {
   className?: string
+  position?: DialogPosition
 }
 
-function DialogPopup({ className, children, ...props }: DialogPopupProps) {
+const popupPositionStyles: Record<DialogPosition, string> = {
+  center: cn(
+    "fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
+    "w-[min(480px,calc(100vw-var(--space-32)))]",
+    "rounded-[var(--radius-24)]",
+    "before:rounded-[var(--radius-24)]"
+  ),
+  right: cn(
+    "fixed top-[8px] right-[8px] bottom-[8px] z-50",
+    "w-full max-w-[400px]",
+    "rounded-[var(--radius-24)]",
+    "before:rounded-[var(--radius-24)]"
+  ),
+  sheet: cn(
+    "fixed left-[8px] right-[8px] bottom-[8px] z-50",
+    "max-h-[calc(100vh-16px)]",
+    "rounded-[var(--radius-24)]",
+    "before:rounded-[var(--radius-24)]"
+  ),
+}
+
+const popupAnimations = {
+  center: {
+    initial: { opacity: 0, scale: 0.95, y: 4 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.95, y: 4 },
+  },
+  right: {
+    initial: { opacity: 0, x: "100%" },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: "100%" },
+  },
+  sheet: {
+    initial: { opacity: 0, y: "100%" },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: "100%" },
+  },
+} as const
+
+function DialogPopup({ className, children, position = "center", ...props }: DialogPopupProps) {
+  const animation = popupAnimations[position]
+
   return (
     <DialogPrimitive.Popup
       data-slot="dialog-popup"
+      data-position={position}
       className={cn(
-        // Positioning
-        "fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
-        // Sizing
-        "w-[min(480px,calc(100vw-var(--space-32)))]",
+        // Position-specific styles (includes positioning and rounding)
+        popupPositionStyles[position],
         // Appearance - layered: surface-overlay base + surface-canvas on top
-        "rounded-[var(--radius-24)] bg-surface-overlay",
-        "before:absolute before:inset-0 before:-z-10 before:rounded-[var(--radius-24)] before:bg-surface-canvas",
+        "bg-surface-overlay",
+        "before:absolute before:inset-0 before:-z-10 before:bg-surface-canvas",
         "shadow-[var(--shadow-modal)]",
         "backdrop-blur-[6px]",
         // Layout
@@ -148,10 +191,10 @@ function DialogPopup({ className, children, ...props }: DialogPopupProps) {
       )}
       render={
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 4 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 4 }}
-          transition={springTransition}
+          initial={animation.initial}
+          animate={animation.animate}
+          exit={animation.exit}
+          transition={position === "center" ? springTransition : { ...springTransition, duration: 0.2 }}
         />
       }
       {...props}
@@ -175,8 +218,8 @@ function DialogContent({ className, children, ...props }: DialogContentProps) {
         // Inner container styling
         "rounded-b-[var(--radius-8)] bg-surface-overlay",
         "shadow-[var(--shadow-modal-content)]",
-        // Layout
-        "flex flex-col overflow-hidden",
+        // Layout - flex-1 to fill popup height (for position="right")
+        "flex flex-1 flex-col overflow-hidden",
         className
       )}
       {...props}
@@ -309,8 +352,8 @@ function DialogBody({ className, children, ...props }: DialogBodyProps) {
     <div
       data-slot="dialog-body"
       className={cn(
-        // Layout - 24px padding
-        "flex flex-col gap-[var(--space-24)] p-[var(--space-24)]",
+        // Layout - 24px padding, flex-1 to fill available space
+        "flex flex-1 flex-col gap-[var(--space-24)] p-[var(--space-24)]",
         // Overflow
         "overflow-y-auto",
         className
@@ -365,6 +408,7 @@ const Dialog = {
 
 export { Dialog }
 export type {
+  DialogPosition,
   DialogRootProps,
   DialogTriggerProps,
   DialogPortalProps,

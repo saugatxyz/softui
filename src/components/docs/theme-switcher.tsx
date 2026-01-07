@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { AnimatePresence, motion } from "motion/react"
+import { motion } from "motion/react"
 
 import {
   baseColors,
@@ -10,13 +10,13 @@ import {
   themeColors,
 } from "@/design-system/config"
 import {
-  ExpandUpDownIcon,
   MenuIcon,
   MoonFillIcon,
   SettingsIcon,
   SunFillIcon,
 } from "@/icons"
 import { cn } from "@/lib/utils"
+import { Dialog } from "@/components/ui/dialog"
 import { IconButton } from "@/components/ui/icon-button"
 import { SoftLogo } from "@/components/docs/soft-logo"
 
@@ -154,57 +154,13 @@ type ThemeSwitcherProps = {
   menuOpen?: boolean
 }
 
-type SpringControls = {
-  bounce: number
-  duration: number
-  delay?: number
-}
-
-const springFromControls = ({ bounce, duration, delay = 0 }: SpringControls) => {
-  const clampedBounce = Math.min(Math.max(bounce, 0), 1)
-  const clampedDuration = Math.max(duration, 0.15)
-  const mass = 1
-  const dampingRatio = 1 - clampedBounce * 0.9
-  const angularFrequency = 4 / (dampingRatio * clampedDuration)
-  const stiffness = mass * angularFrequency * angularFrequency
-  const damping = 2 * dampingRatio * angularFrequency * mass
-
-  return { type: "spring" as const, stiffness, damping, mass, delay }
-}
-
 export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
   const [state, setState] = React.useState<ThemeState>(initialState)
   const [followsSystemPreference, setFollowsSystemPreference] = React.useState(false)
   const [mobileExpanded, setMobileExpanded] = React.useState(false)
-  const [showThemeLeftFade, setShowThemeLeftFade] = React.useState(false)
-  const [showThemeRightFade, setShowThemeRightFade] = React.useState(false)
-  const [showBaseLeftFade, setShowBaseLeftFade] = React.useState(false)
-  const [showBaseRightFade, setShowBaseRightFade] = React.useState(false)
-  const [popoverDragOffset, setPopoverDragOffset] = React.useState(0)
-  const [popoverDragging, setPopoverDragging] = React.useState(false)
-  const popoverSpring = springFromControls({
-    bounce: 0.1,
-    duration: 0.1,
-    delay: 0,
-  })
-  const popoverContentVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.04, delayChildren: 0.04 },
-    },
-  }
-  const popoverItemVariants = {
-    hidden: { opacity: 0, y: 6 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.2 } },
-  }
+  const [drawerOpen, setDrawerOpen] = React.useState(false)
   const themeOptions = ["mono", ...themeColors]
   const swatchRefs = React.useRef<(HTMLButtonElement | null)[]>([])
-  const themeRowRef = React.useRef<HTMLDivElement | null>(null)
-  const baseRowRef = React.useRef<HTMLDivElement | null>(null)
-  const popoverDragStartY = React.useRef(0)
-  const popoverDragOffsetRef = React.useRef(0)
-  const popoverDragThreshold = 96
 
   React.useEffect(() => {
     const { state: stored, followsSystem } = loadStoredState()
@@ -212,65 +168,6 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
     setFollowsSystemPreference(followsSystem)
     applyToRoot(stored)
   }, [])
-
-  React.useEffect(() => {
-    if (!mobileExpanded) return
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMobileExpanded(false)
-      }
-    }
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [mobileExpanded])
-
-  React.useEffect(() => {
-    if (mobileExpanded) return
-    setPopoverDragOffset(0)
-    setPopoverDragging(false)
-  }, [mobileExpanded])
-
-  React.useEffect(() => {
-    if (!mobileExpanded) return
-    const themeRow = themeRowRef.current
-    const baseRow = baseRowRef.current
-    if (!themeRow || !baseRow) return
-
-    const updateRow = (
-      element: HTMLDivElement,
-      setLeft: React.Dispatch<React.SetStateAction<boolean>>,
-      setRight: React.Dispatch<React.SetStateAction<boolean>>
-    ) => {
-      const hasOverflow = element.scrollWidth - element.clientWidth > 1
-      const isAtLeft = element.scrollLeft <= 0
-      const isAtRight =
-        element.scrollLeft + element.clientWidth >= element.scrollWidth - 1
-      setLeft(hasOverflow && !isAtLeft)
-      setRight(hasOverflow && !isAtRight)
-    }
-
-    const updateTheme = () =>
-      updateRow(themeRow, setShowThemeLeftFade, setShowThemeRightFade)
-    const updateBase = () =>
-      updateRow(baseRow, setShowBaseLeftFade, setShowBaseRightFade)
-
-    updateTheme()
-    updateBase()
-
-    const observer = new ResizeObserver(() => {
-      updateTheme()
-      updateBase()
-    })
-    observer.observe(themeRow)
-    observer.observe(baseRow)
-    themeRow.addEventListener("scroll", updateTheme)
-    baseRow.addEventListener("scroll", updateBase)
-    return () => {
-      observer.disconnect()
-      themeRow.removeEventListener("scroll", updateTheme)
-      baseRow.removeEventListener("scroll", updateBase)
-    }
-  }, [mobileExpanded])
 
   React.useEffect(() => {
     if (!followsSystemPreference) return
@@ -289,32 +186,6 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
     mediaQuery.addEventListener("change", handleChange)
     return () => mediaQuery.removeEventListener("change", handleChange)
   }, [followsSystemPreference])
-
-  const handlePopoverDragStart = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!mobileExpanded) return
-    popoverDragStartY.current = event.clientY
-    popoverDragOffsetRef.current = 0
-    setPopoverDragging(true)
-    event.currentTarget.setPointerCapture(event.pointerId)
-  }
-
-  const handlePopoverDragMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!popoverDragging) return
-    const nextOffset = Math.max(0, event.clientY - popoverDragStartY.current)
-    popoverDragOffsetRef.current = nextOffset
-    setPopoverDragOffset(nextOffset)
-  }
-
-  const handlePopoverDragEnd = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!popoverDragging) return
-    event.currentTarget.releasePointerCapture(event.pointerId)
-    const shouldClose = popoverDragOffsetRef.current > popoverDragThreshold
-    setPopoverDragging(false)
-    setPopoverDragOffset(0)
-    if (shouldClose) {
-      setMobileExpanded(false)
-    }
-  }
 
   const updateState = (partial: Partial<ThemeState>) => {
     setState((prev) => {
@@ -367,30 +238,122 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
     }
 
   return (
-    <div className="sticky top-0 z-40 border-b border-border-muted bg-surface-page">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-12)] md:flex-row md:items-center md:px-[var(--space-24)]">
-        <div className="hidden flex-1 flex-wrap items-center gap-[var(--space-8)] md:flex">
-          <div
-            className="flex flex-wrap items-center gap-[var(--space-6)]"
-            role="radiogroup"
-            aria-label="Theme colors"
+    <div className="z-40 shrink-0 border-b border-border-muted bg-surface-page md:border-b-0">
+      <div className="flex w-full flex-col gap-[var(--space-12)] px-[var(--space-12)] py-[var(--space-12)] md:flex-row md:items-center md:px-[var(--space-24)]">
+        <div className="hidden text-body-l-semibold text-content-strong md:block">
+          <SoftLogo />
+        </div>
+        <div className="hidden flex-1 items-center justify-end gap-[var(--space-8)] md:flex">
+          <IconButton
+            type="button"
+            aria-label={
+              state.mode === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+            size="m"
+            variant="ghost"
+            onClick={() =>
+              updateState({ mode: state.mode === "dark" ? "light" : "dark" })
+            }
           >
-            {themeOptions.map((value, index) => (
-              <SwatchButton
-                key={value}
-                label={value}
-                selected={currentTheme === value}
-                color={themeSwatchColor(value)}
-                onSelect={() => handleThemeChange(value)}
-                onKeyDown={handleSwatchKeyDown(index)}
-                buttonRef={(node) => {
-                  swatchRefs.current[index] = node
+            <span className="relative size-4">
+              <motion.span
+                className="absolute inset-0 flex items-center justify-center"
+                animate={{
+                  y: state.mode === "dark" ? 0 : 6,
+                  scale: state.mode === "dark" ? 1 : 0.5,
+                  opacity: state.mode === "dark" ? 1 : 0,
+                  filter: state.mode === "dark" ? "blur(0px)" : "blur(8px)",
                 }}
-                tabIndex={currentTheme === value ? 0 : -1}
-                size="s"
-              />
-            ))}
-          </div>
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <SunFillIcon className="size-full" />
+              </motion.span>
+              <motion.span
+                className="absolute inset-0 flex items-center justify-center"
+                animate={{
+                  y: state.mode === "dark" ? -6 : 0,
+                  scale: state.mode === "dark" ? 0.5 : 1,
+                  opacity: state.mode === "dark" ? 0 : 1,
+                  filter: state.mode === "dark" ? "blur(8px)" : "blur(0px)",
+                }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <MoonFillIcon className="size-full" />
+              </motion.span>
+            </span>
+          </IconButton>
+          <Dialog.Root open={drawerOpen} onOpenChange={setDrawerOpen}>
+            <Dialog.Trigger render={
+              <IconButton
+                type="button"
+                aria-label="Theme settings"
+                size="m"
+                variant="ghost"
+              >
+                <SettingsIcon className="size-4" />
+              </IconButton>
+            } />
+            <Dialog.Portal>
+              <Dialog.Backdrop />
+              <Dialog.Popup position="right" className="max-w-[320px]">
+                <Dialog.Content>
+                  <Dialog.Header>
+                    <Dialog.Title>Customize library</Dialog.Title>
+                    <Dialog.Close />
+                  </Dialog.Header>
+                  <Dialog.Body>
+                    <div className="flex flex-col gap-[var(--space-24)]">
+                      <div className="flex flex-col gap-[var(--space-12)]">
+                        <div className="text-body-s-medium text-content-strong">
+                          Theme color
+                        </div>
+                        <div
+                          className="flex flex-wrap items-center gap-[var(--space-8)]"
+                          role="radiogroup"
+                          aria-label="Theme color"
+                        >
+                          {themeOptions.map((value, index) => (
+                            <SwatchButton
+                              key={value}
+                              label={value}
+                              selected={currentTheme === value}
+                              color={themeSwatchColor(value)}
+                              onSelect={() => handleThemeChange(value)}
+                              onKeyDown={handleSwatchKeyDown(index)}
+                              buttonRef={(node) => {
+                                swatchRefs.current[index] = node
+                              }}
+                              tabIndex={currentTheme === value ? 0 : -1}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-[var(--space-12)]">
+                        <div className="text-body-s-medium text-content-strong">
+                          Neutral color
+                        </div>
+                        <div
+                          className="flex flex-wrap items-center gap-[var(--space-8)]"
+                          role="radiogroup"
+                          aria-label="Neutral color"
+                        >
+                          {baseColors.map((value) => (
+                            <SwatchButton
+                              key={value}
+                              label={value}
+                              selected={state.baseColor === value}
+                              color={baseSwatchColor(value)}
+                              onSelect={() => updateState({ baseColor: value })}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </Dialog.Body>
+                </Dialog.Content>
+              </Dialog.Popup>
+            </Dialog.Portal>
+          </Dialog.Root>
         </div>
 
         <div className="flex w-full items-center gap-[var(--space-8)] md:hidden">
@@ -450,201 +413,80 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
                 </motion.span>
               </span>
             </IconButton>
-            <IconButton
-              type="button"
-              aria-label="Theme settings"
-              aria-expanded={mobileExpanded}
-              size="m"
-              variant="ghost"
-              onClick={() => setMobileExpanded((prev) => !prev)}
-            >
-              <SettingsIcon className="size-4" />
-            </IconButton>
-          </div>
-        </div>
-        <AnimatePresence>
-          {mobileExpanded ? (
-            <motion.div
-              className="fixed inset-0 z-50 md:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <motion.button
-                type="button"
-                aria-label="Close theme settings"
-                onClick={() => setMobileExpanded(false)}
-                className="absolute inset-0 bg-[color:rgb(var(--darken-40))]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-              />
-              <motion.div
-                className="absolute bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)] max-h-[80vh] rounded-[16px] bg-surface-overlay"
-                initial={{ y: "100%", opacity: 0, filter: "blur(20px)" }}
-                animate={{ y: popoverDragOffset, opacity: 1, filter: "blur(0px)" }}
-                exit={{ y: "100%", opacity: 0, filter: "blur(20px)" }}
-                transition={popoverDragging ? { duration: 0 } : popoverSpring}
-              >
-                <motion.div
-                  variants={popoverContentVariants}
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  className="flex flex-col gap-[var(--space-16)] p-[var(--space-12)]"
+            <Dialog.Root open={mobileExpanded} onOpenChange={setMobileExpanded}>
+              <Dialog.Trigger render={
+                <IconButton
+                  type="button"
+                  aria-label="Theme settings"
+                  size="m"
+                  variant="ghost"
                 >
-                  <motion.div
-                    variants={popoverItemVariants}
-                    className="flex flex-col items-start justify-center gap-[var(--space-8)] pb-[var(--space-8)] touch-none"
-                    onPointerDown={handlePopoverDragStart}
-                    onPointerMove={handlePopoverDragMove}
-                    onPointerUp={handlePopoverDragEnd}
-                    onPointerCancel={handlePopoverDragEnd}
-                  >
-                    <span className="h-[4px] w-[40px] self-center rounded-full bg-border-muted" />
-                    <span className="text-body-l-semibold text-content-strong">
-                      Customize library
-                    </span>
-                  </motion.div>
-                  <motion.div
-                    variants={popoverItemVariants}
-                    className="flex flex-col gap-[var(--space-4)]"
-                  >
-                    <div className="text-body-xs-medium text-content-strong">
-                      Theme color
-                    </div>
-                    <div
-                      ref={themeRowRef}
-                      className={cn(
-                        "swatch-row-scroll flex flex-nowrap items-center gap-[var(--space-6)] overflow-x-auto overflow-y-visible px-[var(--space-4)] py-[var(--space-4)]",
-                        showThemeLeftFade && showThemeRightFade
-                          ? "swatch-row-mask-both"
-                          : showThemeLeftFade
-                            ? "swatch-row-mask-left"
-                            : showThemeRightFade
-                              ? "swatch-row-mask-right"
-                              : ""
-                      )}
-                      role="radiogroup"
-                      aria-label="Theme color"
-                    >
-                      {themeOptions.map((value, index) => (
-                        <SwatchButton
-                          key={value}
-                          label={value}
-                          selected={currentTheme === value}
-                          color={themeSwatchColor(value)}
-                          onSelect={() => handleThemeChange(value)}
-                          onKeyDown={handleSwatchKeyDown(index)}
-                          buttonRef={(node) => {
-                            swatchRefs.current[index] = node
-                          }}
-                          tabIndex={currentTheme === value ? 0 : -1}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
-                  <motion.div
-                    variants={popoverItemVariants}
-                    className="flex flex-col gap-[var(--space-4)]"
-                  >
-                    <div className="text-body-xs-medium text-content-strong">
-                      Neutral color
-                    </div>
-                    <div
-                      ref={baseRowRef}
-                      className={cn(
-                        "swatch-row-scroll flex flex-nowrap items-center gap-[var(--space-6)] overflow-x-auto overflow-y-visible px-[var(--space-4)] py-[var(--space-4)]",
-                        showBaseLeftFade && showBaseRightFade
-                          ? "swatch-row-mask-both"
-                          : showBaseLeftFade
-                            ? "swatch-row-mask-left"
-                            : showBaseRightFade
-                              ? "swatch-row-mask-right"
-                              : ""
-                      )}
-                      role="radiogroup"
-                      aria-label="Neutral color"
-                    >
-                      {baseColors.map((value) => (
-                        <SwatchButton
-                          key={value}
-                          label={value}
-                          selected={state.baseColor === value}
-                          color={baseSwatchColor(value)}
-                          onSelect={() => updateState({ baseColor: value })}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-
-        <div className="hidden items-center md:flex">
-          <div className="relative">
-            <span
-              className="pointer-events-none absolute left-[var(--space-8)] top-1/2 size-[20px] -translate-y-1/2 rounded-full border border-border-subtle"
-              style={{ backgroundColor: baseSwatchColor(state.baseColor) }}
-            />
-            <select
-              aria-label="Base color"
-              value={state.baseColor}
-              onChange={(event) => updateState({ baseColor: event.target.value })}
-              className="h-[36px] w-[180px] appearance-none rounded-[var(--radius-10)] border border-border-subtle bg-surface-page pl-[calc(var(--space-8)+26px)] pr-[var(--space-26)] text-body-s text-content-strong transition hover:border-border-interactive-hover focus-visible:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
-            >
-              {baseColors.map((value) => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-            <span className="pointer-events-none absolute right-[var(--space-8)] top-1/2 -translate-y-1/2 text-content-muted">
-              <ExpandUpDownIcon className="size-4" />
-            </span>
+                  <SettingsIcon className="size-4" />
+                </IconButton>
+              } />
+              <Dialog.Portal>
+                <Dialog.Backdrop />
+                <Dialog.Popup position="sheet">
+                  <Dialog.Content>
+                    <Dialog.Header>
+                      <Dialog.Title>Customize library</Dialog.Title>
+                      <Dialog.Close />
+                    </Dialog.Header>
+                    <Dialog.Body>
+                      <div className="flex flex-col gap-[var(--space-24)]">
+                        <div className="flex flex-col gap-[var(--space-12)]">
+                          <div className="text-body-s-medium text-content-strong">
+                            Theme color
+                          </div>
+                          <div
+                            className="flex flex-wrap items-center gap-[var(--space-8)]"
+                            role="radiogroup"
+                            aria-label="Theme color"
+                          >
+                            {themeOptions.map((value, index) => (
+                              <SwatchButton
+                                key={value}
+                                label={value}
+                                selected={currentTheme === value}
+                                color={themeSwatchColor(value)}
+                                onSelect={() => handleThemeChange(value)}
+                                onKeyDown={handleSwatchKeyDown(index)}
+                                buttonRef={(node) => {
+                                  swatchRefs.current[index] = node
+                                }}
+                                tabIndex={currentTheme === value ? 0 : -1}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-[var(--space-12)]">
+                          <div className="text-body-s-medium text-content-strong">
+                            Neutral color
+                          </div>
+                          <div
+                            className="flex flex-wrap items-center gap-[var(--space-8)]"
+                            role="radiogroup"
+                            aria-label="Neutral color"
+                          >
+                            {baseColors.map((value) => (
+                              <SwatchButton
+                                key={value}
+                                label={value}
+                                selected={state.baseColor === value}
+                                color={baseSwatchColor(value)}
+                                onSelect={() => updateState({ baseColor: value })}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </Dialog.Body>
+                  </Dialog.Content>
+                </Dialog.Popup>
+              </Dialog.Portal>
+            </Dialog.Root>
           </div>
         </div>
-
-        <button
-          type="button"
-          aria-label={
-            state.mode === "dark" ? "Switch to light mode" : "Switch to dark mode"
-          }
-          onClick={() =>
-            updateState({ mode: state.mode === "dark" ? "light" : "dark" })
-          }
-          className="ml-auto hidden size-[36px] items-center justify-center rounded-full bg-transparent text-content-subtle transition-[background-color,color,box-shadow] duration-200 focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)] hover:bg-actions-secondary-hover hover:text-content-strong md:flex"
-        >
-          <span className="relative size-4">
-            <motion.span
-              className="absolute inset-0 flex items-center justify-center"
-              animate={{
-                y: state.mode === "dark" ? 0 : 6,
-                scale: state.mode === "dark" ? 1 : 0.5,
-                opacity: state.mode === "dark" ? 1 : 0,
-                filter: state.mode === "dark" ? "blur(0px)" : "blur(8px)",
-              }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <SunFillIcon className="size-full" />
-            </motion.span>
-            <motion.span
-              className="absolute inset-0 flex items-center justify-center"
-              animate={{
-                y: state.mode === "dark" ? -6 : 0,
-                scale: state.mode === "dark" ? 0.5 : 1,
-                opacity: state.mode === "dark" ? 0 : 1,
-                filter: state.mode === "dark" ? "blur(8px)" : "blur(0px)",
-              }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <MoonFillIcon className="size-full" />
-            </motion.span>
-          </span>
-        </button>
       </div>
     </div>
   )

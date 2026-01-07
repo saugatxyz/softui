@@ -57,6 +57,7 @@ export const navSections = [
       { label: "Input Group", href: "/docs/input-group" },
       { label: "Kbd", href: "/docs/kbd" },
       { label: "Menu", href: "/docs/menu" },
+      { label: "Number Field", href: "/docs/number-field" },
       { label: "Pagination", href: "/docs/pagination" },
       { label: "Popover", href: "/docs/popover" },
       { label: "Radio Group", href: "/docs/radio-group" },
