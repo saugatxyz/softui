@@ -92,7 +92,7 @@ function ScrollFadeContainer({
         ref={scrollRef}
         data-slot="scroll-container"
         className={cn(
-          "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]",
+          "flex flex-col gap-[var(--space-2)] p-[var(--space-4)] scroll-p-[var(--space-4)]",
           needsScroll ? "overflow-y-auto" : "overflow-y-visible",
           scrollClassName
         )}

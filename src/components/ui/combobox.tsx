@@ -401,7 +401,7 @@ function Combobox(props: ComboboxProps) {
                 listPopupStyles.width
               )}
             >
-              <div className="flex max-h-[320px] flex-col gap-[var(--space-2)] overflow-auto p-[var(--space-4)]">
+              <div className="flex max-h-[320px] flex-col gap-[var(--space-2)] overflow-auto p-[var(--space-4)] scroll-p-[var(--space-4)]">
                 <ComboboxPrimitive.Empty
                   data-slot="empty"
                   className={cn(
@@ -822,7 +822,7 @@ function GroupedCombobox(props: GroupedComboboxProps) {
                 listPopupStyles.width
               )}
             >
-              <div className="flex max-h-[320px] flex-col overflow-auto p-[var(--space-4)]">
+              <div className="flex max-h-[320px] flex-col overflow-auto p-[var(--space-4)] scroll-p-[var(--space-4)]">
                 <ComboboxPrimitive.Empty
                   data-slot="empty"
                   className={cn(
