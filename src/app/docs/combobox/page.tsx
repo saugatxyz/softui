@@ -1,5 +1,6 @@
 "use client"
 
+import { CodeBlock } from "@/components/docs/code-block"
 import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
 import { Avatar } from "@/components/ui/avatar"
 import { Crypto } from "@/components/ui/crypto"
@@ -93,6 +94,29 @@ const plans = [
   { value: "enterprise", label: "Enterprise", description: "Custom limits, dedicated support" },
 ]
 
+// Options with icons and descriptions
+const notificationChannels = [
+  { value: "email", label: "Email", description: "Delivered to your inbox", icon: <RiMailLine /> },
+  { value: "sms", label: "SMS", description: "Text message alerts", icon: <RiPhoneLine /> },
+  { value: "push", label: "Push notification", description: "Instant mobile alerts", icon: <RiMessage2Line /> },
+]
+
+// Team members with descriptions
+const teamMembers = [
+  { value: "sarah", label: "Sarah Wilson", description: "Engineering Lead", icon: <Avatar size="2xs" src="https://i.pravatar.cc/150?u=sarah" alt="Sarah Wilson" />, prefixType: "avatar" as const },
+  { value: "mike", label: "Mike Chen", description: "Senior Developer", icon: <Avatar size="2xs" src="https://i.pravatar.cc/150?u=mike" alt="Mike Chen" />, prefixType: "avatar" as const },
+  { value: "emma", label: "Emma Davis", description: "Product Designer", icon: <Avatar size="2xs" src="https://i.pravatar.cc/150?u=emma" alt="Emma Davis" />, prefixType: "avatar" as const },
+  { value: "james", label: "James Park", description: "DevOps Engineer", icon: <Avatar size="2xs" src="https://i.pravatar.cc/150?u=james" alt="James Park" />, prefixType: "avatar" as const },
+]
+
+// Permissions with descriptions for multi-select
+const permissions = [
+  { value: "read", label: "Read", description: "View files and folders" },
+  { value: "write", label: "Write", description: "Create and edit content" },
+  { value: "delete", label: "Delete", description: "Remove files permanently" },
+  { value: "admin", label: "Admin", description: "Full access and settings" },
+]
+
 // Options with disabled
 const statuses = [
   { value: "active", label: "Active" },
@@ -181,6 +205,48 @@ export default function ComboboxDocsPage() {
           A searchable dropdown that combines an input with a filterable list of options.
         </p>
       </header>
+
+      <section className="flex flex-col gap-[var(--space-10)]">
+        <CodeBlock
+          code={`import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
+
+const options = [
+  { value: "apple", label: "Apple" },
+  { value: "banana", label: "Banana" },
+  { value: "orange", label: "Orange" },
+]
+
+// Basic searchable dropdown
+<Combobox options={options} placeholder="Search fruits..." />
+
+// With label and description
+<Combobox
+  options={options}
+  label="Fruit"
+  description="Type to search"
+  placeholder="Search..."
+/>
+
+// With icons and descriptions
+const channels = [
+  { value: "email", label: "Email", description: "Delivered to inbox", icon: <RiMailLine /> },
+  { value: "sms", label: "SMS", description: "Text alerts", icon: <RiPhoneLine /> },
+]
+
+<Combobox options={channels} placeholder="Select channel..." />
+
+// Multi-select with chips
+<Combobox multiple options={options} placeholder="Select fruits..." />
+
+// Grouped options
+const groups = [
+  { label: "Fruits", options: [{ value: "apple", label: "Apple" }] },
+  { label: "Vegetables", options: [{ value: "carrot", label: "Carrot" }] },
+]
+
+<GroupedCombobox groups={groups} placeholder="Search..." />`}
+        />
+      </section>
 
       {/* Basic */}
       <section className="flex flex-col gap-[var(--space-10)]">
@@ -348,7 +414,7 @@ export default function ComboboxDocsPage() {
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Plan selection</p>
+              <p className="text-body-m text-content-strong">Text only</p>
               <p className="text-body-s text-content-subtle">Options with secondary text</p>
             </div>
             <div className="w-full max-w-sm">
@@ -356,6 +422,46 @@ export default function ComboboxDocsPage() {
                 options={plans}
                 label="Plan"
                 placeholder="Search plans..."
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">With icons</p>
+              <p className="text-body-s text-content-subtle">Icons paired with descriptions</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <Combobox
+                options={notificationChannels}
+                label="Notification channel"
+                placeholder="Search channels..."
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">With avatars</p>
+              <p className="text-body-s text-content-subtle">Team members with roles</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <Combobox
+                options={teamMembers}
+                label="Assign to"
+                placeholder="Search team..."
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Multi-select</p>
+              <p className="text-body-s text-content-subtle">Multiple options with descriptions</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <Combobox
+                multiple
+                options={permissions}
+                label="Permissions"
+                placeholder="Select permissions..."
               />
             </div>
           </div>

@@ -262,12 +262,14 @@ function Select(props: SelectProps) {
                     className={cn(listItemVariants())}
                   >
                     {option.icon && (
-                      <MenuPrefix
-                        type={option.prefixType ?? "icon"}
-                        icon={option.icon}
-                        color={option.prefixColor}
-                        disabled={option.disabled}
-                      />
+                      <span className="flex shrink-0 items-start self-stretch">
+                        <MenuPrefix
+                          type={option.prefixType ?? "icon"}
+                          icon={option.icon}
+                          color={option.prefixColor}
+                          disabled={option.disabled}
+                        />
+                      </span>
                     )}
 
                     <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">

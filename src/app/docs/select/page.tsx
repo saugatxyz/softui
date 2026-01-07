@@ -1,5 +1,6 @@
 "use client"
 
+import { CodeBlock } from "@/components/docs/code-block"
 import { Select } from "@/components/ui/select"
 import { Avatar } from "@/components/ui/avatar"
 import { Crypto } from "@/components/ui/crypto"
@@ -138,6 +139,41 @@ export default function SelectDocsPage() {
           Pick from a short list of predefined values. Supports single and multiple selection.
         </p>
       </header>
+
+      <section className="flex flex-col gap-[var(--space-10)]">
+        <CodeBlock
+          code={`import { Select } from "@/components/ui/select"
+
+const options = [
+  { value: "apple", label: "Apple" },
+  { value: "banana", label: "Banana" },
+  { value: "orange", label: "Orange" },
+]
+
+// Basic
+<Select options={options} placeholder="Select fruit" />
+
+// With label and description
+<Select
+  options={options}
+  label="Fruit"
+  description="Choose your favorite"
+  placeholder="Select fruit"
+/>
+
+// With icons
+const priorities = [
+  { value: "high", label: "High", icon: <RiArrowUpLine /> },
+  { value: "medium", label: "Medium", icon: <RiSubtractLine /> },
+  { value: "low", label: "Low", icon: <RiArrowDownLine /> },
+]
+
+<Select options={priorities} placeholder="Set priority" />
+
+// Multi-select
+<Select multiple options={options} placeholder="Select fruits" />`}
+        />
+      </section>
 
       {/* Basic */}
       <section className="flex flex-col gap-[var(--space-10)]">

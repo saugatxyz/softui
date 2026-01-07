@@ -266,7 +266,7 @@ function Combobox(props: ComboboxProps) {
             !disabled && "hover:bg-actions-secondary-hover",
             !isMouseFocus && "has-[:focus]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
             disabled && "bg-actions-secondary-disabled cursor-not-allowed",
-            multiple && "flex-wrap gap-[2px] !pl-[var(--space-6)]"
+            multiple && "flex-wrap gap-[6px] !pl-[var(--space-6)]"
           )}
         >
           {leadingIcon && (
@@ -296,11 +296,13 @@ function Combobox(props: ComboboxProps) {
                           data-slot="chip"
                           className={cn(
                             "inline-flex h-[var(--space-24)] items-center gap-[var(--space-4)]",
-                            "rounded-[var(--radius-max)] bg-actions-secondary-default",
+                            "rounded-[var(--radius-max)] bg-actions-tertiary-default backdrop-blur-[12px]",
+                            "shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
                             "pl-[var(--space-10)] pr-[var(--space-2)]",
                             "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
                             "outline-none select-none",
-                            "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
+                            "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+                            disabled && "bg-actions-tertiary-disabled shadow-none"
                           )}
                         >
                           <span className={disabled ? "text-content-disabled" : "text-content-strong"}>
@@ -423,12 +425,14 @@ function Combobox(props: ComboboxProps) {
                         className={cn(listItemVariants())}
                       >
                         {option.icon && (
-                          <MenuPrefix
-                            type={option.prefixType ?? "icon"}
-                            icon={option.icon}
-                            color={option.prefixColor}
-                            disabled={option.disabled}
-                          />
+                          <span className="flex shrink-0 items-start self-stretch">
+                            <MenuPrefix
+                              type={option.prefixType ?? "icon"}
+                              icon={option.icon}
+                              color={option.prefixColor}
+                              disabled={option.disabled}
+                            />
+                          </span>
                         )}
 
                         <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
@@ -448,7 +452,7 @@ function Combobox(props: ComboboxProps) {
                               className={cn(
                                 "truncate",
                                 "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
-                                option.disabled ? "text-content-disabled" : "text-content-muted"
+                                option.disabled ? "text-content-disabled" : "text-content-subtle"
                               )}
                             >
                               {option.description}
@@ -683,7 +687,7 @@ function GroupedCombobox(props: GroupedComboboxProps) {
             !disabled && "hover:bg-actions-secondary-hover",
             !isMouseFocus && "has-[:focus]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
             disabled && "bg-actions-secondary-disabled cursor-not-allowed",
-            multiple && "flex-wrap gap-[2px] !pl-[var(--space-6)]"
+            multiple && "flex-wrap gap-[6px] !pl-[var(--space-6)]"
           )}
         >
           {leadingIcon && (
@@ -713,11 +717,13 @@ function GroupedCombobox(props: GroupedComboboxProps) {
                           data-slot="chip"
                           className={cn(
                             "inline-flex h-[var(--space-24)] items-center gap-[var(--space-4)]",
-                            "rounded-[var(--radius-max)] bg-actions-secondary-default",
+                            "rounded-[var(--radius-max)] bg-actions-tertiary-default backdrop-blur-[12px]",
+                            "shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
                             "pl-[var(--space-10)] pr-[var(--space-2)]",
                             "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
                             "outline-none select-none",
-                            "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
+                            "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+                            disabled && "bg-actions-tertiary-disabled shadow-none"
                           )}
                         >
                           <span className={disabled ? "text-content-disabled" : "text-content-strong"}>
@@ -856,12 +862,14 @@ function GroupedCombobox(props: GroupedComboboxProps) {
                             className={cn(listItemVariants())}
                           >
                             {option.icon && (
-                              <MenuPrefix
-                                type={option.prefixType ?? "icon"}
-                                icon={option.icon}
-                                color={option.prefixColor}
-                                disabled={option.disabled}
-                              />
+                              <span className="flex shrink-0 items-start self-stretch">
+                                <MenuPrefix
+                                  type={option.prefixType ?? "icon"}
+                                  icon={option.icon}
+                                  color={option.prefixColor}
+                                  disabled={option.disabled}
+                                />
+                              </span>
                             )}
 
                             <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
@@ -881,7 +889,7 @@ function GroupedCombobox(props: GroupedComboboxProps) {
                                   className={cn(
                                     "truncate",
                                     "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
-                                    option.disabled ? "text-content-disabled" : "text-content-muted"
+                                    option.disabled ? "text-content-disabled" : "text-content-subtle"
                                   )}
                                 >
                                   {option.description}
