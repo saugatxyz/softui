@@ -83,42 +83,40 @@ type ComboboxBaseProps = VariantProps<typeof triggerVariants> & {
 type SingleComboboxProps = ComboboxBaseProps & {
   /** Enable multiple selection */
   multiple?: false
-  /** Current value (controlled) */
-  value?: string | null
+  /** Current value (controlled) - pass the full option object */
+  value?: ComboboxOption | null
   /** Default value (uncontrolled) */
-  defaultValue?: string | null
-  /** Change handler */
-  onValueChange?: (value: string | null) => void
+  defaultValue?: ComboboxOption | null
+  /** Change handler - receives the full option object */
+  onValueChange?: (value: ComboboxOption | null) => void
 }
 
 // Multi select props
 type MultiComboboxProps = ComboboxBaseProps & {
   /** Enable multiple selection */
   multiple: true
-  /** Current value (controlled) */
-  value?: string[]
+  /** Current value (controlled) - pass array of option objects */
+  value?: ComboboxOption[]
   /** Default value (uncontrolled) */
-  defaultValue?: string[]
-  /** Change handler */
-  onValueChange?: (value: string[]) => void
+  defaultValue?: ComboboxOption[]
+  /** Change handler - receives array of option objects */
+  onValueChange?: (value: ComboboxOption[]) => void
 }
 
 type ComboboxProps = SingleComboboxProps | MultiComboboxProps
 
-// Helper to get label from item
+// Helper to get label from item (for input display)
 function getItemLabel(item: unknown): string {
   if (!item) return ""
-  if (typeof item === "string") return item
   if (typeof item === "object" && "label" in item) {
     return (item as ComboboxOption).label
   }
   return ""
 }
 
-// Helper to get value from item
+// Helper to get value from item (for filtering/matching)
 function getItemValue(item: unknown): string {
   if (!item) return ""
-  if (typeof item === "string") return item
   if (typeof item === "object" && "value" in item) {
     return (item as ComboboxOption).value
   }
@@ -152,48 +150,10 @@ function Combobox(props: ComboboxProps) {
   // Ref for the trigger container to use as anchor
   const triggerRef = React.useRef<HTMLDivElement>(null)
 
-  // Get props for controlled/uncontrolled mode
-  const multiProps = multiple ? (props as MultiComboboxProps) : null
-  const singleProps = !multiple ? (props as SingleComboboxProps) : null
-
-  // Handle value change from Base UI
-  const handleValueChange = (newValue: ComboboxOption | ComboboxOption[] | null) => {
-    if (multiple) {
-      const newOptions = (newValue as ComboboxOption[] | null) ?? []
-      const newValues = newOptions.map((o) => o.value)
-      multiProps?.onValueChange?.(newValues)
-    } else {
-      const value = (newValue as ComboboxOption | null)?.value ?? null
-      singleProps?.onValueChange?.(value)
-    }
-  }
-
-  // Get value/defaultValue for Base UI
-  const getValueOption = () => {
-    if (multiple && multiProps?.value !== undefined) {
-      return multiProps.value
-        .map((v) => options.find((o) => o.value === v))
-        .filter(Boolean) as ComboboxOption[]
-    }
-    if (!multiple && singleProps?.value !== undefined) {
-      return singleProps.value
-        ? options.find((o) => o.value === singleProps.value) ?? null
-        : null
-    }
-    return undefined
-  }
-
-  const getDefaultValueOption = () => {
-    if (multiple && multiProps?.defaultValue) {
-      return multiProps.defaultValue
-        .map((v) => options.find((o) => o.value === v))
-        .filter(Boolean) as ComboboxOption[]
-    }
-    if (!multiple && singleProps?.defaultValue) {
-      return options.find((o) => o.value === singleProps.defaultValue) ?? null
-    }
-    return undefined
-  }
+  // Get props for controlled/uncontrolled mode - pass through directly to Base UI
+  const { value, defaultValue, onValueChange } = multiple
+    ? (props as MultiComboboxProps)
+    : (props as SingleComboboxProps)
 
   return (
     <div
@@ -204,9 +164,9 @@ function Combobox(props: ComboboxProps) {
     >
     <ComboboxPrimitive.Root
       items={options}
-      {...(getValueOption() !== undefined && { value: getValueOption() })}
-      defaultValue={getDefaultValueOption()}
-      onValueChange={handleValueChange as (value: unknown) => void}
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={onValueChange as (value: unknown) => void}
       disabled={disabled}
       multiple={multiple}
       itemToStringLabel={getItemLabel}
@@ -464,16 +424,22 @@ type GroupedComboboxBaseProps = VariantProps<typeof triggerVariants> & {
 
 type SingleGroupedComboboxProps = GroupedComboboxBaseProps & {
   multiple?: false
-  value?: string | null
-  defaultValue?: string | null
-  onValueChange?: (value: string | null) => void
+  /** Current value (controlled) - pass the full option object */
+  value?: ComboboxOption | null
+  /** Default value (uncontrolled) */
+  defaultValue?: ComboboxOption | null
+  /** Change handler - receives the full option object */
+  onValueChange?: (value: ComboboxOption | null) => void
 }
 
 type MultiGroupedComboboxProps = GroupedComboboxBaseProps & {
   multiple: true
-  value?: string[]
-  defaultValue?: string[]
-  onValueChange?: (value: string[]) => void
+  /** Current value (controlled) - pass array of option objects */
+  value?: ComboboxOption[]
+  /** Default value (uncontrolled) */
+  defaultValue?: ComboboxOption[]
+  /** Change handler - receives array of option objects */
+  onValueChange?: (value: ComboboxOption[]) => void
 }
 
 type GroupedComboboxProps = SingleGroupedComboboxProps | MultiGroupedComboboxProps
@@ -509,54 +475,13 @@ function GroupedCombobox(props: GroupedComboboxProps) {
     items: g.options,
   }))
 
-  // Flatten all options for value lookup
-  const allOptions = groups.flatMap((g) => g.options)
-
   // Ref for the trigger container
   const triggerRef = React.useRef<HTMLDivElement>(null)
 
-  // Get props for controlled/uncontrolled mode
-  const multiProps = multiple ? (props as MultiGroupedComboboxProps) : null
-  const singleProps = !multiple ? (props as SingleGroupedComboboxProps) : null
-
-  // Handle value change from Base UI
-  const handleValueChange = (newValue: ComboboxOption | ComboboxOption[] | null) => {
-    if (multiple) {
-      const newOptions = (newValue as ComboboxOption[] | null) ?? []
-      const newValues = newOptions.map((o) => o.value)
-      multiProps?.onValueChange?.(newValues)
-    } else {
-      const value = (newValue as ComboboxOption | null)?.value ?? null
-      singleProps?.onValueChange?.(value)
-    }
-  }
-
-  // Get value/defaultValue for Base UI
-  const getValueOption = () => {
-    if (multiple && multiProps?.value !== undefined) {
-      return multiProps.value
-        .map((v) => allOptions.find((o) => o.value === v))
-        .filter(Boolean) as ComboboxOption[]
-    }
-    if (!multiple && singleProps?.value !== undefined) {
-      return singleProps.value
-        ? allOptions.find((o) => o.value === singleProps.value) ?? null
-        : null
-    }
-    return undefined
-  }
-
-  const getDefaultValueOption = () => {
-    if (multiple && multiProps?.defaultValue) {
-      return multiProps.defaultValue
-        .map((v) => allOptions.find((o) => o.value === v))
-        .filter(Boolean) as ComboboxOption[]
-    }
-    if (!multiple && singleProps?.defaultValue) {
-      return allOptions.find((o) => o.value === singleProps.defaultValue) ?? null
-    }
-    return undefined
-  }
+  // Get props for controlled/uncontrolled mode - pass through directly to Base UI
+  const { value, defaultValue, onValueChange } = multiple
+    ? (props as MultiGroupedComboboxProps)
+    : (props as SingleGroupedComboboxProps)
 
   return (
     <div
@@ -568,9 +493,9 @@ function GroupedCombobox(props: GroupedComboboxProps) {
     >
     <ComboboxPrimitive.Root
       items={groupedItems}
-      {...(getValueOption() !== undefined && { value: getValueOption() })}
-      defaultValue={getDefaultValueOption()}
-      onValueChange={handleValueChange as (value: unknown) => void}
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={onValueChange as (value: unknown) => void}
       disabled={disabled}
       multiple={multiple}
       itemToStringLabel={getItemLabel}

@@ -119,18 +119,28 @@ const iconSizeMap = {
   l: 18,
 } as const
 
-type ToggleButtonProps = Omit<TogglePrimitive.Props, "children"> &
+type ToggleButtonSize = "xs" | "s" | "m" | "l"
+type ToggleButtonVariant = "tertiary" | "ghost" | "secondary"
+
+type ToggleButtonProps = Omit<TogglePrimitive.Props, "className"> &
   VariantProps<typeof toggleButtonVariants> & {
+    /** Required: Icon to display when not pressed */
     icon: React.ReactNode
+    /** Icon to display when pressed (falls back to icon) */
     pressedIcon?: React.ReactNode
+    /** Label to display when not pressed */
     children?: React.ReactNode
+    /** Label to display when pressed (falls back to children) */
     pressedChildren?: React.ReactNode
+    /** Color tone when pressed */
     pressedTone?: ToggleButtonTone
+    /** Fixed width for label animation (unpressed state) */
     labelWidth?: number
+    /** Fixed width for label animation (pressed state) */
     pressedLabelWidth?: number
-    onPressedChange?: (pressed: boolean) => void
     /** Enable morphing animation between icons (blur, scale, y-position). Defaults to false (smooth fade). */
     morph?: boolean
+    className?: string
   }
 
 function MorphingIcon({
@@ -234,34 +244,40 @@ function ToggleButton({
   pressedTone,
   labelWidth,
   pressedLabelWidth,
-  pressed: controlledPressed,
+  pressed,
   defaultPressed,
   onPressedChange,
   morph,
   ...props
 }: ToggleButtonProps) {
-  const [internalPressed, setInternalPressed] = React.useState(defaultPressed ?? false)
-  const isControlled = controlledPressed !== undefined
-  const pressed = isControlled ? controlledPressed : internalPressed
+  // Track animation state - synced with Base UI's state via onPressedChange
+  // This is separate from control logic which Base UI handles
+  const [animationPressed, setAnimationPressed] = React.useState(defaultPressed ?? false)
 
-  const handlePressedChange: TogglePrimitive.Props["onPressedChange"] = React.useCallback(
-    (newPressed: boolean) => {
-      if (!isControlled) {
-        setInternalPressed(newPressed)
-      }
-      onPressedChange?.(newPressed)
+  // Sync animation state with controlled value when it changes
+  React.useEffect(() => {
+    if (pressed !== undefined) {
+      setAnimationPressed(pressed)
+    }
+  }, [pressed])
+
+  // Handle pressed change - sync animation state and forward callback
+  const handlePressedChange = React.useCallback<NonNullable<TogglePrimitive.Props["onPressedChange"]>>(
+    (newPressed, eventDetails) => {
+      setAnimationPressed(newPressed)
+      onPressedChange?.(newPressed, eventDetails)
     },
-    [isControlled, onPressedChange]
+    [onPressedChange]
   )
 
-  const resolvedSize = size ?? "m"
+  const resolvedSize: ToggleButtonSize = size ?? "m"
   const iconSize = iconSizeMap[resolvedSize]
   const toneClass = getToneClass(pressedTone)
   const shouldMorph = morph ?? false
 
   const hasLabel = children !== undefined || pressedChildren !== undefined
-  const currentLabel = pressed ? (pressedChildren ?? children) : children
-  const currentWidth = pressed ? (pressedLabelWidth ?? labelWidth) : labelWidth
+  const currentLabel = animationPressed ? (pressedChildren ?? children) : children
+  const currentWidth = animationPressed ? (pressedLabelWidth ?? labelWidth) : labelWidth
 
   return (
     <TogglePrimitive
@@ -269,12 +285,13 @@ function ToggleButton({
       data-variant={variant}
       data-size={resolvedSize}
       pressed={pressed}
+      defaultPressed={defaultPressed}
       onPressedChange={handlePressedChange}
       className={cn(toggleButtonVariants({ variant, size: resolvedSize, iconOnly: !hasLabel, className }))}
       {...props}
     >
       <MorphingIcon
-        pressed={pressed}
+        pressed={animationPressed}
         icon={icon}
         pressedIcon={pressedIcon}
         size={iconSize}
@@ -302,3 +319,4 @@ function ToggleButton({
 }
 
 export { ToggleButton }
+export type { ToggleButtonProps, ToggleButtonSize, ToggleButtonVariant, ToggleButtonTone }

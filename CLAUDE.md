@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Soft UI is a token-driven design system built on Next.js 16 (App Router) with React 19. It skins shadcn-style components using Base UI primitives, with live theme/base color switching.
+Soft UI is a token-driven design system built on Next.js 16 (App Router) with React 19. It skins Base UI primitives with our design tokens, providing live theme/base color switching.
 
 ## Commands
 
@@ -19,97 +19,166 @@ No test suite is currently configured.
 ## Architecture
 
 ### Key Directories
-- `src/components/ui/` - Reusable UI components (Button, Accordion, Badge, IconButton)
+- `src/components/ui/` - Reusable UI components (Button, Tabs, Dialog, Select, etc.)
 - `src/components/docs/` - Documentation components (sidebar, theme-switcher, code-block)
 - `src/design-system/` - Token system: `tokens.css` (CSS variables), `config.ts` (theme config)
 - `src/app/docs/` - Documentation pages for components and tokens
 - `tokens/` - Design token JSON files synced from Figma
 
-### Component Pattern
-Components follow this structure:
-1. Import primitives from `@base-ui/react/*`
-2. Use `cva` (class-variance-authority) for variants and sizes
-3. Use token-driven CSS variables for all colors (`actions-*`, `content-*`, `surface-*`, `border-*`)
-4. Use `label` wrapper for optical balance with icon padding
-5. Add `data-slot`, `data-variant`, `data-size`, `data-tone` attributes for semantic styling
-
-### Token System
-- All colors and spacing use CSS variables from `src/design-system/tokens.css`
-- Theme switching via `data-theme-color` and `data-base-color` attributes
-- Scheme modes: `data-scheme=mono` (neutral) or `data-scheme=color` (theme-driven)
-- Focus rings: always use `utility-focus-inner` (1px) + `utility-focus-outer` (3px) combo:
-  ```
-  shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]
-  ```
-
 ### Dependencies
-- `@base-ui/react` - Headless UI primitives
+- `@base-ui/react` - Headless UI primitives (our foundation)
 - `@remixicon/react` - Icons
 - `motion` - Animations (Framer Motion)
 - `sugar-high` - Syntax highlighting in docs
 
-## Design Rules
+### Path Aliases
+`@/*` maps to `./src/*`
 
-**Never hardcode colors or spacing values.** Use CSS variables from tokens.css.
+---
 
-**Token changes require user confirmation** with a summary table before implementation.
+## Base UI Guidelines
 
-**Component changes require a summary table** after creation or update to summarize what changed.
+> **CRITICAL:** We strictly skin Base UI. We do not modify, override, or duplicate its behavior. Every component must pass the audit checklist below.
 
-**Animation guidelines:**
-- UI animations must not exceed 300ms
-- Prefer spring animations with Motion: `{ type: "spring", bounce: 0-0.2, duration: 0.15-0.3 }`
-- Hover transitions: `transition: property 200ms ease` for color, background-color, opacity
-- Use `transform` instead of `x`/`y` for hardware acceleration
-- Avoid `ease-in` (feels slow); prefer `ease-out` for enter/exit, `ease-in-out` for movement
+### Core Principle
 
-**Spring configs:**
-- Instant/Snappy: `bounce: 0, duration: 0.15`
-- Fast/Responsive: `bounce: 0, duration: 0.2`
-- Smooth/Subtle: `bounce: 0.1, duration: 0.25`
-- Expressive: `bounce: 0.2, duration: 0.3`
+**Style it. Compose it. Wrap it. Never change it.**
 
-## Documentation Structure
+Base UI handles: state management, keyboard navigation, focus management, ARIA attributes, and data attributes. We only add: CSS classes, design tokens, and convenience props for styling.
 
-Documentation pages should be organized around **component capabilities** (what the component can do), not around **content or use cases** (what data you might use with it).
+### Component Pattern
 
-**Good section names** (capability-focused):
-- "Sizes" - the component supports different sizes
-- "With Icon" - the component can display icons
-- "With Label" - the component supports labels
-- "Custom Options" - the component allows custom option rendering
-- "States" - the component has different states
+Components follow this structure:
+1. Import primitives from `@base-ui-react/*`
+2. Spread all Base UI props via `{...props}`
+3. Use `cva` (class-variance-authority) for variants and sizes
+4. Use token-driven CSS variables for all colors
+5. Add `data-slot`, `data-variant`, `data-size` attributes for styling hooks
 
-**Bad section names** (content-focused):
-- "Company Search" - describes what data is being searched
-- "Crypto Tokens" - describes the content type
-- "User List" - describes the data
+**Allowed additions:**
+- `variant`, `size`, `tone` props for design system styling
+- `leadingIcon`, `trailingIcon` for icon convenience
+- React context to pass variant/size to children
 
-The key principle: section headers should describe **what the component is capable of**, not **what example content is being shown**. Multiple content examples can live under a single capability section.
+**Never do:**
+- Transform prop values (e.g., converting strings to objects)
+- Add `useState` that tracks state Base UI already manages
+- Override `role` or `aria-*` attributes manually
+- Intercept `onChange`/`onValueChange` and transform values
 
-## Base UI Rules
+### Component Audit Checklist
 
-**Never modify Base UI library code.** We use Base UI as a dependency - style it, compose it, wrap it, but never patch or fork it.
+**After creating or modifying ANY Base UI component, you MUST:**
 
-**Documentation examples using Base UI primitives directly:**
+1. **Ask the user:** "Should I run the Base UI audit checklist for this component?"
+2. **If yes, verify each item:**
+
+**Props passthrough:**
+- [ ] All Base UI props spread via `{...props}`
+- [ ] No prop value transformations
+- [ ] Component extends Base UI types (not replaces)
+
+**Behavior preservation:**
+- [ ] Data attributes work (`data-active`, `data-disabled`, `data-open`, etc.)
+- [ ] Keyboard navigation unchanged
+- [ ] Focus management unchanged
+- [ ] ARIA comes from Base UI, not manually added
+
+**Styling only:**
+- [ ] Only CSS classes and design tokens added
+- [ ] Uses Base UI's CSS variables when available
+- [ ] No JS logic duplicating Base UI behavior
+
+3. **Provide a summary table** (see Component Summary section below)
+
+### Documentation Examples
 
 When showing Base UI primitive usage in docs (not our wrapped components):
 
 **Do:**
 - Import and use Base UI primitives directly
 - Apply our CSS classes and design tokens
-- Rearrange primitive composition as needed
 - Use the same prop types and signatures as Base UI docs
 
 **Don't:**
-- Transform prop values (e.g., converting string to object)
 - Add wrapper logic that changes how Base UI expects data
 - Create abstraction layers over their API
 
-The goal: if someone copies a doc example, it works with Base UI exactly as documented. We show "how to style Base UI with our design system" - not a custom API.
+**Note:** Our wrapped components (`Select`, `Combobox`, `Tabs`) can provide convenience APIs - that's intentional. But doc examples showing primitives directly should match Base UI's API exactly.
 
-**Note:** This rule is for doc examples only. Our wrapped components (`Select`, `Combobox`) intentionally provide higher-level APIs with `options[]` arrays - that's by design.
+---
 
-## Path Aliases
+## Design Rules
 
-`@/*` maps to `./src/*`
+### Tokens
+
+**Never hardcode colors or spacing values.** Use CSS variables from `tokens.css`.
+
+Token categories:
+- Colors: `actions-*`, `content-*`, `surface-*`, `border-*`
+- Spacing: `--space-*` (4, 6, 8, 10, 12, 16, 20, 24, 28, 32, 36, 40...)
+- Radius: `--radius-*` (4, 6, 8, 10, 12, 16, max)
+
+Focus rings always use the combo:
+```
+shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]
+```
+
+Theme switching via `data-theme-color` and `data-base-color` attributes.
+
+**Token changes require user confirmation** with a summary table before implementation.
+
+### Animation
+
+- UI animations must not exceed 300ms
+- Prefer spring animations: `{ type: "spring", bounce: 0-0.2, duration: 0.15-0.3 }`
+- Hover transitions: `transition: property 200ms ease`
+- Use `transform` instead of `x`/`y` for hardware acceleration
+- Avoid `ease-in`; prefer `ease-out` for enter/exit
+
+**Spring configs:**
+| Name | Config |
+|------|--------|
+| Instant/Snappy | `bounce: 0, duration: 0.15` |
+| Fast/Responsive | `bounce: 0, duration: 0.2` |
+| Smooth/Subtle | `bounce: 0.1, duration: 0.25` |
+| Expressive | `bounce: 0.2, duration: 0.3` |
+
+---
+
+## Documentation Structure
+
+Organize pages around **component capabilities**, not content/use cases.
+
+**Good section names:** Sizes, With Icon, Variants, States, Disabled
+**Bad section names:** Company Search, Crypto Tokens, User List
+
+Section headers describe what the component can do, not what example data is shown.
+
+---
+
+## Component Summary Requirements
+
+**After ANY component creation or update, provide this summary:**
+
+```
+## Component Summary: [ComponentName]
+
+**Files changed:**
+| File | Action |
+|------|--------|
+| `src/components/ui/xyz.tsx` | Created/Modified |
+| `src/app/docs/xyz/page.tsx` | Created/Modified |
+
+**Features:**
+- Variants: [list]
+- Sizes: [list]
+- Props added: [list]
+
+**Base UI primitives used:**
+- [List each primitive]
+
+**Base UI audit:** [Passed/Needs review]
+```
+
+This summary is **required** - do not skip it.

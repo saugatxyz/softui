@@ -89,7 +89,7 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        "3xs": "size-[12px]",
+        "3xs": "size-[16px]",
         "2xs": "size-[16px]",
         xs: "size-[16px]",
         s: "size-[16px]",

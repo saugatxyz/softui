@@ -414,7 +414,7 @@ const groups = [
               <p className="text-body-s text-content-subtle">Pre-selected option</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox options={fruits} defaultValue="apple" />
+              <Combobox options={fruits} defaultValue={{ value: "apple", label: "Apple" }} />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -423,7 +423,7 @@ const groups = [
               <p className="text-body-s text-content-subtle">With clear button</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox options={fruits} defaultValue="banana" clearable />
+              <Combobox options={fruits} defaultValue={{ value: "banana", label: "Banana" }} clearable />
             </div>
           </div>
         </div>
@@ -648,7 +648,7 @@ const groups = [
                 <Combobox
                   multiple
                   options={tags}
-                  defaultValue={["frontend", "design"]}
+                  defaultValue={[{ value: "frontend", label: "Frontend" }, { value: "design", label: "Design" }]}
                   placeholder="Add tags..."
                 />
               </Field>
@@ -705,7 +705,7 @@ const groups = [
               <Field label="Fruit" disabled>
                 <Combobox
                   options={fruits}
-                  defaultValue="apple"
+                  defaultValue={{ value: "apple", label: "Apple" }}
                   disabled
                 />
               </Field>

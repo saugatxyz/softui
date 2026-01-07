@@ -32,7 +32,7 @@ export default function ToggleGroupDocsPage() {
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Toggle Group</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            A group of independently toggleable buttons
+            A group of toggleable buttons with shared state management
           </p>
         </div>
       </header>
@@ -41,24 +41,63 @@ export default function ToggleGroupDocsPage() {
         <CodeBlock
           code={`import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
-<ToggleGroup>
+<ToggleGroup multiple defaultValue={[]}>
   <ToggleGroupItem
+    value="heart"
     icon={<HeartIcon />}
     pressedIcon={<HeartFillIcon />}
     pressedTone="danger"
   />
   <ToggleGroupItem
+    value="star"
     icon={<StarIcon />}
     pressedIcon={<StarFillIcon />}
     pressedTone="warning"
   />
   <ToggleGroupItem
+    value="bookmark"
     icon={<BookmarkIcon />}
     pressedIcon={<BookmarkFillIcon />}
     pressedTone="blue"
   />
 </ToggleGroup>`}
         />
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-10)]">
+        <h2 className="text-body-xl-semibold">Selection Mode</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Single selection</p>
+              <p className="text-body-s text-content-subtle">
+                Default. Only one item active at a time.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
+              <ToggleGroup hideSeparator defaultValue={["center"]}>
+                <ToggleGroupItem value="left" icon={<AlignLeftIcon />} />
+                <ToggleGroupItem value="center" icon={<AlignCenterIcon />} />
+                <ToggleGroupItem value="right" icon={<AlignRightIcon />} />
+              </ToggleGroup>
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Multiple selection</p>
+              <p className="text-body-s text-content-subtle">
+                Multiple items can be active simultaneously.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
+              <ToggleGroup multiple hideSeparator defaultValue={["bold"]}>
+                <ToggleGroupItem value="bold" icon={<BoldIcon />} />
+                <ToggleGroupItem value="italic" icon={<ItalicIcon />} />
+                <ToggleGroupItem value="underline" icon={<UnderlineIcon />} />
+              </ToggleGroup>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="flex flex-col gap-[var(--space-10)]">
@@ -72,19 +111,22 @@ export default function ToggleGroupDocsPage() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup hideSeparator>
+              <ToggleGroup multiple hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="add"
                   icon={<AddIcon />}
                   pressedIcon={<CheckCircleIcon />}
                   pressedTone="success"
                   morph
                 />
                 <ToggleGroupItem
+                  value="volume"
                   icon={<VolumeIcon />}
                   pressedIcon={<MuteIcon />}
                   morph
                 />
                 <ToggleGroupItem
+                  value="eye"
                   icon={<EyeIcon />}
                   pressedIcon={<EyeOffIcon />}
                   morph
@@ -100,18 +142,21 @@ export default function ToggleGroupDocsPage() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup hideSeparator>
+              <ToggleGroup multiple hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="heart"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
                 />
                 <ToggleGroupItem
+                  value="star"
                   icon={<StarIcon />}
                   pressedIcon={<StarFillIcon />}
                   pressedTone="warning"
                 />
                 <ToggleGroupItem
+                  value="bookmark"
                   icon={<BookmarkIcon />}
                   pressedIcon={<BookmarkFillIcon />}
                   pressedTone="blue"
@@ -133,8 +178,9 @@ export default function ToggleGroupDocsPage() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup hideSeparator>
+              <ToggleGroup multiple hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="visibility"
                   icon={<EyeIcon />}
                   pressedIcon={<EyeOffIcon />}
                   labelWidth={36}
@@ -145,6 +191,7 @@ export default function ToggleGroupDocsPage() {
                   Show
                 </ToggleGroupItem>
                 <ToggleGroupItem
+                  value="notifications"
                   icon={<NotificationIcon />}
                   pressedIcon={<NotificationOffIcon />}
                   labelWidth={24}
@@ -165,8 +212,9 @@ export default function ToggleGroupDocsPage() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup hideSeparator>
+              <ToggleGroup multiple hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="like"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
@@ -177,6 +225,7 @@ export default function ToggleGroupDocsPage() {
                   Like
                 </ToggleGroupItem>
                 <ToggleGroupItem
+                  value="save"
                   icon={<BookmarkIcon />}
                   pressedIcon={<BookmarkFillIcon />}
                   pressedTone="blue"
@@ -201,18 +250,21 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-s text-content-subtle">28px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup size="xs" hideSeparator>
+              <ToggleGroup multiple size="xs" hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="star"
                   icon={<StarIcon />}
                   pressedIcon={<StarFillIcon />}
                   pressedTone="warning"
                 />
                 <ToggleGroupItem
+                  value="heart"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
                 />
                 <ToggleGroupItem
+                  value="bookmark"
                   icon={<BookmarkIcon />}
                   pressedIcon={<BookmarkFillIcon />}
                   pressedTone="blue"
@@ -226,18 +278,21 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-s text-content-subtle">32px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup size="s" hideSeparator>
+              <ToggleGroup multiple size="s" hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="heart"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
                 />
                 <ToggleGroupItem
+                  value="star"
                   icon={<StarIcon />}
                   pressedIcon={<StarFillIcon />}
                   pressedTone="warning"
                 />
                 <ToggleGroupItem
+                  value="thumbup"
                   icon={<ThumbUpIcon />}
                   pressedIcon={<ThumbUpFillIcon />}
                   pressedTone="success"
@@ -251,18 +306,21 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-s text-content-subtle">36px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup size="m" hideSeparator>
+              <ToggleGroup multiple size="m" hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="bookmark"
                   icon={<BookmarkIcon />}
                   pressedIcon={<BookmarkFillIcon />}
                   pressedTone="blue"
                 />
                 <ToggleGroupItem
+                  value="heart"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
                 />
                 <ToggleGroupItem
+                  value="star"
                   icon={<StarIcon />}
                   pressedIcon={<StarFillIcon />}
                   pressedTone="warning"
@@ -276,18 +334,21 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-s text-content-subtle">40px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup size="l" hideSeparator>
+              <ToggleGroup multiple size="l" hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="thumbup"
                   icon={<ThumbUpIcon />}
                   pressedIcon={<ThumbUpFillIcon />}
                   pressedTone="success"
                 />
                 <ToggleGroupItem
+                  value="bookmark"
                   icon={<BookmarkIcon />}
                   pressedIcon={<BookmarkFillIcon />}
                   pressedTone="blue"
                 />
                 <ToggleGroupItem
+                  value="heart"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
@@ -306,18 +367,21 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-m text-content-strong">Ghost</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup variant="ghost" hideSeparator>
+              <ToggleGroup multiple variant="ghost" hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="star"
                   icon={<StarIcon />}
                   pressedIcon={<StarFillIcon />}
                   pressedTone="warning"
                 />
                 <ToggleGroupItem
+                  value="heart"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
                 />
                 <ToggleGroupItem
+                  value="bookmark"
                   icon={<BookmarkIcon />}
                   pressedIcon={<BookmarkFillIcon />}
                   pressedTone="blue"
@@ -330,18 +394,21 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-m text-content-strong">Secondary</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup variant="secondary" hideSeparator>
+              <ToggleGroup multiple variant="secondary" hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="heart"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
                 />
                 <ToggleGroupItem
+                  value="star"
                   icon={<StarIcon />}
                   pressedIcon={<StarFillIcon />}
                   pressedTone="warning"
                 />
                 <ToggleGroupItem
+                  value="bookmark"
                   icon={<BookmarkIcon />}
                   pressedIcon={<BookmarkFillIcon />}
                   pressedTone="blue"
@@ -354,18 +421,21 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-m text-content-strong">Tertiary</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup variant="tertiary" hideSeparator>
+              <ToggleGroup multiple variant="tertiary" hideSeparator defaultValue={[]}>
                 <ToggleGroupItem
+                  value="bookmark"
                   icon={<BookmarkIcon />}
                   pressedIcon={<BookmarkFillIcon />}
                   pressedTone="blue"
                 />
                 <ToggleGroupItem
+                  value="heart"
                   icon={<HeartIcon />}
                   pressedIcon={<HeartFillIcon />}
                   pressedTone="danger"
                 />
                 <ToggleGroupItem
+                  value="star"
                   icon={<StarIcon />}
                   pressedIcon={<StarFillIcon />}
                   pressedTone="warning"
@@ -384,10 +454,10 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-m text-content-strong">With separators</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup>
-                <ToggleGroupItem icon={<BoldIcon />} />
-                <ToggleGroupItem icon={<ItalicIcon />} />
-                <ToggleGroupItem icon={<UnderlineIcon />} />
+              <ToggleGroup multiple defaultValue={[]}>
+                <ToggleGroupItem value="bold" icon={<BoldIcon />} />
+                <ToggleGroupItem value="italic" icon={<ItalicIcon />} />
+                <ToggleGroupItem value="underline" icon={<UnderlineIcon />} />
               </ToggleGroup>
             </div>
           </div>
@@ -396,12 +466,12 @@ export default function ToggleGroupDocsPage() {
               <p className="text-body-m text-content-strong">Without separators</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleGroup hideSeparator>
-                <ToggleGroupItem icon={<AlignLeftIcon />}>Left</ToggleGroupItem>
-                <ToggleGroupItem icon={<AlignCenterIcon />}>
+              <ToggleGroup hideSeparator multiple={false} defaultValue={[]}>
+                <ToggleGroupItem value="left" icon={<AlignLeftIcon />}>Left</ToggleGroupItem>
+                <ToggleGroupItem value="center" icon={<AlignCenterIcon />}>
                   Center
                 </ToggleGroupItem>
-                <ToggleGroupItem icon={<AlignRightIcon />}>Right</ToggleGroupItem>
+                <ToggleGroupItem value="right" icon={<AlignRightIcon />}>Right</ToggleGroupItem>
               </ToggleGroup>
             </div>
           </div>
