@@ -1204,7 +1204,7 @@ html[data-mode="dark"][data-scheme="color"] {
   --utility-kbd: var(--lighten-32);
   --utility-focus-outer: var(--theme-950);
   --utility-focus-inner: var(--theme-500);
-  --utility-shadow-l1: var(--lighten-12);
+  --utility-shadow-l1: var(--lighten-8);
   --utility-shadow-l2: var(--darken-6);
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
@@ -1548,7 +1548,7 @@ html[data-mode="dark"][data-scheme="mono"] {
   --utility-kbd: var(--lighten-32);
   --utility-focus-outer: var(--base-800);
   --utility-focus-inner: var(--base-500);
-  --utility-shadow-l1: var(--lighten-12);
+  --utility-shadow-l1: var(--lighten-8);
   --utility-shadow-l2: var(--darken-6);
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);

@@ -50,6 +50,7 @@ export const navSections = [
       { label: "Chip", href: "/docs/chip" },
       { label: "Combobox", href: "/docs/combobox" },
       { label: "Context Menu", href: "/docs/context-menu" },
+      { label: "Dialog", href: "/docs/dialog" },
       { label: "Field", href: "/docs/field" },
       { label: "Icon Button", href: "/docs/icon-button" },
       { label: "Input", href: "/docs/input" },

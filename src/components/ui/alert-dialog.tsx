@@ -27,9 +27,9 @@ function AlertDialogRoot({ open, onOpenChange, defaultOpen, ...props }: AlertDia
   const isOpen = open ?? internalOpen
 
   const handleOpenChange = React.useCallback(
-    (newOpen: boolean) => {
+    (newOpen: boolean, eventDetails: AlertDialogPrimitive.Root.ChangeEventDetails) => {
       setInternalOpen(newOpen)
-      onOpenChange?.(newOpen)
+      onOpenChange?.(newOpen, eventDetails)
     },
     [onOpenChange]
   )
@@ -140,6 +140,9 @@ function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupPro
         "flex flex-col overflow-hidden",
         // Focus
         "outline-none",
+        // Nested dialog effect - scale down and push back when child dialog opens
+        "transition-[scale,filter] duration-200 ease-out",
+        "data-[nested-dialog-open]:scale-[0.94] data-[nested-dialog-open]:brightness-[0.6]",
         className
       )}
       render={

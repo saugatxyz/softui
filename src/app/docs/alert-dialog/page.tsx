@@ -48,7 +48,7 @@ import { Spam2FillIcon } from "@/icons"
       </AlertDialog.Content>
       <AlertDialog.Footer>
         <AlertDialog.Close render={<Button variant="ghost">Cancel</Button>} />
-        <Button variant="danger" onClick={handleDelete}>Delete</Button>
+        <Button variant="primary" onClick={handleDelete}>Delete</Button>
       </AlertDialog.Footer>
     </AlertDialog.Popup>
   </AlertDialog.Portal>
