@@ -58,6 +58,7 @@ export const navSections = [
       { label: "Kbd", href: "/docs/kbd" },
       { label: "Menu", href: "/docs/menu" },
       { label: "Pagination", href: "/docs/pagination" },
+      { label: "Popover", href: "/docs/popover" },
       { label: "Radio Group", href: "/docs/radio-group" },
       { label: "Select", href: "/docs/select" },
       { label: "Switch", href: "/docs/switch" },
