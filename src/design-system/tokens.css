@@ -174,6 +174,7 @@
   --color-border-decorative-pink-subtle: rgb(var(--border-decorative-pink-subtle));
   --color-border-decorative-rose-subtle: rgb(var(--border-decorative-rose-subtle));
   --color-utility-kbd: rgb(var(--utility-kbd));
+  --color-utility-kbd-border: rgb(var(--utility-kbd-border));
   --color-utility-focus-outer: rgb(var(--utility-focus-outer));
   --color-utility-focus-inner: rgb(var(--utility-focus-inner));
   --color-utility-shadow-l1: rgb(var(--utility-shadow-l1));
@@ -1030,6 +1031,7 @@ html[data-mode="light"][data-scheme="color"] {
   --border-decorative-pink-subtle: var(--pink-300);
   --border-decorative-rose-subtle: var(--rose-300);
   --utility-kbd: var(--lighten-32);
+  --utility-kbd-border: var(--darken-4);
   --utility-focus-outer: var(--theme-100);
   --utility-focus-inner: var(--theme-400);
   --utility-shadow-l1: var(--darken-4);
@@ -1201,7 +1203,8 @@ html[data-mode="dark"][data-scheme="color"] {
   --border-decorative-fuchsia-subtle: var(--fuchsia-800);
   --border-decorative-pink-subtle: var(--pink-800);
   --border-decorative-rose-subtle: var(--rose-800);
-  --utility-kbd: var(--lighten-32);
+  --utility-kbd: var(--lighten-16);
+  --utility-kbd-border: var(--lighten-20);
   --utility-focus-outer: var(--theme-950);
   --utility-focus-inner: var(--theme-500);
   --utility-shadow-l1: var(--lighten-8);
@@ -1374,6 +1377,7 @@ html[data-mode="light"][data-scheme="mono"] {
   --border-decorative-pink-subtle: var(--pink-300);
   --border-decorative-rose-subtle: var(--rose-300);
   --utility-kbd: var(--lighten-32);
+  --utility-kbd-border: var(--darken-4);
   --utility-focus-outer: var(--base-200);
   --utility-focus-inner: var(--base-400);
   --utility-shadow-l1: var(--darken-4);
@@ -1545,7 +1549,8 @@ html[data-mode="dark"][data-scheme="mono"] {
   --border-decorative-fuchsia-subtle: var(--fuchsia-800);
   --border-decorative-pink-subtle: var(--pink-800);
   --border-decorative-rose-subtle: var(--rose-800);
-  --utility-kbd: var(--lighten-32);
+  --utility-kbd: var(--lighten-16);
+  --utility-kbd-border: var(--lighten-20);
   --utility-focus-outer: var(--base-800);
   --utility-focus-inner: var(--base-500);
   --utility-shadow-l1: var(--lighten-8);

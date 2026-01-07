@@ -55,6 +55,7 @@ export const navSections = [
       { label: "Icon Button", href: "/docs/icon-button" },
       { label: "Input", href: "/docs/input" },
       { label: "Input Group", href: "/docs/input-group" },
+      { label: "Kbd", href: "/docs/kbd" },
       { label: "Menu", href: "/docs/menu" },
       { label: "Pagination", href: "/docs/pagination" },
       { label: "Radio Group", href: "/docs/radio-group" },
@@ -63,6 +64,7 @@ export const navSections = [
       { label: "Switch Group", href: "/docs/switch-group" },
       { label: "Toggle Button", href: "/docs/toggle-button" },
       { label: "Toggle Group", href: "/docs/toggle-group" },
+      { label: "Tooltip", href: "/docs/tooltip" },
     ],
   },
   {
