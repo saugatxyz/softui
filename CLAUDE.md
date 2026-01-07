@@ -87,6 +87,29 @@ Documentation pages should be organized around **component capabilities** (what 
 
 The key principle: section headers should describe **what the component is capable of**, not **what example content is being shown**. Multiple content examples can live under a single capability section.
 
+## Base UI Rules
+
+**Never modify Base UI library code.** We use Base UI as a dependency - style it, compose it, wrap it, but never patch or fork it.
+
+**Documentation examples using Base UI primitives directly:**
+
+When showing Base UI primitive usage in docs (not our wrapped components):
+
+**Do:**
+- Import and use Base UI primitives directly
+- Apply our CSS classes and design tokens
+- Rearrange primitive composition as needed
+- Use the same prop types and signatures as Base UI docs
+
+**Don't:**
+- Transform prop values (e.g., converting string to object)
+- Add wrapper logic that changes how Base UI expects data
+- Create abstraction layers over their API
+
+The goal: if someone copies a doc example, it works with Base UI exactly as documented. We show "how to style Base UI with our design system" - not a custom API.
+
+**Note:** This rule is for doc examples only. Our wrapped components (`Select`, `Combobox`) intentionally provide higher-level APIs with `options[]` arrays - that's by design.
+
 ## Path Aliases
 
 `@/*` maps to `./src/*`

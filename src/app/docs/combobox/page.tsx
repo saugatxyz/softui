@@ -231,17 +231,10 @@ function SearchableSelect({
 }: {
   options: { value: string; label: string }[]
   placeholder?: string
-  defaultValue?: string
+  defaultValue?: { value: string; label: string }
 }) {
-  const defaultOption = defaultValue ? options.find(o => o.value === defaultValue) : undefined
-
   return (
-    <ComboboxPrimitive.Root
-      items={options}
-      defaultValue={defaultOption}
-      itemToStringLabel={(item) => (item as { label: string })?.label ?? ""}
-      itemToStringValue={(item) => (item as { value: string })?.value ?? ""}
-    >
+    <ComboboxPrimitive.Root items={options} defaultValue={defaultValue}>
       <ComboboxPrimitive.Trigger
         className={cn(
           "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
@@ -786,7 +779,6 @@ const groups = [
         <h2 className="text-body-xl-semibold">Input Inside Popup</h2>
         <p className="text-body-m text-content-subtle">
           A searchable select pattern where the input appears inside the popup, similar to a native select with search.
-          This is composed using Base UI primitives with our design system styles.
         </p>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -810,7 +802,7 @@ const groups = [
               <SearchableSelect
                 options={allCountries}
                 placeholder="Select country"
-                defaultValue="us"
+                defaultValue={{ value: "us", label: "United States" }}
               />
             </div>
           </div>
