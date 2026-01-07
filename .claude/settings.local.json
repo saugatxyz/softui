@@ -28,7 +28,9 @@
       "Bash(xargs ls:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:github.com)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(ls:*)",
+      "Bash(xargs:*)"
     ]
   }
 }

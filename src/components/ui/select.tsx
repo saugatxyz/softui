@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { cva, type VariantProps } from "class-variance-authority"
-import { RiCheckFill, RiExpandUpDownLine, RiErrorWarningFill } from "@remixicon/react"
+import { RiCheckFill, RiExpandUpDownLine } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
@@ -58,12 +58,6 @@ type SelectBaseProps = VariantProps<typeof triggerVariants> & {
   options: SelectOption[]
   /** Placeholder text when no value selected */
   placeholder?: string
-  /** Label text */
-  label?: string
-  /** Description text */
-  description?: string
-  /** Error message */
-  error?: string
   /** Leading icon on trigger */
   leadingIcon?: React.ReactNode
   /** Disabled state */
@@ -114,9 +108,6 @@ function Select(props: SelectProps) {
     size,
     options,
     placeholder = "Select an option",
-    label,
-    description,
-    error,
     leadingIcon,
     disabled,
     side = "bottom",
@@ -126,9 +117,6 @@ function Select(props: SelectProps) {
   } = props
 
   const resolvedSize: SelectSize = size ?? "m"
-  const hasLabel = Boolean(label)
-  const hasDescription = Boolean(description)
-  const hasError = Boolean(error)
 
   // Get display text for selected value(s)
   const getDisplayText = (selectedValue: string | string[] | null) => {
@@ -152,48 +140,16 @@ function Select(props: SelectProps) {
       data-slot="select"
       data-size={resolvedSize}
       data-multiple={multiple || undefined}
-      className={cn("flex w-full flex-col gap-[var(--space-8)]", className)}
+      className={className}
     >
-      {/* Label & Description */}
-      {(hasLabel || hasDescription) && (
-        <div data-slot="label-container" className="flex flex-col gap-[var(--space-2)]">
-          {hasLabel && (
-            <label
-              data-slot="label"
-              className={cn(
-                "font-[var(--font-weight-medium)]",
-                resolvedSize === "s"
-                  ? "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]"
-                  : "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
-                disabled ? "text-content-muted" : "text-content-strong"
-              )}
-            >
-              {label}
-            </label>
-          )}
-          {hasDescription && (
-            <span
-              data-slot="description"
-              className={cn(
-                "font-[var(--font-weight-default)]",
-                "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
-                disabled ? "text-content-muted" : "text-content-subtle"
-              )}
-            >
-              {description}
-            </span>
-          )}
-        </div>
-      )}
-
-      <SelectPrimitive.Root
-        value={props.value as string | string[] | undefined}
-        defaultValue={props.defaultValue as string | string[] | undefined}
-        onValueChange={props.onValueChange as ((value: string | string[] | null) => void) | undefined}
-        disabled={disabled}
-        multiple={multiple}
-      >
-        <SelectPrimitive.Trigger
+    <SelectPrimitive.Root
+      value={props.value as string | string[] | undefined}
+      defaultValue={props.defaultValue as string | string[] | undefined}
+      onValueChange={props.onValueChange as ((value: string | string[] | null) => void) | undefined}
+      disabled={disabled}
+      multiple={multiple}
+    >
+      <SelectPrimitive.Trigger
           data-slot="trigger"
           className={cn(
             triggerVariants({ size }),
@@ -311,20 +267,7 @@ function Select(props: SelectProps) {
             </SelectPrimitive.Popup>
           </SelectPrimitive.Positioner>
         </SelectPrimitive.Portal>
-      </SelectPrimitive.Root>
-
-      {/* Error message */}
-      {hasError && (
-        <div
-          data-slot="error"
-          className="flex w-full items-center gap-[var(--space-4)]"
-        >
-          <RiErrorWarningFill className="size-[16px] shrink-0 text-content-feedback-danger-strong" />
-          <span className="flex-1 text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-feedback-danger-strong">
-            {error}
-          </span>
-        </div>
-      )}
+    </SelectPrimitive.Root>
     </div>
   )
 }

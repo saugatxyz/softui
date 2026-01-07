@@ -3,6 +3,7 @@
 import * as React from "react"
 import { CodeBlock } from "@/components/docs/code-block"
 import { InputGroup } from "@/components/ui/input-group"
+import { Field } from "@/components/ui/field"
 import { RiSearchLine, RiGlobalLine, RiTwitterXFill, RiInstagramFill, RiLinkedinFill, RiAtLine } from "@remixicon/react"
 import { Avatar } from "@/components/ui/avatar"
 import { Crypto } from "@/components/ui/crypto"
@@ -256,19 +257,20 @@ export default function InputGroupDocsPage() {
       </section>
 
       <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">With Label</h2>
+        <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label only</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
-              <InputGroup
-                label="Website"
-                prefix="https://"
-                placeholder="example.com"
-                focusVisibleOnly
-              />
+              <Field label="Website">
+                <InputGroup
+                  prefix="https://"
+                  placeholder="example.com"
+                  focusVisibleOnly
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -276,13 +278,13 @@ export default function InputGroupDocsPage() {
               <p className="text-body-m text-content-strong">Label and description</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
-              <InputGroup
-                label="Website"
-                description="Enter your company website"
-                prefix="https://"
-                placeholder="example.com"
-                focusVisibleOnly
-              />
+              <Field label="Website" description="Enter your company website">
+                <InputGroup
+                  prefix="https://"
+                  placeholder="example.com"
+                  focusVisibleOnly
+                />
+              </Field>
             </div>
           </div>
         </div>
@@ -296,12 +298,13 @@ export default function InputGroupDocsPage() {
               <p className="text-body-m text-content-strong">Default</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
-              <InputGroup
-                label="Website"
-                prefix="https://"
-                placeholder="example.com"
-                focusVisibleOnly
-              />
+              <Field label="Website">
+                <InputGroup
+                  prefix="https://"
+                  placeholder="example.com"
+                  focusVisibleOnly
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -309,12 +312,13 @@ export default function InputGroupDocsPage() {
               <p className="text-body-m text-content-strong">Disabled</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
-              <InputGroup
-                label="Website"
-                prefix="https://"
-                placeholder="example.com"
-                disabled
-              />
+              <Field label="Website" disabled>
+                <InputGroup
+                  prefix="https://"
+                  placeholder="example.com"
+                  disabled
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -322,13 +326,13 @@ export default function InputGroupDocsPage() {
               <p className="text-body-m text-content-strong">Error</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
-              <InputGroup
-                label="Website"
-                prefix="https://"
-                placeholder="example.com"
-                error="Please enter a valid URL"
-                focusVisibleOnly
-              />
+              <Field label="Website" error="Please enter a valid URL">
+                <InputGroup
+                  prefix="https://"
+                  placeholder="example.com"
+                  focusVisibleOnly
+                />
+              </Field>
             </div>
           </div>
         </div>

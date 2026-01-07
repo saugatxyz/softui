@@ -3,7 +3,6 @@
 import * as React from "react"
 import { Autocomplete as AutocompletePrimitive } from "@base-ui/react/autocomplete"
 import { cva, type VariantProps } from "class-variance-authority"
-import { RiErrorWarningFill } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
@@ -57,12 +56,6 @@ type AutocompleteProps = VariantProps<typeof triggerVariants> & {
   options: AutocompleteOption[]
   /** Placeholder text */
   placeholder?: string
-  /** Label text */
-  label?: string
-  /** Description text */
-  description?: string
-  /** Error message */
-  error?: string
   /** Leading icon on trigger */
   leadingIcon?: React.ReactNode
   /** Disabled state */
@@ -118,9 +111,6 @@ function Autocomplete({
   size,
   options,
   placeholder = "Type to search...",
-  label,
-  description,
-  error,
   leadingIcon,
   disabled,
   side = "bottom",
@@ -136,9 +126,6 @@ function Autocomplete({
   limit,
 }: AutocompleteProps) {
   const resolvedSize: AutocompleteSize = size ?? "m"
-  const hasLabel = Boolean(label)
-  const hasDescription = Boolean(description)
-  const hasError = Boolean(error)
 
   // Track if focus came from mouse to hide focus ring
   const [isMouseFocus, setIsMouseFocus] = React.useState(false)
@@ -158,52 +145,20 @@ function Autocomplete({
     <div
       data-slot="autocomplete"
       data-size={resolvedSize}
-      className={cn("flex w-full flex-col gap-[var(--space-8)]", className)}
+      className={className}
     >
-      {/* Label & Description */}
-      {(hasLabel || hasDescription) && (
-        <div data-slot="label-container" className="flex flex-col gap-[var(--space-2)]">
-          {hasLabel && (
-            <label
-              data-slot="label"
-              className={cn(
-                "font-[var(--font-weight-medium)]",
-                resolvedSize === "s"
-                  ? "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]"
-                  : "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
-                disabled ? "text-content-muted" : "text-content-strong"
-              )}
-            >
-              {label}
-            </label>
-          )}
-          {hasDescription && (
-            <span
-              data-slot="description"
-              className={cn(
-                "font-[var(--font-weight-default)]",
-                "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
-                disabled ? "text-content-muted" : "text-content-subtle"
-              )}
-            >
-              {description}
-            </span>
-          )}
-        </div>
-      )}
-
-      <AutocompletePrimitive.Root
-        items={items}
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={onValueChange}
-        disabled={disabled}
-        mode={mode}
-        filter={filterFn}
-        autoHighlight={autoHighlight}
-        limit={limit !== undefined ? limit : -1}
-        itemToStringValue={getItemStringValue}
-      >
+    <AutocompletePrimitive.Root
+      items={items}
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={onValueChange}
+      disabled={disabled}
+      mode={mode}
+      filter={filterFn}
+      autoHighlight={autoHighlight}
+      limit={limit !== undefined ? limit : -1}
+      itemToStringValue={getItemStringValue}
+    >
         <div
           ref={triggerRef}
           data-slot="trigger-container"
@@ -327,20 +282,7 @@ function Autocomplete({
             </AutocompletePrimitive.Popup>
           </AutocompletePrimitive.Positioner>
         </AutocompletePrimitive.Portal>
-      </AutocompletePrimitive.Root>
-
-      {/* Error message */}
-      {hasError && (
-        <div
-          data-slot="error"
-          className="flex w-full items-center gap-[var(--space-4)]"
-        >
-          <RiErrorWarningFill className="size-[16px] shrink-0 text-content-feedback-danger-strong" />
-          <span className="flex-1 text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-feedback-danger-strong">
-            {error}
-          </span>
-        </div>
-      )}
+    </AutocompletePrimitive.Root>
     </div>
   )
 }

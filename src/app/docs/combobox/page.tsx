@@ -3,6 +3,7 @@
 import { CodeBlock } from "@/components/docs/code-block"
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox"
 import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
+import { Field } from "@/components/ui/field"
 import { Avatar } from "@/components/ui/avatar"
 import { Crypto } from "@/components/ui/crypto"
 import { Logo } from "@/components/ui/logo"
@@ -357,6 +358,7 @@ export default function ComboboxDocsPage() {
       <section className="flex flex-col gap-[var(--space-10)]">
         <CodeBlock
           code={`import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
+import { Field } from "@/components/ui/field"
 
 const options = [
   { value: "apple", label: "Apple" },
@@ -367,13 +369,10 @@ const options = [
 // Basic searchable dropdown
 <Combobox options={options} placeholder="Search fruits..." />
 
-// With label and description
-<Combobox
-  options={options}
-  label="Fruit"
-  description="Type to search"
-  placeholder="Search..."
-/>
+// With Field wrapper for labels and validation
+<Field label="Fruit" description="Type to search">
+  <Combobox options={options} placeholder="Search..." />
+</Field>
 
 // With icons and descriptions
 const channels = [
@@ -566,11 +565,12 @@ const groups = [
               <p className="text-body-s text-content-subtle">Options with secondary text</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={plans}
-                label="Plan"
-                placeholder="Search plans..."
-              />
+              <Field label="Plan">
+                <Combobox
+                  options={plans}
+                  placeholder="Search plans..."
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -579,11 +579,12 @@ const groups = [
               <p className="text-body-s text-content-subtle">Icons paired with descriptions</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={notificationChannels}
-                label="Notification channel"
-                placeholder="Search channels..."
-              />
+              <Field label="Notification channel">
+                <Combobox
+                  options={notificationChannels}
+                  placeholder="Search channels..."
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -592,11 +593,12 @@ const groups = [
               <p className="text-body-s text-content-subtle">Team members with roles</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={teamMembers}
-                label="Assign to"
-                placeholder="Search team..."
-              />
+              <Field label="Assign to">
+                <Combobox
+                  options={teamMembers}
+                  placeholder="Search team..."
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -605,12 +607,13 @@ const groups = [
               <p className="text-body-s text-content-subtle">Multiple options with descriptions</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                multiple
-                options={permissions}
-                label="Permissions"
-                placeholder="Select permissions..."
-              />
+              <Field label="Permissions">
+                <Combobox
+                  multiple
+                  options={permissions}
+                  placeholder="Select permissions..."
+                />
+              </Field>
             </div>
           </div>
         </div>
@@ -626,12 +629,13 @@ const groups = [
               <p className="text-body-s text-content-subtle">Select multiple options with chips</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                multiple
-                options={features}
-                label="Features"
-                placeholder="Search features..."
-              />
+              <Field label="Features">
+                <Combobox
+                  multiple
+                  options={features}
+                  placeholder="Search features..."
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -640,21 +644,22 @@ const groups = [
               <p className="text-body-s text-content-subtle">Pre-selected options</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                multiple
-                options={tags}
-                label="Tags"
-                defaultValue={["frontend", "design"]}
-                placeholder="Add tags..."
-              />
+              <Field label="Tags">
+                <Combobox
+                  multiple
+                  options={tags}
+                  defaultValue={["frontend", "design"]}
+                  placeholder="Add tags..."
+                />
+              </Field>
             </div>
           </div>
         </div>
       </section>
 
-      {/* With Label */}
+      {/* With Field */}
       <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">With Label</h2>
+        <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
@@ -662,11 +667,12 @@ const groups = [
               <p className="text-body-s text-content-subtle">Simple field label</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={countries}
-                label="Country"
-                placeholder="Search countries..."
-              />
+              <Field label="Country">
+                <Combobox
+                  options={countries}
+                  placeholder="Search countries..."
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -675,12 +681,12 @@ const groups = [
               <p className="text-body-s text-content-subtle">Additional context</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={countries}
-                label="Country"
-                description="Where is your business located?"
-                placeholder="Search countries..."
-              />
+              <Field label="Country" description="Where is your business located?">
+                <Combobox
+                  options={countries}
+                  placeholder="Search countries..."
+                />
+              </Field>
             </div>
           </div>
         </div>
@@ -696,12 +702,13 @@ const groups = [
               <p className="text-body-s text-content-subtle">Non-interactive</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={fruits}
-                label="Fruit"
-                defaultValue="apple"
-                disabled
-              />
+              <Field label="Fruit" disabled>
+                <Combobox
+                  options={fruits}
+                  defaultValue="apple"
+                  disabled
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -710,11 +717,12 @@ const groups = [
               <p className="text-body-s text-content-subtle">Individual option unavailable</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={statuses}
-                label="Status"
-                placeholder="Select status..."
-              />
+              <Field label="Status">
+                <Combobox
+                  options={statuses}
+                  placeholder="Select status..."
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -723,12 +731,12 @@ const groups = [
               <p className="text-body-s text-content-subtle">Validation error</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={countries}
-                label="Country"
-                placeholder="Search countries..."
-                error="Country is required"
-              />
+              <Field label="Country" error="Country is required">
+                <Combobox
+                  options={countries}
+                  placeholder="Search countries..."
+                />
+              </Field>
             </div>
           </div>
         </div>
@@ -744,11 +752,12 @@ const groups = [
               <p className="text-body-s text-content-subtle">Options organized by category</p>
             </div>
             <div className="w-full max-w-sm">
-              <GroupedCombobox
-                groups={teamGroups}
-                label="Assign to"
-                placeholder="Search team members..."
-              />
+              <Field label="Assign to">
+                <GroupedCombobox
+                  groups={teamGroups}
+                  placeholder="Search team members..."
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -757,12 +766,13 @@ const groups = [
               <p className="text-body-s text-content-subtle">Select from multiple groups</p>
             </div>
             <div className="w-full max-w-sm">
-              <GroupedCombobox
-                multiple
-                groups={regionGroups}
-                label="Markets"
-                placeholder="Select regions..."
-              />
+              <Field label="Markets">
+                <GroupedCombobox
+                  multiple
+                  groups={regionGroups}
+                  placeholder="Select regions..."
+                />
+              </Field>
             </div>
           </div>
         </div>
@@ -810,17 +820,17 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">All features combined</p>
-              <p className="text-body-s text-content-subtle">Label, description, icon, clearable</p>
+              <p className="text-body-s text-content-subtle">Field wrapper, icon, clearable</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
-                options={contactMethods}
-                label="Contact Method"
-                description="How should we reach you?"
-                leadingIcon={<RiGlobalLine />}
-                placeholder="Search methods..."
-                clearable
-              />
+              <Field label="Contact Method" description="How should we reach you?">
+                <Combobox
+                  options={contactMethods}
+                  leadingIcon={<RiGlobalLine />}
+                  placeholder="Search methods..."
+                  clearable
+                />
+              </Field>
             </div>
           </div>
         </div>

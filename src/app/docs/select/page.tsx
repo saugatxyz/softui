@@ -2,6 +2,7 @@
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { Select } from "@/components/ui/select"
+import { Field } from "@/components/ui/field"
 import { Avatar } from "@/components/ui/avatar"
 import { Crypto } from "@/components/ui/crypto"
 import { Logo } from "@/components/ui/logo"
@@ -143,6 +144,7 @@ export default function SelectDocsPage() {
       <section className="flex flex-col gap-[var(--space-10)]">
         <CodeBlock
           code={`import { Select } from "@/components/ui/select"
+import { Field } from "@/components/ui/field"
 
 const options = [
   { value: "apple", label: "Apple" },
@@ -153,13 +155,10 @@ const options = [
 // Basic
 <Select options={options} placeholder="Select fruit" />
 
-// With label and description
-<Select
-  options={options}
-  label="Fruit"
-  description="Choose your favorite"
-  placeholder="Select fruit"
-/>
+// With Field wrapper for labels and validation
+<Field label="Fruit" description="Choose your favorite">
+  <Select options={options} placeholder="Select fruit" />
+</Field>
 
 // With icons
 const priorities = [
@@ -348,11 +347,12 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Options with secondary text</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                options={plans}
-                label="Plan"
-                placeholder="Select a plan"
-              />
+              <Field label="Plan">
+                <Select
+                  options={plans}
+                  placeholder="Select a plan"
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -361,11 +361,12 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Permissions explained</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                options={roles}
-                label="Role"
-                placeholder="Select a role"
-              />
+              <Field label="Role">
+                <Select
+                  options={roles}
+                  placeholder="Select a role"
+                />
+              </Field>
             </div>
           </div>
         </div>
@@ -381,12 +382,13 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Select multiple options</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                multiple
-                options={features}
-                label="Features"
-                placeholder="Select features"
-              />
+              <Field label="Features">
+                <Select
+                  multiple
+                  options={features}
+                  placeholder="Select features"
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -395,20 +397,21 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Multi-select with user avatars</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                multiple
-                options={assignees}
-                label="Assign to"
-                defaultValue={["alice", "bob"]}
-              />
+              <Field label="Assign to">
+                <Select
+                  multiple
+                  options={assignees}
+                  defaultValue={["alice", "bob"]}
+                />
+              </Field>
             </div>
           </div>
         </div>
       </section>
 
-      {/* With Label */}
+      {/* With Field */}
       <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">With Label</h2>
+        <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
@@ -416,11 +419,12 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Simple field label</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                options={countries}
-                label="Country"
-                placeholder="Select country"
-              />
+              <Field label="Country">
+                <Select
+                  options={countries}
+                  placeholder="Select country"
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -429,12 +433,12 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Additional context for the field</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                options={timezones}
-                label="Timezone"
-                description="Used for scheduling and notifications"
-                placeholder="Select timezone"
-              />
+              <Field label="Timezone" description="Used for scheduling and notifications">
+                <Select
+                  options={timezones}
+                  placeholder="Select timezone"
+                />
+              </Field>
             </div>
           </div>
         </div>
@@ -450,12 +454,13 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Non-interactive state</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                options={countries}
-                label="Country"
-                defaultValue="us"
-                disabled
-              />
+              <Field label="Country" disabled>
+                <Select
+                  options={countries}
+                  defaultValue="us"
+                  disabled
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -464,11 +469,12 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Individual option unavailable</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                options={statuses}
-                label="Status"
-                placeholder="Select status"
-              />
+              <Field label="Status">
+                <Select
+                  options={statuses}
+                  placeholder="Select status"
+                />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -477,12 +483,12 @@ const priorities = [
               <p className="text-body-s text-content-subtle">Validation error state</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                options={countries}
-                label="Country"
-                placeholder="Select country"
-                error="Country is required"
-              />
+              <Field label="Country" error="Country is required">
+                <Select
+                  options={countries}
+                  placeholder="Select country"
+                />
+              </Field>
             </div>
           </div>
         </div>
@@ -495,16 +501,16 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">All features combined</p>
-              <p className="text-body-s text-content-subtle">Label, description, icon, options with icons</p>
+              <p className="text-body-s text-content-subtle">Field wrapper, icon, options with icons</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
-                options={priorities}
-                label="Priority"
-                description="How urgent is this task?"
-                leadingIcon={<RiTimeLine />}
-                placeholder="Set priority level"
-              />
+              <Field label="Priority" description="How urgent is this task?">
+                <Select
+                  options={priorities}
+                  leadingIcon={<RiTimeLine />}
+                  placeholder="Set priority level"
+                />
+              </Field>
             </div>
           </div>
         </div>

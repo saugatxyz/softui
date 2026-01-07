@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox"
 import { cva, type VariantProps } from "class-variance-authority"
-import { RiCheckFill, RiArrowDownSLine, RiErrorWarningFill, RiCloseLine } from "@remixicon/react"
+import { RiCheckFill, RiArrowDownSLine, RiCloseLine } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
@@ -63,12 +63,6 @@ type ComboboxBaseProps = VariantProps<typeof triggerVariants> & {
   options: ComboboxOption[]
   /** Placeholder text when no value selected */
   placeholder?: string
-  /** Label text */
-  label?: string
-  /** Description text */
-  description?: string
-  /** Error message */
-  error?: string
   /** Leading icon on trigger */
   leadingIcon?: React.ReactNode
   /** Disabled state */
@@ -141,9 +135,6 @@ function Combobox(props: ComboboxProps) {
     size,
     options,
     placeholder = "Select an option",
-    label,
-    description,
-    error,
     leadingIcon,
     disabled,
     clearable = false,
@@ -154,9 +145,6 @@ function Combobox(props: ComboboxProps) {
   } = props
 
   const resolvedSize: ComboboxSize = size ?? "m"
-  const hasLabel = Boolean(label)
-  const hasDescription = Boolean(description)
-  const hasError = Boolean(error)
 
   // Track if focus came from mouse to hide focus ring
   const [isMouseFocus, setIsMouseFocus] = React.useState(false)
@@ -212,50 +200,18 @@ function Combobox(props: ComboboxProps) {
       data-slot="combobox"
       data-size={resolvedSize}
       data-multiple={multiple || undefined}
-      className={cn("flex w-full flex-col gap-[var(--space-8)]", className)}
+      className={className}
     >
-      {/* Label & Description */}
-      {(hasLabel || hasDescription) && (
-        <div data-slot="label-container" className="flex flex-col gap-[var(--space-2)]">
-          {hasLabel && (
-            <label
-              data-slot="label"
-              className={cn(
-                "font-[var(--font-weight-medium)]",
-                resolvedSize === "s"
-                  ? "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]"
-                  : "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
-                disabled ? "text-content-muted" : "text-content-strong"
-              )}
-            >
-              {label}
-            </label>
-          )}
-          {hasDescription && (
-            <span
-              data-slot="description"
-              className={cn(
-                "font-[var(--font-weight-default)]",
-                "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
-                disabled ? "text-content-muted" : "text-content-subtle"
-              )}
-            >
-              {description}
-            </span>
-          )}
-        </div>
-      )}
-
-      <ComboboxPrimitive.Root
-        items={options}
-        {...(getValueOption() !== undefined && { value: getValueOption() })}
-        defaultValue={getDefaultValueOption()}
-        onValueChange={handleValueChange as (value: unknown) => void}
-        disabled={disabled}
-        multiple={multiple}
-        itemToStringLabel={getItemLabel}
-        itemToStringValue={getItemValue}
-      >
+    <ComboboxPrimitive.Root
+      items={options}
+      {...(getValueOption() !== undefined && { value: getValueOption() })}
+      defaultValue={getDefaultValueOption()}
+      onValueChange={handleValueChange as (value: unknown) => void}
+      disabled={disabled}
+      multiple={multiple}
+      itemToStringLabel={getItemLabel}
+      itemToStringValue={getItemValue}
+    >
         <div
           ref={triggerRef}
           data-slot="trigger-container"
@@ -476,20 +432,7 @@ function Combobox(props: ComboboxProps) {
             </ComboboxPrimitive.Popup>
           </ComboboxPrimitive.Positioner>
         </ComboboxPrimitive.Portal>
-      </ComboboxPrimitive.Root>
-
-      {/* Error message */}
-      {hasError && (
-        <div
-          data-slot="error"
-          className="flex w-full items-center gap-[var(--space-4)]"
-        >
-          <RiErrorWarningFill className="size-[16px] shrink-0 text-content-feedback-danger-strong" />
-          <span className="flex-1 text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-feedback-danger-strong">
-            {error}
-          </span>
-        </div>
-      )}
+    </ComboboxPrimitive.Root>
     </div>
   )
 }
@@ -503,12 +446,6 @@ type GroupedComboboxBaseProps = VariantProps<typeof triggerVariants> & {
   groups: ComboboxGroup[]
   /** Placeholder text when no value selected */
   placeholder?: string
-  /** Label text */
-  label?: string
-  /** Description text */
-  description?: string
-  /** Error message */
-  error?: string
   /** Leading icon on trigger */
   leadingIcon?: React.ReactNode
   /** Disabled state */
@@ -551,9 +488,6 @@ function GroupedCombobox(props: GroupedComboboxProps) {
     size,
     groups,
     placeholder = "Select an option",
-    label,
-    description,
-    error,
     leadingIcon,
     disabled,
     clearable = false,
@@ -564,9 +498,6 @@ function GroupedCombobox(props: GroupedComboboxProps) {
   } = props
 
   const resolvedSize: ComboboxSize = size ?? "m"
-  const hasLabel = Boolean(label)
-  const hasDescription = Boolean(description)
-  const hasError = Boolean(error)
 
   // Track if focus came from mouse to hide focus ring
   const [isMouseFocus, setIsMouseFocus] = React.useState(false)
@@ -633,50 +564,18 @@ function GroupedCombobox(props: GroupedComboboxProps) {
       data-size={resolvedSize}
       data-multiple={multiple || undefined}
       data-grouped
-      className={cn("flex w-full flex-col gap-[var(--space-8)]", className)}
+      className={className}
     >
-      {/* Label & Description */}
-      {(hasLabel || hasDescription) && (
-        <div data-slot="label-container" className="flex flex-col gap-[var(--space-2)]">
-          {hasLabel && (
-            <label
-              data-slot="label"
-              className={cn(
-                "font-[var(--font-weight-medium)]",
-                resolvedSize === "s"
-                  ? "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]"
-                  : "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
-                disabled ? "text-content-muted" : "text-content-strong"
-              )}
-            >
-              {label}
-            </label>
-          )}
-          {hasDescription && (
-            <span
-              data-slot="description"
-              className={cn(
-                "font-[var(--font-weight-default)]",
-                "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
-                disabled ? "text-content-muted" : "text-content-subtle"
-              )}
-            >
-              {description}
-            </span>
-          )}
-        </div>
-      )}
-
-      <ComboboxPrimitive.Root
-        items={groupedItems}
-        {...(getValueOption() !== undefined && { value: getValueOption() })}
-        defaultValue={getDefaultValueOption()}
-        onValueChange={handleValueChange as (value: unknown) => void}
-        disabled={disabled}
-        multiple={multiple}
-        itemToStringLabel={getItemLabel}
-        itemToStringValue={getItemValue}
-      >
+    <ComboboxPrimitive.Root
+      items={groupedItems}
+      {...(getValueOption() !== undefined && { value: getValueOption() })}
+      defaultValue={getDefaultValueOption()}
+      onValueChange={handleValueChange as (value: unknown) => void}
+      disabled={disabled}
+      multiple={multiple}
+      itemToStringLabel={getItemLabel}
+      itemToStringValue={getItemValue}
+    >
         <div
           ref={triggerRef}
           data-slot="trigger-container"
@@ -915,20 +814,7 @@ function GroupedCombobox(props: GroupedComboboxProps) {
             </ComboboxPrimitive.Popup>
           </ComboboxPrimitive.Positioner>
         </ComboboxPrimitive.Portal>
-      </ComboboxPrimitive.Root>
-
-      {/* Error message */}
-      {hasError && (
-        <div
-          data-slot="error"
-          className="flex w-full items-center gap-[var(--space-4)]"
-        >
-          <RiErrorWarningFill className="size-[16px] shrink-0 text-content-feedback-danger-strong" />
-          <span className="flex-1 text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-feedback-danger-strong">
-            {error}
-          </span>
-        </div>
-      )}
+    </ComboboxPrimitive.Root>
     </div>
   )
 }

@@ -3,6 +3,7 @@
 import * as React from "react"
 import { CodeBlock } from "@/components/docs/code-block"
 import { Autocomplete } from "@/components/ui/autocomplete"
+import { Field } from "@/components/ui/field"
 import {
   RiSearchLine,
   RiMapPinLine,
@@ -85,16 +86,17 @@ function AsyncAutocomplete() {
 
   return (
     <div className="flex flex-col gap-[var(--space-4)]">
-      <Autocomplete
-        options={countries}
-        filteredOptions={filteredOptions}
-        value={inputValue}
-        onValueChange={setInputValue}
-        placeholder="Search countries..."
-        label="Country"
-        leadingIcon={<RiSearchLine />}
-        mode="none"
-      />
+      <Field label="Country">
+        <Autocomplete
+          options={countries}
+          filteredOptions={filteredOptions}
+          value={inputValue}
+          onValueChange={setInputValue}
+          placeholder="Search countries..."
+          leadingIcon={<RiSearchLine />}
+          mode="none"
+        />
+      </Field>
       {loading && (
         <span className="text-body-xs text-content-subtle">Loading...</span>
       )}
@@ -115,6 +117,7 @@ export default function AutocompleteDocsPage() {
       <section className="flex flex-col gap-[var(--space-10)]">
         <CodeBlock
           code={`import { Autocomplete } from "@/components/ui/autocomplete"
+import { Field } from "@/components/ui/field"
 
 const options = [
   { value: "us", label: "United States" },
@@ -125,13 +128,10 @@ const options = [
 // Basic
 <Autocomplete options={options} placeholder="Search countries..." />
 
-// With label and description
-<Autocomplete
-  options={options}
-  label="Country"
-  description="Start typing to see suggestions"
-  placeholder="Search..."
-/>
+// With Field wrapper for label and description
+<Field label="Country" description="Start typing to see suggestions">
+  <Autocomplete options={options} placeholder="Search..." />
+</Field>
 
 // Free-form text is allowed - user can type anything
 // Suggestions are optional, not required`}
@@ -276,9 +276,9 @@ const options = [
         </div>
       </section>
 
-      {/* With Label */}
+      {/* With Field */}
       <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">With Label</h2>
+        <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
@@ -286,11 +286,9 @@ const options = [
               <p className="text-body-s text-content-subtle">Simple field label</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
-                options={countries}
-                label="Country"
-                placeholder="Search countries..."
-              />
+              <Field label="Country">
+                <Autocomplete options={countries} placeholder="Search countries..." />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -299,12 +297,9 @@ const options = [
               <p className="text-body-s text-content-subtle">Additional context</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
-                options={countries}
-                label="Country"
-                description="You can type any country name or select from suggestions"
-                placeholder="Search or type..."
-              />
+              <Field label="Country" description="You can type any country name or select from suggestions">
+                <Autocomplete options={countries} placeholder="Search or type..." />
+              </Field>
             </div>
           </div>
         </div>
@@ -320,12 +315,9 @@ const options = [
               <p className="text-body-s text-content-subtle">Non-interactive state</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
-                options={countries}
-                label="Country"
-                defaultValue="United States"
-                disabled
-              />
+              <Field label="Country" disabled>
+                <Autocomplete options={countries} defaultValue="United States" disabled />
+              </Field>
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -334,12 +326,9 @@ const options = [
               <p className="text-body-s text-content-subtle">Validation error state</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
-                options={countries}
-                label="Country"
-                placeholder="Search countries..."
-                error="Please enter a valid country"
-              />
+              <Field label="Country" error="Please enter a valid country">
+                <Autocomplete options={countries} placeholder="Search countries..." />
+              </Field>
             </div>
           </div>
         </div>
@@ -427,17 +416,17 @@ const options = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">All features combined</p>
-              <p className="text-body-s text-content-subtle">Label, description, icon, option icons</p>
+              <p className="text-body-s text-content-subtle">Field, icon, option icons</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
-                options={users}
-                label="Assignee"
-                description="Search for a team member or enter a name"
-                leadingIcon={<RiSearchLine />}
-                placeholder="Search users..."
-                autoHighlight
-              />
+              <Field label="Assignee" description="Search for a team member or enter a name">
+                <Autocomplete
+                  options={users}
+                  leadingIcon={<RiSearchLine />}
+                  placeholder="Search users..."
+                  autoHighlight
+                />
+              </Field>
             </div>
           </div>
         </div>
