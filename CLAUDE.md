@@ -251,58 +251,6 @@ Theme switching via `data-theme-color` and `data-base-color` attributes.
 
 **Token changes require user confirmation** with a summary table before implementation.
 
-### Typography
-
-**Text sizes:**
-| Use Case | Size |
-|----------|------|
-| Normal text | 14px |
-| Small titles | 16px |
-| Section titles | 18px |
-| Page titles | 24px |
-
-**Font weights:**
-- Page titles: semibold
-- Section titles: medium
-- Small titles: medium
-- Normal text: regular or medium (never semibold)
-
-**Title + subtitle pairing:**
-
-| Title Type | Title Style | Subtitle Size | Subtitle Style |
-|------------|-------------|---------------|----------------|
-| Page title (24px) | `content-primary`, semibold | 14px | `content-subtle`, regular |
-| Section title (18px) | `content-primary`, medium | 14px | `content-subtle`, regular |
-| Small title (16px) | `content-primary`, medium | 12px | `content-subtle`, regular |
-| Normal text (14px) | `content-primary`, medium | 12px | `content-subtle`, regular |
-
-### Icons
-
-- Never combine icons with titles or headings
-- Never manually add icons to components that don't support them natively
-- Use component props for icons (`leadingIcon`, `trailingIcon`, `icon`, `prefix`)
-- Do not manually size or style icons — components handle this
-
-**When to use icons:**
-- Buttons: only when it adds clarity to the action (download, send, add)
-- Inputs: only for type indicators (search, currency) — most inputs need no icon
-- Menu items: sparingly, for key actions only — not every item
-- List prefixes: when items need visual distinction (integrations, categories)
-
-**When NOT to use icons:**
-- Generic form fields (name, email, description)
-- Every menu item or list row
-- When the label is already clear
-
-### Containers
-
-Containers are for grouping related content (cards, panels, etc.):
-
-- Do not use containers to group content unless necessary
-- Never wrap sections in containers
-- Use fills for containers (e.g., `surface-*` tokens)
-- Never combine fill + border on the same container — pick one
-
 ### Animation
 
 - UI animations must not exceed 300ms

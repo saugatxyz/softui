@@ -4,6 +4,101 @@ This guide helps AI assistants and developers choose the right component and var
 
 ---
 
+## Visual Design Rules
+
+### Typography
+
+**Text sizes:**
+| Use Case | Size |
+|----------|------|
+| Normal text | 14px |
+| Small titles | 16px |
+| Section titles | 18px |
+| Page titles | 24px |
+
+**Font weights:**
+- Page titles: semibold
+- Section titles: medium
+- Small titles: medium
+- Normal text: regular or medium (never semibold)
+
+**Text colors:**
+- Only use `content-strong` and `content-subtle`
+- Do not use `content-muted` — if text isn't important enough for subtle, reconsider if it's needed
+
+**Titles:**
+- Not every title needs a subtitle or badge — most don't
+- Only add subtitles when extra context is genuinely needed
+- Only add badges for status or counts, not decoration
+
+**Title + subtitle pairing:**
+
+| Title Type | Title Style | Subtitle Size | Subtitle Style |
+|------------|-------------|---------------|----------------|
+| Page title (24px) | `content-primary`, semibold | 14px | `content-subtle`, regular |
+| Section title (18px) | `content-primary`, medium | 14px | `content-subtle`, regular |
+| Small title (16px) | `content-primary`, medium | 12px | `content-subtle`, regular |
+| Normal text (14px) | `content-primary`, medium | 12px | `content-subtle`, regular |
+
+### Icons
+
+- Never pair icons with labels or text outside of components
+- Icons are only for use within components that natively support them (`leadingIcon`, `trailingIcon`, `icon`, `prefix`)
+- Do not manually add icons next to labels, stats, headings, or any standalone text
+- Do not manually size or style icons — components handle this
+
+**When to use icons (within components):**
+- Buttons: only when it adds clarity to the action (download, send, add)
+- Inputs: only for type indicators (search, currency) — most inputs need no icon
+- Menu items: sparingly, for key actions only — not every item
+- List prefixes: when items need visual distinction (integrations, categories)
+
+**When NOT to use icons:**
+- Labels or stat labels (e.g., "Tasks Completed" doesn't need an icon)
+- Generic form fields (name, email, description)
+- Every menu item or list row
+- When the label is already clear
+
+### Containers
+
+Containers are for grouping related content (cards, panels, etc.):
+
+- Do not use containers to group content unless necessary
+- Never wrap sections in containers
+- Use fills for containers (e.g., `surface-*` tokens)
+- Never combine fill + border on the same container — pick one
+
+### Tables
+
+- Do not wrap tables in visible containers (no fill, no border around the table)
+- Rows have bottom borders as separators — that's the only visual division needed
+- Header row can have a subtle background if needed
+
+### Button Placement
+
+- Never stack buttons vertically as a list of actions
+- Place action buttons next to relevant section titles, aligned right
+- Group related buttons horizontally with appropriate gap
+
+### List Items (Repeating Content)
+
+When displaying a list of similar items (team members, activity feed, files, etc.):
+- Use gap between items, not cards with fills
+- Each item is a row, not a card — no background, no border
+- Save filled cards for feature highlights or distinct content blocks
+
+### Page Layout
+
+- 40px top and bottom padding for pages
+
+### Component Styling
+
+- NEVER override component colors with custom classes
+- Use component variants (`variant="danger"`, `tone="success"`, etc.) for color changes
+- Components handle their own colors — do not add `text-red-*` or any color overrides
+
+---
+
 ## Quick Decision Trees
 
 ### "User needs to trigger an action"
