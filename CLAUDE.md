@@ -16,6 +16,27 @@ pnpm lint     # Run ESLint
 
 No test suite is currently configured.
 
+## Documentation Resources
+
+| Document | Purpose | When to Use |
+|----------|---------|-------------|
+| `CLAUDE.md` | Technical implementation guidelines | When building or modifying components |
+| `COMPONENTS.md` | Component implementation reference | When implementing with Base UI primitives |
+| `UX-GUIDE.md` | Component selection & variant recommendations | When deciding which component to use |
+
+**Before building UI, always consult `UX-GUIDE.md`** to select the right component and variant for the use case. It contains:
+- Decision trees for component selection
+- Variant recommendations for all components
+- **Token usage guide** (when to use each color, spacing, radius token)
+- Common usage patterns
+
+**Design hierarchy:** `Tokens → Components → Pages`
+- **Tokens** are for building components
+- **Components** are for building pages
+- Pages should rarely use tokens directly (only for layout spacing)
+
+---
+
 ## Architecture
 
 ### Key Directories

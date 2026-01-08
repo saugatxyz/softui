@@ -50,6 +50,7 @@ export const navSections = [
       { label: "Chip", href: "/docs/chip" },
       { label: "Combobox", href: "/docs/combobox" },
       { label: "Context Menu", href: "/docs/context-menu" },
+      { label: "Crypto", href: "/docs/crypto" },
       { label: "Dialog", href: "/docs/dialog" },
       { label: "Field", href: "/docs/field" },
       { label: "Fieldset", href: "/docs/fieldset" },
@@ -58,6 +59,7 @@ export const navSections = [
       { label: "Input", href: "/docs/input" },
       { label: "Input Group", href: "/docs/input-group" },
       { label: "Kbd", href: "/docs/kbd" },
+      { label: "Logo", href: "/docs/logo" },
       { label: "Menu", href: "/docs/menu" },
       { label: "Number Field", href: "/docs/number-field" },
       { label: "Pagination", href: "/docs/pagination" },
@@ -73,13 +75,6 @@ export const navSections = [
       { label: "Toggle Group", href: "/docs/toggle-group" },
       { label: "Toast", href: "/docs/toast" },
       { label: "Tooltip", href: "/docs/tooltip" },
-    ],
-  },
-  {
-    title: "Assets",
-    items: [
-      { label: "Logo", href: "/docs/logo" },
-      { label: "Crypto", href: "/docs/crypto" },
     ],
   },
 ] as const
