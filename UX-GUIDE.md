@@ -105,10 +105,35 @@ Is it interactive?
 - `leadingIcon`: Most common. Use for action clarity (e.g., download icon + "Download")
 - `trailingIcon`: For indicating direction/expansion (e.g., arrow, chevron)
 
+**Label guidance:**
+- Keep button labels concise: 1-2 words when possible
+- Use action verbs: "Save", "Delete", "View", "Clear"
+- Context from surrounding UI eliminates need for verbose labels
+- "View" not "View All Memories" when the setting label provides context
+
 **Layout guidance:**
 - Buttons should NOT stretch to fill containers. They maintain their intrinsic width.
-- In flex containers, use `items-start` on parent or `self-start` on button to prevent stretching.
+- In flex column containers, buttons stretch by default. Always prevent this:
+  - Add `items-start` on parent container, OR
+  - Add `self-start` on the button itself
 - Exception: Full-width buttons in narrow contexts (mobile sheets, narrow modals) can use `w-full` explicitly.
+
+```tsx
+// BAD - Button stretches in flex column
+<div className="flex flex-col gap-[var(--space-16)]">
+  <Button>Save</Button>
+</div>
+
+// GOOD - Prevent stretching with items-start
+<div className="flex flex-col items-start gap-[var(--space-16)]">
+  <Button>Save</Button>
+</div>
+
+// GOOD - Or use self-start on button
+<div className="flex flex-col gap-[var(--space-16)]">
+  <Button className="self-start">Save</Button>
+</div>
+```
 
 **Button alignment:**
 
@@ -180,9 +205,38 @@ Is it interactive?
 
 | Size | When to Use |
 |------|-------------|
-| `xs` | Inline with text, counts, very compact spaces |
-| `s` | Default, most use cases |
-| `m` | Standalone badges, when emphasis needed |
+| `xs` | **Inline with regular labels/text** - most common. Use when badge appears next to field labels, setting names, or in tight spaces. |
+| `s` | **Standalone status** or **large headings/titles** (including number counts in titles). Use for status indicators on their own, or next to page titles and section headings. |
+| `m` | Standalone badges when extra emphasis needed |
+
+```tsx
+// GOOD - xs for inline with regular label
+<div className="flex items-center gap-[var(--space-8)]">
+  <p>Remember Conversations</p>
+  <Badge size="xs" variant="info">Beta</Badge>
+</div>
+
+// GOOD - s for standalone status
+<Badge size="s" variant="success" leadingDot>Active</Badge>
+
+// GOOD - s for page/section headings
+<div className="flex items-center gap-[var(--space-12)]">
+  <h1>Settings</h1>
+  <Badge size="s" variant="info">AI Chat</Badge>
+</div>
+
+// GOOD - s for number count in title
+<div className="flex items-center gap-[var(--space-12)]">
+  <h2>Notifications</h2>
+  <Badge size="s" variant="neutral">42</Badge>
+</div>
+
+// BAD - s mixed with regular label (should be xs)
+<div className="flex items-center gap-[var(--space-8)]">
+  <p>Feature Name</p>
+  <Badge size="s">New</Badge>
+</div>
+```
 
 **Usage patterns:**
 - **Status:** `variant="success"` + `isEmphasized` + `leadingDot` for "Active"
@@ -261,11 +315,13 @@ Is it interactive?
 
 **Use when:** Switching between mutually exclusive content panels.
 
+**Prefer pill variants.** Use `pill-emphasized` for page-level tabs.
+
 | Variant | When to Use |
 |---------|-------------|
-| `stroke` | Default. Underline indicator. Best for page-level or prominent sections. |
-| `pill` | Subtle background pill. Good for secondary navigation, compact spaces. |
-| `pill-emphasized` | Filled accent pill. High visual emphasis, use sparingly. |
+| `pill-emphasized` | Page-level tabs |
+| `pill` | Other contexts |
+| `stroke` | When underline style is preferred |
 
 | Size | When to Use |
 |------|-------------|
@@ -325,6 +381,8 @@ Is it interactive?
 ### Avatar
 
 **Use when:** Representing users or entities.
+
+**Use local avatars.** For examples and demos, use images from `/public/avatars/` (avatar-1.png through avatar-8.png). Do not use random internet URLs.
 
 | Size | When to Use |
 |------|-------------|
@@ -403,13 +461,57 @@ Is it interactive?
 - Space is constrained
 - Options need filtering
 
-**Prefix icons:** When using `prefix` prop on group items (card styles), pass the icon without styling. The component handles icon sizing and colors.
-```tsx
-// GOOD - Let component handle styling
-<RadioGroupItem prefix={<RiPaletteLine />} ... />
+**Card styles:** Choose based on content needs.
 
-// BAD - Don't style the icon yourself
-<RadioGroupItem prefix={<RiPaletteLine className="size-[20px] text-content-subtle" />} ... />
+| Style | When to Use |
+|-------|-------------|
+| `card-big` | Items with description |
+| `card-small` | Label only, no description |
+
+**When to use prefix:** Add a prefix when a visual element helps users scan and differentiate options faster—logos for integrations, icons for categories, tokens for crypto. Skip prefix for simple text-only options where the label is clear enough.
+
+Each group type has its own prefix component. The card style automatically determines prefix size.
+
+| Prefix Component | Available Types |
+|------------------|-----------------|
+| `RadioPrefix` / `CheckboxPrefix` / `SwitchPrefix` | `icon`, `logo`, `token`, `icon-emphasized`, `icon-emphasized-{color}` |
+| `ChipPrefix` | `avatar`, `logo`, `token`, `icon-emphasized`, `icon-emphasized-{color}` |
+| `MenuPrefix` | `icon`, `danger-icon`, `avatar`, `company`, `token` |
+
+| Type | When to Use |
+|------|-------------|
+| `icon` | Category indicators, feature icons |
+| `icon-emphasized` | When icon needs more visual weight with background |
+| `icon-emphasized-{color}` | Color-coded categories (e.g., priority levels, status) |
+| `logo` | Third-party integrations, apps, services |
+| `token` | Cryptocurrency or asset selection |
+| `avatar` | User selection, assignees, mentions |
+| `company` | Organization or workspace selection |
+| `danger-icon` | Destructive menu actions (delete, remove) |
+
+```tsx
+// GOOD - Use prefix component (handles size and color automatically)
+<SwitchGroup style="card-big">
+  <SwitchGroupItem
+    label="Discord"
+    description="Get notifications in Discord"
+    prefix={<SwitchPrefix type="logo" logo="discord" />}
+  />
+</SwitchGroup>
+
+// GOOD - Icon prefix
+<RadioGroup style="card-small">
+  <RadioGroupItem
+    label="Dark"
+    prefix={<RadioPrefix type="icon" icon={<RiMoonLine />} />}
+  />
+</RadioGroup>
+
+// BAD - Don't use Logo/Icon directly
+<SwitchGroupItem prefix={<Logo logo="discord" size={24} />} />
+
+// BAD - Don't use raw icons with manual styling
+<RadioGroupItem prefix={<RiMoonLine className="size-[16px] text-content-subtle" />} />
 ```
 
 **Descriptions:** Only add descriptions when they provide value beyond the label. Avoid redundant descriptions.
@@ -476,10 +578,7 @@ Is it interactive?
 3. Decorative variants - Colored text, neutral background
 4. `neutral` - Fully neutral
 
-**Tabs:**
-1. `pill-emphasized` - Accent pill background
-2. `stroke` - Underline, classic tabs
-3. `pill` - Subtle background pill
+**Tabs:** Prefer pill variants. Use `pill-emphasized` for page-level tabs.
 
 ### By Context
 
@@ -495,7 +594,7 @@ Is it interactive?
 | **Status indicator** | `Badge` with semantic variant, possibly emphasized |
 | **Filter selection** | `Chip` in a `ChipGroup` |
 | **View switcher** | `SegmentedControl` or `Tabs pill` |
-| **Navigation tabs** | `Tabs stroke` |
+| **Page-level tabs** | `Tabs pill-emphasized` |
 | **Settings panel** | `Switch` for toggles, `RadioGroup` for options |
 | **Confirmation** | `Dialog` or `AlertDialog` with `Button primary` and `secondary` |
 | **Success feedback** | `Toast compact tone="success"` |
@@ -504,6 +603,18 @@ Is it interactive?
 ---
 
 ## Layout Principles
+
+### Theme Support
+
+All pages must support dark/light mode switching with system preference detection. The token system handles this automatically:
+
+- **Never hardcode colors** - Always use token CSS variables (`content-strong`, `surface-page`, etc.)
+- **Tokens adapt automatically** - Colors switch based on `data-theme-color` and `data-base-color` attributes
+- **System preference** - Respects user's OS dark/light mode setting by default
+
+If a page looks wrong in dark or light mode, you're likely using hardcoded colors instead of tokens.
+
+---
 
 ### Spacing Over Separators
 
@@ -514,14 +625,24 @@ Achieve visual separation through spacing, not separator lines.
 - **Avoid `<Separator />`** unless absolutely necessary
 
 **When separators ARE appropriate:**
-- Dense lists where spacing alone isn't enough (e.g., list items with `border-muted`)
-- Menus to group related actions
-- Clear hierarchy breaks that spacing can't achieve
+- Interactive list rows where the **entire row is clickable** (e.g., navigation lists, clickable data rows)
+- Inside menus to separate groups of related actions (not between every item)
+- Clear hierarchy breaks that spacing alone can't achieve
 
-**When to use spacing instead:**
-- Between form sections → use `gap-[var(--space-40)]`
-- Between fields → let Fieldset handle it (24px)
+**Settings rows clarification:**
+- Settings rows with controls (switches, selects, inputs) are NOT interactive rows
+- The control is interactive, but the row itself is not clickable
+- Use **spacing** between settings rows, not `border-b` separators
+
+**When to use spacing (gap) instead:**
+- Form fields and inputs → use Fieldset (handles 24px gap) or `gap-[var(--space-24)]`
+- Between form sections → use `gap-[var(--space-40)]` or `gap-[var(--space-52)]`
 - Between content blocks → use generous spacing
+
+**Never use separators for:**
+- Between individual form fields/inputs
+- Between labels and their inputs
+- After every field in a form
 
 ```tsx
 // GOOD - Spacing for separation

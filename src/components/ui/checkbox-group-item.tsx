@@ -100,6 +100,15 @@ function CheckboxGroupItem({
   const isPrefixPlainIcon = React.isValidElement(prefix) &&
     (prefix.props as { type?: string })?.type === "icon"
 
+  // Inject size prop into prefix based on card type (only for Prefix components)
+  const prefixSize = isCardBig ? "m" : "s"
+  const isPrefixComponent = React.isValidElement(prefix) &&
+    typeof prefix.type === "function" &&
+    (prefix.type as { name?: string }).name?.includes("Prefix")
+  const prefixWithSize = isPrefixComponent
+    ? React.cloneElement(prefix as React.ReactElement<{ size?: string }>, { size: prefixSize })
+    : prefix
+
   return (
     <label
       data-slot="checkbox-group-item"
@@ -117,12 +126,11 @@ function CheckboxGroupItem({
         <span
           data-slot="prefix-wrapper"
           className={cn(
-            "flex shrink-0 items-center",
-            isCardSmall && "self-start",
+            "flex shrink-0 items-center self-start",
             isPrefixPlainIcon && showDescription && "-mt-[2px]"
           )}
         >
-          {prefix}
+          {prefixWithSize}
         </span>
       )}
 

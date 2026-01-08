@@ -1,566 +1,696 @@
 "use client"
 
-import * as React from "react"
 import { Tabs } from "@/components/ui/tabs"
-import { Fieldset } from "@/components/ui/fieldset"
-import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { IconButton } from "@/components/ui/icon-button"
+import { Field } from "@/components/ui/field"
+import { Fieldset } from "@/components/ui/fieldset"
 import { Select } from "@/components/ui/select"
-import { Avatar } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
+import { Switch } from "@/components/ui/switch"
 import { SwitchGroup } from "@/components/ui/switch-group"
 import { SwitchGroupItem } from "@/components/ui/switch-group-item"
-import { SwitchPrefix } from "@/components/ui/switch-prefix"
 import { RadioGroup } from "@/components/ui/radio-group"
 import { RadioGroupItem } from "@/components/ui/radio-group-item"
-import { RadioPrefix } from "@/components/ui/radio-prefix"
-import { AlertDialog } from "@/components/ui/alert-dialog"
+import { CheckboxGroup } from "@/components/ui/checkbox-group"
+import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
+import { Button } from "@/components/ui/button"
+import { Avatar } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import {
-  RiUserLine,
-  RiNotification3Line,
-  RiPaletteLine,
-  RiShieldLine,
-  RiDeleteBinLine,
-  RiMailLine,
-  RiSmartphoneLine,
-  RiMessage3Line,
   RiSunLine,
   RiMoonLine,
   RiComputerLine,
-  RiLockLine,
-  RiKeyLine,
-  RiPencilLine,
-  RiUploadCloud2Line,
-  RiAlertLine,
+  RiFlashlightLine,
+  RiScales3Line,
+  RiBrainLine,
+  RiDeleteBinLine,
+  RiDownloadLine,
 } from "@remixicon/react"
 
-const timezones = [
-  { value: "utc", label: "UTC (Coordinated Universal Time)" },
-  { value: "est", label: "EST (Eastern Standard Time)" },
-  { value: "pst", label: "PST (Pacific Standard Time)" },
-  { value: "gmt", label: "GMT (Greenwich Mean Time)" },
-  { value: "cet", label: "CET (Central European Time)" },
-  { value: "jst", label: "JST (Japan Standard Time)" },
-]
+// Setting row component for consistent layout
+function SettingRow({
+  label,
+  description,
+  children,
+  badge,
+}: {
+  label: string
+  description?: string
+  children: React.ReactNode
+  badge?: string
+}) {
+  return (
+    <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-20)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+      <div className="md:min-w-[200px] md:max-w-[280px]">
+        <div className="flex items-center gap-[var(--space-8)]">
+          <p className="text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)] text-content-strong">
+            {label}
+          </p>
+          {badge && (
+            <Badge size="s" variant="info">
+              {badge}
+            </Badge>
+          )}
+        </div>
+        {description && (
+          <p className="mt-[var(--space-2)] text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-subtle">
+            {description}
+          </p>
+        )}
+      </div>
+      <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+        {children}
+      </div>
+    </div>
+  )
+}
 
-const languages = [
-  { value: "en", label: "English" },
-  { value: "es", label: "Spanish" },
-  { value: "fr", label: "French" },
-  { value: "de", label: "German" },
-  { value: "ja", label: "Japanese" },
-  { value: "zh", label: "Chinese" },
-]
+// AI Model Tab Content
+function ModelTab() {
+  return (
+    <div className="flex flex-col gap-[var(--space-40)]">
+      <Fieldset>
+        <Fieldset.Legend>Model Selection</Fieldset.Legend>
+
+        <SettingRow
+          label="Default Model"
+          description="Choose the AI model for new conversations"
+        >
+          <Select
+            defaultValue="gpt-4"
+            options={[
+              { value: "gpt-4", label: "GPT-4 Turbo", description: "Most capable, best for complex tasks" },
+              { value: "gpt-4o", label: "GPT-4o", description: "Fast and intelligent" },
+              { value: "claude-3", label: "Claude 3 Opus", description: "Excellent for analysis and writing" },
+              { value: "gemini-pro", label: "Gemini Pro", description: "Google's latest model" },
+            ]}
+          />
+        </SettingRow>
+
+        <SettingRow
+          label="Response Style"
+          description="How the AI should communicate"
+        >
+          <RadioGroup defaultValue="balanced" style="card-small" stack="vertical">
+            <RadioGroupItem
+              value="concise"
+              label="Concise"
+              description="Brief, to-the-point responses"
+              prefix={<RiFlashlightLine className="size-[16px] text-content-subtle" />}
+            />
+            <RadioGroupItem
+              value="balanced"
+              label="Balanced"
+              description="Mix of detail and brevity"
+              prefix={<RiScales3Line className="size-[16px] text-content-subtle" />}
+            />
+            <RadioGroupItem
+              value="detailed"
+              label="Detailed"
+              description="Comprehensive explanations"
+              prefix={<RiBrainLine className="size-[16px] text-content-subtle" />}
+            />
+          </RadioGroup>
+        </SettingRow>
+
+        <SettingRow
+          label="Creativity Level"
+          description="Higher values produce more creative but less predictable responses"
+        >
+          <Select
+            defaultValue="0.7"
+            options={[
+              { value: "0.3", label: "Focused (0.3)" },
+              { value: "0.5", label: "Balanced (0.5)" },
+              { value: "0.7", label: "Creative (0.7)" },
+              { value: "0.9", label: "Experimental (0.9)" },
+            ]}
+          />
+        </SettingRow>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Response Limits</Fieldset.Legend>
+
+        <SettingRow
+          label="Max Response Length"
+          description="Maximum tokens per response"
+        >
+          <Select
+            defaultValue="2048"
+            options={[
+              { value: "512", label: "Short (512 tokens)" },
+              { value: "1024", label: "Medium (1024 tokens)" },
+              { value: "2048", label: "Long (2048 tokens)" },
+              { value: "4096", label: "Extended (4096 tokens)" },
+            ]}
+          />
+        </SettingRow>
+
+        <SettingRow
+          label="Streaming Responses"
+          description="Show responses as they're generated"
+        >
+          <Switch defaultChecked />
+        </SettingRow>
+      </Fieldset>
+
+      <div className="flex justify-start gap-[var(--space-12)]">
+        <Button variant="primary">Save Changes</Button>
+        <Button variant="secondary">Reset to Defaults</Button>
+      </div>
+    </div>
+  )
+}
+
+// Memory Tab Content
+function MemoryTab() {
+  return (
+    <div className="flex flex-col gap-[var(--space-40)]">
+      <Fieldset>
+        <Fieldset.Legend>Conversation Memory</Fieldset.Legend>
+
+        <SettingRow
+          label="Remember Conversations"
+          description="AI learns from your chat history to provide personalized responses"
+          badge="Beta"
+        >
+          <Switch defaultChecked />
+        </SettingRow>
+
+        <SettingRow
+          label="Memory Scope"
+          description="What the AI remembers about you"
+        >
+          <CheckboxGroup style="list" stack="vertical">
+            <CheckboxGroupItem
+              label="Preferences"
+              description="Communication style, formatting preferences"
+              defaultChecked
+            />
+            <CheckboxGroupItem
+              label="Facts"
+              description="Personal details you've shared (name, occupation)"
+              defaultChecked
+            />
+            <CheckboxGroupItem
+              label="Projects"
+              description="Ongoing work and project context"
+              defaultChecked
+            />
+            <CheckboxGroupItem
+              label="Code Style"
+              description="Programming languages and coding conventions"
+            />
+          </CheckboxGroup>
+        </SettingRow>
+
+        <SettingRow
+          label="Context Window"
+          description="How much conversation history to include"
+        >
+          <Select
+            defaultValue="8"
+            options={[
+              { value: "4", label: "4 messages" },
+              { value: "8", label: "8 messages" },
+              { value: "16", label: "16 messages" },
+              { value: "32", label: "32 messages" },
+            ]}
+          />
+        </SettingRow>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Memory Management</Fieldset.Legend>
+
+        <SettingRow
+          label="View Memories"
+          description="See what the AI has learned about you"
+        >
+          <Button variant="secondary" size="s" leadingIcon={<RiBrainLine />}>
+            View All Memories
+          </Button>
+        </SettingRow>
+
+        <SettingRow
+          label="Clear Memory"
+          description="Permanently delete all stored memories"
+        >
+          <Button variant="danger" size="s" leadingIcon={<RiDeleteBinLine />}>
+            Clear All Memories
+          </Button>
+        </SettingRow>
+      </Fieldset>
+
+      <div className="flex justify-start gap-[var(--space-12)]">
+        <Button variant="primary">Save Changes</Button>
+        <Button variant="secondary">Cancel</Button>
+      </div>
+    </div>
+  )
+}
+
+// Voice Tab Content
+function VoiceTab() {
+  return (
+    <div className="flex flex-col gap-[var(--space-40)]">
+      <Fieldset>
+        <Fieldset.Legend>Text to Speech</Fieldset.Legend>
+
+        <SettingRow
+          label="Enable Voice Output"
+          description="Have responses read aloud automatically"
+        >
+          <Switch />
+        </SettingRow>
+
+        <SettingRow label="Voice" description="Choose your preferred AI voice">
+          <Select
+            defaultValue="aria"
+            options={[
+              { value: "aria", label: "Aria", description: "Warm and natural" },
+              { value: "nova", label: "Nova", description: "Clear and professional" },
+              { value: "echo", label: "Echo", description: "Calm and measured" },
+              { value: "onyx", label: "Onyx", description: "Deep and authoritative" },
+            ]}
+          />
+        </SettingRow>
+
+        <SettingRow label="Speed" description="Playback speed for voice output">
+          <Select
+            defaultValue="1.0"
+            options={[
+              { value: "0.75", label: "0.75x (Slow)" },
+              { value: "1.0", label: "1.0x (Normal)" },
+              { value: "1.25", label: "1.25x (Fast)" },
+              { value: "1.5", label: "1.5x (Faster)" },
+            ]}
+          />
+        </SettingRow>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Speech to Text</Fieldset.Legend>
+
+        <SettingRow
+          label="Voice Input"
+          description="Use your microphone to speak to the AI"
+        >
+          <Switch defaultChecked />
+        </SettingRow>
+
+        <SettingRow
+          label="Auto-send on Silence"
+          description="Automatically send message after you stop speaking"
+        >
+          <Switch />
+        </SettingRow>
+
+        <SettingRow
+          label="Language"
+          description="Primary language for voice recognition"
+        >
+          <Select
+            defaultValue="en-US"
+            options={[
+              { value: "en-US", label: "English (US)" },
+              { value: "en-GB", label: "English (UK)" },
+              { value: "es-ES", label: "Spanish" },
+              { value: "fr-FR", label: "French" },
+              { value: "de-DE", label: "German" },
+              { value: "ja-JP", label: "Japanese" },
+            ]}
+          />
+        </SettingRow>
+      </Fieldset>
+
+      <div className="flex justify-start gap-[var(--space-12)]">
+        <Button variant="primary">Save Changes</Button>
+        <Button variant="secondary">Cancel</Button>
+      </div>
+    </div>
+  )
+}
+
+// Privacy Tab Content
+function PrivacyTab() {
+  return (
+    <div className="flex flex-col gap-[var(--space-40)]">
+      <Fieldset>
+        <Fieldset.Legend>Data & Privacy</Fieldset.Legend>
+
+        <SettingRow
+          label="Improve AI Models"
+          description="Allow your conversations to help improve future AI models"
+        >
+          <Switch />
+        </SettingRow>
+
+        <SettingRow
+          label="Chat History"
+          description="Save your conversation history"
+        >
+          <Switch defaultChecked />
+        </SettingRow>
+
+        <SettingRow
+          label="History Retention"
+          description="How long to keep your chat history"
+        >
+          <Select
+            defaultValue="forever"
+            options={[
+              { value: "7", label: "7 days" },
+              { value: "30", label: "30 days" },
+              { value: "90", label: "90 days" },
+              { value: "365", label: "1 year" },
+              { value: "forever", label: "Forever" },
+            ]}
+          />
+        </SettingRow>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Security</Fieldset.Legend>
+
+        <SwitchGroup style="list" stack="vertical">
+          <SwitchGroupItem
+            label="End-to-End Encryption"
+            description="Encrypt all messages between you and the AI"
+            defaultChecked
+          />
+          <SwitchGroupItem
+            label="Two-Factor Authentication"
+            description="Require 2FA when signing in"
+            defaultChecked
+          />
+          <SwitchGroupItem
+            label="Session Timeout"
+            description="Auto-logout after 30 minutes of inactivity"
+          />
+        </SwitchGroup>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Data Management</Fieldset.Legend>
+
+        <SettingRow
+          label="Export Data"
+          description="Download all your conversations and data"
+        >
+          <Button variant="secondary" size="s" leadingIcon={<RiDownloadLine />}>
+            Export All Data
+          </Button>
+        </SettingRow>
+
+        <SettingRow
+          label="Delete All Conversations"
+          description="Permanently delete your entire chat history"
+        >
+          <Button variant="danger" size="s" leadingIcon={<RiDeleteBinLine />}>
+            Delete All
+          </Button>
+        </SettingRow>
+
+        <SettingRow
+          label="Delete Account"
+          description="Permanently delete your account and all associated data"
+        >
+          <Button variant="danger" size="s">
+            Delete Account
+          </Button>
+        </SettingRow>
+      </Fieldset>
+
+      <div className="flex justify-start gap-[var(--space-12)]">
+        <Button variant="primary">Save Changes</Button>
+        <Button variant="secondary">Cancel</Button>
+      </div>
+    </div>
+  )
+}
+
+// Appearance Tab Content
+function AppearanceTab() {
+  return (
+    <div className="flex flex-col gap-[var(--space-40)]">
+      <Fieldset>
+        <Fieldset.Legend>Theme</Fieldset.Legend>
+
+        <SettingRow
+          label="Color Mode"
+          description="Choose your preferred color mode"
+        >
+          <RadioGroup defaultValue="system" style="card-small" stack="vertical">
+            <RadioGroupItem
+              value="light"
+              label="Light"
+              description="Light background with dark text"
+              prefix={<RiSunLine className="size-[16px] text-content-subtle" />}
+            />
+            <RadioGroupItem
+              value="dark"
+              label="Dark"
+              description="Dark background with light text"
+              prefix={<RiMoonLine className="size-[16px] text-content-subtle" />}
+            />
+            <RadioGroupItem
+              value="system"
+              label="System"
+              description="Follows your system preference"
+              prefix={
+                <RiComputerLine className="size-[16px] text-content-subtle" />
+              }
+            />
+          </RadioGroup>
+        </SettingRow>
+
+        <SettingRow label="Accent Color" description="Choose your accent color">
+          <Select
+            defaultValue="blue"
+            options={[
+              { value: "blue", label: "Blue" },
+              { value: "purple", label: "Purple" },
+              { value: "green", label: "Green" },
+              { value: "orange", label: "Orange" },
+              { value: "pink", label: "Pink" },
+            ]}
+          />
+        </SettingRow>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Chat Interface</Fieldset.Legend>
+
+        <SettingRow
+          label="Message Density"
+          description="Spacing between messages in chat"
+        >
+          <Select
+            defaultValue="comfortable"
+            options={[
+              { value: "compact", label: "Compact" },
+              { value: "comfortable", label: "Comfortable" },
+              { value: "spacious", label: "Spacious" },
+            ]}
+          />
+        </SettingRow>
+
+        <SettingRow
+          label="Font Size"
+          description="Text size in chat messages"
+        >
+          <Select
+            defaultValue="medium"
+            options={[
+              { value: "small", label: "Small" },
+              { value: "medium", label: "Medium" },
+              { value: "large", label: "Large" },
+            ]}
+          />
+        </SettingRow>
+
+        <SettingRow
+          label="Code Block Theme"
+          description="Syntax highlighting theme for code"
+        >
+          <Select
+            defaultValue="github-dark"
+            options={[
+              { value: "github-dark", label: "GitHub Dark" },
+              { value: "github-light", label: "GitHub Light" },
+              { value: "monokai", label: "Monokai" },
+              { value: "dracula", label: "Dracula" },
+            ]}
+          />
+        </SettingRow>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Accessibility</Fieldset.Legend>
+
+        <SettingRow
+          label="Reduce Motion"
+          description="Minimize animations throughout the interface"
+        >
+          <Switch />
+        </SettingRow>
+
+        <SettingRow
+          label="High Contrast"
+          description="Increase contrast for better visibility"
+        >
+          <Switch />
+        </SettingRow>
+      </Fieldset>
+
+      <div className="flex justify-start gap-[var(--space-12)]">
+        <Button variant="primary">Save Changes</Button>
+        <Button variant="secondary">Cancel</Button>
+      </div>
+    </div>
+  )
+}
+
+// Personalization Tab Content
+function PersonalizationTab() {
+  return (
+    <div className="flex flex-col gap-[var(--space-40)]">
+      <Fieldset>
+        <Fieldset.Legend>Profile</Fieldset.Legend>
+
+        <SettingRow label="Avatar" description="Your profile picture">
+          <div className="flex items-center gap-[var(--space-12)]">
+            <Avatar size="l" initials="JD" color="blue" isEmphasized />
+            <Button variant="secondary" size="s">
+              Change
+            </Button>
+          </div>
+        </SettingRow>
+
+        <SettingRow
+          label="Display Name"
+          description="How the AI will address you"
+        >
+          <Input placeholder="Your name" defaultValue="John" />
+        </SettingRow>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Custom Instructions</Fieldset.Legend>
+
+        <SettingRow
+          label="About You"
+          description="What should the AI know about you to provide better responses?"
+        >
+          <Field>
+            <Input placeholder="e.g., I'm a software developer working on React apps" />
+          </Field>
+        </SettingRow>
+
+        <SettingRow
+          label="Response Preferences"
+          description="How would you like the AI to respond?"
+        >
+          <Field>
+            <Input placeholder="e.g., Be concise, use code examples when relevant" />
+          </Field>
+        </SettingRow>
+      </Fieldset>
+
+      <Fieldset>
+        <Fieldset.Legend>Quick Actions</Fieldset.Legend>
+
+        <SettingRow
+          label="Default Prompts"
+          description="Quick prompts shown at the start of new chats"
+        >
+          <SwitchGroup style="list" stack="vertical">
+            <SwitchGroupItem
+              label="Summarize"
+              description="Summarize this text for me"
+              defaultChecked
+            />
+            <SwitchGroupItem
+              label="Explain"
+              description="Explain this concept simply"
+              defaultChecked
+            />
+            <SwitchGroupItem
+              label="Code Review"
+              description="Review this code and suggest improvements"
+              defaultChecked
+            />
+            <SwitchGroupItem
+              label="Translate"
+              description="Translate this text"
+            />
+          </SwitchGroup>
+        </SettingRow>
+      </Fieldset>
+
+      <div className="flex justify-start gap-[var(--space-12)]">
+        <Button variant="primary">Save Changes</Button>
+        <Button variant="secondary">Cancel</Button>
+      </div>
+    </div>
+  )
+}
 
 export default function SettingsPage() {
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
-
   return (
-    <div className="min-h-screen bg-surface-page">
-      <div className="mx-auto max-w-3xl px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
-        {/* Header */}
-        <header className="mb-[var(--space-32)]">
-          <h1 className="text-body-3xl-semibold text-content-strong">Settings</h1>
-          <p className="mt-[var(--space-6)] text-body-m text-content-subtle">
-            Manage your account settings and preferences.
-          </p>
-        </header>
-
-        {/* Settings Tabs */}
-        <Tabs defaultValue="profile" variant="stroke">
-          <Tabs.List>
-            <Tabs.Trigger value="profile" leadingIcon={<RiUserLine />}>
-              Profile
-            </Tabs.Trigger>
-            <Tabs.Trigger value="notifications" leadingIcon={<RiNotification3Line />}>
-              Notifications
-            </Tabs.Trigger>
-            <Tabs.Trigger value="appearance" leadingIcon={<RiPaletteLine />}>
-              Appearance
-            </Tabs.Trigger>
-            <Tabs.Trigger value="security" leadingIcon={<RiShieldLine />}>
-              Security
-            </Tabs.Trigger>
-            <Tabs.Indicator />
-          </Tabs.List>
-
-          {/* Profile Tab */}
-          <Tabs.Content value="profile">
-            <div className="flex flex-col gap-[var(--space-52)]">
-              {/* Avatar Section */}
-              <Fieldset>
-                <Fieldset.Legend>Profile Photo</Fieldset.Legend>
-                <div className="flex items-center gap-[var(--space-16)]">
-                  <Avatar
-                    size="l"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
-                    alt="Profile photo"
-                  />
-                  <div className="flex flex-col gap-[var(--space-8)]">
-                    <div className="flex gap-[var(--space-8)]">
-                      <Button variant="secondary" size="s" leadingIcon={<RiUploadCloud2Line />}>
-                        Upload
-                      </Button>
-                      <Button variant="ghost" size="s" leadingIcon={<RiDeleteBinLine />}>
-                        Remove
-                      </Button>
-                    </div>
-                    <p className="text-body-s text-content-muted">
-                      JPG, PNG or GIF. Max size 2MB.
-                    </p>
-                  </div>
-                </div>
-              </Fieldset>
-
-              {/* Personal Information */}
-              <Fieldset>
-                <Fieldset.Legend>Personal Information</Fieldset.Legend>
-                <div className="grid grid-cols-1 gap-[var(--space-16)] md:grid-cols-2">
-                  <Field label="First name">
-                    <Input
-                      name="firstName"
-                      defaultValue="John"
-                      placeholder="Enter first name"
-                      focusVisibleOnly
-                    />
-                  </Field>
-                  <Field label="Last name">
-                    <Input
-                      name="lastName"
-                      defaultValue="Doe"
-                      placeholder="Enter last name"
-                      focusVisibleOnly
-                    />
-                  </Field>
-                </div>
-                <Field label="Email address">
-                  <Input
-                    name="email"
-                    type="email"
-                    defaultValue="john.doe@example.com"
-                    placeholder="Enter email"
-                    focusVisibleOnly
-                  />
-                </Field>
-                <Field label="Bio" hint="Brief description for your profile. Max 200 characters.">
-                  <Input
-                    name="bio"
-                    defaultValue="Product designer based in San Francisco."
-                    placeholder="Tell us about yourself"
-                    focusVisibleOnly
-                  />
-                </Field>
-              </Fieldset>
-
-              {/* Timezone & Language */}
-              <Fieldset>
-                <Fieldset.Legend>Regional Settings</Fieldset.Legend>
-                <div className="grid grid-cols-1 gap-[var(--space-16)] md:grid-cols-2">
-                  <Field label="Timezone">
-                    <Select
-                      options={timezones}
-                      defaultValue="pst"
-                      placeholder="Select timezone"
-                    />
-                  </Field>
-                  <Field label="Language">
-                    <Select
-                      options={languages}
-                      defaultValue="en"
-                      placeholder="Select language"
-                    />
-                  </Field>
-                </div>
-              </Fieldset>
-
-              {/* Save Button */}
-              <div className="flex justify-start gap-[var(--space-12)]">
-                <Button variant="secondary">Cancel</Button>
-                <Button variant="primary">Save Changes</Button>
-              </div>
-            </div>
-          </Tabs.Content>
-
-          {/* Notifications Tab */}
-          <Tabs.Content value="notifications">
-            <div className="flex flex-col gap-[var(--space-52)]">
-              {/* Email Notifications */}
-              <Fieldset>
-                <Fieldset.Legend>Email Notifications</Fieldset.Legend>
-                <SwitchGroup style="list" stack="vertical">
-                  <SwitchGroupItem
-                    label="Marketing emails"
-                    description="New features and product updates"
-                    defaultChecked
-                  />
-                  <SwitchGroupItem
-                    label="Security alerts"
-                    description="Security events and suspicious activity"
-                    defaultChecked
-                  />
-                  <SwitchGroupItem
-                    label="Weekly digest"
-                    description="Summary of activity and team updates"
-                  />
-                  <SwitchGroupItem
-                    label="Comment notifications"
-                    description="Comments and mentions"
-                    defaultChecked
-                  />
-                </SwitchGroup>
-              </Fieldset>
-
-              {/* Push Notifications */}
-              <Fieldset>
-                <Fieldset.Legend>Push Notifications</Fieldset.Legend>
-                <SwitchGroup style="card-small" stack="vertical">
-                  <SwitchGroupItem
-                    label="Push notifications"
-                    prefix={<SwitchPrefix type="icon-emphasized-blue" size="s" icon={<RiNotification3Line />} />}
-                    defaultChecked
-                  />
-                  <SwitchGroupItem
-                    label="Email notifications"
-                    prefix={<SwitchPrefix type="icon-emphasized-green" size="s" icon={<RiMailLine />} />}
-                    defaultChecked
-                  />
-                  <SwitchGroupItem
-                    label="SMS notifications"
-                    prefix={<SwitchPrefix type="icon-emphasized-purple" size="s" icon={<RiSmartphoneLine />} />}
-                    badge={<Badge variant="orange" size="xs" isEmphasized>Premium</Badge>}
-                  />
-                  <SwitchGroupItem
-                    label="In-app messages"
-                    prefix={<SwitchPrefix type="icon-emphasized-cyan" size="s" icon={<RiMessage3Line />} />}
-                    defaultChecked
-                  />
-                </SwitchGroup>
-              </Fieldset>
-
-              {/* Save Button */}
-              <div className="flex justify-start gap-[var(--space-12)]">
-                <Button variant="secondary">Cancel</Button>
-                <Button variant="primary">Save Preferences</Button>
-              </div>
-            </div>
-          </Tabs.Content>
-
-          {/* Appearance Tab */}
-          <Tabs.Content value="appearance">
-            <div className="flex flex-col gap-[var(--space-52)]">
-              {/* Theme Selection */}
-              <Fieldset>
-                <Fieldset.Legend>Theme</Fieldset.Legend>
-                <RadioGroup defaultValue="system" style="card-small" stack="horizontal">
-                  <RadioGroupItem
-                    value="light"
-                    label="Light"
-                    prefix={<RadioPrefix type="icon" icon={<RiSunLine />} />}
-                  />
-                  <RadioGroupItem
-                    value="dark"
-                    label="Dark"
-                    prefix={<RadioPrefix type="icon" icon={<RiMoonLine />} />}
-                  />
-                  <RadioGroupItem
-                    value="system"
-                    label="System"
-                    prefix={<RadioPrefix type="icon" icon={<RiComputerLine />} />}
-                  />
-                </RadioGroup>
-              </Fieldset>
-
-              {/* Display Density */}
-              <Fieldset>
-                <Fieldset.Legend>Display Density</Fieldset.Legend>
-                <RadioGroup defaultValue="comfortable" style="list" stack="vertical">
-                  <RadioGroupItem
-                    value="compact"
-                    label="Compact"
-                    description="More content on screen"
-                  />
-                  <RadioGroupItem
-                    value="comfortable"
-                    label="Comfortable"
-                    description="Balanced readability"
-                  />
-                  <RadioGroupItem
-                    value="spacious"
-                    label="Spacious"
-                    description="Easier reading"
-                  />
-                </RadioGroup>
-              </Fieldset>
-
-              {/* Accessibility */}
-              <Fieldset>
-                <Fieldset.Legend>Accessibility</Fieldset.Legend>
-                <SwitchGroup style="list" stack="vertical">
-                  <SwitchGroupItem
-                    label="Reduce motion"
-                  />
-                  <SwitchGroupItem
-                    label="High contrast mode"
-                  />
-                  <SwitchGroupItem
-                    label="Large text"
-                  />
-                </SwitchGroup>
-              </Fieldset>
-
-              {/* Save Button */}
-              <div className="flex justify-start gap-[var(--space-12)]">
-                <Button variant="secondary">Cancel</Button>
-                <Button variant="primary">Save Preferences</Button>
-              </div>
-            </div>
-          </Tabs.Content>
-
-          {/* Security Tab */}
-          <Tabs.Content value="security">
-            <div className="flex flex-col gap-[var(--space-52)]">
-              {/* Change Password */}
-              <Fieldset>
-                <Fieldset.Legend>Change Password</Fieldset.Legend>
-                <Field label="Current password">
-                  <Input
-                    name="currentPassword"
-                    type="password"
-                    placeholder="Enter current password"
-                    focusVisibleOnly
-                  />
-                </Field>
-                <Field label="New password">
-                  <Input
-                    name="newPassword"
-                    type="password"
-                    placeholder="Enter new password"
-                    focusVisibleOnly
-                  />
-                </Field>
-                <Field label="Confirm new password">
-                  <Input
-                    name="confirmPassword"
-                    type="password"
-                    placeholder="Confirm new password"
-                    focusVisibleOnly
-                  />
-                </Field>
-                <div className="flex justify-start">
-                  <Button variant="secondary" leadingIcon={<RiLockLine />}>
-                    Update Password
-                  </Button>
-                </div>
-              </Fieldset>
-
-              {/* Two-Factor Authentication */}
-              <Fieldset>
-                <Fieldset.Legend>Two-Factor Authentication</Fieldset.Legend>
-                <div className="flex items-center justify-between rounded-[var(--radius-12)] border border-border-subtle p-[var(--space-16)]">
-                  <div className="flex items-center gap-[var(--space-12)]">
-                    <div className="flex size-[40px] items-center justify-center rounded-[var(--radius-8)] bg-surface-feedback-success-subtle">
-                      <RiShieldLine className="size-[20px] text-content-feedback-success-strong" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-[var(--space-8)]">
-                        <p className="text-body-m-medium text-content-strong">
-                          Two-factor authentication
-                        </p>
-                        <Badge variant="success" size="xs" isEmphasized>
-                          Enabled
-                        </Badge>
-                      </div>
-                      <p className="text-body-s text-content-subtle">
-                        Your account is protected with an authenticator app
-                      </p>
-                    </div>
-                  </div>
-                  <Button variant="secondary" size="s">
-                    Manage
-                  </Button>
-                </div>
-              </Fieldset>
-
-              {/* Active Sessions */}
-              <Fieldset>
-                <Fieldset.Legend>Active Sessions</Fieldset.Legend>
-                <div className="flex flex-col divide-y divide-border-muted rounded-[var(--radius-12)] border border-border-subtle">
-                  {/* Current Session */}
-                  <div className="flex items-center justify-between p-[var(--space-16)]">
-                    <div className="flex items-center gap-[var(--space-12)]">
-                      <div className="flex size-[40px] items-center justify-center rounded-[var(--radius-8)] bg-surface-interactive-default">
-                        <RiComputerLine className="size-[20px] text-content-subtle" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-[var(--space-8)]">
-                          <p className="text-body-m-medium text-content-strong">
-                            MacBook Pro - Chrome
-                          </p>
-                          <Badge variant="success" size="xs" leadingDot>
-                            Current
-                          </Badge>
-                        </div>
-                        <p className="text-body-s text-content-muted">
-                          San Francisco, CA · Last active now
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Other Sessions */}
-                  <div className="flex items-center justify-between p-[var(--space-16)]">
-                    <div className="flex items-center gap-[var(--space-12)]">
-                      <div className="flex size-[40px] items-center justify-center rounded-[var(--radius-8)] bg-surface-interactive-default">
-                        <RiSmartphoneLine className="size-[20px] text-content-subtle" />
-                      </div>
-                      <div>
-                        <p className="text-body-m-medium text-content-strong">
-                          iPhone 15 Pro - Safari
-                        </p>
-                        <p className="text-body-s text-content-muted">
-                          San Francisco, CA · Last active 2 hours ago
-                        </p>
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="xs">
-                      Revoke
-                    </Button>
-                  </div>
-                  <div className="flex items-center justify-between p-[var(--space-16)]">
-                    <div className="flex items-center gap-[var(--space-12)]">
-                      <div className="flex size-[40px] items-center justify-center rounded-[var(--radius-8)] bg-surface-interactive-default">
-                        <RiComputerLine className="size-[20px] text-content-subtle" />
-                      </div>
-                      <div>
-                        <p className="text-body-m-medium text-content-strong">
-                          Windows PC - Firefox
-                        </p>
-                        <p className="text-body-s text-content-muted">
-                          New York, NY · Last active 3 days ago
-                        </p>
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="xs">
-                      Revoke
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex justify-start">
-                  <Button variant="ghost" size="s">
-                    Sign out all other sessions
-                  </Button>
-                </div>
-              </Fieldset>
-
-              {/* API Keys */}
-              <Fieldset>
-                <Fieldset.Legend>API Keys</Fieldset.Legend>
-                <div className="flex flex-col divide-y divide-border-muted rounded-[var(--radius-12)] border border-border-subtle">
-                  <div className="flex items-center justify-between p-[var(--space-16)]">
-                    <div className="flex items-center gap-[var(--space-12)]">
-                      <div className="flex size-[40px] items-center justify-center rounded-[var(--radius-8)] bg-surface-interactive-default">
-                        <RiKeyLine className="size-[20px] text-content-subtle" />
-                      </div>
-                      <div>
-                        <p className="text-body-m-medium text-content-strong">
-                          Production API Key
-                        </p>
-                        <p className="text-body-s text-content-muted">
-                          sk-prod-****-****-****-1234 · Created Jan 15, 2025
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-[var(--space-8)]">
-                      <IconButton variant="ghost" size="xs">
-                        <RiPencilLine />
-                      </IconButton>
-                      <IconButton variant="ghost" size="xs">
-                        <RiDeleteBinLine />
-                      </IconButton>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between p-[var(--space-16)]">
-                    <div className="flex items-center gap-[var(--space-12)]">
-                      <div className="flex size-[40px] items-center justify-center rounded-[var(--radius-8)] bg-surface-interactive-default">
-                        <RiKeyLine className="size-[20px] text-content-subtle" />
-                      </div>
-                      <div>
-                        <p className="text-body-m-medium text-content-strong">
-                          Development API Key
-                        </p>
-                        <p className="text-body-s text-content-muted">
-                          sk-dev-****-****-****-5678 · Created Dec 20, 2024
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-[var(--space-8)]">
-                      <IconButton variant="ghost" size="xs">
-                        <RiPencilLine />
-                      </IconButton>
-                      <IconButton variant="ghost" size="xs">
-                        <RiDeleteBinLine />
-                      </IconButton>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex justify-start">
-                  <Button variant="secondary" size="s" leadingIcon={<RiKeyLine />}>
-                    Generate New API Key
-                  </Button>
-                </div>
-              </Fieldset>
-
-              {/* Danger Zone */}
-              <Fieldset>
-                <Fieldset.Legend>Danger Zone</Fieldset.Legend>
-                <div className="rounded-[var(--radius-12)] border border-border-feedback-danger-subtle bg-surface-feedback-danger-muted p-[var(--space-16)]">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-[var(--space-12)]">
-                      <div className="flex size-[40px] shrink-0 items-center justify-center rounded-[var(--radius-8)] bg-surface-feedback-danger-subtle">
-                        <RiAlertLine className="size-[20px] text-content-feedback-danger-strong" />
-                      </div>
-                      <div>
-                        <p className="text-body-m-medium text-content-strong">
-                          Delete account
-                        </p>
-                        <p className="text-body-s text-content-subtle">
-                          Permanently delete your account and all associated data. This action cannot be undone.
-                        </p>
-                      </div>
-                    </div>
-                    <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                      <AlertDialog.Trigger>
-                        <Button variant="danger" size="s">
-                          Delete Account
-                        </Button>
-                      </AlertDialog.Trigger>
-                      <AlertDialog.Popup>
-                        <AlertDialog.Content>
-                          <AlertDialog.Header>
-                            <AlertDialog.Title>Delete your account?</AlertDialog.Title>
-                          </AlertDialog.Header>
-                          <AlertDialog.Body>
-                            <p className="text-body-m text-content-subtle">
-                              This will permanently delete your account, all your projects, and remove you from all teams. This action cannot be undone.
-                            </p>
-                          </AlertDialog.Body>
-                          <AlertDialog.Footer>
-                            <AlertDialog.Close>
-                              <Button variant="secondary">Cancel</Button>
-                            </AlertDialog.Close>
-                            <Button variant="danger">Delete Account</Button>
-                          </AlertDialog.Footer>
-                        </AlertDialog.Content>
-                      </AlertDialog.Popup>
-                    </AlertDialog>
-                  </div>
-                </div>
-              </Fieldset>
-            </div>
-          </Tabs.Content>
-        </Tabs>
+    <div className="mx-auto flex max-w-3xl flex-col gap-[var(--space-40)] px-[var(--space-24)] py-[var(--space-40)]">
+      {/* Page Header */}
+      <div className="flex flex-col gap-[var(--space-8)]">
+        <div className="flex items-center gap-[var(--space-12)]">
+          <h1 className="text-[length:var(--font-size-3xl)] font-[var(--font-weight-semibold)] leading-[var(--line-height-3xl)] text-content-strong">
+            Settings
+          </h1>
+          <Badge size="s" variant="info">
+            AI Chat
+          </Badge>
+        </div>
+        <p className="text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] text-content-subtle">
+          Customize your AI assistant experience
+        </p>
       </div>
+
+      {/* Tabs */}
+      <Tabs defaultValue="model" variant="pill-emphasized">
+        <Tabs.List>
+          <Tabs.Trigger value="model">AI Model</Tabs.Trigger>
+          <Tabs.Trigger value="memory">Memory</Tabs.Trigger>
+          <Tabs.Trigger value="voice">Voice</Tabs.Trigger>
+          <Tabs.Trigger value="personalization">Personalization</Tabs.Trigger>
+          <Tabs.Trigger value="appearance">Appearance</Tabs.Trigger>
+          <Tabs.Trigger value="privacy">Privacy</Tabs.Trigger>
+          <Tabs.Indicator />
+        </Tabs.List>
+
+        <Tabs.Content value="model">
+          <ModelTab />
+        </Tabs.Content>
+
+        <Tabs.Content value="memory">
+          <MemoryTab />
+        </Tabs.Content>
+
+        <Tabs.Content value="voice">
+          <VoiceTab />
+        </Tabs.Content>
+
+        <Tabs.Content value="personalization">
+          <PersonalizationTab />
+        </Tabs.Content>
+
+        <Tabs.Content value="appearance">
+          <AppearanceTab />
+        </Tabs.Content>
+
+        <Tabs.Content value="privacy">
+          <PrivacyTab />
+        </Tabs.Content>
+      </Tabs>
     </div>
   )
 }

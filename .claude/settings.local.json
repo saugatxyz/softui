@@ -37,7 +37,10 @@
       "Bash(brew update:*)",
       "Bash(brew upgrade:*)",
       "Bash(kill:*)",
-      "Bash(pnpm lint:*)"
+      "Bash(pnpm lint:*)",
+      "Bash(rm:*)",
+      "Bash(rmdir:*)",
+      "Bash(chmod:*)"
     ]
   }
 }
