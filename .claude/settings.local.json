@@ -40,7 +40,8 @@
       "Bash(pnpm lint:*)",
       "Bash(rm:*)",
       "Bash(rmdir:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Skill(dev)"
     ]
   }
 }
