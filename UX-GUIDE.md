@@ -105,6 +105,11 @@ Is it interactive?
 - `leadingIcon`: Most common. Use for action clarity (e.g., download icon + "Download")
 - `trailingIcon`: For indicating direction/expansion (e.g., arrow, chevron)
 
+**Layout guidance:**
+- Buttons should NOT stretch to fill containers. They maintain their intrinsic width.
+- In flex containers, use `items-start` on parent or `self-start` on button to prevent stretching.
+- Exception: Full-width buttons in narrow contexts (mobile sheets, narrow modals) can use `w-full` explicitly.
+
 ---
 
 ### IconButton
@@ -198,6 +203,11 @@ Is it interactive?
 - `leadingIcon`: Context/type indicator (e.g., search icon, $ for currency)
 - `trailingIcon`: Actions or status (e.g., clear button, validation icon)
 
+**Layout guidance:**
+- Don't stack input fields horizontally by default. Keep fields in a single column.
+- Only stack fields side-by-side for extremely related inputs that are entered together (e.g., First name + Last name, City + State + Zip).
+- Use Fieldset to group related fields - it handles vertical spacing automatically.
+
 ---
 
 ### Select
@@ -233,6 +243,8 @@ Is it interactive?
 |------|-------------|
 | `s` | Compact UIs, nested navigation |
 | `m` | Default, page-level tabs |
+
+**Content spacing:** Use `gap-[var(--space-32)]` (32px) for spacing within tab content panels.
 
 ---
 
@@ -348,19 +360,29 @@ Is it interactive?
 
 ---
 
-### RadioGroup / CheckboxGroup
+### RadioGroup / CheckboxGroup / SwitchGroup
 
-**Use when:** Selecting from visible options.
+**Use when:** Selecting from visible options or toggling settings.
 
 | Component | When to Use |
 |-----------|-------------|
 | `RadioGroup` | Single selection from 2-5 visible options |
 | `CheckboxGroup` | Multiple selection from visible options |
+| `SwitchGroup` | Multiple independent toggles |
 
 **Use Select/Combobox instead when:**
 - More than 5 options
 - Space is constrained
 - Options need filtering
+
+**Prefix icons:** When using `prefix` prop on group items (card styles), pass the icon without styling. The component handles icon sizing and colors.
+```tsx
+// GOOD - Let component handle styling
+<RadioGroupItem prefix={<RiPaletteLine />} ... />
+
+// BAD - Don't style the icon yourself
+<RadioGroupItem prefix={<RiPaletteLine className="size-[20px] text-content-subtle" />} ... />
+```
 
 ---
 
@@ -417,6 +439,43 @@ Is it interactive?
 | **Confirmation** | `Dialog` or `AlertDialog` with `Button primary` and `secondary` |
 | **Success feedback** | `Toast compact tone="success"` |
 | **Error feedback** | `Toast card tone="danger"` with description |
+
+---
+
+## Layout Principles
+
+### Spacing Over Separators
+
+Achieve visual separation through spacing, not separator lines.
+
+- **40px** (`--space-40`) between major sections (Fieldsets, content blocks)
+- **24px** (`--space-24`) between fields within a section (handled by Fieldset)
+- **Avoid `<Separator />`** unless absolutely necessary
+
+**When separators ARE appropriate:**
+- Dense lists where spacing alone isn't enough (e.g., list items with `border-muted`)
+- Menus to group related actions
+- Clear hierarchy breaks that spacing can't achieve
+
+**When to use spacing instead:**
+- Between form sections → use `gap-[var(--space-40)]`
+- Between fields → let Fieldset handle it (24px)
+- Between content blocks → use generous spacing
+
+```tsx
+// GOOD - Spacing for separation
+<div className="flex flex-col gap-[var(--space-40)]">
+  <Fieldset>...</Fieldset>
+  <Fieldset>...</Fieldset>
+</div>
+
+// AVOID - Unnecessary separators
+<div className="flex flex-col gap-[var(--space-40)]">
+  <Fieldset>...</Fieldset>
+  <Separator />  // Not needed, spacing is enough
+  <Fieldset>...</Fieldset>
+</div>
+```
 
 ---
 
@@ -545,6 +604,7 @@ What are you styling?
 - Regular sections or containers (keep transparent or use `surface-page`)
 - Navigation panels that don't need contrast
 - Default content areas
+- Icon containers (see below)
 
 **Interactive surface patterns:**
 
@@ -559,6 +619,30 @@ Most interactive surfaces don't need a default background - just add hover state
 
 // Selected state
 <tr className="hover:bg-surface-interactive-hover data-[selected]:bg-surface-interactive-selected">
+```
+
+**Icon containers:**
+
+Never use `surface-canvas` for icon container backgrounds. If you need to emphasize an icon with a background:
+- Use `surface-interactive-default` for neutral emphasis
+- Use `surface-decorative-*-subtle` for colored emphasis (with matching `content-decorative-*-subtle` foreground)
+- Use `surface-feedback-*-subtle` for semantic emphasis (with matching `content-feedback-*-strong` foreground)
+
+```tsx
+// GOOD - Interactive surface for neutral icon bg
+<div className="bg-surface-interactive-default">
+  <RiGlobalLine className="text-content-subtle" />
+</div>
+
+// GOOD - Decorative color for emphasis
+<div className="bg-surface-decorative-blue-subtle">
+  <RiGlobalLine className="text-content-decorative-blue-subtle" />
+</div>
+
+// BAD - Don't use canvas for icon containers
+<div className="bg-surface-canvas">
+  <RiGlobalLine />
+</div>
 ```
 
 ### Content Tokens

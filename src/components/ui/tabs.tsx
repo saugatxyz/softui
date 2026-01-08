@@ -251,7 +251,7 @@ function TabsContent({ className, ...props }: TabsContentProps) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"
-      className={cn("mt-[var(--space-16)] outline-none", className)}
+      className={cn("mt-[var(--space-32)] outline-none", className)}
       {...props}
     />
   )

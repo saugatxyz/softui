@@ -26,7 +26,7 @@ function FieldsetRoot({ className, children, ...props }: FieldsetRootProps) {
     <FieldsetPrimitive.Root
       data-slot="fieldset"
       className={cn(
-        "flex flex-col gap-[var(--space-16)] border-0 p-0 m-0",
+        "flex flex-col gap-[var(--space-24)] border-0 p-0 m-0",
         className
       )}
       {...props}
