@@ -11,8 +11,8 @@ export function DocsSidebar() {
   const pathname = usePathname()
 
   return (
-    <aside className="hidden w-[280px] shrink-0 flex-col overflow-y-auto md:flex">
-      <div className="flex h-full flex-col gap-[var(--space-16)] px-[var(--space-12)] pb-[var(--space-24)]">
+    <aside className="hidden h-full w-[280px] shrink-0 flex-col overflow-y-auto md:flex">
+      <div className="flex flex-col gap-[var(--space-16)] px-[var(--space-12)] pb-[var(--space-32)]">
         <nav className="flex flex-1 flex-col gap-[var(--space-20)]">
           {navSections.map((section) => (
             <div key={section.title} className="flex flex-col gap-[var(--space-2)]">
