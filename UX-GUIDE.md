@@ -80,6 +80,11 @@ Containers are for grouping related content (cards, panels, etc.):
 - Place action buttons next to relevant section titles, aligned right
 - Group related buttons horizontally with appropriate gap
 
+**Actions must be tied to sections:**
+- Every action belongs to a specific section — don't have floating action groups
+- Page has one main intent → one primary button, others use secondary
+- If more than 2 actions, put less important ones in an icon menu (overflow)
+
 ### List Items (Repeating Content)
 
 When displaying a list of similar items (team members, activity feed, files, etc.):
@@ -87,9 +92,17 @@ When displaying a list of similar items (team members, activity feed, files, etc
 - Each item is a row, not a card — no background, no border
 - Save filled cards for feature highlights or distinct content blocks
 
+**Text weight in list items:**
+- If an item has a description/subtitle, use **medium** weight on the identifier to differentiate
+- Single-line items without descriptions → regular weight is fine
+
 ### Page Layout
 
 - 40px top and bottom padding for pages
+- Pages are composed of distinct **sections** — don't put everything in one container with gaps
+- Each section has its own title and content
+- 40px gap between sections
+- 20px gap between section title and section content
 
 ### Component Styling
 
