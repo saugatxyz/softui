@@ -14,7 +14,6 @@
   --radius-4xl: var(--radius-24);
   --color-surface-page: rgb(var(--surface-page));
   --color-surface-canvas: rgb(var(--surface-canvas));
-  --color-surface-card: rgb(var(--surface-card));
   --color-surface-overlay: rgb(var(--surface-overlay));
   --color-surface-inverse: rgb(var(--surface-inverse));
   --color-surface-interactive-default: rgb(var(--surface-interactive-default));
@@ -871,7 +870,6 @@ html[data-base-color="stone"] {
 html[data-mode="light"][data-scheme="color"] {
   --surface-page: var(--pure-white);
   --surface-canvas: var(--base-50);
-  --surface-card: var(--pure-white);
   --surface-overlay: var(--pure-white);
   --surface-inverse: var(--base-700);
   --surface-interactive-default: var(--darken-4);
@@ -1044,7 +1042,6 @@ html[data-mode="light"][data-scheme="color"] {
 html[data-mode="dark"][data-scheme="color"] {
   --surface-page: var(--base-900);
   --surface-canvas: var(--darken-16);
-  --surface-card: var(--base-800);
   --surface-overlay: var(--base-800);
   --surface-inverse: var(--base-800);
   --surface-interactive-default: var(--lighten-6);
@@ -1217,7 +1214,6 @@ html[data-mode="dark"][data-scheme="color"] {
 html[data-mode="light"][data-scheme="mono"] {
   --surface-page: var(--pure-white);
   --surface-canvas: var(--base-50);
-  --surface-card: var(--pure-white);
   --surface-overlay: var(--pure-white);
   --surface-inverse: var(--base-700);
   --surface-interactive-default: var(--darken-4);
@@ -1390,7 +1386,6 @@ html[data-mode="light"][data-scheme="mono"] {
 html[data-mode="dark"][data-scheme="mono"] {
   --surface-page: var(--base-900);
   --surface-canvas: var(--darken-16);
-  --surface-card: var(--base-800);
   --surface-overlay: var(--base-800);
   --surface-inverse: var(--base-800);
   --surface-interactive-default: var(--lighten-6);

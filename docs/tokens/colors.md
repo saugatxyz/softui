@@ -7,8 +7,6 @@ Token overview for color usage.
   cssVar: --surface-page
 - token: surface.canvas
   cssVar: --surface-canvas
-- token: surface.card
-  cssVar: --surface-card
 - token: surface.overlay
   cssVar: --surface-overlay
 - token: surface.inverse

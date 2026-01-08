@@ -1,14 +1,26 @@
-# UX Guide: Component Selection & Variant Recommendations
+# UX Guide: Component Selection & Design Patterns
 
-This guide helps AI assistants and developers choose the right component and variant for any UI situation. It provides decision trees, variant recommendations, and usage patterns.
+This guide helps AI assistants produce consistent, Stripe-quality UIs. It defines invariants, canonical patterns, and component recommendations.
 
 ---
 
 ## Visual Design Rules
 
+### Text Colors
+
+**AI uses only two text tokens:**
+
+| Token | Use Case |
+|-------|----------|
+| `content-strong` | Headings, labels, primary values |
+| `content-subtle` | Descriptions, helper text, secondary content |
+
+If text isn't important enough for `content-subtle`, remove it.
+
 ### Typography
 
 **Text sizes:**
+
 | Use Case | Token |
 |----------|-------|
 | Normal text | `--font-size-m` |
@@ -22,15 +34,6 @@ This guide helps AI assistants and developers choose the right component and var
 - Small titles: medium
 - Normal text: regular or medium (never semibold)
 
-**Text colors:**
-- Only use `content-strong` and `content-subtle`
-- Do not use `content-muted` — if text isn't important enough for subtle, reconsider if it's needed
-
-**Titles:**
-- Not every title needs a subtitle or badge — most don't
-- Only add subtitles when extra context is genuinely needed
-- Only add badges for status or counts, not decoration
-
 **Title + subtitle pairing:**
 
 | Title Type | Title Style | Subtitle Size | Subtitle Style |
@@ -40,39 +43,42 @@ This guide helps AI assistants and developers choose the right component and var
 | Small title | `content-strong`, medium | `--font-size-xs` | `content-subtle`, regular |
 | Normal text | `content-strong`, medium | `--font-size-xs` | `content-subtle`, regular |
 
+**Titles:**
+- Not every title needs a subtitle or badge—most don't
+- Only add subtitles when extra context is genuinely needed
+- Only add badges for status or counts, not decoration
+
 ### Icons
 
-- Never pair icons with labels or text outside of components
-- Icons are only for use within components that natively support them (`leadingIcon`, `trailingIcon`, `icon`, `prefix`)
-- Do not manually add icons next to labels, stats, headings, or any standalone text
-- Do not manually size or style icons — components handle this
+**Icons can appear only:**
+1. Inside supported component props (`leadingIcon`, `trailingIcon`, `icon`, `prefix`)
+2. In a dedicated Stat component (if one exists)
+3. In Table cells as status indicators (via Badge or prefix), not next to arbitrary text
+
+**Never do:**
+- Pair icons with labels or text outside of components
+- Manually size or style icons—components handle this
+- Add icons to every menu item or list row
 
 **When to use icons (within components):**
-- Buttons: only when it adds clarity to the action (download, send, add)
-- Inputs: only for type indicators (search, currency) — most inputs need no icon
-- Menu items: sparingly, for key actions only — not every item
-- List prefixes: when items need visual distinction (integrations, categories)
-
-**When NOT to use icons:**
-- Labels or stat labels (e.g., "Tasks Completed" doesn't need an icon)
-- Generic form fields (name, email, description)
-- Every menu item or list row
-- When the label is already clear
+- Buttons: only when it adds clarity (download, send, add)
+- Inputs: only for type indicators (search, currency)—most inputs need no icon
+- Menu items: sparingly, for key actions only
+- List prefixes: when items need visual distinction
 
 ### Containers
 
-Containers are for grouping related content (cards, panels, etc.):
-
 - Do not use containers to group content unless necessary
 - Never wrap sections in containers
-- Use fills for containers (e.g., `surface-*` tokens)
-- Never combine fill + border on the same container — pick one
+- Use fills for containers (`surface-*` tokens)
+- Never combine fill + border on the same container—pick one
 
 ### Tables
 
-- Do not wrap tables in visible containers (no fill, no border around the table)
-- Rows have bottom borders as separators — that's the only visual division needed
-- Header row can have a subtle background if needed
+- Never wrap tables in visible containers (no fill, no border around the table)
+- Rows have bottom borders as separators—that's the only visual division needed
+
+**Exception:** `surface-canvas` is OK as a page region (sidebar, split pane), but the table itself remains unwrapped.
 
 ### Button Placement
 
@@ -81,28 +87,54 @@ Containers are for grouping related content (cards, panels, etc.):
 - Group related buttons horizontally with appropriate gap
 
 **Actions must be tied to sections:**
-- Every action belongs to a specific section — don't have floating action groups
+- Every action belongs to a specific section—don't have floating action groups
 - Page has one main intent → one primary button, others use secondary
 - If more than 2 actions, put less important ones in an icon menu (overflow)
+
+**Button variants:**
+- Use `primary` and `secondary` for section actions
+- Use `tertiary` only on surfaces (cards, interactive rows)
+- Use `link` for inline text actions
 
 ### List Items (Repeating Content)
 
 When displaying a list of similar items (team members, activity feed, files, etc.):
 - Use gap between items, not cards with fills
-- Each item is a row, not a card — no background, no border
-- Save filled cards for feature highlights or distinct content blocks
+- Each item is a row, not a card—no background, no border
+- Don't overload the page with separators—use sparingly
 
 **Text weight in list items:**
 - If an item has a description/subtitle, use **medium** weight on the identifier to differentiate
 - Single-line items without descriptions → regular weight is fine
 
-### Page Layout
+### Separators vs Cards
 
-- 40px top and bottom padding for pages
-- Pages are composed of distinct **sections** — don't put everything in one container with gaps
-- Each section has its own title and content
-- 40px gap between sections
-- 20px gap between section title and section content
+**Use separators (rows with dividers):**
+- Items in a continuous list read top-to-bottom
+- Similar items of the same type
+- Read-only or single-action items
+- Content flows—items are siblings
+
+**Use cards (with fill):**
+- Standalone units that could exist independently
+- Items with multiple actions or rich interactive content
+- Feature highlights, dashboard widgets
+- Distinct entities—items are self-contained
+
+**Simple rule:** Lists → separators or gaps. Collections of modules → cards.
+
+**Dashboard exception:** KPI summary strip can be cards only if they are clickable modules; otherwise use plain layout.
+
+### Interactive Surfaces
+
+For interactive cards or clickable areas, use `surface-interactive-*` tokens:
+- **Want attention on it:** use `surface-interactive-default` as the default fill
+- **Subtle/minimal:** no default fill, just add `surface-interactive-hover` on hover
+- Always add hover state for interactive surfaces
+
+**Row click guidance:**
+- If the whole row is clickable, apply interactive hover token to the row
+- If only a cell/control is clickable, don't make the row hoverable
 
 ### Component Styling
 
@@ -111,8 +143,131 @@ When displaying a list of similar items (team members, activity feed, files, etc
 - NEVER add custom colors, sizes, padding, or any styling to components
 - NEVER use className to override component appearance
 - Use ONLY the props components provide (`variant`, `size`, `tone`, etc.)
-- If a component doesn't support what you need, use it as-is or ask — do not hack it
-- Components are designed to work together — custom styling breaks consistency
+- If a component doesn't support what you need, use it as-is or ask—do not hack it
+- Components are designed to work together—custom styling breaks consistency
+
+---
+
+## Page Composition Rules
+
+Every page uses this skeleton:
+
+1. **Page Header** - title, optional subtitle, right-aligned actions
+2. **Primary Content Sections** - each has a section title row
+3. **Optional: Right Drawer** - for details/edit flows
+4. **Toasts** - for feedback
+
+### Hard Limits
+
+- 1 primary action per page header (max 2 total header actions)
+- Each section has max 1 primary section action (else use overflow Menu)
+
+### Section Layout
+
+- 48px gap between sections
+- 20px gap between section title row and content
+- Sections do not get containers by default
+- Sections can have subsections, which can be arranged side by side
+- Section and subsection action buttons use `size="m"`
+
+### Page Padding
+
+- 48px top and bottom padding for pages
+- Pages are composed of distinct **sections**—don't put everything in one container
+- Each section has its own title and content
+
+---
+
+## Canonical Patterns
+
+### Dashboard Layout
+
+**Default structure:**
+1. Page header
+2. Optional: summary section (stats, key info, or contextual content)
+3. Filter bar (chips + select/search)
+4. Table
+5. Optional: detail drawer on row click
+
+**Summary content format:**
+- Page-wide metrics → use stats (each in container, 4px gap between)
+- Metadata with values → use a list
+
+**When using stats:**
+- Prioritize top 4–5 stats only
+- Each stat: label (subtle), value (strong), optional delta (subtle)
+- No icons unless the Stat component supports it
+
+**Table rules (dashboards):**
+- Row click opens detail drawer if a detail view exists
+- Row-level actions go in overflow menu (IconButton ghost)
+- Avoid inline action buttons per row (unless 1 clear action)
+
+**Filtering rules:**
+- 0–3 primary filters visible (Chip/Segmented/Select)
+- Anything beyond goes into "More filters" Popover/Drawer
+- Filters always show active state + "Clear" action (link-neutral)
+
+### Settings Layout
+
+**Default structure:**
+1. Page header
+2. Sections as Fieldsets
+3. One concept per section
+4. Actions: usually inline (Save) at bottom of page or section (not both)
+
+**Settings rows:**
+- Rows are not clickable
+- Use spacing, not separators
+- Label + description on left, control on right (Switch/Select/Input)
+
+**Save behavior (pick one per page):**
+- **Immediate:** Switch toggles + toast "Saved"
+- **Confirmation required:** Sticky footer or bottom actions: Cancel/Save
+
+Don't mix immediate + Save button in same section unless clearly separated.
+
+---
+
+## Density & Scannability
+
+**Dashboards:**
+- Prefer tables + minimal summary over card grids
+- Avoid card grids unless the cards are truly independent modules
+- Don't repeat labels—let column headers do work
+
+**Text density:**
+- Descriptions: max 1 line by default
+- Avoid secondary labels inside table rows (use columns)
+
+**Visual noise limits:**
+- Borders: use row separators only
+- Badges: only for real status categories (Paid/Failed/Pending), not decoration
+
+---
+
+## UX Copy Rules
+
+- **Titles:** 1–4 words
+- **Subtitles:** One concise sentence, no commas if possible
+- **Button labels:** Verb + object preferred ("Export CSV", "Create invoice")
+- **Avoid vague CTAs:** No "Continue" or "Submit" unless context is perfect
+- **Consistent nouns:** Pick one term per page (Payment vs Transaction—not both)
+
+---
+
+## AI Output Contract
+
+When generating a screen, output in this order:
+
+1. Information architecture (sections)
+2. Component tree (by section)
+3. States (loading/empty/error/success)
+4. Interaction notes (row click → drawer, filters, etc.)
+
+**Rules:**
+- Do not output custom CSS
+- Do not invent new components unless requested
 
 ---
 
@@ -274,6 +429,10 @@ Is it interactive?
   <Button variant="danger">Delete</Button>
 </AlertDialog.Footer>
 ```
+
+**In tables:** Avoid visible buttons per row; use overflow Menu.
+
+**In drawers:** Primary action goes bottom-right in Dialog.Footer.
 
 ---
 
@@ -732,7 +891,7 @@ If a page looks wrong in dark or light mode, you're likely using hardcoded color
 
 Achieve visual separation through spacing, not separator lines.
 
-- **52px** (`--space-52`) between major sections (Fieldsets, content blocks)
+- **48px** (`--space-48`) between major sections (Fieldsets, content blocks)
 - **24px** (`--space-24`) between fields within a section (handled by Fieldset)
 - **Avoid `<Separator />`** unless absolutely necessary
 
@@ -748,7 +907,7 @@ Achieve visual separation through spacing, not separator lines.
 
 **When to use spacing (gap) instead:**
 - Form fields and inputs → use Fieldset (handles 24px gap) or `gap-[var(--space-24)]`
-- Between form sections → use `gap-[var(--space-40)]` or `gap-[var(--space-52)]`
+- Between form sections → use `gap-[var(--space-48)]`
 - Between content blocks → use generous spacing
 
 **Never use separators for:**
@@ -758,13 +917,13 @@ Achieve visual separation through spacing, not separator lines.
 
 ```tsx
 // GOOD - Spacing for separation
-<div className="flex flex-col gap-[var(--space-52)]">
+<div className="flex flex-col gap-[var(--space-48)]">
   <Fieldset>...</Fieldset>
   <Fieldset>...</Fieldset>
 </div>
 
 // AVOID - Unnecessary separators
-<div className="flex flex-col gap-[var(--space-52)]">
+<div className="flex flex-col gap-[var(--space-48)]">
   <Fieldset>...</Fieldset>
   <Separator />  // Not needed, spacing is enough
   <Fieldset>...</Fieldset>
@@ -815,205 +974,6 @@ Tokens → Components → Pages
 
 ---
 
-### Color Tokens Decision Tree
-
-```
-What are you styling?
-├── Background/Surface
-│   ├── Page background → surface-page
-│   ├── Content area/card background → surface-canvas
-│   ├── Elevated card → surface-card
-│   ├── Modal/popover/dropdown → surface-overlay
-│   ├── Inverted (dark on light, light on dark) → surface-inverse
-│   └── Interactive element background → surface-interactive-*
-├── Text/Content
-│   ├── Primary text, headings → content-strong
-│   ├── Secondary text, descriptions → content-subtle
-│   ├── Placeholder, hint text → content-muted
-│   ├── Disabled text → content-disabled
-│   ├── Link text → content-link-*
-│   ├── Text on accent background → content-on-accent-*
-│   └── Text on inverse background → content-inverse-*
-├── Interactive Elements (buttons, inputs)
-│   ├── Primary action → actions-primary-*
-│   ├── Secondary action → actions-secondary-*
-│   ├── Tertiary/glass action → actions-tertiary-*
-│   └── Destructive action → actions-danger-*
-├── Borders
-│   ├── Subtle dividers → border-subtle
-│   ├── Muted borders → border-muted
-│   ├── Interactive element borders → border-interactive-*
-│   └── Inverted borders → border-inverse
-└── Feedback/Status
-    ├── Success (green) → *-feedback-success-*
-    ├── Warning (amber) → *-feedback-warning-*
-    ├── Danger/Error (red) → *-feedback-danger-*
-    └── Info (blue) → *-feedback-info-*
-```
-
-### Surface Tokens
-
-| Token | When to Use | Examples |
-|-------|-------------|----------|
-| `surface-page` | Main page background. The default for most content. | Page body, app background, most sections |
-| `surface-canvas` | **Optional.** Only when you need an alternate background to distinguish an area from page. | Sidebar (if it needs contrast), content well, inset panels |
-| `surface-card` | Elevated cards that need to stand out from canvas. | Cards within sidebar, nested panels, feature cards |
-| `surface-overlay` | Floating elements with backdrop blur. | Modals, dialogs, popovers, dropdowns, tooltips, command palette |
-| `surface-inverse` | Inverted color scheme. | Tooltips (dark on light theme), inverted callouts |
-| `surface-interactive-default` | Hoverable/clickable row or cell backgrounds. | Table rows, list items, menu items, selectable cards |
-| `surface-interactive-hover` | Hover state for interactive surfaces. | Table row on hover, list item on hover |
-| `surface-interactive-selected` | Selected state for interactive surfaces. | Selected table row, active list item, chosen option |
-| `surface-feedback-*-subtle` | Light feedback backgrounds. | Alert banners, status badges, notification cards |
-| `surface-feedback-*-muted` | Even lighter feedback backgrounds. | Subtle inline warnings, background highlights |
-| `surface-decorative-*-subtle` | Decorative colored backgrounds. | Colored avatars, category tags, chart legends |
-
-**Visual layering (back to front):**
-```
-┌─────────────────────────────────────────────────┐
-│  surface-page (main background - DEFAULT)       │
-│                                                 │
-│  ┌────────────┐                                 │
-│  │ surface-   │   Most content sits directly   │
-│  │ canvas     │   on surface-page. Canvas is   │
-│  │ (optional, │   only for visual separation.  │
-│  │ e.g.       │                                 │
-│  │ sidebar)   │   ┌──────────────────────┐     │
-│  └────────────┘   │ surface-card         │     │
-│                   │ (elevated element)   │     │
-│                   └──────────────────────┘     │
-│                                                 │
-│         ┌─────────────────────────────┐        │
-│         │  surface-overlay            │        │
-│         │  (modal/popover - floats)   │        │
-│         └─────────────────────────────┘        │
-└─────────────────────────────────────────────────┘
-```
-
-**When to use `surface-canvas`:**
-- Sidebar that needs to look distinct from main content
-- Inset content wells or recessed areas
-- Only when you specifically need a different background shade
-
-**When NOT to use `surface-canvas`:**
-- Regular sections or containers (keep transparent or use `surface-page`)
-- Navigation panels that don't need contrast
-- Default content areas
-- Icon containers (see below)
-
-**Interactive surface patterns:**
-
-Most interactive surfaces don't need a default background - just add hover state:
-```tsx
-// PREFERRED - No default bg, just hover
-<tr className="hover:bg-surface-interactive-hover">
-<li className="hover:bg-surface-interactive-hover">
-
-// Only use default bg when you need visible rows/cells
-<tr className="bg-surface-interactive-default hover:bg-surface-interactive-hover">
-
-// Selected state
-<tr className="hover:bg-surface-interactive-hover data-[selected]:bg-surface-interactive-selected">
-```
-
-**Icon containers:**
-
-Never use `surface-canvas` for icon container backgrounds. If you need to emphasize an icon with a background:
-- Use `surface-interactive-default` for neutral emphasis
-- Use `surface-decorative-*-subtle` for colored emphasis (with matching `content-decorative-*-subtle` foreground)
-- Use `surface-feedback-*-subtle` for semantic emphasis (with matching `content-feedback-*-strong` foreground)
-
-```tsx
-// GOOD - Interactive surface for neutral icon bg
-<div className="bg-surface-interactive-default">
-  <RiGlobalLine className="text-content-subtle" />
-</div>
-
-// GOOD - Decorative color for emphasis
-<div className="bg-surface-decorative-blue-subtle">
-  <RiGlobalLine className="text-content-decorative-blue-subtle" />
-</div>
-
-// BAD - Don't use canvas for icon containers
-<div className="bg-surface-canvas">
-  <RiGlobalLine />
-</div>
-```
-
-### Content Tokens
-
-| Token | When to Use |
-|-------|-------------|
-| `content-strong` | Primary text: headings, labels, important content. |
-| `content-subtle` | Secondary text: descriptions, helper text. |
-| `content-muted` | Tertiary text: placeholders, hints, timestamps. |
-| `content-disabled` | Disabled state text. |
-| `content-link-default` | Clickable link text (default state). |
-| `content-link-hover` | Clickable link text (hover state). |
-| `content-on-accent-strong` | Text on primary/accent button backgrounds. |
-| `content-on-accent-subtle` | Secondary text on accent backgrounds. |
-| `content-inverse-strong` | Text on inverse surfaces (tooltips). |
-| `content-inverse-subtle` | Secondary text on inverse surfaces. |
-| `content-feedback-*-strong` | Prominent feedback text (error messages). |
-| `content-feedback-*-subtle` | Subtle feedback text (on colored backgrounds). |
-| `content-decorative-*-strong` | Decorative colored text (badges, tags). |
-
-**Text hierarchy:**
-1. `content-strong` - Most important (headings, labels)
-2. `content-subtle` - Supporting (descriptions)
-3. `content-muted` - Least important (hints, timestamps)
-4. `content-disabled` - Unavailable
-
-### Action Tokens
-
-| Token | When to Use |
-|-------|-------------|
-| `actions-primary-default` | Primary button background. Main CTAs. |
-| `actions-primary-hover` | Primary button hover state. |
-| `actions-primary-disabled` | Primary button disabled state. |
-| `actions-secondary-default` | Secondary button/input background. |
-| `actions-secondary-hover` | Secondary button/input hover state. |
-| `actions-secondary-disabled` | Secondary button/input disabled state. |
-| `actions-tertiary-default` | Tertiary/glass button background. |
-| `actions-tertiary-hover` | Tertiary button hover state. |
-| `actions-tertiary-disabled` | Tertiary button disabled state. |
-| `actions-danger-default` | Destructive action background. |
-| `actions-danger-hover` | Destructive action hover state. |
-| `actions-danger-disabled` | Destructive action disabled state. |
-
-### Border Tokens
-
-| Token | When to Use |
-|-------|-------------|
-| `border-subtle` | Regular separators, dividers, card borders. Most common. |
-| `border-muted` | When there are many borders (e.g., list item separators) and you need them less prominent. |
-| `border-inverse` | Borders on inverse surfaces. |
-| `border-interactive-default` | Interactive component borders, interactive row bottom borders (default state). |
-| `border-interactive-hover` | Interactive component borders (hover state). |
-| `border-interactive-active` | Interactive component borders (focus/active state). |
-| `border-feedback-*-subtle` | Feedback-colored borders (alerts, badges). |
-| `border-decorative-*-subtle` | Decorative colored borders. |
-
-**Choosing between `border-subtle` and `border-muted`:**
-- Use `border-subtle` for single separators, card borders, section dividers
-- Use `border-muted` for dense lists with many separators to avoid visual noise
-
-### Feedback vs Decorative Colors
-
-| Type | Purpose | Example Use Cases |
-|------|---------|-------------------|
-| **Feedback** | Conveys meaning/status | Error messages, success states, warnings, info alerts |
-| **Decorative** | Visual distinction without meaning | User avatars, category tags, charts, themes |
-
-**Feedback colors:**
-- `success` (green) - Completed, approved, online, positive
-- `warning` (amber) - Caution, pending, needs attention
-- `danger` (red) - Error, failed, offline, destructive
-- `info` (blue) - Informational, neutral status
-
-**Decorative colors:** Use any of the 17 color options (red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose) for visual variety without semantic meaning.
-
----
-
 ### Spacing Tokens
 
 | Token | Value |
@@ -1031,8 +991,9 @@ Never use `surface-canvas` for icon container backgrounds. If you need to emphas
 | `--space-32` | 32px |
 | `--space-36` | 36px |
 | `--space-40` | 40px |
+| `--space-48` | 48px |
 
-Use smaller values (2-8) for tight spacing, medium values (10-16) for standard spacing, larger values (20-40) for generous spacing. Component-specific spacing is handled by the components themselves.
+Use smaller values (2-8) for tight spacing, medium values (10-16) for standard spacing, larger values (20-48) for generous spacing. Component-specific spacing is handled by the components themselves.
 
 ---
 
@@ -1050,26 +1011,6 @@ Use smaller values (2-8) for tight spacing, medium values (10-16) for standard s
 | `--radius-max` | 999px (pill/circular) |
 
 Use smaller values (4-8) for subtle rounding, medium values (10-16) for standard rounding, larger values (24+) for prominent rounding, and `--radius-max` for fully rounded pills. Component-specific radius is handled by the components themselves.
-
----
-
-### Utility Tokens
-
-**Focus rings (ALWAYS use this exact pattern):**
-```css
-shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]
-```
-
-**Shadow layers:**
-| Token | Use Case |
-|-------|----------|
-| `--utility-shadow-l1` | Subtle: tertiary buttons, badges |
-| `--utility-shadow-l2` | Medium: cards, dropdowns |
-| `--utility-shadow-l3` | Prominent: modals, elevated panels |
-| `--utility-shadow-l4` | Maximum: floating elements |
-
-**Backdrop:**
-- `--utility-backdrop` - Modal/dialog backdrop overlay
 
 ---
 
@@ -1171,4 +1112,4 @@ Only reach for tokens when:
 - Dialogs: `center` position
 - Toasts: `card` variant for important, `compact` for confirmations
 - Layout gaps: `--space-16` or `--space-24`
-- Page padding: `--space-16` to `--space-24`
+- Page padding: `--space-48`
