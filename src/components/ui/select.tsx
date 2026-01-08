@@ -7,7 +7,7 @@ import { RiCheckFill, RiExpandUpDownLine } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
-import { MenuPrefix, type DecorativeColor } from "./menu-prefix"
+import { MenuPrefix } from "./menu-prefix"
 
 // ============================================================================
 // Variants
@@ -46,9 +46,7 @@ type SelectOption = {
   /** Icon for the option */
   icon?: React.ReactNode
   /** Prefix type for MenuPrefix component */
-  prefixType?: "icon" | "danger-icon" | "icon-emphasized" | "avatar" | "company" | "token"
-  /** Color for icon-emphasized prefix type */
-  prefixColor?: DecorativeColor | "default"
+  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
   disabled?: boolean
 }
 
@@ -218,11 +216,10 @@ function Select(props: SelectProps) {
                     className={cn(listItemVariants())}
                   >
                     {option.icon && (
-                      <span className="flex shrink-0 items-start self-stretch">
+                      <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
                         <MenuPrefix
                           type={option.prefixType ?? "icon"}
                           icon={option.icon}
-                          color={option.prefixColor}
                           disabled={option.disabled}
                         />
                       </span>

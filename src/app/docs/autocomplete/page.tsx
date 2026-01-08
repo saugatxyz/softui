@@ -45,13 +45,6 @@ const locations = [
   { value: "seattle", label: "Seattle", icon: <RiMapPinLine />, prefixType: "icon" as const },
 ]
 
-const companies = [
-  { value: "acme", label: "Acme Corp", icon: <RiBuilding2Line />, prefixType: "icon-emphasized" as const, prefixColor: "blue" as const },
-  { value: "globex", label: "Globex Inc", icon: <RiBuilding2Line />, prefixType: "icon-emphasized" as const, prefixColor: "green" as const },
-  { value: "initech", label: "Initech", icon: <RiBuilding2Line />, prefixType: "icon-emphasized" as const, prefixColor: "purple" as const },
-  { value: "umbrella", label: "Umbrella Corp", icon: <RiBuilding2Line />, prefixType: "icon-emphasized" as const, prefixColor: "red" as const },
-]
-
 const users = [
   { value: "john", label: "John Smith", description: "john@example.com", icon: <RiUser3Line />, prefixType: "icon" as const },
   { value: "jane", label: "Jane Doe", description: "jane@example.com", icon: <RiUser3Line />, prefixType: "icon" as const },
@@ -227,19 +220,6 @@ const options = [
               />
             </div>
           </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon emphasized</p>
-              <p className="text-body-s text-content-subtle">Colored background icons</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Autocomplete
-                options={companies}
-                leadingIcon={<RiBuilding2Line />}
-                placeholder="Search companies..."
-              />
-            </div>
-          </div>
         </div>
       </section>
 
@@ -409,28 +389,6 @@ const options = [
         </div>
       </section>
 
-      {/* Complete Example */}
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">Complete Example</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">All features combined</p>
-              <p className="text-body-s text-content-subtle">Field, icon, option icons</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Field label="Assignee" description="Search for a team member or enter a name">
-                <Autocomplete
-                  options={users}
-                  leadingIcon={<RiSearchLine />}
-                  placeholder="Search users..."
-                  autoHighlight
-                />
-              </Field>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

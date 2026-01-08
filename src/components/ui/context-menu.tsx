@@ -15,7 +15,7 @@ import {
 export { MenuItem } from "./menu-item"
 export type { MenuItemProps } from "./menu-item"
 export { MenuPrefix } from "./menu-prefix"
-export type { MenuPrefixProps, DecorativeColor } from "./menu-prefix"
+export type { MenuPrefixProps } from "./menu-prefix"
 export { MenuSuffix } from "./menu-suffix"
 export type { MenuSuffixProps } from "./menu-suffix"
 export { MenuSeparator } from "./menu-separator"

@@ -17,7 +17,7 @@ const radioGroupItemVariants = cva(
         simple: "px-0 py-[var(--space-8)]",
         list: "border-b border-border-subtle px-0 py-[var(--space-10)] last:border-b-0",
         "card-small":
-          "items-center rounded-[var(--radius-12)] bg-surface-interactive-default p-[var(--space-10)] hover:bg-surface-interactive-hover",
+          "items-center gap-[var(--space-8)] rounded-[var(--radius-12)] bg-surface-interactive-default p-[var(--space-10)] hover:bg-surface-interactive-hover",
         "card-big":
           "items-center rounded-[var(--radius-12)] bg-surface-interactive-default p-[var(--space-12)] hover:bg-surface-interactive-hover",
       },

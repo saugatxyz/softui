@@ -88,15 +88,15 @@ function TabsList({ className, ...props }: TabsListProps) {
 // -----------------------------------------------------------------------------
 
 const triggerVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center gap-[var(--space-6)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] outline-none select-none transition-colors disabled:cursor-not-allowed",
+  "relative inline-flex shrink-0 items-center justify-center gap-[var(--space-6)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] outline-none select-none transition-colors data-[disabled]:cursor-not-allowed",
   {
     variants: {
       variant: {
         stroke:
-          "text-content-subtle hover:enabled:text-content-strong data-[active]:text-content-strong disabled:text-content-disabled",
-        pill: "z-10 rounded-[var(--radius-max)] text-content-subtle hover:enabled:bg-actions-secondary-hover hover:enabled:text-content-strong data-[active]:text-content-strong data-[active]:hover:enabled:bg-transparent disabled:text-content-disabled",
+          "text-content-subtle hover:not-data-[disabled]:text-content-strong data-[active]:text-content-strong data-[disabled]:text-content-disabled",
+        pill: "z-10 rounded-[var(--radius-max)] text-content-subtle hover:not-data-[disabled]:bg-actions-secondary-hover hover:not-data-[disabled]:text-content-strong data-[active]:text-content-strong data-[active]:hover:not-data-[disabled]:bg-transparent data-[disabled]:text-content-disabled",
         "pill-emphasized":
-          "z-10 rounded-[var(--radius-max)] text-content-strong hover:enabled:bg-actions-secondary-hover data-[active]:text-content-on-accent-strong data-[active]:hover:enabled:bg-transparent disabled:text-content-disabled data-[active]:disabled:text-content-on-accent-disabled",
+          "z-10 rounded-[var(--radius-max)] text-content-strong hover:not-data-[disabled]:bg-actions-secondary-hover data-[active]:text-content-on-accent-strong data-[active]:hover:not-data-[disabled]:bg-transparent data-[disabled]:text-content-disabled data-[active]:data-[disabled]:text-content-on-accent-disabled",
       },
       size: {
         s: "",

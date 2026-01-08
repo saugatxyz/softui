@@ -7,7 +7,7 @@ import { RiCheckFill, RiArrowDownSLine, RiCloseLine } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
-import { MenuPrefix, type DecorativeColor } from "./menu-prefix"
+import { MenuPrefix } from "./menu-prefix"
 
 // ============================================================================
 // Variants
@@ -46,9 +46,7 @@ type ComboboxOption = {
   /** Icon for the option */
   icon?: React.ReactNode
   /** Prefix type for MenuPrefix component */
-  prefixType?: "icon" | "danger-icon" | "icon-emphasized" | "avatar" | "company" | "token"
-  /** Color for icon-emphasized prefix type */
-  prefixColor?: DecorativeColor | "default"
+  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
   disabled?: boolean
 }
 
@@ -317,11 +315,11 @@ function Combobox(props: ComboboxProps) {
                 listPopupStyles.width
               )}
             >
-              <div className="flex max-h-[320px] flex-col gap-[var(--space-2)] overflow-auto p-[var(--space-4)] scroll-p-[var(--space-4)]">
+              <div className="flex max-h-[320px] flex-col overflow-auto p-[var(--space-4)] scroll-p-[var(--space-4)]">
                 <ComboboxPrimitive.Empty
                   data-slot="empty"
                   className={cn(
-                    "flex w-full items-center justify-center empty:hidden",
+                    "flex w-full items-center justify-center empty:hidden rounded-[var(--radius-10)]",
                     "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
                     "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
                     "text-content-muted"
@@ -329,7 +327,7 @@ function Combobox(props: ComboboxProps) {
                 >
                   No results found
                 </ComboboxPrimitive.Empty>
-                <ComboboxPrimitive.List>
+                <ComboboxPrimitive.List className="flex flex-col gap-[var(--space-2)] empty:hidden">
                   {(item) => {
                     const option = item as ComboboxOption
                     return (
@@ -341,11 +339,10 @@ function Combobox(props: ComboboxProps) {
                         className={cn(listItemVariants())}
                       >
                         {option.icon && (
-                          <span className="flex shrink-0 items-start self-stretch">
+                          <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
                             <MenuPrefix
                               type={option.prefixType ?? "icon"}
                               icon={option.icon}
-                              color={option.prefixColor}
                               disabled={option.disabled}
                             />
                           </span>
@@ -650,7 +647,7 @@ function GroupedCombobox(props: GroupedComboboxProps) {
                 <ComboboxPrimitive.Empty
                   data-slot="empty"
                   className={cn(
-                    "flex w-full items-center justify-center empty:hidden",
+                    "flex w-full items-center justify-center empty:hidden rounded-[var(--radius-10)]",
                     "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
                     "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
                     "text-content-muted"
@@ -658,7 +655,7 @@ function GroupedCombobox(props: GroupedComboboxProps) {
                 >
                   No results found
                 </ComboboxPrimitive.Empty>
-                <ComboboxPrimitive.List className="flex flex-col">
+                <ComboboxPrimitive.List className="flex flex-col empty:hidden">
                   {(group: { value: string; label: string; items: ComboboxOption[] }) => (
                     <ComboboxPrimitive.Group
                       key={group.value}
@@ -686,12 +683,11 @@ function GroupedCombobox(props: GroupedComboboxProps) {
                             className={cn(listItemVariants())}
                           >
                             {option.icon && (
-                              <span className="flex shrink-0 items-start self-stretch">
+                              <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
                                 <MenuPrefix
                                   type={option.prefixType ?? "icon"}
                                   icon={option.icon}
-                                  color={option.prefixColor}
-                                  disabled={option.disabled}
+                                      disabled={option.disabled}
                                 />
                               </span>
                             )}

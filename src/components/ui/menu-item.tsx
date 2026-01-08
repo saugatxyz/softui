@@ -123,7 +123,7 @@ function MenuItem({
 
       {/* Prefix */}
       {prefix && (
-        <span className="flex shrink-0 items-start self-stretch">{prefix}</span>
+        <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">{prefix}</span>
       )}
 
       {/* Label container */}
@@ -131,6 +131,7 @@ function MenuItem({
         <span className={cn("truncate", labelColorClass)}>{children}</span>
         {supportingText && (
           <span
+            data-slot="item-description"
             className={cn(
               "truncate text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
               supportingTextColorClass

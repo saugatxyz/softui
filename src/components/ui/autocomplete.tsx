@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
-import { MenuPrefix, type DecorativeColor } from "./menu-prefix"
+import { MenuPrefix } from "./menu-prefix"
 
 // ============================================================================
 // Variants
@@ -45,9 +45,7 @@ type AutocompleteOption = {
   /** Icon for the option */
   icon?: React.ReactNode
   /** Prefix type for MenuPrefix component */
-  prefixType?: "icon" | "danger-icon" | "icon-emphasized" | "avatar" | "company" | "token"
-  /** Color for icon-emphasized prefix type */
-  prefixColor?: DecorativeColor | "default"
+  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
   disabled?: boolean
 }
 
@@ -216,11 +214,11 @@ function Autocomplete({
                 listPopupStyles.width
               )}
             >
-              <div className="flex max-h-[320px] flex-col gap-[var(--space-2)] overflow-auto p-[var(--space-4)] scroll-p-[var(--space-4)]">
+              <div className="flex max-h-[320px] flex-col overflow-auto p-[var(--space-4)] scroll-p-[var(--space-4)]">
                 <AutocompletePrimitive.Empty
                   data-slot="empty"
                   className={cn(
-                    "flex w-full items-center justify-center empty:hidden",
+                    "flex w-full items-center justify-center empty:hidden rounded-[var(--radius-10)]",
                     "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
                     "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
                     "text-content-muted"
@@ -228,7 +226,7 @@ function Autocomplete({
                 >
                   No results found
                 </AutocompletePrimitive.Empty>
-                <AutocompletePrimitive.List>
+                <AutocompletePrimitive.List className="flex flex-col gap-[var(--space-2)] empty:hidden">
                   {(item) => {
                     const option = item as AutocompleteOption
                     return (
@@ -240,11 +238,10 @@ function Autocomplete({
                         className={cn(listItemVariants())}
                       >
                         {option.icon && (
-                          <span className="flex shrink-0 items-start self-stretch">
+                          <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
                             <MenuPrefix
                               type={option.prefixType ?? "icon"}
                               icon={option.icon}
-                              color={option.prefixColor}
                               disabled={option.disabled}
                             />
                           </span>

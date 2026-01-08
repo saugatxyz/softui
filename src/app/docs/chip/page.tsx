@@ -40,9 +40,9 @@ const decorativeColors = [
 ] as const
 
 const avatarImages = [
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100",
+  "/avatars/avatar-1.png",
+  "/avatars/avatar-2.png",
+  "/avatars/avatar-3.png",
 ]
 
 export default function ChipDocsPage() {

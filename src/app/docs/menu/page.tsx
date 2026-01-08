@@ -264,38 +264,6 @@ export default function MenuDocsPage() {
               </Menu.Root>
             </div>
           </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Emphasized icons</p>
-              <p className="text-body-s text-content-subtle">User-created labels with colors</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Add Label</Button>} />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="red" icon={<RiPriceTag3Line />} />}>
-                        Urgent
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="amber" icon={<RiPriceTag3Line />} />}>
-                        In Review
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="green" icon={<RiPriceTag3Line />} />}>
-                        Approved
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="blue" icon={<RiPriceTag3Line />} />}>
-                        Design
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="purple" icon={<RiPriceTag3Line />} />}>
-                        Development
-                      </MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -552,7 +520,7 @@ export default function MenuDocsPage() {
                           <MenuSuffix type="submenu" />
                         </Menu.SubmenuTrigger>
                         <Menu.Portal>
-                          <Menu.Positioner sideOffset={2} alignOffset={-4} side="right" align="start">
+                          <Menu.Positioner sideOffset={8} alignOffset={-4} side="right" align="start">
                             <Menu.Popup>
                               <MenuItem>Copy link</MenuItem>
                               <MenuItem>Email</MenuItem>
@@ -571,7 +539,7 @@ export default function MenuDocsPage() {
                           <MenuSuffix type="submenu" />
                         </Menu.SubmenuTrigger>
                         <Menu.Portal>
-                          <Menu.Positioner sideOffset={2} alignOffset={-4} side="right" align="start">
+                          <Menu.Positioner sideOffset={8} alignOffset={-4} side="right" align="start">
                             <Menu.Popup>
                               <MenuItem>Documents</MenuItem>
                               <MenuItem>Downloads</MenuItem>
@@ -801,40 +769,6 @@ export default function MenuDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <MenuPrefix type="danger-icon" icon={<TrashIcon />} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon emphasized</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <MenuPrefix type="icon-emphasized" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="default" icon={<HeartIcon />} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon emphasized colors</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <MenuPrefix type="icon-emphasized" color="red" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="orange" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="amber" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="yellow" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="lime" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="green" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="emerald" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="teal" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="cyan" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="sky" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="blue" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="indigo" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="violet" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="purple" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="fuchsia" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="pink" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="rose" icon={<StarIcon />} />
-              <MenuPrefix type="icon-emphasized" color="neutral" icon={<StarIcon />} />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

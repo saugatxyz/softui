@@ -215,7 +215,7 @@ function AccordionTrigger({
         <motion.span
           className="flex size-[20px] shrink-0 items-center justify-center text-content-strong"
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.4 }}
         >
           <ArrowDownIcon className="size-[16px]" />
         </motion.span>
@@ -252,22 +252,20 @@ function AccordionContent({
         {isOpen && (
           <motion.div
             initial={{ height: 0 }}
-            animate={{ height: "auto", transition: { type: "spring", bounce: 0, duration: 0.3 } }}
-            exit={{ height: 0, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
+            animate={{ height: "auto", transition: { type: "spring", bounce: 0, duration: 0.4 } }}
+            exit={{ height: 0, transition: { type: "spring", bounce: 0, duration: 0.4 } }}
             style={{ willChange: "height", transform: "translateZ(0)" }}
           >
             <motion.div
               className="pt-[var(--space-6)] pb-[var(--space-16)]"
-              initial={{ opacity: 0, y: 2, filter: "blur(4px)" }}
+              initial={{ opacity: 0 }}
               animate={{
                 opacity: 1,
-                y: 0,
-                filter: "blur(0px)",
-                transition: { type: "spring", bounce: 0.1, duration: 0.3 },
+                transition: { duration: 0.2, delay: 0.1 },
               }}
               exit={{
                 opacity: 0,
-                transition: { duration: 0.15 },
+                transition: { duration: 0.1 },
               }}
             >
               {children}

@@ -55,13 +55,6 @@ const contactMethods = [
   { value: "video", label: "Video call", icon: <RiVideoOnLine /> },
 ]
 
-// Options with icon-emphasized prefix (colored backgrounds)
-const categories = [
-  { value: "work", label: "Work", icon: <RiFolder3Line />, prefixType: "icon-emphasized" as const, prefixColor: "blue" as const },
-  { value: "personal", label: "Personal", icon: <RiStarLine />, prefixType: "icon-emphasized" as const, prefixColor: "purple" as const },
-  { value: "team", label: "Team", icon: <RiTeamLine />, prefixType: "icon-emphasized" as const, prefixColor: "green" as const },
-]
-
 // Options with danger icon
 const dangerActions = [
   { value: "archive", label: "Archive project", icon: <RiFolder3Line />, prefixType: "icon" as const },
@@ -70,10 +63,10 @@ const dangerActions = [
 
 // Avatar options with images
 const reviewers = [
-  { value: "sarah", label: "Sarah Wilson", icon: <Avatar size="2xs" src="https://i.pravatar.cc/150?u=sarah" alt="Sarah Wilson" />, prefixType: "avatar" as const },
-  { value: "mike", label: "Mike Chen", icon: <Avatar size="2xs" src="https://i.pravatar.cc/150?u=mike" alt="Mike Chen" />, prefixType: "avatar" as const },
-  { value: "emma", label: "Emma Davis", icon: <Avatar size="2xs" src="https://i.pravatar.cc/150?u=emma" alt="Emma Davis" />, prefixType: "avatar" as const },
-  { value: "james", label: "James Park", icon: <Avatar size="2xs" src="https://i.pravatar.cc/150?u=james" alt="James Park" />, prefixType: "avatar" as const },
+  { value: "sarah", label: "Sarah Wilson", icon: <Avatar size="2xs" src="/avatars/avatar-1.png" alt="Sarah Wilson" />, prefixType: "avatar" as const },
+  { value: "mike", label: "Mike Chen", icon: <Avatar size="2xs" src="/avatars/avatar-2.png" alt="Mike Chen" />, prefixType: "avatar" as const },
+  { value: "emma", label: "Emma Davis", icon: <Avatar size="2xs" src="/avatars/avatar-3.png" alt="Emma Davis" />, prefixType: "avatar" as const },
+  { value: "james", label: "James Park", icon: <Avatar size="2xs" src="/avatars/avatar-4.png" alt="James Park" />, prefixType: "avatar" as const },
 ]
 
 // Avatar options with placeholder colors
@@ -259,18 +252,6 @@ const priorities = [
               <Select
                 options={contactMethods}
                 placeholder="Preferred contact"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon emphasized</p>
-              <p className="text-body-s text-content-subtle">Colored background icons</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Select
-                options={categories}
-                placeholder="Select category"
               />
             </div>
           </div>
@@ -494,27 +475,6 @@ const priorities = [
         </div>
       </section>
 
-      {/* Complete Example */}
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">Complete Example</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">All features combined</p>
-              <p className="text-body-s text-content-subtle">Field wrapper, icon, options with icons</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Field label="Priority" description="How urgent is this task?">
-                <Select
-                  options={priorities}
-                  leadingIcon={<RiTimeLine />}
-                  placeholder="Set priority level"
-                />
-              </Field>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

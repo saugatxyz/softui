@@ -66,6 +66,48 @@ Components follow this structure:
 - Override `role` or `aria-*` attributes manually
 - Intercept `onChange`/`onValueChange` and transform values
 
+### New Component Workflow
+
+**Follow these steps IN ORDER when creating a new component:**
+
+#### Step 1: Research
+- [ ] **First**, search for an existing Base UI component or matching component in `src/components/ui/`
+- [ ] If no direct match exists, identify the Base UI primitive to use and **ask the user to confirm** they're okay with using that primitive before proceeding
+- [ ] Check `COMPONENTS.md` for similar components and their Base UI primitives
+- [ ] Note the exact data attributes from the reference table above
+- [ ] Look at existing components in `src/components/ui/` for patterns
+
+#### Step 2: Implement Component
+- [ ] Create `src/components/ui/[component-name].tsx`
+- [ ] Import primitive from `@base-ui/react/[primitive]`
+- [ ] Extend Base UI types with `& { variant?: ..., size?: ... }`
+- [ ] Spread `{...props}` on all Base UI primitives
+- [ ] Use `cva` for variant/size styling
+- [ ] Use correct data attributes (e.g., `data-[active]` NOT `data-[selected]` for Tabs)
+- [ ] Use design tokens for ALL colors, spacing, radius
+- [ ] Add `data-slot` attributes for styling hooks
+
+#### Step 3: Create Documentation Page
+- [ ] Create `src/app/docs/[component-name]/page.tsx`
+- [ ] Add import example in `<CodeBlock>`
+- [ ] Add sections: Sizes, Variants, States, Disabled (as applicable)
+- [ ] Follow existing doc page patterns (see `src/app/docs/tabs/page.tsx`)
+
+#### Step 4: Update Navigation
+- [ ] Add component to `src/components/docs/nav-sections.ts` (alphabetical order)
+
+#### Step 5: Verify
+- [ ] Run `pnpm lint` - fix any errors
+- [ ] Check the page loads at `localhost:3000/docs/[component-name]`
+- [ ] Test all variants and sizes render correctly
+- [ ] Test keyboard navigation works (Base UI handles this)
+
+#### Step 6: Audit & Summary
+- [ ] Run the Base UI audit checklist (below)
+- [ ] Provide the Component Summary table
+
+---
+
 ### Component Audit Checklist
 
 **After creating or modifying ANY Base UI component, you MUST:**
@@ -90,6 +132,33 @@ Components follow this structure:
 - [ ] No JS logic duplicating Base UI behavior
 
 3. **Provide a summary table** (see Component Summary section below)
+
+### Base UI Data Attributes Reference
+
+**CRITICAL:** Always use the correct data attributes for each primitive. Do NOT guess - refer to this table.
+
+| Primitive | Active/Selected State | Other States |
+|-----------|----------------------|--------------|
+| `Tabs.Tab` | `data-[active]` | `data-[disabled]` |
+| `Menu.Item` | `data-[highlighted]` | `data-[disabled]` |
+| `Select.Option` | `data-[highlighted]`, `data-[selected]` | `data-[disabled]` |
+| `Combobox.Option` | `data-[highlighted]`, `data-[selected]` | `data-[disabled]` |
+| `Radio.Item` | `data-[checked]` | `data-[disabled]` |
+| `Checkbox.Root` | `data-[checked]`, `data-[indeterminate]` | `data-[disabled]` |
+| `Switch.Root` | `data-[checked]` | `data-[disabled]` |
+| `Toggle.Root` | `data-[pressed]` | `data-[disabled]` |
+| `Accordion.Item` | `data-[open]` | `data-[disabled]` |
+| `Dialog.Root` | `data-[open]` | - |
+| `Popover.Root` | `data-[open]` | - |
+| `Collapsible.Root` | `data-[open]` | `data-[disabled]` |
+
+**Common patterns:**
+- Selection in lists: `data-[highlighted]` (keyboard/hover focus) + `data-[selected]` (chosen value)
+- Toggle states: `data-[checked]` or `data-[pressed]`
+- Expandable: `data-[open]`
+- Navigation tabs: `data-[active]` (NOT `data-[selected]`)
+
+**Before styling a Base UI component**, check the primitive's source or existing components in this codebase to confirm the correct data attribute.
 
 ### Documentation Examples
 

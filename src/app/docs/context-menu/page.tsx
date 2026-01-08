@@ -157,39 +157,6 @@ export default function ContextMenuDocsPage() {
               </ContextMenu.Root>
             </div>
           </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Emphasized icons</p>
-              <p className="text-body-s text-content-subtle">Colored icon backgrounds</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <ContextMenu.Root>
-                <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
-                    Right click here
-                  </div>
-                </ContextMenu.Trigger>
-                <ContextMenu.Portal>
-                  <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="red" icon={<RiPriceTag3Line />} />}>
-                        Urgent
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="amber" icon={<RiPriceTag3Line />} />}>
-                        In Review
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="green" icon={<RiPriceTag3Line />} />}>
-                        Approved
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon-emphasized" color="blue" icon={<RiPriceTag3Line />} />}>
-                        Design
-                      </MenuItem>
-                    </ContextMenu.Popup>
-                  </ContextMenu.Positioner>
-                </ContextMenu.Portal>
-              </ContextMenu.Root>
-            </div>
-          </div>
         </div>
       </section>
 

@@ -394,7 +394,7 @@ function ListEmpty({
       data-slot="list-empty"
       className={cn(
         // Same sizing as menu item
-        "flex w-full items-center justify-center",
+        "flex w-full items-center justify-center rounded-[var(--radius-10)]",
         "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
         "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
         "text-content-muted",

@@ -126,6 +126,7 @@ function ToastRoot({ className, variant = "card", children, ...props }: ToastRoo
       data-slot="toast-root"
       data-variant={variant}
       className={cn(
+        "group/toast",
         // Appearance - layered: surface-overlay base + surface-canvas on top
         "relative bg-surface-overlay",
         "before:absolute before:inset-0 before:-z-10 before:bg-surface-canvas",
@@ -197,8 +198,8 @@ function ToastCompactContent({ className, children, ...props }: ToastCompactCont
         // Inner content styling - compact variant
         "bg-surface-overlay",
         "shadow-[var(--shadow-modal-content)]",
-        // Layout - 36px height, 12px left padding, 8px right padding, 4px gap
-        "flex h-[36px] flex-1 items-center gap-[var(--space-4)] pl-[var(--space-12)] pr-[var(--space-8)]",
+        // Layout - 36px height, 12px left padding, 16px right padding (8px when close button present), 4px gap
+        "flex h-[36px] flex-1 items-center gap-[var(--space-4)] pl-[var(--space-12)] pr-[var(--space-16)] group-has-[[data-slot=toast-close]]/toast:pr-[var(--space-8)]",
         className
       )}
       {...props}
@@ -305,8 +306,8 @@ function ToastActions({ className, ...props }: ToastActionsProps) {
     <div
       data-slot="toast-actions"
       className={cn(
-        // 16px gap from text, 8px gap between buttons
-        "flex items-center gap-[var(--space-8)] pt-[var(--space-16)]",
+        // 16px effective gap from text (12px padding + 4px from parent flex gap), 8px gap between buttons
+        "flex items-center gap-[var(--space-8)] pt-[var(--space-12)]",
         className
       )}
       {...props}
