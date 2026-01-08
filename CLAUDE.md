@@ -251,6 +251,31 @@ Theme switching via `data-theme-color` and `data-base-color` attributes.
 
 **Token changes require user confirmation** with a summary table before implementation.
 
+### Typography
+
+**Text sizes:**
+| Use Case | Size |
+|----------|------|
+| Normal text | 14px |
+| Small titles | 16px |
+| Section titles | 18px |
+| Page titles | 24px |
+
+**Font weights:**
+- Page titles: semibold
+- Section titles: medium
+- Small titles: medium
+- Normal text: regular or medium (never semibold)
+
+**Title + subtitle pairing:**
+
+| Title Type | Title Style | Subtitle Size | Subtitle Style |
+|------------|-------------|---------------|----------------|
+| Page title (24px) | `content-primary`, semibold | 14px | `content-subtle`, regular |
+| Section title (18px) | `content-primary`, medium | 14px | `content-subtle`, regular |
+| Small title (16px) | `content-primary`, medium | 12px | `content-subtle`, regular |
+| Normal text (14px) | `content-primary`, medium | 12px | `content-subtle`, regular |
+
 ### Animation
 
 - UI animations must not exceed 300ms
