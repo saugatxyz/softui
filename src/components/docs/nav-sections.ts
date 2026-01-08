@@ -67,6 +67,7 @@ export const navSections = [
       { label: "Select", href: "/docs/select" },
       { label: "Segmented Control", href: "/docs/segmented-control" },
       { label: "Separator", href: "/docs/separator" },
+      { label: "Slider", href: "/docs/slider" },
       { label: "Switch", href: "/docs/switch" },
       { label: "Switch Group", href: "/docs/switch-group" },
       { label: "Tabs", href: "/docs/tabs" },
