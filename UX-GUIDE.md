@@ -586,14 +586,6 @@ Is it interactive?
 
 **Use when:** Switching between mutually exclusive content panels.
 
-**Prefer pill variants.** Use `pill-emphasized` for page-level tabs.
-
-| Variant | When to Use |
-|---------|-------------|
-| `pill-emphasized` | Page-level tabs |
-| `pill` | Other contexts |
-| `stroke` | When underline style is preferred |
-
 | Size | When to Use |
 |------|-------------|
 | `s` | Compact UIs, nested navigation |
