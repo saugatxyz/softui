@@ -110,6 +110,34 @@ Is it interactive?
 - In flex containers, use `items-start` on parent or `self-start` on button to prevent stretching.
 - Exception: Full-width buttons in narrow contexts (mobile sheets, narrow modals) can use `w-full` explicitly.
 
+**Button alignment:**
+
+| Context | Alignment |
+|---------|-----------|
+| Settings pages (many fields) | Left-aligned |
+| Dialogs/Modals | Right-aligned |
+| Alert dialogs | Full-width (built into component) |
+
+```tsx
+// Settings page - left aligned
+<div className="flex justify-start gap-[var(--space-12)]">
+  <Button variant="secondary">Cancel</Button>
+  <Button variant="primary">Save</Button>
+</div>
+
+// Modal footer - right aligned
+<Dialog.Footer>  {/* Already handles right alignment */}
+  <Button variant="secondary">Cancel</Button>
+  <Button variant="primary">Confirm</Button>
+</Dialog.Footer>
+
+// Alert dialog - full width buttons, no alignment needed
+<AlertDialog.Footer>
+  <AlertDialog.Close><Button variant="secondary">Cancel</Button></AlertDialog.Close>
+  <Button variant="danger">Delete</Button>
+</AlertDialog.Footer>
+```
+
 ---
 
 ### IconButton
@@ -384,6 +412,39 @@ Is it interactive?
 <RadioGroupItem prefix={<RiPaletteLine className="size-[20px] text-content-subtle" />} ... />
 ```
 
+**Descriptions:** Only add descriptions when they provide value beyond the label. Avoid redundant descriptions.
+
+| Use description | Skip description |
+|-----------------|------------------|
+| Label needs clarification | Label is self-explanatory |
+| Explaining consequences | Icon + label is sufficient |
+| Differentiating similar options | Simple on/off toggles |
+| Technical settings users may not understand | Common settings (Dark mode, Notifications) |
+
+```tsx
+// GOOD - Description adds value
+<SwitchGroupItem
+  label="Marketing emails"
+  description="New features and product updates"
+/>
+
+// GOOD - No description needed, label is clear
+<SwitchGroupItem label="Reduce motion" />
+
+// GOOD - Icon + label is sufficient
+<SwitchGroupItem
+  label="Push notifications"
+  prefix={<SwitchPrefix type="icon" icon={<RiBellLine />} />}
+/>
+
+// BAD - Redundant description
+<RadioGroupItem
+  label="Dark"
+  description="Use dark theme"  // Just repeats the label
+  prefix={<RadioPrefix type="icon" icon={<RiMoonLine />} />}
+/>
+```
+
 ---
 
 ### Switch
@@ -448,7 +509,7 @@ Is it interactive?
 
 Achieve visual separation through spacing, not separator lines.
 
-- **40px** (`--space-40`) between major sections (Fieldsets, content blocks)
+- **52px** (`--space-52`) between major sections (Fieldsets, content blocks)
 - **24px** (`--space-24`) between fields within a section (handled by Fieldset)
 - **Avoid `<Separator />`** unless absolutely necessary
 
@@ -464,13 +525,13 @@ Achieve visual separation through spacing, not separator lines.
 
 ```tsx
 // GOOD - Spacing for separation
-<div className="flex flex-col gap-[var(--space-40)]">
+<div className="flex flex-col gap-[var(--space-52)]">
   <Fieldset>...</Fieldset>
   <Fieldset>...</Fieldset>
 </div>
 
 // AVOID - Unnecessary separators
-<div className="flex flex-col gap-[var(--space-40)]">
+<div className="flex flex-col gap-[var(--space-52)]">
   <Fieldset>...</Fieldset>
   <Separator />  // Not needed, spacing is enough
   <Fieldset>...</Fieldset>
