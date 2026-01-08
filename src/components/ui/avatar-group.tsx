@@ -20,7 +20,6 @@ const shapeRadius = {
   square: "var(--radius-8)",
 } as const
 
-type Size = keyof typeof sizeConfig
 
 const avatarGroupVariants = cva("flex items-center", {
   variants: {

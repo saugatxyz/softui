@@ -181,6 +181,39 @@ Components follow this structure:
 
 **Before styling a Base UI component**, check the primitive's source or existing components in this codebase to confirm the correct data attribute.
 
+### Compound Component API Reference
+
+**CRITICAL:** Use the correct sub-component names. Do NOT guess - refer to this table.
+
+| Component | Sub-components |
+|-----------|----------------|
+| `Tabs` | `.List`, `.Trigger`, `.Content`, `.Indicator` |
+| `Dialog` | `.Root`, `.Trigger`, `.Portal`, `.Backdrop`, `.Popup`, `.Content`, `.Header`, `.Title`, `.Description`, `.Body`, `.Footer`, `.Close` |
+| `AlertDialog` | `.Root`, `.Trigger`, `.Portal`, `.Backdrop`, `.Popup`, `.Content`, `.Title`, `.Description`, `.Footer`, `.Close` |
+| `Popover` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.Title`, `.Description`, `.Close`, `.Backdrop` |
+| `Tooltip` | `.Provider`, `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.Simple`, `.Explainer`, `.Breakdown` |
+| `Menu` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Search`, `.Arrow`, `.Item`, `.Group`, `.GroupLabel`, `.Separator`, `.Prefix`, `.Suffix`, `.Empty`, `.RadioGroup`, `.RadioItem`, `.CheckboxItem`, `.SubmenuRoot`, `.SubmenuTrigger` |
+| `ContextMenu` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.RadioGroup`, `.RadioItem`, `.CheckboxItem`, `.SubmenuRoot`, `.SubmenuTrigger` (also uses `MenuItem`, `MenuPrefix`, `MenuSuffix`, `MenuSeparator`, `MenuGroup`, `MenuGroupLabel`, `MenuEmpty` as separate imports) |
+| `Toast` | `.Provider`, `.Portal`, `.Viewport`, `.Root`, `.Content`, `.CompactContent`, `.TextWrapper`, `.CompactTextWrapper`, `.Title`, `.Description`, `.Actions`, `.CompactActions`, `.Action`, `.CompactAction`, `.Close`, `.Icon` |
+| `Fieldset` | `.Legend` (also works as root directly) |
+| `SegmentedControl` | `.List`, `.Item`, `.Indicator`, `.Content` |
+
+**Separate component imports (not compound):**
+
+| Component | Related Components |
+|-----------|-------------------|
+| `Accordion` | `AccordionRoot`, `AccordionItem`, `AccordionTrigger`, `AccordionContent` |
+| `RadioGroup` | `RadioGroupItem` |
+| `CheckboxGroup` | `CheckboxGroupItem` |
+| `SwitchGroup` | `SwitchGroupItem` |
+| `ButtonGroup` | `ButtonGroupItem` |
+| `ToggleGroup` | `ToggleGroupItem` |
+| `ChipGroup` | `Chip` |
+| `AvatarGroup` | `Avatar` |
+
+**Single components (no sub-components):**
+`Select`, `Combobox`, `Autocomplete`, `Input`, `Button`, `IconButton`, `Switch`, `Checkbox`, `Field`, `Form`, `Badge`, `Chip`, `Avatar`, `Separator`
+
 ### Documentation Examples
 
 When showing Base UI primitive usage in docs (not our wrapped components):

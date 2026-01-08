@@ -8,7 +8,6 @@ import {
   RiSearchLine,
   RiMapPinLine,
   RiGlobalLine,
-  RiBuilding2Line,
   RiUser3Line,
 } from "@remixicon/react"
 

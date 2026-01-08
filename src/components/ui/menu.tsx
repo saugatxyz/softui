@@ -9,7 +9,6 @@ import {
   listPopupStyles,
   listItemVariants,
   ListSearch,
-  ListEmpty,
   LIST_MAX_HEIGHT,
   LIST_SEARCH_THRESHOLD,
 } from "./list-item-styles"

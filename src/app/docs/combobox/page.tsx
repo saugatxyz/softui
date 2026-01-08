@@ -11,14 +11,11 @@ import { listPopupStyles, listItemVariants } from "@/components/ui/list-item-sty
 import { cn } from "@/lib/utils"
 import {
   RiSearchLine,
-  RiGlobalLine,
   RiMailLine,
   RiPhoneLine,
   RiMessage2Line,
   RiVideoOnLine,
   RiFolder3Line,
-  RiStarLine,
-  RiTeamLine,
   RiDeleteBinLine,
   RiExpandUpDownLine,
   RiCheckFill,

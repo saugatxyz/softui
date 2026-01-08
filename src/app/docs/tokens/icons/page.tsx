@@ -33,10 +33,6 @@ const categorySource =
     .iconCategories ??
   null
 
-type IconGroup = {
-  title: string
-  icons: IconEntry[]
-}
 
 const formatIconLabel = (name: string) =>
   name

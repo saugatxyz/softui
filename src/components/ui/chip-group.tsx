@@ -4,7 +4,7 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
-import { ChipContext, type ChipSize, type ChipContextValue } from "./chip"
+import { ChipContext, type ChipContextValue } from "./chip"
 
 const chipGroupVariants = cva("flex flex-wrap gap-[var(--space-4)]", {
   variants: {

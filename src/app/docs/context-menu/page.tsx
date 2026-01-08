@@ -14,7 +14,6 @@ import {
 import {
   CopyIcon,
   TrashIcon,
-  AddIcon,
 } from "@/icons"
 import {
   RiEditLine,
@@ -25,7 +24,6 @@ import {
   RiArrowGoBackLine,
   RiArrowGoForwardLine,
   RiRefreshLine,
-  RiPriceTag3Line,
 } from "@remixicon/react"
 
 export default function ContextMenuDocsPage() {

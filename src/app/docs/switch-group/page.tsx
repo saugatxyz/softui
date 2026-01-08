@@ -13,18 +13,8 @@ import {
   RiWifiLine,
   RiBluetoothLine,
   RiPlaneLine,
-  RiShieldCheckLine,
-  RiLockLine,
-  RiEyeLine,
-  RiMessage3Line,
-  RiTimeLine,
-  RiCalendarLine,
-  RiGitBranchLine,
-  RiTerminalBoxLine,
 } from "@remixicon/react"
 import {
-  MoonIcon,
-  SunIcon,
   StarIcon,
   HeartIcon,
   BookmarkIcon,

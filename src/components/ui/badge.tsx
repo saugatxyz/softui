@@ -69,6 +69,7 @@ const dotVariants = cva("shrink-0 rounded-full bg-current", {
   },
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const decorativeColors = [
   "red",
   "orange",

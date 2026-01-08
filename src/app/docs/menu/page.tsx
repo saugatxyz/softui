@@ -18,7 +18,6 @@ import {
   TrashIcon,
   SettingsIcon,
   AddIcon,
-  SearchIcon,
   StarIcon,
   HeartIcon,
   BookmarkIcon,
@@ -29,17 +28,14 @@ import {
   RiDownloadLine,
   RiMoreLine,
   RiMailLine,
-  RiLockLine,
   RiUserLine,
   RiLogoutBoxLine,
-  RiHistoryLine,
   RiArchiveLine,
   RiFolderLine,
   RiPrinterLine,
   RiFileCopyLine,
   RiMoonLine,
   RiNotification3Line,
-  RiPriceTag3Line,
 } from "@remixicon/react"
 
 // Helper component for checkbox selection menu

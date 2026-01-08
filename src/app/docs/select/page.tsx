@@ -12,15 +12,8 @@ import {
   RiPhoneLine,
   RiMessage2Line,
   RiVideoOnLine,
-  RiTimeLine,
-  RiAlarmWarningLine,
-  RiArrowUpLine,
-  RiArrowDownLine,
-  RiSubtractLine,
   RiDeleteBinLine,
-  RiStarLine,
   RiFolder3Line,
-  RiTeamLine,
 } from "@remixicon/react"
 
 // Realistic option sets
@@ -41,12 +34,6 @@ const timezones = [
   { value: "utc", label: "UTC" },
 ]
 
-const priorities = [
-  { value: "urgent", label: "Urgent", icon: <RiAlarmWarningLine />, prefixType: "icon" as const },
-  { value: "high", label: "High", icon: <RiArrowUpLine />, prefixType: "icon" as const },
-  { value: "medium", label: "Medium", icon: <RiSubtractLine />, prefixType: "icon" as const },
-  { value: "low", label: "Low", icon: <RiArrowDownLine />, prefixType: "icon" as const },
-]
 
 const contactMethods = [
   { value: "email", label: "Email", icon: <RiMailLine /> },

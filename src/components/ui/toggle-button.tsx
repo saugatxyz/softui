@@ -8,6 +8,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const feedbackTones = ["default", "info", "warning", "danger", "success"] as const
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const decorativeTones = [
   "red", "orange", "amber", "yellow", "lime", "green", "emerald",
   "teal", "cyan", "sky", "blue", "indigo", "violet", "purple",
@@ -158,8 +159,6 @@ function MorphingIcon({
   toneClass: string
   morph: boolean
 }) {
-  const currentIcon = pressed && pressedIcon ? pressedIcon : icon
-
   // No morphing - smooth fade transition
   if (!morph) {
     return (

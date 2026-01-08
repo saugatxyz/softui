@@ -4,8 +4,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-export interface SoftLogoProps
-  extends React.SVGAttributes<SVGSVGElement> {}
+export type SoftLogoProps = React.SVGAttributes<SVGSVGElement>
 
 export function SoftLogo({ className, ...props }: SoftLogoProps) {
   return (

@@ -1,6 +1,5 @@
 import {
   AppsFillIcon,
-  HashtagIcon,
   HomeIcon,
   InputMethodIcon,
   LayoutLeftIcon,
