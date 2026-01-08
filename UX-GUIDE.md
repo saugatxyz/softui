@@ -9,16 +9,16 @@ This guide helps AI assistants and developers choose the right component and var
 ### Typography
 
 **Text sizes:**
-| Use Case | Size |
-|----------|------|
-| Normal text | 14px |
-| Small titles | 16px |
-| Section titles | 18px |
-| Page titles | 24px |
+| Use Case | Token |
+|----------|-------|
+| Normal text | `--font-size-m` |
+| Small titles | `--font-size-l` |
+| Section titles | `--font-size-xl` |
+| Page titles | `--font-size-3xl` |
 
 **Font weights:**
 - Page titles: semibold
-- Section titles: medium
+- Section titles: semibold
 - Small titles: medium
 - Normal text: regular or medium (never semibold)
 
@@ -35,10 +35,10 @@ This guide helps AI assistants and developers choose the right component and var
 
 | Title Type | Title Style | Subtitle Size | Subtitle Style |
 |------------|-------------|---------------|----------------|
-| Page title (24px) | `content-primary`, semibold | 14px | `content-subtle`, regular |
-| Section title (18px) | `content-primary`, medium | 14px | `content-subtle`, regular |
-| Small title (16px) | `content-primary`, medium | 12px | `content-subtle`, regular |
-| Normal text (14px) | `content-primary`, medium | 12px | `content-subtle`, regular |
+| Page title | `content-strong`, semibold | `--font-size-m` | `content-subtle`, regular |
+| Section title | `content-strong`, semibold | `--font-size-m` | `content-subtle`, regular |
+| Small title | `content-strong`, medium | `--font-size-xs` | `content-subtle`, regular |
+| Normal text | `content-strong`, medium | `--font-size-xs` | `content-subtle`, regular |
 
 ### Icons
 
@@ -93,9 +93,13 @@ When displaying a list of similar items (team members, activity feed, files, etc
 
 ### Component Styling
 
-- NEVER override component colors with custom classes
-- Use component variants (`variant="danger"`, `tone="success"`, etc.) for color changes
-- Components handle their own colors — do not add `text-red-*` or any color overrides
+**STRICT: No component customization. Ever.**
+
+- NEVER add custom colors, sizes, padding, or any styling to components
+- NEVER use className to override component appearance
+- Use ONLY the props components provide (`variant`, `size`, `tone`, etc.)
+- If a component doesn't support what you need, use it as-is or ask — do not hack it
+- Components are designed to work together — custom styling breaks consistency
 
 ---
 
