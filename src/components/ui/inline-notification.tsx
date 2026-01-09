@@ -88,8 +88,9 @@ function hasComponentInTree(children: React.ReactNode, componentType: React.Comp
   return React.Children.toArray(children).some((child) => {
     if (!React.isValidElement(child)) return false
     if (child.type === componentType) return true
-    if (child.props?.children) {
-      return hasComponentInTree(child.props.children, componentType)
+    const childProps = child.props as { children?: React.ReactNode }
+    if (childProps.children) {
+      return hasComponentInTree(childProps.children, componentType)
     }
     return false
   })

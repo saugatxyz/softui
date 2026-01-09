@@ -408,7 +408,7 @@ function TableBadgeCell({ children, variant = "neutral", isEmphasized = true, cl
 
 // Avatar Group Cell
 type TableAvatarGroupCellProps = {
-  avatars: Array<{ src?: string; name?: string }>
+  avatars: Array<{ src?: string; initials?: string }>
   max?: number
   className?: string
 }
@@ -424,10 +424,10 @@ function TableAvatarGroupCell({ avatars, max = 3, className }: TableAvatarGroupC
     >
       <AvatarGroup size={avatarSize}>
         {avatars.slice(0, max).map((avatar, i) => (
-          <Avatar key={i} size={avatarSize} src={avatar.src} name={avatar.name} />
+          <Avatar key={i} size={avatarSize} src={avatar.src} initials={avatar.initials} />
         ))}
         {avatars.length > max && (
-          <Avatar size={avatarSize} name={`+${avatars.length - max}`} />
+          <Avatar size={avatarSize} initials={`+${avatars.length - max}`} />
         )}
       </AvatarGroup>
     </td>

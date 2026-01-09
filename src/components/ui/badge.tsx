@@ -326,3 +326,4 @@ function Badge({
 }
 
 export { Badge, badgeVariants }
+export type { BadgeVariant }
