@@ -413,6 +413,81 @@ Is it interactive?
     └── User/entity identity → Avatar
 ```
 
+### "User needs to enter text"
+
+```
+Is it single line or multi-line?
+├── Single line → Input
+│   ├── Needs prefix/suffix → InputGroup
+│   └── Numeric with +/- controls → NumberField
+└── Multi-line → Textarea
+    ├── Fixed height needed → resize="none"
+    └── User can resize → resize="vertical" (default)
+```
+
+### "User needs to upload files"
+
+```
+Is it file upload?
+├── Yes → FileUpload
+│   ├── Single file (avatar, document) → multiple={false}
+│   └── Multiple files → multiple={true} (default)
+└── Just showing file info → FileIcon + FileItem
+```
+
+### "User needs to filter data"
+
+```
+What type of filter interaction?
+├── Filter opens a dropdown/popover to select value
+│   └── Filter (always)
+│       ├── Inactive: label + chevron
+│       └── Active: label + value + clear button
+│
+├── Predefined options all visible, user picks one or more
+│   ├── Single selection → SegmentedControl
+│   └── Multi-selection → ToggleGroup (multiple)
+│
+└── Displaying already-applied filters (read-only)
+    └── Badge or inline text
+```
+
+**CRITICAL: Filter vs Chip vs ChipGroup**
+
+| Component | Purpose | Context | Interaction |
+|-----------|---------|---------|-------------|
+| **Filter** | Filter trigger that opens dropdown/popover | Filter bars, table headers | Click → opens Menu/Popover |
+| **Chip** | Tag in content, removable selection | Selected items display, tags | Click → removes item |
+| **ChipGroup** | Form input for selecting from predefined tags | Forms, tag editors | Click → toggles selection |
+
+**Use Filter when:**
+- Filtering table data (Status, Date, Type columns)
+- Filtering section-level data (cards, lists, grids)
+- Search refinement controls
+- Any context where clicking reveals filter options in a dropdown
+
+**Do NOT use Chip/ChipGroup for filtering:**
+- Chip is for displaying/removing already-selected items
+- ChipGroup is for forms where user selects from visible tags
+- Neither should appear in filter bars—always use Filter
+
+**Example filter bar patterns:**
+
+```tsx
+// CORRECT: Filter bar with Filter components
+<div className="flex gap-[var(--space-8)]">
+  <Filter label="Status" value={status} onClear={() => setStatus(null)} />
+  <Filter label="Type" value={type} onClear={() => setType(null)} />
+  <Filter label="Date" icon={<RiCalendarLine />} />
+</div>
+
+// WRONG: Don't use Chip/ChipGroup for filter controls
+<div className="flex gap-[var(--space-8)]">
+  <Chip>Status: Active</Chip>  {/* NO - Chip doesn't open dropdown */}
+  <ChipGroup>...</ChipGroup>   {/* NO - ChipGroup is for form inputs */}
+</div>
+```
+
 ---
 
 ## Component Reference
@@ -590,23 +665,28 @@ Is it interactive?
 
 ### Chip
 
-**Use when:** Representing selectable/removable items like filters, tags, or selected values.
+**Use when:** Displaying tags, categories, or removable selected items.
 
 | State | When to Use |
 |-------|-------------|
-| Unselected | Available option that can be selected |
-| Selected | Shows X button for removal. Active filter/selection. |
+| Unselected | Available tag/category |
+| Selected | Active selection, shows X for removal |
 | Disabled | Option not currently available |
 
 | Size | When to Use |
 |------|-------------|
-| `s` | Compact filter bars, inline selections |
-| `m` | Default, filter panels, tag inputs |
+| `s` | Compact lists, inline tags |
+| `m` | Default, tag displays, selected items |
 
-**Common patterns:**
-- **Filter chips:** Horizontal group of chips for filtering content
-- **Tag input:** Chips inside an input for multi-select with text entry
-- **Selected items:** Show what user has chosen with ability to remove
+**Chip is for:**
+- Displaying selected items (e.g., selected users, chosen tags)
+- Content tags/categories
+- Removable selections in multi-select contexts
+
+**Chip is NOT for:**
+- Filter bars → use **Filter** component
+- Opening dropdowns → use **Filter** component
+- Filter controls with label + value → use **Filter** component
 
 **Prefixes:**
 - `icon` prop: Leading icon
@@ -1003,12 +1083,22 @@ Each group type has its own prefix component. The card style automatically deter
 
 ### ChipGroup
 
-**Use when:** Grouping related filter chips together.
+**Use when:** Form input for selecting tags from a predefined set (like a multi-select with visible options).
+
+**ChipGroup is for:**
+- Tag selection in forms (select categories, select skills)
+- Multi-select where all options should be visible
+- Input contexts where user picks from predefined tags
+
+**ChipGroup is NOT for:**
+- Filter bars → use **Filter** components
+- Displaying already-selected items → use individual Chips
+- Filter controls → use **Filter** component
 
 **Guidelines:**
 - Provides consistent spacing between chips
 - Passes size context to child chips
-- Use for filter bars, tag selections
+- Use with form state management
 
 ---
 
@@ -1296,6 +1386,195 @@ Each group type has its own prefix component. The card style automatically deter
 - Use within Chip prefixes, menu items, integrations lists
 - Size adapts to context (via prefix components)
 - Don't manually size logos—use prefix components
+
+---
+
+### Breadcrumbs
+
+**Use when:** Showing hierarchical navigation path and current location.
+
+| Separator | When to Use |
+|-----------|-------------|
+| `slash` | Default, traditional style |
+| `chevron` | Modern, directional feel |
+
+**Guidelines:**
+- Always include the current page as the last item (with `isCurrent`)
+- Use `showHomeIcon` on the first item for dashboard/app contexts
+- Keep breadcrumb labels short—use page titles, not full descriptions
+- Don't use breadcrumbs for linear flows (use stepper instead)
+
+```tsx
+<Breadcrumbs separator="slash">
+  <BreadcrumbsItem href="/" showHomeIcon>Home</BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem href="/settings">Settings</BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>Profile</BreadcrumbsItem>
+</Breadcrumbs>
+```
+
+---
+
+### Textarea
+
+**Use when:** Collecting multi-line text input (comments, descriptions, messages).
+
+| Size | When to Use |
+|------|-------------|
+| `s` | Compact forms, inline editing |
+| `m` | Default, most form fields |
+| `l` | Emphasized inputs, primary content entry |
+
+| Resize | When to Use |
+|--------|-------------|
+| `vertical` | Default, most cases |
+| `none` | Fixed height required, consistent layouts |
+| `horizontal` | Rare, specific width adjustment needs |
+| `both` | Full flexibility needed |
+
+**Use Textarea over Input when:**
+- Content is expected to be multiple lines
+- User is writing paragraphs or descriptions
+- Comments, notes, or messages
+
+**Guidelines:**
+- Set appropriate `rows` for expected content length
+- Use `resize="none"` when layout consistency matters
+- Pair with Field for labels and error states
+
+---
+
+### FileUpload
+
+**Use when:** Allowing users to upload files.
+
+**Guidelines:**
+- Always specify accepted file types with `accept` prop
+- Provide helpful `hint` text (file types, size limits)
+- Use `multiple={false}` for single file uploads (avatars, documents)
+- Handle all states: uploading, uploaded, error, warning
+
+**Patterns:**
+| Pattern | Configuration |
+|---------|---------------|
+| Profile photo | `multiple={false}` `accept="image/*"` |
+| Documents | `accept=".pdf,.doc,.docx"` |
+| Images | `accept="image/*"` |
+| Any file | No `accept` prop |
+
+```tsx
+<FileUpload
+  accept="image/*,.pdf"
+  hint="PNG, JPG, PDF up to 10MB"
+  onFilesAdded={(files) => uploadFiles(files)}
+/>
+```
+
+---
+
+### FileIcon
+
+**Use when:** Displaying file type indicators in lists, uploads, or file browsers.
+
+| Size | When to Use |
+|------|-------------|
+| `s` | Compact lists, table cells |
+| `m` | Default, file items |
+| `l` | Emphasized displays, previews |
+
+| FileType | When to Use |
+|----------|-------------|
+| `doc` | Word documents, text files |
+| `spreadsheet` | Excel, CSV files |
+| `pdf` | PDF documents |
+| `slides` | PowerPoint, presentations |
+| `audio` | Music, audio files |
+| `image` | Photos, graphics (can show thumbnail with `src`) |
+| `generic` | Unknown file types |
+| `custom` | Custom categorization with decorative color |
+
+**Guidelines:**
+- Use `getFileTypeFromExtension()` helper to auto-detect file type
+- For images, pass `src` to show actual thumbnail
+- Use `custom` with `color` for app-specific file categories
+
+---
+
+### Filter
+
+**Use when:** Building filter bars for tables, lists, or data views where clicking reveals filter options.
+
+| Size | When to Use |
+|------|-------------|
+| `xs` | Compact filter bars, dense UIs |
+| `s` | Secondary filter areas |
+| `m` | Default, primary filter bars |
+
+**Filter is for:**
+- Filtering table data (by Status, Date, Type, Category columns)
+- Filtering section-level data (cards, lists, grids within a section)
+- Search refinement controls
+- Any data filtering that opens a dropdown/popover on click
+
+**Filter is NOT for:**
+- Displaying selected tags → use Badge
+- Form tag selection → use ChipGroup
+- Simple toggles → use Switch or ToggleButton
+- Predefined visible options → use SegmentedControl or ToggleGroup
+
+**Implementation pattern:**
+
+```tsx
+// Filter + Menu pattern
+<Menu.Root>
+  <Menu.Trigger render={
+    <Filter
+      label="Status"
+      value={status}
+      onClear={() => setStatus(null)}
+    />
+  } />
+  <Menu.Portal>
+    <Menu.Positioner>
+      <Menu.Popup>
+        <MenuItem onClick={() => setStatus("Active")}>Active</MenuItem>
+        <MenuItem onClick={() => setStatus("Inactive")}>Inactive</MenuItem>
+      </Menu.Popup>
+    </Menu.Positioner>
+  </Menu.Portal>
+</Menu.Root>
+
+// Filter bar example
+<div className="flex gap-[var(--space-8)]">
+  <Filter label="Status" value={status} onClear={...} />
+  <Filter label="Type" value={type} onClear={...} />
+  <Filter label="Date" icon={<RiCalendarLine />} value={dateRange} onClear={...} />
+</div>
+```
+
+**Guidelines:**
+- Always pair with Menu or Popover—Filter alone does nothing
+- Show `value` when filter is active
+- Always provide `onClear` when `value` is set
+- Use consistent sizing across filter bar
+- Icons optional—use for recognizable filters (calendar for date)
+
+---
+
+### Crypto
+
+**Use when:** Displaying cryptocurrency token icons.
+
+**Guidelines:**
+- Use in trading UIs, crypto selectors, portfolio displays
+- Consistent sizing via prefix components when in lists
+- Available tokens: BTC, ETH, USDT, BNB, ADA, XRP, USDC, DOT, BUSD, UNI, LTC, SOL, LINK, WBTC, DAI
+
+```tsx
+<Crypto crypto="btc" size={24} />
+<Crypto crypto="eth" size={32} />
+```
 
 ---
 

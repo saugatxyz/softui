@@ -1,19 +1,23 @@
 "use client"
 
 import * as React from "react"
-import { useDropzone, type DropzoneOptions, type FileRejection, type DropEvent } from "react-dropzone"
 import {
-  RiUploadCloud2Line,
   RiCheckboxCircleFill,
   RiLoader2Line,
   RiErrorWarningFill,
   RiDeleteBinLine,
   RiCloseLine,
 } from "@remixicon/react"
+import { motion, AnimatePresence } from "motion/react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { FileIcon, getFileTypeFromExtension } from "@/components/ui/file-icon"
+import { IconButton } from "@/components/ui/icon-button"
+import { FileIcon, UploadIcon, getFileTypeFromExtension } from "@/components/ui/file-icon"
+
+// ============================================================================
+// Utilities
+// ============================================================================
 
 function formatFileSize(bytes: number): string {
   if (bytes === 0) return "0 B"
@@ -21,6 +25,30 @@ function formatFileSize(bytes: number): string {
   const sizes = ["B", "KB", "MB", "GB"]
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`
+}
+
+function isValidFileType(file: File, accept?: string): boolean {
+  if (!accept) return true
+
+  const acceptedTypes = accept.split(",").map((t) => t.trim())
+
+  for (const type of acceptedTypes) {
+    // Handle MIME type wildcards like "image/*"
+    if (type.endsWith("/*")) {
+      const category = type.slice(0, -2)
+      if (file.type.startsWith(category + "/")) return true
+    }
+    // Handle exact MIME types
+    else if (type.includes("/")) {
+      if (file.type === type) return true
+    }
+    // Handle extensions like ".pdf"
+    else if (type.startsWith(".")) {
+      if (file.name.toLowerCase().endsWith(type.toLowerCase())) return true
+    }
+  }
+
+  return false
 }
 
 // ============================================================================
@@ -33,6 +61,7 @@ type FileItemProps = {
   file: File
   state?: FileItemState
   progress?: number
+  displaySize?: number
   onRemove?: () => void
   className?: string
 }
@@ -41,10 +70,22 @@ function FileItem({
   file,
   state = "uploaded",
   progress = 0,
+  displaySize,
   onRemove,
   className,
 }: FileItemProps) {
   const fileType = getFileTypeFromExtension(file.name)
+  const size = displaySize ?? file.size
+
+  const [imageUrl, setImageUrl] = React.useState<string | undefined>()
+
+  React.useEffect(() => {
+    if (fileType === "image" && file.type.startsWith("image/")) {
+      const url = URL.createObjectURL(file)
+      setImageUrl(url)
+      return () => URL.revokeObjectURL(url)
+    }
+  }, [file, fileType])
 
   return (
     <div
@@ -55,7 +96,6 @@ function FileItem({
         className
       )}
     >
-      {/* Progress background for uploading state */}
       {state === "uploading" && (
         <div
           data-slot="progress"
@@ -64,65 +104,85 @@ function FileItem({
         />
       )}
 
-      {/* File icon */}
-      <FileIcon fileType={fileType} size="m" className="relative z-10" />
+      <FileIcon fileType={fileType} size="m" src={imageUrl} className="relative z-10" />
 
-      {/* File info */}
       <div className="relative z-10 flex min-w-0 flex-1 flex-col gap-[var(--space-4)]">
-        <div className="flex items-center gap-[var(--space-8)]">
-          <p className="truncate text-body-m-medium text-content-strong">
-            {file.name}
-          </p>
-
-          {/* Status icon */}
-          {state === "uploaded" && (
-            <RiCheckboxCircleFill className="size-[18px] shrink-0 text-content-feedback-success-strong" />
-          )}
-          {state === "uploading" && (
-            <RiLoader2Line className="size-[18px] shrink-0 animate-spin text-content-strong" />
-          )}
-          {state === "error" && (
-            <RiErrorWarningFill className="size-[18px] shrink-0 text-content-feedback-danger-strong" />
-          )}
-          {state === "warning" && (
-            <RiErrorWarningFill className="size-[18px] shrink-0 text-content-feedback-warning-strong" />
-          )}
+        <div className="flex items-center gap-1">
+          <p className="truncate text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)] text-content-strong">{file.name}</p>
+          <span className="relative flex size-[18px] shrink-0 items-center justify-center">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {state === "uploading" && (
+                <motion.span
+                  key="spinner"
+                  className="absolute inset-0 flex items-center justify-center text-content-strong"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5, y: -8, filter: "blur(4px)" }}
+                  transition={{
+                    type: "spring",
+                    bounce: 0.2,
+                    duration: 0.25,
+                  }}
+                >
+                  <RiLoader2Line className="size-[18px] animate-spin" style={{ animationDuration: "0.8s" }} />
+                </motion.span>
+              )}
+              {state === "uploaded" && (
+                <motion.span
+                  key="check"
+                  className="absolute inset-0 flex items-center justify-center text-content-feedback-success-strong"
+                  initial={{ opacity: 0, scale: 0.5, y: 8, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{ type: "spring", bounce: 0.3, duration: 0.35 }}
+                >
+                  <RiCheckboxCircleFill className="size-[18px]" />
+                </motion.span>
+              )}
+              {state === "error" && (
+                <motion.span
+                  key="error"
+                  className="absolute inset-0 flex items-center justify-center text-content-feedback-danger-strong"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", bounce: 0.3, duration: 0.25 }}
+                >
+                  <RiErrorWarningFill className="size-[18px]" />
+                </motion.span>
+              )}
+              {state === "warning" && (
+                <motion.span
+                  key="warning"
+                  className="absolute inset-0 flex items-center justify-center text-content-feedback-warning-strong"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", bounce: 0.3, duration: 0.25 }}
+                >
+                  <RiErrorWarningFill className="size-[18px]" />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </span>
         </div>
 
-        {/* Size or progress */}
-        {state === "uploading" ? (
-          <p className="text-body-xs text-content-subtle">
-            {formatFileSize(file.size * (progress / 100))} / {formatFileSize(file.size)}
-          </p>
-        ) : (
-          <p className="text-body-xs text-content-subtle">
-            {formatFileSize(file.size)}
-          </p>
-        )}
+        <p className="text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-subtle">
+          {state === "uploading"
+            ? `${formatFileSize(size * (progress / 100))} / ${formatFileSize(size)}`
+            : formatFileSize(size)}
+        </p>
       </div>
 
-      {/* Actions */}
-      <div className="relative z-10 flex items-center gap-[var(--space-4)]">
+      <IconButton
+        variant="ghost"
+        size="s"
+        onClick={onRemove}
+        className="relative z-10"
+      >
         {state === "uploaded" ? (
-          <>
-            <button
-              type="button"
-              onClick={onRemove}
-              className="flex size-[24px] items-center justify-center rounded-[var(--radius-max)] text-content-subtle transition-colors hover:bg-actions-secondary-hover hover:text-content-strong"
-            >
-              <RiDeleteBinLine className="size-[16px]" />
-            </button>
-          </>
+          <RiDeleteBinLine />
         ) : (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="flex size-[24px] items-center justify-center rounded-[var(--radius-max)] text-content-subtle transition-colors hover:bg-actions-secondary-hover hover:text-content-strong"
-          >
-            <RiCloseLine className="size-[16px]" />
-          </button>
+          <RiCloseLine />
         )}
-      </div>
+      </IconButton>
     </div>
   )
 }
@@ -137,31 +197,39 @@ type FileUploadFile = {
   progress: number
 }
 
-type FileUploadProps = Omit<DropzoneOptions, "disabled"> & {
+type FileUploadProps = {
   className?: string
   disabled?: boolean
-  /** Text shown as the main label */
   label?: string
-  /** Hint text shown below the label */
   hint?: string
+  /** Accepted file types (e.g., "image/*,.pdf") */
+  accept?: string
+  /** Allow multiple files */
+  multiple?: boolean
   /** Controlled files */
   files?: FileUploadFile[]
   /** Callback when files change */
   onFilesChange?: (files: FileUploadFile[]) => void
+  /** Callback when files are added */
+  onFilesAdded?: (files: File[]) => void
 }
 
 function FileUpload({
   className,
   disabled = false,
-  label = "Drag and drop or browse for file",
+  label = "Drag and drop or browse",
   hint,
+  accept,
+  multiple = true,
   files: controlledFiles,
   onFilesChange,
-  onDrop,
-  onDropRejected,
-  ...dropzoneOptions
+  onFilesAdded,
 }: FileUploadProps) {
+  const inputRef = React.useRef<HTMLInputElement>(null)
   const [internalFiles, setInternalFiles] = React.useState<FileUploadFile[]>([])
+  const [isDragActive, setIsDragActive] = React.useState(false)
+  const [isDragReject, setIsDragReject] = React.useState(false)
+  const dragCounter = React.useRef(0)
 
   const isControlled = controlledFiles !== undefined
   const files = isControlled ? controlledFiles : internalFiles
@@ -177,133 +245,198 @@ function FileUpload({
     [isControlled, onFilesChange]
   )
 
-  const handleDrop = React.useCallback(
-    (acceptedFiles: File[], rejectedFiles: FileRejection[], event: DropEvent) => {
-      const newFileItems: FileUploadFile[] = acceptedFiles.map((file) => ({
+  const handleFiles = React.useCallback(
+    (fileList: FileList | null) => {
+      if (!fileList || fileList.length === 0) return
+
+      const validFiles: File[] = []
+
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i]
+        if (isValidFileType(file, accept)) {
+          validFiles.push(file)
+        }
+      }
+
+      if (validFiles.length === 0) return
+
+      const newFileItems: FileUploadFile[] = validFiles.map((file) => ({
         file,
         state: "uploaded" as const,
         progress: 100,
       }))
 
-      if (dropzoneOptions.multiple === false) {
-        updateFiles(newFileItems.slice(0, 1))
-      } else {
+      if (multiple) {
         updateFiles([...files, ...newFileItems])
+      } else {
+        updateFiles(newFileItems.slice(0, 1))
       }
-      onDrop?.(acceptedFiles, rejectedFiles, event)
+
+      onFilesAdded?.(validFiles)
     },
-    [dropzoneOptions.multiple, updateFiles, files, onDrop]
+    [accept, multiple, files, updateFiles, onFilesAdded]
   )
 
   const removeFile = React.useCallback(
     (index: number) => {
       updateFiles(files.filter((_, i) => i !== index))
     },
-    [updateFiles, files]
+    [files, updateFiles]
   )
 
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject,
-    isFocused,
-    open,
-  } = useDropzone({
-    ...dropzoneOptions,
-    disabled,
-    onDrop: handleDrop,
-    onDropRejected,
-    noClick: true,
-    noKeyboard: true,
-  })
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFiles(e.target.files)
+    // Reset input so same file can be selected again
+    if (inputRef.current) {
+      inputRef.current.value = ""
+    }
+  }
 
-  const showFocusRing = isFocused && !isDragActive
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (disabled) return
+
+    dragCounter.current++
+
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setIsDragActive(true)
+
+      // Check if any file type is rejected
+      const items = Array.from(e.dataTransfer.items)
+      const hasInvalid = items.some((item) => {
+        if (item.kind !== "file") return true
+        if (!accept) return false
+        // Can't fully validate during drag, just check MIME category
+        const type = item.type
+        if (!type) return false
+        return !isValidFileType({ type, name: "" } as File, accept)
+      })
+
+      setIsDragReject(hasInvalid)
+    }
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    dragCounter.current--
+
+    if (dragCounter.current === 0) {
+      setIsDragActive(false)
+      setIsDragReject(false)
+    }
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    dragCounter.current = 0
+    setIsDragActive(false)
+    setIsDragReject(false)
+
+    if (disabled) return
+
+    handleFiles(e.dataTransfer.files)
+  }
+
+  const openFilePicker = () => {
+    if (disabled) return
+    inputRef.current?.click()
+  }
 
   return (
     <div
       data-slot="file-upload"
-      className={cn("flex flex-col gap-[var(--space-4)]", className)}
+      className={cn("flex flex-col gap-1", className)}
     >
-      {/* Dropzone */}
       <div
-        {...getRootProps()}
         data-slot="dropzone"
         data-drag-active={isDragActive || undefined}
-        data-drag-accept={isDragAccept || undefined}
         data-drag-reject={isDragReject || undefined}
         data-disabled={disabled || undefined}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
         className={cn(
-          "flex flex-col items-start gap-[var(--space-12)] rounded-[var(--radius-16)] border border-border-interactive-default p-[var(--space-16)] transition-colors duration-200",
-          !disabled && "hover:border-actions-primary-default",
-          isDragActive && "border-actions-primary-default bg-surface-interactive-selected",
-          isDragReject && "border-actions-danger-default bg-surface-feedback-danger-subtle",
-          showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-          disabled && "cursor-not-allowed border-border-muted opacity-50"
+          "flex items-center gap-[var(--space-12)] rounded-[var(--radius-16)] border border-dashed border-border-interactive-default p-[var(--space-12)] transition-colors duration-200",
+          !disabled && "cursor-pointer hover:border-border-interactive-hover",
+          isDragActive && !isDragReject && "border-border-interactive-strong bg-surface-interactive-selected",
+          isDragReject && "border-border-feedback-danger bg-surface-feedback-danger-subtle",
+          disabled && "cursor-not-allowed opacity-50"
         )}
+        onClick={openFilePicker}
       >
-        <input {...getInputProps()} />
+        <input
+          ref={inputRef}
+          type="file"
+          accept={accept}
+          multiple={multiple}
+          disabled={disabled}
+          onChange={handleInputChange}
+          className="sr-only"
+        />
 
-        {/* Icon */}
-        <span
-          data-slot="icon"
+        <UploadIcon
+          size="m"
           className={cn(
-            "text-content-subtle",
-            isDragActive && "text-actions-primary-default",
-            isDragReject && "text-actions-danger-default",
-            disabled && "text-content-disabled"
+            isDragActive && !isDragReject && "text-actions-primary-default",
+            isDragReject && "text-actions-danger-default"
           )}
-        >
-          <RiUploadCloud2Line className="size-[20px]" />
-        </span>
+        />
 
-        {/* Text content */}
-        <div className="flex flex-col gap-[var(--space-20)]">
-          <div className="flex flex-col gap-[var(--space-4)]">
+        <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-4)]">
+          <p
+            data-slot="label"
+            className={cn(
+              "text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)] text-content-strong",
+              disabled && "text-content-disabled"
+            )}
+          >
+            {isDragActive
+              ? isDragReject
+                ? "File type not accepted"
+                : "Drop to upload"
+              : label}
+          </p>
+          {hint && (
             <p
-              data-slot="label"
+              data-slot="hint"
               className={cn(
-                "text-body-m-medium",
-                disabled ? "text-content-disabled" : "text-content-strong"
+                "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-subtle",
+                disabled && "text-content-disabled"
               )}
             >
-              {isDragActive
-                ? isDragReject
-                  ? "File type not accepted"
-                  : "Drop to upload"
-                : label}
+              {hint}
             </p>
-            {hint && (
-              <p
-                data-slot="hint"
-                className={cn(
-                  "text-body-xs",
-                  disabled ? "text-content-disabled" : "text-content-subtle"
-                )}
-              >
-                {hint}
-              </p>
-            )}
-          </div>
-
-          {/* Browse button */}
-          <Button
-            type="button"
-            variant="tertiary"
-            size="s"
-            onClick={open}
-            disabled={disabled}
-            className="w-fit"
-          >
-            Browse
-          </Button>
+          )}
         </div>
+
+        <Button
+          type="button"
+          variant="secondary"
+          size="s"
+          disabled={disabled}
+          onClick={(e) => {
+            e.stopPropagation()
+            openFilePicker()
+          }}
+        >
+          Browse
+        </Button>
       </div>
 
-      {/* File list */}
       {files.length > 0 && (
-        <div data-slot="file-list" className="flex flex-col gap-[var(--space-4)]">
+        <div data-slot="file-list" className="flex flex-col gap-1">
           {files.map((fileItem, index) => (
             <FileItem
               key={`${fileItem.file.name}-${index}`}

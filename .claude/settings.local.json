@@ -41,7 +41,10 @@
       "Bash(rm:*)",
       "Bash(rmdir:*)",
       "Bash(chmod:*)",
-      "Skill(dev)"
+      "Skill(dev)",
+      "Bash(timeout 15 pnpm dev:*)",
+      "Bash(pnpm update:*)",
+      "Bash(npm view:*)"
     ]
   }
 }

@@ -164,6 +164,11 @@ function Combobox(props: ComboboxProps) {
       items={options}
       value={value}
       defaultValue={defaultValue}
+      defaultInputValue={
+        !multiple && defaultValue && !Array.isArray(defaultValue)
+          ? getItemLabel(defaultValue)
+          : undefined
+      }
       onValueChange={onValueChange as (value: unknown) => void}
       disabled={disabled}
       multiple={multiple}

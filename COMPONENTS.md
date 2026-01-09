@@ -4,6 +4,48 @@ This document details when to use each component and how to implement them corre
 
 ---
 
+## Navigation Components
+
+### Breadcrumbs
+**When to use:** Show the user's current location in a hierarchical structure and allow navigation to parent pages.
+
+**Note:** Custom component, not a Base UI primitive.
+
+**Sub-components:** `Breadcrumbs`, `BreadcrumbsItem`, `BreadcrumbsSeparator`
+
+**Props (Breadcrumbs):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `separator` | `"slash"` \| `"chevron"` | `"slash"` | Separator style between items |
+
+**Props (BreadcrumbsItem):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `href` | `string` | - | Link destination |
+| `isCurrent` | `boolean` | `false` | Marks as current page (non-clickable) |
+| `showHomeIcon` | `boolean` | `false` | Show home icon before label |
+
+```tsx
+import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components/ui/breadcrumbs"
+
+<Breadcrumbs separator="slash">
+  <BreadcrumbsItem href="/" showHomeIcon>Home</BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem href="/products">Products</BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>Widget Pro</BreadcrumbsItem>
+</Breadcrumbs>
+
+// With chevron separators
+<Breadcrumbs separator="chevron">
+  <BreadcrumbsItem href="/">Dashboard</BreadcrumbsItem>
+  <BreadcrumbsSeparator />
+  <BreadcrumbsItem isCurrent>Settings</BreadcrumbsItem>
+</Breadcrumbs>
+```
+
+---
+
 ## Selection Components
 
 ### Tabs
@@ -105,9 +147,88 @@ This document details when to use each component and how to implement them corre
 **When to use:** Searchable dropdown. User can type to filter options.
 
 **Base UI Primitive:** `@base-ui/react/combobox`
-- Similar structure to Select, but with `Combobox.Input` instead of trigger
+- `Combobox.Root` - Container, manages state
+- `Combobox.Input` - Text input for filtering
+- `Combobox.Trigger` - Button to open dropdown
+- `Combobox.Portal` - Renders dropdown in portal
+- `Combobox.Positioner` - Handles positioning
+- `Combobox.Popup` - Dropdown container
+- `Combobox.List` - List of options
+- `Combobox.Item` - Individual option
+- `Combobox.ItemIndicator` - Checkmark for selected option
+- `Combobox.Group` - Option group container
+- `Combobox.GroupLabel` - Group header
+- `Combobox.Empty` - Shown when no results
+- `Combobox.Clear` - Clears selection
+- `Combobox.Chips` - Multi-select chips container
+- `Combobox.Chip` - Individual chip
+- `Combobox.ChipRemove` - Remove button on chip
+- `Combobox.Value` - Value display (multi-select)
+- `Combobox.Collection` - Grouped items renderer
 
-**Data Attributes:** Same as Select (`data-highlighted`, `data-selected`, `data-disabled`)
+**Data Attributes:**
+| Element | Attribute | When Applied |
+|---------|-----------|--------------|
+| `Combobox.Item` | `data-highlighted` | Option has keyboard/hover focus |
+| `Combobox.Item` | `data-selected` | Option is the current value |
+| `Combobox.Item` | `data-disabled` | Option is disabled |
+| `Combobox.Popup` | `data-open` | Dropdown is open |
+
+**Props (Combobox):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `options` | `ComboboxOption[]` | - | Array of options |
+| `size` | `"s"` \| `"m"` \| `"l"` | `"m"` | Combobox size |
+| `placeholder` | `string` | `"Select an option"` | Placeholder text |
+| `leadingIcon` | `ReactNode` | - | Icon at start |
+| `disabled` | `boolean` | `false` | Disable combobox |
+| `clearable` | `boolean` | `false` | Show clear button |
+| `multiple` | `boolean` | `false` | Enable multi-select |
+| `value` | `ComboboxOption \| ComboboxOption[]` | - | Controlled value |
+| `defaultValue` | `ComboboxOption \| ComboboxOption[]` | - | Default value |
+| `onValueChange` | `(value) => void` | - | Change callback |
+| `side` | `"top"` \| `"bottom"` \| `"left"` \| `"right"` | `"bottom"` | Dropdown position |
+| `align` | `"start"` \| `"center"` \| `"end"` | `"start"` | Dropdown alignment |
+
+**ComboboxOption type:**
+```ts
+type ComboboxOption = {
+  value: string
+  label: string
+  description?: string
+  icon?: ReactNode
+  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
+  disabled?: boolean
+}
+```
+
+```tsx
+import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
+
+// Basic usage
+<Combobox
+  options={[
+    { value: "opt1", label: "Option 1" },
+    { value: "opt2", label: "Option 2", description: "With description" },
+  ]}
+  placeholder="Search..."
+/>
+
+// Multi-select
+<Combobox
+  multiple
+  options={options}
+  placeholder="Select multiple..."
+/>
+
+// Grouped options
+<GroupedCombobox
+  groups={[
+    { label: "Group A", options: [...] },
+    { label: "Group B", options: [...] },
+  ]}
+/>
+```
 
 ---
 
@@ -167,6 +288,63 @@ This document details when to use each component and how to implement them corre
 | Element | Attribute | When Applied |
 |---------|-----------|--------------|
 | `Toggle.Root` | `data-pressed` | Toggle is active |
+
+---
+
+### Filter
+**When to use:** Filter chip trigger for dropdown menus or popovers. Shows label and optional selected value.
+
+**Note:** Custom component, not a Base UI primitive. Typically used with Menu or Popover.
+
+**Props:**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | - | Filter label (required) |
+| `value` | `string` | - | Selected value to display |
+| `icon` | `ReactNode` | - | Leading icon |
+| `size` | `"xs"` \| `"s"` \| `"m"` | `"m"` | Filter size |
+| `onClear` | `() => void` | - | Clear callback (shows X button when value is set) |
+| `disabled` | `boolean` | `false` | Disable filter |
+
+**Size values:**
+| Size | Height |
+|------|--------|
+| `xs` | 28px |
+| `s` | 32px |
+| `m` | 36px |
+
+**Data Attributes:**
+| Attribute | When Applied |
+|-----------|--------------|
+| `data-active` | When `value` is set |
+| `data-disabled` | When disabled |
+
+```tsx
+import { Filter } from "@/components/ui/filter"
+
+// Without value (inactive state)
+<Filter label="Status" />
+
+// With value (active state)
+<Filter
+  label="Status"
+  value="Active"
+  onClear={() => setValue(undefined)}
+/>
+
+// With icon
+<Filter
+  icon={<RiCalendarLine />}
+  label="Date"
+  value="Last 7 days"
+  onClear={() => {}}
+/>
+
+// Different sizes
+<Filter label="Type" size="xs" />
+<Filter label="Type" size="s" />
+<Filter label="Type" size="m" />
+```
 
 ---
 
@@ -520,6 +698,85 @@ import { Logo } from "@/components/ui/logo"
 
 ---
 
+### FileIcon
+**When to use:** Display file type icons for documents, images, audio, etc.
+
+**Note:** Custom component, not a Base UI primitive.
+
+**Sub-components:** `FileIcon`, `UploadIcon`
+
+**Props (FileIcon):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `fileType` | `"doc"` \| `"spreadsheet"` \| `"pdf"` \| `"slides"` \| `"audio"` \| `"image"` \| `"generic"` \| `"custom"` | `"generic"` | File type to display |
+| `size` | `"s"` \| `"m"` \| `"l"` | `"m"` | Icon size |
+| `color` | Decorative color | `"lime"` | Color for `fileType="custom"` |
+| `src` | `string` | - | Image source for image thumbnails |
+
+**Size values:**
+| Size | Dimensions |
+|------|------------|
+| `s` | 32×32px |
+| `m` | 44×44px |
+| `l` | 56×56px |
+
+**Props (UploadIcon):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"s"` \| `"m"` \| `"l"` | `"m"` | Icon size |
+
+**Helper function:**
+```ts
+import { getFileTypeFromExtension } from "@/components/ui/file-icon"
+
+// Automatically determines file type from filename
+getFileTypeFromExtension("document.pdf") // returns "pdf"
+getFileTypeFromExtension("image.png")    // returns "image"
+```
+
+```tsx
+import { FileIcon, UploadIcon, getFileTypeFromExtension } from "@/components/ui/file-icon"
+
+<FileIcon fileType="pdf" size="m" />
+<FileIcon fileType="image" src="/preview.jpg" />
+<FileIcon fileType="custom" color="blue" />
+<UploadIcon size="m" />
+```
+
+---
+
+### Crypto
+**When to use:** Display cryptocurrency token icons.
+
+**Note:** Custom component, not a Base UI primitive.
+
+**Props:**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `crypto` | CryptoType | - | Cryptocurrency to display |
+| `size` | `number` | `24` | Icon size in pixels |
+
+**Available crypto types:**
+`btc`, `eth`, `usdt`, `bnb`, `ada`, `xrp`, `usdc`, `dot`, `busd`, `uni`, `ltc`, `sol`, `link`, `wbtc`, `dai`
+
+**Helper exports:**
+```ts
+import { cryptos, cryptoColors, cryptoNames } from "@/components/ui/crypto"
+
+cryptos        // Array of all crypto types
+cryptoColors   // Record<CryptoType, string> - brand colors
+cryptoNames    // Record<CryptoType, string> - display names
+```
+
+```tsx
+import { Crypto } from "@/components/ui/crypto"
+
+<Crypto crypto="btc" size={24} />
+<Crypto crypto="eth" size={32} />
+```
+
+---
+
 ## Progress Components
 
 ### Progress
@@ -860,6 +1117,29 @@ import { Pagination, PaginationContent, PageIndicator, PaginationPrevious, Pagin
 
 ---
 
+### Textarea
+**When to use:** Multi-line text input.
+
+**Base UI Primitive:** `@base-ui/react/input` with `render={<textarea />}`
+
+**Props:**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"s"` \| `"m"` \| `"l"` | `"m"` | Textarea size |
+| `rows` | `number` | `3` | Number of visible text rows |
+| `resize` | `"none"` \| `"vertical"` \| `"horizontal"` \| `"both"` | `"vertical"` | Resize behavior |
+| `focusVisibleOnly` | `boolean` | `true` | Only show focus ring on keyboard navigation |
+| `disabled` | `boolean` | `false` | Disable textarea |
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+
+<Textarea placeholder="Enter your message..." rows={5} />
+<Textarea size="l" resize="none" />
+```
+
+---
+
 ### Number Field
 **When to use:** Numeric input with increment/decrement controls.
 
@@ -966,6 +1246,70 @@ import { Autocomplete } from "@/components/ui/autocomplete"
 <Autocomplete
   options={["Apple", "Banana", "Cherry"]}
   placeholder="Search fruits..."
+/>
+```
+
+---
+
+### FileUpload
+**When to use:** Allow users to upload files via drag-and-drop or file picker.
+
+**Note:** Custom component, not a Base UI primitive.
+
+**Sub-components:** `FileUpload`, `FileItem`
+
+**Props (FileUpload):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | `"Drag and drop or browse"` | Dropzone label text |
+| `hint` | `string` | - | Helper text below label |
+| `accept` | `string` | - | Accepted file types (e.g., `"image/*,.pdf"`) |
+| `multiple` | `boolean` | `true` | Allow multiple files |
+| `disabled` | `boolean` | `false` | Disable upload |
+| `files` | `FileUploadFile[]` | - | Controlled files array |
+| `onFilesChange` | `(files: FileUploadFile[]) => void` | - | Files change callback |
+| `onFilesAdded` | `(files: File[]) => void` | - | New files added callback |
+
+**FileUploadFile type:**
+```ts
+type FileUploadFile = {
+  file: File
+  state: "uploaded" | "uploading" | "error" | "warning"
+  progress: number
+}
+```
+
+**Props (FileItem):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `file` | `File` | - | The file object |
+| `state` | `"uploaded"` \| `"uploading"` \| `"error"` \| `"warning"` | `"uploaded"` | Upload state |
+| `progress` | `number` | `0` | Upload progress (0-100) |
+| `displaySize` | `number` | - | Override displayed file size |
+| `onRemove` | `() => void` | - | Remove callback |
+
+```tsx
+import { FileUpload, FileItem } from "@/components/ui/file-upload"
+
+// Basic usage (uncontrolled)
+<FileUpload
+  accept="image/*,.pdf"
+  hint="PNG, JPG, PDF up to 10MB"
+/>
+
+// Controlled usage
+<FileUpload
+  files={files}
+  onFilesChange={setFiles}
+  multiple={false}
+/>
+
+// Standalone file item
+<FileItem
+  file={myFile}
+  state="uploading"
+  progress={45}
+  onRemove={() => {}}
 />
 ```
 

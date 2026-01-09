@@ -56,6 +56,8 @@ export const navSections = [
       { label: "Empty State", href: "/docs/empty-state" },
       { label: "Field", href: "/docs/field" },
       { label: "Fieldset", href: "/docs/fieldset" },
+      { label: "Filter", href: "/docs/filter" },
+      { label: "File Icon", href: "/docs/file-icon" },
       { label: "File Upload", href: "/docs/file-upload" },
       { label: "Form", href: "/docs/form" },
       { label: "Icon Button", href: "/docs/icon-button" },
