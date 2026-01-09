@@ -823,6 +823,410 @@ Each group type has its own prefix component. The card style automatically deter
 
 ---
 
+### Toggle / ToggleGroup
+
+**Use when:** Toggle button or group of toggle buttons in a toolbar or action bar.
+
+| Component | When to Use |
+|-----------|-------------|
+| `Toggle` | Single toggle button (on/off state) |
+| `ToggleGroup` | Group of related toggles (single or multiple selection) |
+
+**Use Toggle over Switch when:**
+- It's a toolbar action (bold, italic, alignment)
+- Visual appearance should be a button
+- Part of a button group
+
+---
+
+### Combobox / Autocomplete
+
+**Use when:** User needs to search/filter through a list of options.
+
+| Component | When to Use |
+|-----------|-------------|
+| `Combobox` | Searchable dropdown with async data loading |
+| `Autocomplete` | Search with static predefined options |
+
+**Use Combobox/Autocomplete over Select when:**
+- More than 10 options
+- User benefits from typing to filter
+- Options are dynamic or loaded asynchronously
+
+---
+
+### Accordion
+
+**Use when:** Organizing content into collapsible sections.
+
+**When to use:**
+- FAQs, expandable content sections
+- Settings panels with many options
+- Progressive disclosure of information
+
+**Avoid when:**
+- Content should always be visible
+- Only 1-2 items (just show them)
+- Items are unrelated
+
+---
+
+### AlertDialog
+
+**Use when:** Confirming destructive or irreversible actions.
+
+**Use AlertDialog over Dialog when:**
+- Action is destructive (delete, disconnect, remove)
+- User must explicitly confirm or cancel
+- Clicking outside should NOT dismiss
+
+```tsx
+<AlertDialog>
+  <AlertDialog.Trigger>
+    <Button variant="danger">Delete</Button>
+  </AlertDialog.Trigger>
+  <AlertDialog.Portal>
+    <AlertDialog.Backdrop />
+    <AlertDialog.Popup>
+      <AlertDialog.Title>Delete this item?</AlertDialog.Title>
+      <AlertDialog.Description>This action cannot be undone.</AlertDialog.Description>
+      <AlertDialog.Footer>
+        <AlertDialog.Close>
+          <Button variant="secondary">Cancel</Button>
+        </AlertDialog.Close>
+        <Button variant="danger">Delete</Button>
+      </AlertDialog.Footer>
+    </AlertDialog.Popup>
+  </AlertDialog.Portal>
+</AlertDialog>
+```
+
+---
+
+### AvatarGroup
+
+**Use when:** Showing multiple users/entities together (team members, assignees, collaborators).
+
+| Size | When to Use |
+|------|-------------|
+| `3xs`, `2xs` | Inline mentions, compact spaces |
+| `xs`, `s` | Table cells, list items |
+| `m`, `l` | Feature sections, headers |
+
+**Guidelines:**
+- Use `max` prop to limit visible avatars (3-5 typical)
+- Overflow count shows as "+N" avatar
+- All avatars in a group share the same size
+
+```tsx
+<AvatarGroup size="s" max={3}>
+  <Avatar src="/avatars/avatar-1.png" />
+  <Avatar src="/avatars/avatar-2.png" />
+  <Avatar src="/avatars/avatar-3.png" />
+  <Avatar src="/avatars/avatar-4.png" />  {/* Shows as +1 */}
+</AvatarGroup>
+```
+
+---
+
+### ChipGroup
+
+**Use when:** Grouping related filter chips together.
+
+**Guidelines:**
+- Provides consistent spacing between chips
+- Passes size context to child chips
+- Use for filter bars, tag selections
+
+---
+
+### ButtonGroup
+
+**Use when:** Grouping related actions that are mutually exclusive or closely related.
+
+**Common patterns:**
+- Alignment controls (left/center/right)
+- View toggles (list/grid)
+- Formatting options (bold/italic/underline)
+
+**Guidelines:**
+- Only use `secondary` or `tertiary` variants
+- All buttons share the same size
+- Buttons render with connected styling (no gap)
+
+---
+
+### Field
+
+**Use when:** Wrapping any form input with label, description, and error handling.
+
+**Guidelines:**
+- Always use Field for form inputs (accessibility)
+- Field.Label is required for screen readers
+- Field.Description for helper text
+- Field.Error for validation messages
+
+```tsx
+<Field>
+  <Field.Label>Username</Field.Label>
+  <Input placeholder="Enter username" />
+  <Field.Description>Must be unique</Field.Description>
+  <Field.Error>Username already taken</Field.Error>
+</Field>
+```
+
+---
+
+### Fieldset
+
+**Use when:** Grouping related form fields into a section.
+
+**Guidelines:**
+- Use for logical groupings (Account, Billing, Preferences)
+- Fieldset.Legend provides the section title
+- Handles vertical spacing between fields automatically (24px)
+- Use `disabled` to disable all fields in the group
+
+---
+
+### Form
+
+**Use when:** Creating a form with validation and submission handling.
+
+**Guidelines:**
+- Wrap all form content in Form component
+- Handles form submission events
+- Integrates with Field validation
+
+---
+
+### InputGroup
+
+**Use when:** Adding prefix/suffix elements to an input.
+
+**Common patterns:**
+- Currency prefix ($, €, £)
+- Domain suffix (.com, .io)
+- Unit indicators (kg, lbs, %)
+
+```tsx
+<InputGroup>
+  <InputGroup.Prefix>$</InputGroup.Prefix>
+  <Input type="number" />
+  <InputGroup.Suffix>USD</InputGroup.Suffix>
+</InputGroup>
+```
+
+---
+
+### NumberField
+
+**Use when:** Collecting numeric input with increment/decrement controls.
+
+**Use NumberField over Input when:**
+- Value must be a number
+- User benefits from +/- buttons
+- Precise numeric adjustments needed
+
+---
+
+### Slider
+
+**Use when:** Selecting a value within a range by dragging.
+
+| Use Case | Configuration |
+|----------|---------------|
+| Volume/brightness | `min={0}` `max={100}` |
+| Price range | `min={0}` `max={1000}` `formatValue={(v) => `$${v}`}` |
+| Rating/score | `min={1}` `max={10}` `step={1}` |
+
+**Guidelines:**
+- Use `label` for the slider name
+- Use `formatValue` to display units or formatted values
+- `editableValue` allows direct number input
+- `showValue={false}` to hide the value display
+
+---
+
+### Progress
+
+**Use when:** Showing completion progress of a task.
+
+| Tone | When to Use |
+|------|-------------|
+| `neutral` | Default, general progress |
+| `positive` | Success-oriented progress |
+| `warning` | Approaching limit |
+| `danger` | Critical/error state |
+
+**Guidelines:**
+- Use for file uploads, form completion, loading states
+- Always provide a label for context
+- Value shows percentage by default
+
+---
+
+### Meter
+
+**Use when:** Displaying a value within a known range (static measurement, not task progress).
+
+**Use Meter (not Progress) for:**
+- Disk usage, battery level
+- Password strength
+- Storage quota
+
+**Guidelines:**
+- Meter is for measurements, Progress is for tasks
+- Use tone to indicate thresholds (danger when near limit)
+
+---
+
+### Table
+
+**Use when:** Displaying structured data in rows and columns.
+
+| Size | When to Use |
+|------|-------------|
+| `s` | Compact data, many rows |
+| `m` | Default, most tables |
+| `l` | Emphasized data, fewer rows |
+
+**Specialized cells:**
+| Cell Type | When to Use |
+|-----------|-------------|
+| `Table.TextCell` | Primary text content, can have prefix/suffix |
+| `Table.NumberCell` | Numeric values (right-aligned, tabular nums) |
+| `Table.BadgeCell` | Status indicators |
+| `Table.CheckboxCell` | Row selection |
+| `Table.AvatarGroupCell` | Multiple users/assignees |
+| `Table.ProgressCell` | Progress within a row |
+| `Table.ActionsCell` | Row actions (view, menu) |
+
+**Guidelines:**
+- Use `sortable` on headers for sortable columns
+- Use `Table.Row selected` for selected state
+- Keep actions in overflow menu, not visible per row
+
+---
+
+### Pagination
+
+**Use when:** Navigating between pages of content.
+
+| Size | When to Use |
+|------|-------------|
+| `xs`, `s` | Compact UIs, mobile |
+| `m` | Default |
+| `l` | Emphasized pagination |
+
+**Guidelines:**
+- Show 5-7 page numbers max
+- Use ellipsis for large page counts
+- Always show Previous/Next buttons
+
+---
+
+### Banner
+
+**Use when:** Page-level or section-level announcements that persist.
+
+| Tone | When to Use |
+|------|-------------|
+| `default` | Neutral announcement |
+| `info` | Informational notice |
+| `success` | Positive outcome |
+| `warning` | Caution required |
+| `danger` | Error or critical |
+
+**Use Banner over Toast when:**
+- Message should persist (not auto-dismiss)
+- Page-level announcement
+- User hasn't taken an action
+
+**Use Toast over Banner when:**
+- Feedback for user action
+- Should auto-dismiss
+- Transient notification
+
+---
+
+### InlineNotification
+
+**Use when:** Contextual feedback within a content area (not page-level).
+
+**Use InlineNotification when:**
+- Feedback relates to a specific section
+- Inline with form content
+- Contextual warnings or info
+
+**Use Banner when:**
+- Page-level announcement
+- Should be at top of page/section
+
+---
+
+### EmptyState
+
+**Use when:** No content to display.
+
+**Guidelines:**
+- Always provide a clear title
+- Description explains why it's empty
+- Action button to resolve (create, import, etc.)
+- Use a relevant icon/illustration
+
+```tsx
+<EmptyState
+  icon={<RiInboxLine />}
+  title="No messages yet"
+  description="When you receive messages, they'll appear here."
+  action={<Button>Compose message</Button>}
+/>
+```
+
+---
+
+### Separator
+
+**Use when:** Visual divider is necessary (rare).
+
+**Orientation:**
+- `horizontal` (default) - Full-width line
+- `vertical` - Height-based line
+
+**Avoid separators. Use spacing instead.** Only use for:
+- Menu group dividers
+- Clear visual breaks in dense UIs
+- Interactive list rows
+
+---
+
+### Kbd
+
+**Use when:** Displaying keyboard shortcuts.
+
+**Guidelines:**
+- Use in tooltips, menus, command palettes
+- Keep shortcuts platform-aware (⌘ for Mac, Ctrl for Windows)
+- Combine multiple Kbd elements for key combos
+
+```tsx
+<Kbd>⌘</Kbd><Kbd>K</Kbd>  {/* Command + K */}
+```
+
+---
+
+### Logo
+
+**Use when:** Displaying brand/service logos consistently.
+
+**Guidelines:**
+- Use within Chip prefixes, menu items, integrations lists
+- Size adapts to context (via prefix components)
+- Don't manually size logos—use prefix components
+
+---
+
 ## Variant Selection Cheatsheet
 
 ### By Visual Hierarchy (highest to lowest)
