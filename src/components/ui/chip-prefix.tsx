@@ -68,24 +68,47 @@ const iconWrapperVariants = cva(
 // Background color classes for emphasized icon types
 const emphasizedBgClass: Record<DecorativeColor | "neutral" | "default", string> = {
   default: "bg-actions-secondary-default",
-  neutral: "bg-neutral-600",
-  red: "bg-surface-decorative-red-strong",
-  orange: "bg-surface-decorative-orange-strong",
-  amber: "bg-surface-decorative-amber-strong",
-  yellow: "bg-surface-decorative-yellow-strong",
-  lime: "bg-surface-decorative-lime-strong",
-  green: "bg-surface-decorative-green-strong",
-  emerald: "bg-surface-decorative-emerald-strong",
-  teal: "bg-surface-decorative-teal-strong",
-  cyan: "bg-surface-decorative-cyan-strong",
-  sky: "bg-surface-decorative-sky-strong",
-  blue: "bg-surface-decorative-blue-strong",
-  indigo: "bg-surface-decorative-indigo-strong",
-  violet: "bg-surface-decorative-violet-strong",
-  purple: "bg-surface-decorative-purple-strong",
-  fuchsia: "bg-surface-decorative-fuchsia-strong",
-  pink: "bg-surface-decorative-pink-strong",
-  rose: "bg-surface-decorative-rose-strong",
+  neutral: "bg-surface-neutral-subtle",
+  red: "bg-surface-decorative-red-subtle",
+  orange: "bg-surface-decorative-orange-subtle",
+  amber: "bg-surface-decorative-amber-subtle",
+  yellow: "bg-surface-decorative-yellow-subtle",
+  lime: "bg-surface-decorative-lime-subtle",
+  green: "bg-surface-decorative-green-subtle",
+  emerald: "bg-surface-decorative-emerald-subtle",
+  teal: "bg-surface-decorative-teal-subtle",
+  cyan: "bg-surface-decorative-cyan-subtle",
+  sky: "bg-surface-decorative-sky-subtle",
+  blue: "bg-surface-decorative-blue-subtle",
+  indigo: "bg-surface-decorative-indigo-subtle",
+  violet: "bg-surface-decorative-violet-subtle",
+  purple: "bg-surface-decorative-purple-subtle",
+  fuchsia: "bg-surface-decorative-fuchsia-subtle",
+  pink: "bg-surface-decorative-pink-subtle",
+  rose: "bg-surface-decorative-rose-subtle",
+}
+
+// Icon color classes for emphasized icon types
+const emphasizedIconClass: Record<DecorativeColor | "neutral" | "default", string> = {
+  default: "text-content-strong",
+  neutral: "text-content-subtle",
+  red: "text-content-decorative-red-subtle",
+  orange: "text-content-decorative-orange-subtle",
+  amber: "text-content-decorative-amber-subtle",
+  yellow: "text-content-decorative-yellow-subtle",
+  lime: "text-content-decorative-lime-subtle",
+  green: "text-content-decorative-green-subtle",
+  emerald: "text-content-decorative-emerald-subtle",
+  teal: "text-content-decorative-teal-subtle",
+  cyan: "text-content-decorative-cyan-subtle",
+  sky: "text-content-decorative-sky-subtle",
+  blue: "text-content-decorative-blue-subtle",
+  indigo: "text-content-decorative-indigo-subtle",
+  violet: "text-content-decorative-violet-subtle",
+  purple: "text-content-decorative-purple-subtle",
+  fuchsia: "text-content-decorative-fuchsia-subtle",
+  pink: "text-content-decorative-pink-subtle",
+  rose: "text-content-decorative-rose-subtle",
 }
 
 type ChipPrefixProps = VariantProps<typeof prefixSizeVariants> & {
@@ -131,9 +154,7 @@ function ChipPrefix({
   // For emphasized icon types
   if (isEmphasized) {
     const bgClass = emphasizedBgClass[emphasizedColor!]
-    const iconColorClass = emphasizedColor !== "default"
-      ? "text-content-inverse-strong"
-      : "text-content-strong"
+    const iconColorClass = emphasizedIconClass[emphasizedColor!]
 
     return (
       <span

@@ -122,32 +122,32 @@ const feedbackSubtleClass = {
 
 const feedbackColoredClass = {
   neutral: "bg-actions-secondary-default border-border-interactive-default",
-  info: "bg-surface-feedback-info-subtle border-border-feedback-info-subtle",
+  info: "bg-surface-feedback-info-muted border-border-feedback-info-subtle",
   warning:
-    "bg-surface-feedback-warning-subtle border-border-feedback-warning-subtle",
-  danger: "bg-surface-feedback-danger-subtle border-border-feedback-danger-subtle",
+    "bg-surface-feedback-warning-muted border-border-feedback-warning-subtle",
+  danger: "bg-surface-feedback-danger-muted border-border-feedback-danger-subtle",
   success:
-    "bg-surface-feedback-success-subtle border-border-feedback-success-subtle",
+    "bg-surface-feedback-success-muted border-border-feedback-success-subtle",
 } as const
 
-const decorativeSurfaceSubtleClass = {
-  red: "bg-surface-decorative-red-subtle",
-  orange: "bg-surface-decorative-orange-subtle",
-  amber: "bg-surface-decorative-amber-subtle",
-  yellow: "bg-surface-decorative-yellow-subtle",
-  lime: "bg-surface-decorative-lime-subtle",
-  green: "bg-surface-decorative-green-subtle",
-  emerald: "bg-surface-decorative-emerald-subtle",
-  teal: "bg-surface-decorative-teal-subtle",
-  cyan: "bg-surface-decorative-cyan-subtle",
-  sky: "bg-surface-decorative-sky-subtle",
-  blue: "bg-surface-decorative-blue-subtle",
-  indigo: "bg-surface-decorative-indigo-subtle",
-  violet: "bg-surface-decorative-violet-subtle",
-  purple: "bg-surface-decorative-purple-subtle",
-  fuchsia: "bg-surface-decorative-fuchsia-subtle",
-  pink: "bg-surface-decorative-pink-subtle",
-  rose: "bg-surface-decorative-rose-subtle",
+const decorativeSurfaceMutedClass = {
+  red: "bg-surface-decorative-red-muted",
+  orange: "bg-surface-decorative-orange-muted",
+  amber: "bg-surface-decorative-amber-muted",
+  yellow: "bg-surface-decorative-yellow-muted",
+  lime: "bg-surface-decorative-lime-muted",
+  green: "bg-surface-decorative-green-muted",
+  emerald: "bg-surface-decorative-emerald-muted",
+  teal: "bg-surface-decorative-teal-muted",
+  cyan: "bg-surface-decorative-cyan-muted",
+  sky: "bg-surface-decorative-sky-muted",
+  blue: "bg-surface-decorative-blue-muted",
+  indigo: "bg-surface-decorative-indigo-muted",
+  violet: "bg-surface-decorative-violet-muted",
+  purple: "bg-surface-decorative-purple-muted",
+  fuchsia: "bg-surface-decorative-fuchsia-muted",
+  pink: "bg-surface-decorative-pink-muted",
+  rose: "bg-surface-decorative-rose-muted",
 } as const
 
 const decorativeBorderSubtleClass = {
@@ -243,7 +243,7 @@ function Badge({
     ? isSemantic
       ? feedbackColoredClass[resolvedVariant]
       : cn(
-          decorativeSurfaceSubtleClass[resolvedVariant],
+          decorativeSurfaceMutedClass[resolvedVariant],
           decorativeBorderSubtleClass[resolvedVariant]
         )
     : ""

@@ -40,8 +40,8 @@ const prefixVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[var(--space-24)]",
-        m: "size-[var(--space-36)]",
+        s: "size-[var(--space-28)]",
+        m: "size-[var(--space-40)]",
       },
     },
     defaultVariants: {
@@ -55,8 +55,8 @@ const iconWrapperVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[var(--space-24)]",
-        m: "size-[var(--space-36)]",
+        s: "size-[var(--space-28)]",
+        m: "size-[var(--space-40)]",
       },
     },
     defaultVariants: {
@@ -68,24 +68,47 @@ const iconWrapperVariants = cva(
 // Background color classes for emphasized icon types
 const emphasizedBgClass: Record<DecorativeColor | "neutral" | "default", string> = {
   default: "bg-actions-secondary-default",
-  neutral: "bg-neutral-600",
-  red: "bg-surface-decorative-red-strong",
-  orange: "bg-surface-decorative-orange-strong",
-  amber: "bg-surface-decorative-amber-strong",
-  yellow: "bg-surface-decorative-yellow-strong",
-  lime: "bg-surface-decorative-lime-strong",
-  green: "bg-surface-decorative-green-strong",
-  emerald: "bg-surface-decorative-emerald-strong",
-  teal: "bg-surface-decorative-teal-strong",
-  cyan: "bg-surface-decorative-cyan-strong",
-  sky: "bg-surface-decorative-sky-strong",
-  blue: "bg-surface-decorative-blue-strong",
-  indigo: "bg-surface-decorative-indigo-strong",
-  violet: "bg-surface-decorative-violet-strong",
-  purple: "bg-surface-decorative-purple-strong",
-  fuchsia: "bg-surface-decorative-fuchsia-strong",
-  pink: "bg-surface-decorative-pink-strong",
-  rose: "bg-surface-decorative-rose-strong",
+  neutral: "bg-surface-neutral-subtle",
+  red: "bg-surface-decorative-red-subtle",
+  orange: "bg-surface-decorative-orange-subtle",
+  amber: "bg-surface-decorative-amber-subtle",
+  yellow: "bg-surface-decorative-yellow-subtle",
+  lime: "bg-surface-decorative-lime-subtle",
+  green: "bg-surface-decorative-green-subtle",
+  emerald: "bg-surface-decorative-emerald-subtle",
+  teal: "bg-surface-decorative-teal-subtle",
+  cyan: "bg-surface-decorative-cyan-subtle",
+  sky: "bg-surface-decorative-sky-subtle",
+  blue: "bg-surface-decorative-blue-subtle",
+  indigo: "bg-surface-decorative-indigo-subtle",
+  violet: "bg-surface-decorative-violet-subtle",
+  purple: "bg-surface-decorative-purple-subtle",
+  fuchsia: "bg-surface-decorative-fuchsia-subtle",
+  pink: "bg-surface-decorative-pink-subtle",
+  rose: "bg-surface-decorative-rose-subtle",
+}
+
+// Icon color classes for emphasized icon types
+const emphasizedIconClass: Record<DecorativeColor | "neutral" | "default", string> = {
+  default: "text-content-strong",
+  neutral: "text-content-subtle",
+  red: "text-content-decorative-red-subtle",
+  orange: "text-content-decorative-orange-subtle",
+  amber: "text-content-decorative-amber-subtle",
+  yellow: "text-content-decorative-yellow-subtle",
+  lime: "text-content-decorative-lime-subtle",
+  green: "text-content-decorative-green-subtle",
+  emerald: "text-content-decorative-emerald-subtle",
+  teal: "text-content-decorative-teal-subtle",
+  cyan: "text-content-decorative-cyan-subtle",
+  sky: "text-content-decorative-sky-subtle",
+  blue: "text-content-decorative-blue-subtle",
+  indigo: "text-content-decorative-indigo-subtle",
+  violet: "text-content-decorative-violet-subtle",
+  purple: "text-content-decorative-purple-subtle",
+  fuchsia: "text-content-decorative-fuchsia-subtle",
+  pink: "text-content-decorative-pink-subtle",
+  rose: "text-content-decorative-rose-subtle",
 }
 
 type SwitchPrefixProps = VariantProps<typeof prefixVariants> & {
@@ -115,8 +138,8 @@ function SwitchPrefix({
   className,
 }: SwitchPrefixProps) {
   const resolvedSize = size ?? "s"
-  const iconSize = resolvedSize === "m" ? 16 : 16
-  const assetSize = resolvedSize === "m" ? 36 : 24
+  const iconSize = resolvedSize === "m" ? 17 : 16
+  const assetSize = resolvedSize === "m" ? 40 : 28
 
   const emphasizedColor = parseEmphasizedColor(type)
   const isEmphasized = emphasizedColor !== null
@@ -128,10 +151,48 @@ function SwitchPrefix({
   if (isIcon) {
     const needsBackground = isEmphasized
     const bgClass = needsBackground ? emphasizedBgClass[emphasizedColor!] : ""
-    const iconColorClass = needsBackground && emphasizedColor !== "default"
-      ? "text-content-inverse-strong"
+    const iconColorClass = needsBackground
+      ? emphasizedIconClass[emphasizedColor!]
       : "text-content-strong"
 
+    // Plain icon - small: tight width, top-aligned; medium: centered in container
+    if (!needsBackground) {
+      if (resolvedSize === "s") {
+        return (
+          <span
+            data-slot="switch-prefix"
+            data-type={type}
+            data-size={resolvedSize}
+            className={cn("flex shrink-0 items-start pt-[2px]", className)}
+            style={{ width: iconSize }}
+          >
+            <span
+              className="flex shrink-0 items-center justify-center text-content-strong [&_svg]:size-full"
+              style={{ width: iconSize, height: iconSize }}
+            >
+              {icon}
+            </span>
+          </span>
+        )
+      }
+      return (
+        <span
+          data-slot="switch-prefix"
+          data-type={type}
+          data-size={resolvedSize}
+          className={cn(iconWrapperVariants({ size: resolvedSize }), className)}
+        >
+          <span
+            className="flex shrink-0 items-center justify-center text-content-strong [&_svg]:size-full"
+            style={{ width: iconSize, height: iconSize }}
+          >
+            {icon}
+          </span>
+        </span>
+      )
+    }
+
+    // Emphasized icon - full container with background
     return (
       <span
         data-slot="switch-prefix"
