@@ -153,7 +153,7 @@ function DateFilterExample() {
                   Date
                 </label>
                 <Input
-                  size="xs"
+                  size="s"
                   type="date"
                   value={tempDate}
                   onChange={(e) => setTempDate(e.target.value)}
