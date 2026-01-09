@@ -21,7 +21,7 @@ import {
 
 export default function ToggleButtonDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Toggle Button</h1>
@@ -31,7 +31,7 @@ export default function ToggleButtonDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { ToggleButton } from "@/components/ui/toggle-button"
 
@@ -44,13 +44,13 @@ export default function ToggleButtonDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Icon Morphing</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With morphing</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Good for different icons
               </p>
             </div>
@@ -76,7 +76,7 @@ export default function ToggleButtonDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Without morphing</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Good for similar icons
               </p>
             </div>
@@ -101,13 +101,13 @@ export default function ToggleButtonDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Label</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With morphing</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Different icons and labels
               </p>
             </div>
@@ -137,7 +137,7 @@ export default function ToggleButtonDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Without morphing</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Similar icons and labels
               </p>
             </div>
@@ -167,13 +167,13 @@ export default function ToggleButtonDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-body-m text-content-strong">XS</p>
-              <p className="text-body-s text-content-subtle">28px height</p>
+              <p className="text-body-m text-content-subtle">28px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleButton
@@ -187,7 +187,7 @@ export default function ToggleButtonDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-body-m text-content-strong">S</p>
-              <p className="text-body-s text-content-subtle">32px height</p>
+              <p className="text-body-m text-content-subtle">32px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleButton
@@ -201,7 +201,7 @@ export default function ToggleButtonDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-body-m text-content-strong">M</p>
-              <p className="text-body-s text-content-subtle">36px height</p>
+              <p className="text-body-m text-content-subtle">36px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleButton
@@ -215,7 +215,7 @@ export default function ToggleButtonDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-body-m text-content-strong">L</p>
-              <p className="text-body-s text-content-subtle">40px height</p>
+              <p className="text-body-m text-content-subtle">40px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleButton
@@ -229,7 +229,7 @@ export default function ToggleButtonDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Variants</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">

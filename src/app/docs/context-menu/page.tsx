@@ -28,7 +28,7 @@ import {
 
 export default function ContextMenuDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Context Menu</h1>
@@ -38,7 +38,7 @@ export default function ContextMenuDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { ContextMenu, MenuItem, MenuSeparator } from "@/components/ui/context-menu"
 
@@ -61,18 +61,18 @@ export default function ContextMenuDocsPage() {
       </section>
 
       {/* Basic Context Menu */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Text only</p>
-              <p className="text-body-s text-content-subtle">Simple menu with text labels</p>
+              <p className="text-body-m text-content-subtle">Simple menu with text labels</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click here
                   </div>
                 </ContextMenu.Trigger>
@@ -94,12 +94,12 @@ export default function ContextMenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With supporting text</p>
-              <p className="text-body-s text-content-subtle">Items with descriptions</p>
+              <p className="text-body-m text-content-subtle">Items with descriptions</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click here
                   </div>
                 </ContextMenu.Trigger>
@@ -119,18 +119,18 @@ export default function ContextMenuDocsPage() {
       </section>
 
       {/* With Icons */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Icon prefix</p>
-              <p className="text-body-s text-content-subtle">Leading icons for actions</p>
+              <p className="text-body-m text-content-subtle">Leading icons for actions</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click here
                   </div>
                 </ContextMenu.Trigger>
@@ -159,18 +159,18 @@ export default function ContextMenuDocsPage() {
       </section>
 
       {/* Browser-style Context Menu */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Browser Style</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Page context menu</p>
-              <p className="text-body-s text-content-subtle">Common browser actions</p>
+              <p className="text-body-m text-content-subtle">Common browser actions</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click here
                   </div>
                 </ContextMenu.Trigger>
@@ -203,18 +203,18 @@ export default function ContextMenuDocsPage() {
       </section>
 
       {/* Groups */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Groups</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With labels</p>
-              <p className="text-body-s text-content-subtle">Organize items into sections</p>
+              <p className="text-body-m text-content-subtle">Organize items into sections</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click here
                   </div>
                 </ContextMenu.Trigger>
@@ -250,18 +250,18 @@ export default function ContextMenuDocsPage() {
       </section>
 
       {/* Submenu */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Submenu</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Nested menu</p>
-              <p className="text-body-s text-content-subtle">For hierarchical navigation</p>
+              <p className="text-body-m text-content-subtle">For hierarchical navigation</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click here
                   </div>
                 </ContextMenu.Trigger>
@@ -325,13 +325,13 @@ export default function ContextMenuDocsPage() {
       </section>
 
       {/* Selection Controls */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Selectable Items</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Checkbox selection</p>
-              <p className="text-body-s text-content-subtle">Multi-select with checkboxes</p>
+              <p className="text-body-m text-content-subtle">Multi-select with checkboxes</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <SelectableCheckboxContextMenu />
@@ -340,7 +340,7 @@ export default function ContextMenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Radio selection</p>
-              <p className="text-body-s text-content-subtle">Single-select with radio buttons</p>
+              <p className="text-body-m text-content-subtle">Single-select with radio buttons</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <SelectableRadioContextMenu />
@@ -350,18 +350,18 @@ export default function ContextMenuDocsPage() {
       </section>
 
       {/* Danger Variant */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Danger Variant</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Destructive actions</p>
-              <p className="text-body-s text-content-subtle">Red color for dangerous operations</p>
+              <p className="text-body-m text-content-subtle">Red color for dangerous operations</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click here
                   </div>
                 </ContextMenu.Trigger>
@@ -391,18 +391,18 @@ export default function ContextMenuDocsPage() {
       </section>
 
       {/* States */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled items</p>
-              <p className="text-body-s text-content-subtle">Non-interactive items</p>
+              <p className="text-body-m text-content-subtle">Non-interactive items</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click here
                   </div>
                 </ContextMenu.Trigger>
@@ -454,7 +454,7 @@ function SelectableCheckboxContextMenu() {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+        <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
           Right click here
         </div>
       </ContextMenu.Trigger>
@@ -499,7 +499,7 @@ function SelectableRadioContextMenu() {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-s text-content-subtle">
+        <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
           Right click here
         </div>
       </ContextMenu.Trigger>

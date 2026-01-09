@@ -5,7 +5,7 @@ import { Kbd, KbdGroup } from "@/components/ui/kbd"
 
 export default function KbdDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Kbd</h1>
@@ -15,7 +15,7 @@ export default function KbdDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Kbd, KbdGroup } from "@/components/ui/kbd"
 
@@ -31,7 +31,7 @@ export default function KbdDocsPage() {
       </section>
 
       {/* Tertiary Variant */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Tertiary</h2>
           <p className="text-body-m text-content-subtle">
@@ -42,7 +42,7 @@ export default function KbdDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Single key</p>
-              <p className="text-body-s text-content-subtle">Individual keyboard key</p>
+              <p className="text-body-m text-content-subtle">Individual keyboard key</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <div className="flex items-center justify-center rounded-[var(--radius-12)] border border-border-muted bg-surface-canvas p-[var(--space-24)]">
@@ -58,7 +58,7 @@ export default function KbdDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Key combinations</p>
-              <p className="text-body-s text-content-subtle">Multiple keys grouped together</p>
+              <p className="text-body-m text-content-subtle">Multiple keys grouped together</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <div className="flex items-center justify-center rounded-[var(--radius-12)] border border-border-muted bg-surface-canvas p-[var(--space-24)]">
@@ -74,7 +74,7 @@ export default function KbdDocsPage() {
       </section>
 
       {/* Inverted Variant */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Inverted</h2>
           <p className="text-body-m text-content-subtle">
@@ -85,7 +85,7 @@ export default function KbdDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Single key</p>
-              <p className="text-body-s text-content-subtle">Individual keyboard key</p>
+              <p className="text-body-m text-content-subtle">Individual keyboard key</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <div className="flex items-center justify-center rounded-[var(--radius-12)] bg-surface-inverse p-[var(--space-24)]">
@@ -101,7 +101,7 @@ export default function KbdDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Key combinations</p>
-              <p className="text-body-s text-content-subtle">Multiple keys grouped together</p>
+              <p className="text-body-m text-content-subtle">Multiple keys grouped together</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <div className="flex items-center justify-center rounded-[var(--radius-12)] bg-surface-inverse p-[var(--space-24)]">

@@ -35,7 +35,7 @@ export default function DialogDocsPage() {
   const [dnd, setDnd] = React.useState(false)
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Dialog</h1>
@@ -45,7 +45,7 @@ export default function DialogDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Dialog } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -74,13 +74,13 @@ import { Button } from "@/components/ui/button"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Simple dialog</p>
-              <p className="text-body-s text-content-subtle">Header with close button</p>
+              <p className="text-body-m text-content-subtle">Header with close button</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={basicOpen} onOpenChange={setBasicOpen}>
@@ -113,7 +113,7 @@ import { Button } from "@/components/ui/button"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Position</h2>
         <p className="text-body-m text-content-subtle">
           Use the <code className="rounded bg-surface-muted px-[var(--space-4)] py-[var(--space-2)] text-body-s">position</code> prop to change the dialog placement and animation.
@@ -122,7 +122,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Right panel</p>
-              <p className="text-body-s text-content-subtle">Slides in from right</p>
+              <p className="text-body-m text-content-subtle">Slides in from right</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={rightOpen} onOpenChange={setRightOpen}>
@@ -156,7 +156,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Bottom sheet</p>
-              <p className="text-body-s text-content-subtle">Slides up from bottom</p>
+              <p className="text-body-m text-content-subtle">Slides up from bottom</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={sheetOpen} onOpenChange={setSheetOpen}>
@@ -189,13 +189,13 @@ import { Button } from "@/components/ui/button"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Account Settings</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Complex form</p>
-              <p className="text-body-s text-content-subtle">Input, InputGroup, CheckboxGroup, Switch</p>
+              <p className="text-body-m text-content-subtle">Input, InputGroup, CheckboxGroup, Switch</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={accountOpen} onOpenChange={setAccountOpen}>
@@ -302,7 +302,7 @@ import { Button } from "@/components/ui/button"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Nested Dialog</h2>
         <p className="text-body-m text-content-subtle">
           When a nested dialog opens, the parent dialog scales down and dims slightly to create visual depth.
@@ -311,7 +311,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Dialog in dialog</p>
-              <p className="text-body-s text-content-subtle">Parent scales when child opens</p>
+              <p className="text-body-m text-content-subtle">Parent scales when child opens</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={nestedOpen} onOpenChange={setNestedOpen}>

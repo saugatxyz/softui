@@ -7,7 +7,7 @@ import { SwitchControl } from "@/components/ui/switch-control"
 
 export default function SwitchDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Switch</h1>
@@ -17,7 +17,7 @@ export default function SwitchDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Switch } from "@/components/ui/switch"
 import { SwitchControl } from "@/components/ui/switch-control"
@@ -31,10 +31,10 @@ import { SwitchControl } from "@/components/ui/switch-control"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Switch Control</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             The core toggle indicator without label or description.
           </p>
         </div>
@@ -42,7 +42,7 @@ import { SwitchControl } from "@/components/ui/switch-control"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Default</p>
-              <p className="text-body-s text-content-subtle">Click to toggle</p>
+              <p className="text-body-m text-content-subtle">Click to toggle</p>
             </div>
             <div className="flex items-center gap-[var(--space-24)]">
               <SwitchControl />
@@ -61,10 +61,10 @@ import { SwitchControl } from "@/components/ui/switch-control"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">With Label</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Switch with an associated label for better accessibility.
           </p>
         </div>
@@ -87,10 +87,10 @@ import { SwitchControl } from "@/components/ui/switch-control"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Position</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Switch can be positioned on the left or right of the label.
           </p>
         </div>
@@ -118,10 +118,10 @@ import { SwitchControl } from "@/components/ui/switch-control"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Card Variant</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Switch displayed inside a card container for prominence.
           </p>
         </div>

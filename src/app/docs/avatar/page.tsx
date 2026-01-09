@@ -26,7 +26,7 @@ const sampleAvatars = [
 
 export default function AvatarDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Avatar</h1>
@@ -37,7 +37,7 @@ export default function AvatarDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Avatar } from "@/components/ui/avatar"
 import { AvatarGroup } from "@/components/ui/avatar-group"
@@ -59,10 +59,10 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Types</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Avatar supports image, initials, and icon fallback types.
           </p>
         </div>
@@ -70,7 +70,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Image</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 User photo or profile picture
               </p>
             </div>
@@ -92,7 +92,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Initials</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Two-letter initials fallback
               </p>
             </div>
@@ -104,7 +104,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Icon</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Generic user icon fallback
               </p>
             </div>
@@ -116,10 +116,10 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Sizes</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Five sizes available from 2XS to L.
           </p>
         </div>
@@ -131,7 +131,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
             >
               <div>
                 <p className="text-body-m text-content-strong">{size.label}</p>
-                <p className="text-body-s text-content-subtle">
+                <p className="text-body-m text-content-subtle">
                   {size.size}px
                 </p>
               </div>
@@ -155,10 +155,10 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Shapes</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Circular or square shape options.
           </p>
         </div>
@@ -198,10 +198,10 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Colors</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Avatars can be emphasized with colors.
           </p>
         </div>
@@ -209,7 +209,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Initials</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Colored initials fallback
               </p>
             </div>
@@ -230,7 +230,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Icon</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Colored icon fallback
               </p>
             </div>
@@ -249,10 +249,10 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Avatar Group</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Stack multiple avatars with automatic overflow count.
           </p>
         </div>
@@ -264,7 +264,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
             >
               <div>
                 <p className="text-body-m text-content-strong">{size.label}</p>
-                <p className="text-body-s text-content-subtle">{size.size}px</p>
+                <p className="text-body-m text-content-subtle">{size.size}px</p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-16)]">
                 <AvatarGroup size={size.value} shape="circular" max={4}>

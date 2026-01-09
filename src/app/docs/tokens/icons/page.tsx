@@ -97,7 +97,7 @@ export default function TokensIconsPage() {
   }, [copiedName])
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-16)] md:flex-row md:items-end md:justify-between">
           <div className="flex flex-col gap-[var(--space-12)]">
@@ -155,7 +155,7 @@ export default function TokensIconsPage() {
                 </p>
               </div>
             </div>
-            <footer className="pt-[var(--space-24)] text-body-s text-content-subtle">
+            <footer className="pt-[var(--space-24)] text-body-m text-content-subtle">
               Remix Icon by Remix Design, licensed under Apache-2.0.{" "}
               <a
                 className="text-content-link-default hover:text-content-link-hover"
@@ -249,7 +249,7 @@ export default function TokensIconsPage() {
       </section>
 
       {showEmptyState ? null : (
-        <footer className="text-body-s text-content-subtle">
+        <footer className="text-body-m text-content-subtle">
           Remix Icon by Remix Design, licensed under Apache-2.0.{" "}
           <a
             className="text-content-link-default hover:text-content-link-hover"

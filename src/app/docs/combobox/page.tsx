@@ -337,7 +337,7 @@ function SearchableSelect({
 
 export default function ComboboxDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <h1 className="text-body-3xl-semibold">Combobox</h1>
         <p className="max-w-2xl text-body-l text-content-subtle">
@@ -345,7 +345,7 @@ export default function ComboboxDocsPage() {
         </p>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
 import { Field } from "@/components/ui/field"
@@ -386,13 +386,13 @@ const groups = [
       </section>
 
       {/* Basic */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Default</p>
-              <p className="text-body-s text-content-subtle">Type to filter options</p>
+              <p className="text-body-m text-content-subtle">Type to filter options</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox options={fruits} placeholder="Search fruits..." />
@@ -401,7 +401,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With default value</p>
-              <p className="text-body-s text-content-subtle">Pre-selected option</p>
+              <p className="text-body-m text-content-subtle">Pre-selected option</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox options={fruits} defaultValue={{ value: "apple", label: "Apple" }} />
@@ -410,7 +410,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Clearable</p>
-              <p className="text-body-s text-content-subtle">With clear button</p>
+              <p className="text-body-m text-content-subtle">With clear button</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox options={fruits} defaultValue={{ value: "banana", label: "Banana" }} clearable />
@@ -420,13 +420,13 @@ const groups = [
       </section>
 
       {/* Sizes */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Small (32px)</p>
-              <p className="text-body-s text-content-subtle">Compact areas</p>
+              <p className="text-body-m text-content-subtle">Compact areas</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox size="s" options={fruits} placeholder="Search..." />
@@ -435,7 +435,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Medium (36px)</p>
-              <p className="text-body-s text-content-subtle">Default size</p>
+              <p className="text-body-m text-content-subtle">Default size</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox size="m" options={fruits} placeholder="Search..." />
@@ -444,7 +444,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Large (40px)</p>
-              <p className="text-body-s text-content-subtle">Touch targets</p>
+              <p className="text-body-m text-content-subtle">Touch targets</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox size="l" options={fruits} placeholder="Search..." />
@@ -454,13 +454,13 @@ const groups = [
       </section>
 
       {/* With Icons */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Leading icon</p>
-              <p className="text-body-s text-content-subtle">Icon in trigger</p>
+              <p className="text-body-m text-content-subtle">Icon in trigger</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox
@@ -473,7 +473,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Option icons</p>
-              <p className="text-body-s text-content-subtle">Icons in dropdown items</p>
+              <p className="text-body-m text-content-subtle">Icons in dropdown items</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox
@@ -485,7 +485,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Danger icon</p>
-              <p className="text-body-s text-content-subtle">Destructive action indicator</p>
+              <p className="text-body-m text-content-subtle">Destructive action indicator</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox
@@ -497,7 +497,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Avatars</p>
-              <p className="text-body-s text-content-subtle">User photos in options</p>
+              <p className="text-body-m text-content-subtle">User photos in options</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox
@@ -509,7 +509,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Crypto tokens</p>
-              <p className="text-body-s text-content-subtle">Cryptocurrency icons</p>
+              <p className="text-body-m text-content-subtle">Cryptocurrency icons</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox
@@ -521,7 +521,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Company logos</p>
-              <p className="text-body-s text-content-subtle">Brand icons in options</p>
+              <p className="text-body-m text-content-subtle">Brand icons in options</p>
             </div>
             <div className="w-full max-w-sm">
               <Combobox
@@ -534,13 +534,13 @@ const groups = [
       </section>
 
       {/* With Descriptions */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Descriptions</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Text only</p>
-              <p className="text-body-s text-content-subtle">Options with secondary text</p>
+              <p className="text-body-m text-content-subtle">Options with secondary text</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Plan">
@@ -554,7 +554,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With icons</p>
-              <p className="text-body-s text-content-subtle">Icons paired with descriptions</p>
+              <p className="text-body-m text-content-subtle">Icons paired with descriptions</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Notification channel">
@@ -568,7 +568,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With avatars</p>
-              <p className="text-body-s text-content-subtle">Team members with roles</p>
+              <p className="text-body-m text-content-subtle">Team members with roles</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Assign to">
@@ -582,7 +582,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Multi-select</p>
-              <p className="text-body-s text-content-subtle">Multiple options with descriptions</p>
+              <p className="text-body-m text-content-subtle">Multiple options with descriptions</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Permissions">
@@ -598,13 +598,13 @@ const groups = [
       </section>
 
       {/* Multiple Selection */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Multiple Selection</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Multi-select</p>
-              <p className="text-body-s text-content-subtle">Select multiple options with chips</p>
+              <p className="text-body-m text-content-subtle">Select multiple options with chips</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Features">
@@ -619,7 +619,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With default values</p>
-              <p className="text-body-s text-content-subtle">Pre-selected options</p>
+              <p className="text-body-m text-content-subtle">Pre-selected options</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Tags">
@@ -636,13 +636,13 @@ const groups = [
       </section>
 
       {/* With Field */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label only</p>
-              <p className="text-body-s text-content-subtle">Simple field label</p>
+              <p className="text-body-m text-content-subtle">Simple field label</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country">
@@ -656,7 +656,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label + description</p>
-              <p className="text-body-s text-content-subtle">Additional context</p>
+              <p className="text-body-m text-content-subtle">Additional context</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" description="Where is your business located?">
@@ -671,13 +671,13 @@ const groups = [
       </section>
 
       {/* States */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled</p>
-              <p className="text-body-s text-content-subtle">Non-interactive</p>
+              <p className="text-body-m text-content-subtle">Non-interactive</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Fruit" disabled>
@@ -692,7 +692,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled option</p>
-              <p className="text-body-s text-content-subtle">Individual option unavailable</p>
+              <p className="text-body-m text-content-subtle">Individual option unavailable</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Status">
@@ -706,7 +706,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Error</p>
-              <p className="text-body-s text-content-subtle">Validation error</p>
+              <p className="text-body-m text-content-subtle">Validation error</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" error="Country is required">
@@ -721,13 +721,13 @@ const groups = [
       </section>
 
       {/* Grouped */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Grouped</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Single select</p>
-              <p className="text-body-s text-content-subtle">Options organized by category</p>
+              <p className="text-body-m text-content-subtle">Options organized by category</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Assign to">
@@ -741,7 +741,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Multi-select grouped</p>
-              <p className="text-body-s text-content-subtle">Select from multiple groups</p>
+              <p className="text-body-m text-content-subtle">Select from multiple groups</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Markets">
@@ -757,7 +757,7 @@ const groups = [
       </section>
 
       {/* Input Inside Popup */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Input Inside Popup</h2>
         <p className="text-body-m text-content-subtle">
           A searchable select pattern where the input appears inside the popup, similar to a native select with search.
@@ -766,7 +766,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Searchable select</p>
-              <p className="text-body-s text-content-subtle">Click to open, then search</p>
+              <p className="text-body-m text-content-subtle">Click to open, then search</p>
             </div>
             <div className="w-full max-w-sm">
               <SearchableSelect
@@ -778,7 +778,7 @@ const groups = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With default value</p>
-              <p className="text-body-s text-content-subtle">Pre-selected option</p>
+              <p className="text-body-m text-content-subtle">Pre-selected option</p>
             </div>
             <div className="w-full max-w-sm">
               <SearchableSelect

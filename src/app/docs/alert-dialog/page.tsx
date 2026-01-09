@@ -19,7 +19,7 @@ export default function AlertDialogDocsPage() {
   const [simpleOpen, setSimpleOpen] = React.useState(false)
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Alert Dialog</h1>
@@ -29,7 +29,7 @@ export default function AlertDialogDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { AlertDialog } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
@@ -56,13 +56,13 @@ import { Spam2FillIcon } from "@/icons"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Simple confirmation</p>
-              <p className="text-body-s text-content-subtle">Title and description only</p>
+              <p className="text-body-m text-content-subtle">Title and description only</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <AlertDialog.Root open={simpleOpen} onOpenChange={setSimpleOpen}>
@@ -90,13 +90,13 @@ import { Spam2FillIcon } from "@/icons"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icon</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Danger action</p>
-              <p className="text-body-s text-content-subtle">Destructive confirmation</p>
+              <p className="text-body-m text-content-subtle">Destructive confirmation</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <AlertDialog.Root open={deleteOpen} onOpenChange={setDeleteOpen}>
@@ -124,7 +124,7 @@ import { Spam2FillIcon } from "@/icons"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Warning action</p>
-              <p className="text-body-s text-content-subtle">Caution before proceeding</p>
+              <p className="text-body-m text-content-subtle">Caution before proceeding</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <AlertDialog.Root open={warningOpen} onOpenChange={setWarningOpen}>
@@ -152,7 +152,7 @@ import { Spam2FillIcon } from "@/icons"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Logout confirmation</p>
-              <p className="text-body-s text-content-subtle">Default icon tone</p>
+              <p className="text-body-m text-content-subtle">Default icon tone</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <AlertDialog.Root open={logoutOpen} onOpenChange={setLogoutOpen}>
@@ -180,13 +180,13 @@ import { Spam2FillIcon } from "@/icons"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Icon Tones</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Available tones</p>
-              <p className="text-body-s text-content-subtle">default, danger, warning, info, success</p>
+              <p className="text-body-m text-content-subtle">default, danger, warning, info, success</p>
             </div>
             <div className="flex w-full max-w-sm justify-end gap-[var(--space-16)]">
               {([

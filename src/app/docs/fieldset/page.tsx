@@ -21,7 +21,7 @@ const states = [
 
 export default function FieldsetDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Fieldset</h1>
@@ -31,7 +31,7 @@ export default function FieldsetDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Fieldset } from "@/components/ui/fieldset"
 import { Field } from "@/components/ui/field"
@@ -49,13 +49,13 @@ import { Input } from "@/components/ui/input"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With legend</p>
-              <p className="text-body-s text-content-subtle">Accessible group label</p>
+              <p className="text-body-m text-content-subtle">Accessible group label</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Fieldset>
@@ -75,13 +75,13 @@ import { Input } from "@/components/ui/input"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Multiple Fieldsets</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Form sections</p>
-              <p className="text-body-s text-content-subtle">Organizing complex forms</p>
+              <p className="text-body-m text-content-subtle">Organizing complex forms</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-32)]">
               <Fieldset>
@@ -129,13 +129,13 @@ import { Input } from "@/components/ui/input"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Without Legend</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Semantic grouping</p>
-              <p className="text-body-s text-content-subtle">For visual organization</p>
+              <p className="text-body-m text-content-subtle">For visual organization</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Fieldset>

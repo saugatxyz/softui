@@ -31,7 +31,7 @@ export default function FormDocsPage() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Form</h1>
@@ -41,7 +41,7 @@ export default function FormDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Form } from "@/components/ui/form"
 import { Field } from "@/components/ui/field"
@@ -71,13 +71,13 @@ import { Button } from "@/components/ui/button"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Simple form</p>
-              <p className="text-body-s text-content-subtle">Basic form with fields</p>
+              <p className="text-body-m text-content-subtle">Basic form with fields</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form onFormSubmit={(values) => console.log(values)}>
@@ -94,13 +94,13 @@ import { Button } from "@/components/ui/button"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Fieldset</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Grouped fields</p>
-              <p className="text-body-s text-content-subtle">Using Fieldset for sections</p>
+              <p className="text-body-m text-content-subtle">Using Fieldset for sections</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form>
@@ -129,13 +129,13 @@ import { Button } from "@/components/ui/button"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Errors</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Server validation</p>
-              <p className="text-body-s text-content-subtle">Errors from external source</p>
+              <p className="text-body-m text-content-subtle">Errors from external source</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form errors={errors} onFormSubmit={handleSubmit}>
@@ -152,13 +152,13 @@ import { Button } from "@/components/ui/button"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Validation Modes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">onSubmit</p>
-              <p className="text-body-s text-content-subtle">Default, validates on submit</p>
+              <p className="text-body-m text-content-subtle">Default, validates on submit</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onSubmit">
@@ -172,7 +172,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">onBlur</p>
-              <p className="text-body-s text-content-subtle">Validates when field loses focus</p>
+              <p className="text-body-m text-content-subtle">Validates when field loses focus</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onBlur">
@@ -186,7 +186,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">onChange</p>
-              <p className="text-body-s text-content-subtle">Validates on every change</p>
+              <p className="text-body-m text-content-subtle">Validates on every change</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onChange">

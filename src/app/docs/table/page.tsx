@@ -2,104 +2,468 @@
 
 import * as React from "react"
 import {
-  RiEditLine,
-  RiDeleteBinLine,
-  RiCheckboxCircleLine,
-  RiFileTextLine,
-  RiImageLine,
-  RiVideoLine,
-  RiMusicLine,
-  RiCodeLine,
-  RiArrowUpLine,
-  RiArrowDownLine,
+  RiCheckboxCircleFill,
+  RiMoreLine,
+  RiArrowRightUpBoxFill,
+  RiArrowRightDownBoxFill,
+  RiGitBranchLine,
+  RiExternalLinkLine,
+  RiMailLine,
+  RiFlag2Fill,
+  RiCircleLine,
+  RiLoader4Line,
+  RiErrorWarningFill,
 } from "@remixicon/react"
 import { CodeBlock } from "@/components/docs/code-block"
 import { Table, type SortDirection } from "@/components/ui/table"
 import { IconButton } from "@/components/ui/icon-button"
-import { Crypto, type CryptoType } from "@/components/ui/crypto"
-import { Logo, type LogoType } from "@/components/ui/logo"
+import { Avatar } from "@/components/ui/avatar"
+import { type LogoType } from "@/components/ui/logo"
+import { type CryptoType } from "@/components/ui/crypto"
 
-// Sample data
-const users = [
-  { id: 1, name: "Olivia Martin", email: "olivia@example.com", role: "Admin", status: "active", amount: 1250.0, progress: 100, avatar: "/avatars/avatar-1.png" },
-  { id: 2, name: "Jackson Lee", email: "jackson@example.com", role: "Editor", status: "review", amount: 890.5, progress: 75, avatar: "/avatars/avatar-2.png" },
-  { id: 3, name: "Isabella Nguyen", email: "isabella@example.com", role: "Viewer", status: "pending", amount: 450.0, progress: 45, avatar: "/avatars/avatar-3.png" },
-  { id: 4, name: "William Kim", email: "william@example.com", role: "Editor", status: "inactive", amount: 2100.75, progress: 90, avatar: "/avatars/avatar-4.png" },
-  { id: 5, name: "Sofia Davis", email: "sofia@example.com", role: "Admin", status: "active", amount: 1800.25, progress: 25, avatar: "/avatars/avatar-5.png" },
+// =============================================================================
+// Team Directory Data
+// =============================================================================
+
+const teamMembers = [
+  {
+    id: 1,
+    name: "Sarah Chen",
+    email: "sarah.chen@company.com",
+    role: "Engineering Lead",
+    department: "Engineering",
+    status: "active",
+    startDate: "Mar 2022",
+    avatar: "/avatars/avatar-1.png",
+  },
+  {
+    id: 2,
+    name: "Marcus Johnson",
+    email: "marcus.j@company.com",
+    role: "Senior Designer",
+    department: "Design",
+    status: "active",
+    startDate: "Aug 2023",
+    avatar: "/avatars/avatar-2.png",
+  },
+  {
+    id: 3,
+    name: "Emily Rodriguez",
+    email: "emily.r@company.com",
+    role: "Product Manager",
+    department: "Product",
+    status: "away",
+    startDate: "Jan 2024",
+    avatar: "/avatars/avatar-3.png",
+  },
+  {
+    id: 4,
+    name: "David Kim",
+    email: "david.kim@company.com",
+    role: "Backend Engineer",
+    department: "Engineering",
+    status: "active",
+    startDate: "Nov 2023",
+    avatar: "/avatars/avatar-4.png",
+  },
+  {
+    id: 5,
+    name: "Olivia Thompson",
+    email: "olivia.t@company.com",
+    role: "Marketing Lead",
+    department: "Marketing",
+    status: "offline",
+    startDate: "Jun 2021",
+    avatar: "/avatars/avatar-5.png",
+  },
 ]
 
-const statusConfig = {
-  active: { label: "Active", variant: "success" },
-  review: { label: "In Review", variant: "info" },
-  pending: { label: "Pending", variant: "warning" },
-  inactive: { label: "Inactive", variant: "neutral" },
-} as const
+const teamStatusConfig = {
+  active: { label: "Active", variant: "success" as const },
+  away: { label: "Away", variant: "warning" as const },
+  offline: { label: "Offline", variant: "neutral" as const },
+}
 
-// Task management data
+// =============================================================================
+// Customer Accounts Data (B2B SaaS)
+// =============================================================================
+
+const customers: Array<{
+  id: number
+  logo: LogoType
+  name: string
+  plan: string
+  mrr: number
+  seats: number
+  health: "healthy" | "at-risk" | "churning"
+  lastActive: string
+}> = [
+  { id: 1, logo: "linear", name: "Linear", plan: "Enterprise", mrr: 4500, seats: 48, health: "healthy", lastActive: "2 hours ago" },
+  { id: 2, logo: "framer", name: "Framer", plan: "Business", mrr: 1200, seats: 15, health: "healthy", lastActive: "5 mins ago" },
+  { id: 3, logo: "discord", name: "Discord", plan: "Enterprise", mrr: 8900, seats: 120, health: "at-risk", lastActive: "3 days ago" },
+  { id: 4, logo: "loom", name: "Loom", plan: "Business", mrr: 890, seats: 12, health: "healthy", lastActive: "1 hour ago" },
+  { id: 5, logo: "replit", name: "Replit", plan: "Startup", mrr: 299, seats: 5, health: "churning", lastActive: "2 weeks ago" },
+]
+
+const healthConfig = {
+  healthy: { label: "Healthy", variant: "success" as const },
+  "at-risk": { label: "At Risk", variant: "warning" as const },
+  churning: { label: "Churning", variant: "danger" as const },
+}
+
+// =============================================================================
+// Transactions Data (Stripe-style)
+// =============================================================================
+
+const transactions = [
+  { id: "pi_3Ox2K...", customer: "Acme Corp", email: "billing@acme.co", amount: 2499.00, status: "succeeded", method: "Visa •••• 4242", date: "Jan 8, 2025" },
+  { id: "pi_3Ox1J...", customer: "TechStart Inc", email: "ap@techstart.io", amount: 899.00, status: "succeeded", method: "Mastercard •••• 5555", date: "Jan 8, 2025" },
+  { id: "pi_3Ox0H...", customer: "Global Systems", email: "finance@global.sys", amount: 4999.00, status: "pending", method: "ACH Transfer", date: "Jan 7, 2025" },
+  { id: "pi_3Owz9...", customer: "StartupXYZ", email: "team@startupxyz.com", amount: 149.00, status: "failed", method: "Visa •••• 1234", date: "Jan 7, 2025" },
+  { id: "pi_3Owy8...", customer: "Enterprise Ltd", email: "accounts@ent.ltd", amount: 12500.00, status: "succeeded", method: "Wire Transfer", date: "Jan 6, 2025" },
+]
+
+const paymentStatusConfig = {
+  succeeded: { label: "Succeeded", variant: "success" as const },
+  pending: { label: "Pending", variant: "warning" as const },
+  failed: { label: "Failed", variant: "danger" as const },
+}
+
+// =============================================================================
+// Project Tasks Data (Linear-style)
+// =============================================================================
+
 const tasks = [
-  { id: 1, title: "Design system documentation", description: "Write component guidelines", status: "done", priority: "high", assignee: "Olivia", dueDate: "Jan 15" },
-  { id: 2, title: "API integration", description: "Connect to backend services", status: "in-progress", priority: "high", assignee: "Jackson", dueDate: "Jan 18" },
-  { id: 3, title: "User testing", description: "Conduct usability studies", status: "todo", priority: "medium", assignee: "Isabella", dueDate: "Jan 22" },
-  { id: 4, title: "Performance optimization", description: "Improve load times", status: "in-progress", priority: "low", assignee: "William", dueDate: "Jan 25" },
-  { id: 5, title: "Mobile responsiveness", description: "Fix layout issues on mobile", status: "blocked", priority: "high", assignee: "Sofia", dueDate: "Jan 20" },
+  {
+    id: "ENG-1842",
+    title: "Implement OAuth2 PKCE flow for mobile apps",
+    status: "in-progress",
+    priority: "high",
+    assignee: { name: "Sarah C.", avatar: "/avatars/avatar-1.png" },
+    dueDate: "Jan 12",
+  },
+  {
+    id: "ENG-1841",
+    title: "Fix memory leak in WebSocket connection handler",
+    status: "in-progress",
+    priority: "urgent",
+    assignee: { name: "David K.", avatar: "/avatars/avatar-4.png" },
+    dueDate: "Jan 9",
+  },
+  {
+    id: "ENG-1840",
+    title: "Add rate limiting to public API endpoints",
+    status: "todo",
+    priority: "medium",
+    assignee: { name: "Marcus J.", avatar: "/avatars/avatar-2.png" },
+    dueDate: "Jan 15",
+  },
+  {
+    id: "ENG-1839",
+    title: "Update dependencies to fix security vulnerabilities",
+    status: "done",
+    priority: "high",
+    assignee: { name: "Emily R.", avatar: "/avatars/avatar-3.png" },
+    dueDate: "Jan 5",
+  },
+  {
+    id: "ENG-1838",
+    title: "Optimize database queries for dashboard loading",
+    status: "todo",
+    priority: "low",
+    assignee: { name: "Olivia T.", avatar: "/avatars/avatar-5.png" },
+    dueDate: "Jan 20",
+  },
 ]
 
 const taskStatusConfig = {
-  "done": { label: "Done", variant: "success" },
-  "in-progress": { label: "In Progress", variant: "info" },
-  "todo": { label: "To Do", variant: "neutral" },
-  "blocked": { label: "Blocked", variant: "danger" },
-} as const
+  "todo": { label: "Todo", variant: "neutral" as const, icon: RiCircleLine },
+  "in-progress": { label: "In Progress", variant: "info" as const, icon: RiLoader4Line },
+  "done": { label: "Done", variant: "success" as const, icon: RiCheckboxCircleFill },
+}
 
 const priorityConfig = {
-  high: { label: "High", variant: "danger" },
-  medium: { label: "Medium", variant: "warning" },
-  low: { label: "Low", variant: "neutral" },
-} as const
+  urgent: { label: "Urgent" },
+  high: { label: "High" },
+  medium: { label: "Medium" },
+  low: { label: "Low" },
+}
 
-// Files data with icon prefixes
-const files = [
-  { id: 1, name: "Project Brief.pdf", type: "document", size: "2.4 MB", modified: "Jan 12, 2025", icon: RiFileTextLine },
-  { id: 2, name: "Hero Banner.png", type: "image", size: "4.8 MB", modified: "Jan 11, 2025", icon: RiImageLine },
-  { id: 3, name: "Product Demo.mp4", type: "video", size: "128 MB", modified: "Jan 10, 2025", icon: RiVideoLine },
-  { id: 4, name: "Background Music.mp3", type: "audio", size: "8.2 MB", modified: "Jan 9, 2025", icon: RiMusicLine },
-  { id: 5, name: "utils.ts", type: "code", size: "12 KB", modified: "Jan 8, 2025", icon: RiCodeLine },
+// =============================================================================
+// Crypto Portfolio Data
+// =============================================================================
+
+const portfolio: Array<{
+  id: number
+  crypto: CryptoType
+  symbol: string
+  name: string
+  holdings: number
+  avgCost: number
+  currentPrice: number
+  change24h: number
+}> = [
+  { id: 1, crypto: "btc", symbol: "BTC", name: "Bitcoin", holdings: 0.8542, avgCost: 42150, currentPrice: 97284.50, change24h: 2.34 },
+  { id: 2, crypto: "eth", symbol: "ETH", name: "Ethereum", holdings: 12.5, avgCost: 2180, currentPrice: 3421.80, change24h: -1.25 },
+  { id: 3, crypto: "sol", symbol: "SOL", name: "Solana", holdings: 145.0, avgCost: 85, currentPrice: 198.45, change24h: 5.67 },
+  { id: 4, crypto: "link", symbol: "LINK", name: "Chainlink", holdings: 500.0, avgCost: 15.50, currentPrice: 22.18, change24h: -0.89 },
+  { id: 5, crypto: "usdc", symbol: "USDC", name: "USD Coin", holdings: 10000.0, avgCost: 1.00, currentPrice: 1.00, change24h: 0.00 },
 ]
 
-const fileTypeColors = {
-  document: "text-content-decorative-red-strong",
-  image: "text-content-decorative-purple-strong",
-  video: "text-content-decorative-blue-strong",
-  audio: "text-content-decorative-amber-strong",
-  code: "text-content-decorative-green-strong",
-} as const
+// =============================================================================
+// Deployments Data (Vercel-style)
+// =============================================================================
 
-// Crypto data
-const cryptoAssets: Array<{ id: number; crypto: CryptoType; symbol: string; name: string; price: number; change: number; holdings: number; value: number }> = [
-  { id: 1, crypto: "btc", symbol: "BTC", name: "Bitcoin", price: 97284.50, change: 2.34, holdings: 0.5234, value: 50918.12 },
-  { id: 2, crypto: "eth", symbol: "ETH", name: "Ethereum", price: 3421.80, change: -1.25, holdings: 4.2100, value: 14405.78 },
-  { id: 3, crypto: "sol", symbol: "SOL", name: "Solana", price: 198.45, change: 5.67, holdings: 25.0000, value: 4961.25 },
-  { id: 4, crypto: "link", symbol: "LINK", name: "Chainlink", price: 42.18, change: -0.89, holdings: 100.0000, value: 4218.00 },
-  { id: 5, crypto: "usdc", symbol: "USDC", name: "USD Coin", price: 1.00, change: 0.01, holdings: 2617.0000, value: 2617.00 },
+const deployments = [
+  { id: 1, commit: "feat: add dark mode toggle", branch: "main", status: "ready", environment: "Production", time: "2m ago", url: "app.example.com" },
+  { id: 2, commit: "fix: resolve auth redirect loop", branch: "main", status: "ready", environment: "Production", time: "1h ago", url: "app.example.com" },
+  { id: 3, commit: "wip: new onboarding flow", branch: "feature/onboarding", status: "building", environment: "Preview", time: "5m ago", url: "onboarding-abc123.example.com" },
+  { id: 4, commit: "chore: update deps", branch: "chore/deps", status: "error", environment: "Preview", time: "15m ago", url: null },
+  { id: 5, commit: "refactor: extract auth module", branch: "refactor/auth", status: "ready", environment: "Preview", time: "3h ago", url: "auth-def456.example.com" },
 ]
 
-// Company data
-const companies: Array<{ id: number; logo: LogoType; name: string; industry: string; revenue: string; employees: string; status: string }> = [
-  { id: 1, logo: "linear", name: "Linear", industry: "Project Management", revenue: "$50M", employees: "100+", status: "active" },
-  { id: 2, logo: "framer", name: "Framer", industry: "Design Tools", revenue: "$100M", employees: "200+", status: "active" },
-  { id: 3, logo: "discord", name: "Discord", industry: "Communication", revenue: "$500M", employees: "1,000+", status: "active" },
-  { id: 4, logo: "loom", name: "Loom", industry: "Video Messaging", revenue: "$150M", employees: "300+", status: "review" },
-  { id: 5, logo: "replit", name: "Replit", industry: "Developer Tools", revenue: "$80M", employees: "150+", status: "pending" },
+const deploymentStatusConfig = {
+  ready: { icon: RiCheckboxCircleFill, color: "text-content-feedback-success-strong", bg: "bg-surface-feedback-success-muted" },
+  building: { icon: RiLoader4Line, color: "text-content-feedback-info-strong", bg: "bg-surface-feedback-info-muted" },
+  error: { icon: RiErrorWarningFill, color: "text-content-feedback-danger-strong", bg: "bg-surface-feedback-danger-muted" },
+}
+
+// =============================================================================
+// Capability Demos
+// =============================================================================
+
+function SizesDemo() {
+  return (
+    <div className="flex flex-col gap-[var(--space-24)]">
+      {(["s", "m", "l", "xl"] as const).map((size) => (
+        <div key={size} className="flex flex-col gap-[var(--space-8)]">
+          <span className="text-body-s text-content-muted">size=&quot;{size}&quot;</span>
+          <Table.Root size={size}>
+            <Table.Header>
+              <Table.Row isHeader>
+                <Table.Head>Name</Table.Head>
+                <Table.Head>Status</Table.Head>
+                <Table.Head align="right">Amount</Table.Head>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row>
+                <Table.TextCell
+                  prefix={<Table.Prefix type="avatar" avatarInitials="AC" />}
+                  additionalInfo="billing@acme.co"
+                  emphasized
+                >
+                  Acme Corp
+                </Table.TextCell>
+                <Table.BadgeCell variant="success">Active</Table.BadgeCell>
+                <Table.NumberCell>$2,499.00</Table.NumberCell>
+              </Table.Row>
+            </Table.Body>
+          </Table.Root>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function CellTypesDemo() {
+  return (
+    <Table.Root>
+      <Table.Header>
+        <Table.Row isHeader>
+          <Table.Head>Cell Type</Table.Head>
+          <Table.Head>Example</Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>TextCell</Table.Cell>
+          <Table.TextCell emphasized>Primary text with emphasis</Table.TextCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>TextCell + additionalInfo</Table.Cell>
+          <Table.TextCell additionalInfo="Secondary info inline">Primary text</Table.TextCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>NumberCell</Table.Cell>
+          <Table.NumberCell>$12,345.67</Table.NumberCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>BadgeCell</Table.Cell>
+          <Table.BadgeCell variant="success">Active</Table.BadgeCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>AvatarGroupCell</Table.Cell>
+          <Table.AvatarGroupCell
+            avatars={[
+              { src: "/avatars/avatar-1.png" },
+              { src: "/avatars/avatar-2.png" },
+              { src: "/avatars/avatar-3.png" },
+            ]}
+            max={3}
+          />
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>ProgressCell</Table.Cell>
+          <Table.ProgressCell value={65} />
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>ActionsCell</Table.Cell>
+          <Table.ActionsCell>
+            <IconButton variant="ghost" size="2xs"><RiMoreLine /></IconButton>
+          </Table.ActionsCell>
+        </Table.Row>
+      </Table.Body>
+    </Table.Root>
+  )
+}
+
+function PrefixTypesDemo() {
+  return (
+    <Table.Root>
+      <Table.Header>
+        <Table.Row isHeader>
+          <Table.Head>Prefix Type</Table.Head>
+          <Table.Head>Example</Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>Icon</Table.Cell>
+          <Table.TextCell prefix={<Table.Prefix type="icon" icon={<RiFlag2Fill />} />}>
+            Plain icon prefix
+          </Table.TextCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Icon Emphasized</Table.Cell>
+          <Table.TextCell prefix={<Table.Prefix type="icon-emphasized-blue" icon={<RiFlag2Fill />} />}>
+            Emphasized with background
+          </Table.TextCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Logo</Table.Cell>
+          <Table.TextCell prefix={<Table.Prefix type="logo" logo="linear" />}>
+            Company logo
+          </Table.TextCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Token</Table.Cell>
+          <Table.TextCell prefix={<Table.Prefix type="token" token="eth" />}>
+            Crypto token
+          </Table.TextCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>Avatar</Table.Cell>
+          <Table.TextCell prefix={<Table.Prefix type="avatar" avatarInitials="JD" />}>
+            User avatar
+          </Table.TextCell>
+        </Table.Row>
+      </Table.Body>
+    </Table.Root>
+  )
+}
+
+function SelectionDemo() {
+  const [selected, setSelected] = React.useState<Set<number>>(new Set([2]))
+  const items = [
+    { id: 1, name: "Item One" },
+    { id: 2, name: "Item Two" },
+    { id: 3, name: "Item Three" },
+  ]
+  const allSelected = selected.size === items.length
+  const someSelected = selected.size > 0 && selected.size < items.length
+
+  return (
+    <Table.Root>
+      <Table.Header>
+        <Table.Row isHeader>
+          <Table.CheckboxCell
+            checked={allSelected}
+            indeterminate={someSelected}
+            onCheckedChange={() => {
+              if (allSelected) setSelected(new Set())
+              else setSelected(new Set(items.map(i => i.id)))
+            }}
+          />
+          <Table.Head>Name</Table.Head>
+          <Table.Head align="right">Status</Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {items.map((item) => (
+          <Table.Row key={item.id} selected={selected.has(item.id)}>
+            <Table.CheckboxCell
+              checked={selected.has(item.id)}
+              onCheckedChange={() => {
+                const next = new Set(selected)
+                if (next.has(item.id)) next.delete(item.id)
+                else next.add(item.id)
+                setSelected(next)
+              }}
+            />
+            <Table.TextCell>{item.name}</Table.TextCell>
+            <Table.BadgeCell variant={selected.has(item.id) ? "info" : "neutral"}>
+              {selected.has(item.id) ? "Selected" : "Unselected"}
+            </Table.BadgeCell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table.Root>
+  )
+}
+
+const sortingData = [
+  { name: "Alice", amount: 1200 },
+  { name: "Bob", amount: 800 },
+  { name: "Charlie", amount: 2400 },
 ]
+
+function SortingDemo() {
+  const [sortDir, setSortDir] = React.useState<"asc" | "desc" | null>("desc")
+  const sorted = React.useMemo(() => {
+    if (!sortDir) return sortingData
+    return [...sortingData].sort((a, b) => sortDir === "asc" ? a.amount - b.amount : b.amount - a.amount)
+  }, [sortDir])
+
+  return (
+    <Table.Root>
+      <Table.Header>
+        <Table.Row isHeader>
+          <Table.Head>Name</Table.Head>
+          <Table.Head
+            align="right"
+            sortable
+            sortDirection={sortDir}
+            onSort={() => setSortDir(prev => prev === "asc" ? "desc" : prev === "desc" ? null : "asc")}
+          >
+            Amount
+          </Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {sorted.map((row) => (
+          <Table.Row key={row.name}>
+            <Table.TextCell>{row.name}</Table.TextCell>
+            <Table.NumberCell>${row.amount.toLocaleString()}</Table.NumberCell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table.Root>
+  )
+}
+
+// =============================================================================
+// Page Component
+// =============================================================================
 
 export default function TableDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Table</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            Display data in rows and columns with support for sorting, selection, and specialized cell types.
+            Display structured data in rows and columns with sorting, selection, and rich cell types.
           </p>
         </div>
       </header>
@@ -112,363 +476,168 @@ export default function TableDocsPage() {
   <Table.Header>
     <Table.Row isHeader>
       <Table.Head>Name</Table.Head>
-      <Table.Head>Email</Table.Head>
+      <Table.Head>Status</Table.Head>
       <Table.Head align="right">Amount</Table.Head>
     </Table.Row>
   </Table.Header>
   <Table.Body>
     <Table.Row>
-      <Table.Cell>Olivia Martin</Table.Cell>
-      <Table.Cell>olivia@example.com</Table.Cell>
-      <Table.NumberCell>$1,250.00</Table.NumberCell>
+      <Table.TextCell emphasized>Acme Corp</Table.TextCell>
+      <Table.BadgeCell variant="success">Active</Table.BadgeCell>
+      <Table.NumberCell>$2,499.00</Table.NumberCell>
     </Table.Row>
   </Table.Body>
 </Table.Root>`}
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">Basic Table</h2>
-        <p className="text-body-m text-content-subtle">
-          A simple table with header, body, and basic cells.
-        </p>
-        <div>
-          <Table.Root>
-            <Table.Header>
-              <Table.Row isHeader>
-                <Table.Head>Name</Table.Head>
-                <Table.Head>Email</Table.Head>
-                <Table.Head>Role</Table.Head>
-                <Table.Head align="right">Amount</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {users.map((user) => (
-                <Table.Row key={user.id}>
-                  <Table.TextCell emphasized>{user.name}</Table.TextCell>
-                  <Table.Cell>{user.email}</Table.Cell>
-                  <Table.Cell>{user.role}</Table.Cell>
-                  <Table.NumberCell>${user.amount.toFixed(2)}</Table.NumberCell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
+      {/* Sizes */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Sizes</h2>
+          <p className="text-body-m text-content-subtle">
+            Four row heights: small (40px), medium (48px), large (60px), and extra large (72px). Large and extra large enable stacked text cells.
+          </p>
         </div>
+        <SizesDemo />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">Sizes</h2>
-        <p className="text-body-m text-content-subtle">
-          Tables come in three sizes: small (40px rows), medium (48px rows), and large (56px rows).
-        </p>
-        <div className="flex flex-col gap-[var(--space-24)]">
-          {(["s", "m", "l"] as const).map((size) => (
-            <div key={size} className="flex flex-col gap-[var(--space-8)]">
-              <span className="text-body-s-medium text-content-subtle capitalize">
-                {size === "s" ? "Small" : size === "m" ? "Medium" : "Large"}
-              </span>
-              <div>
-                <Table.Root size={size}>
-                  <Table.Header>
-                    <Table.Row isHeader>
-                      <Table.Head>Name</Table.Head>
-                      <Table.Head>Email</Table.Head>
-                      <Table.Head align="right">Amount</Table.Head>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {users.slice(0, 2).map((user) => (
-                      <Table.Row key={user.id}>
-                        <Table.TextCell emphasized>{user.name}</Table.TextCell>
-                        <Table.Cell>{user.email}</Table.Cell>
-                        <Table.NumberCell>${user.amount.toFixed(2)}</Table.NumberCell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table.Root>
-              </div>
-            </div>
-          ))}
+      {/* Cell Types */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Cell Types</h2>
+          <p className="text-body-m text-content-subtle">
+            Specialized cells for text, numbers, badges, avatars, progress, and actions.
+          </p>
         </div>
+        <CellTypesDemo />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">With Selection</h2>
-        <p className="text-body-m text-content-subtle">
-          Add row selection with checkboxes using the CheckboxCell component.
-        </p>
-        <SelectableTableDemo />
-      </section>
-
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">Sortable Columns</h2>
-        <p className="text-body-m text-content-subtle">
-          Enable sorting on header cells with the sortable prop.
-        </p>
-        <SortableTableDemo />
-      </section>
-
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">Specialized Cells</h2>
-        <p className="text-body-m text-content-subtle">
-          Use specialized cell components for different data types.
-        </p>
-        <div>
-          <Table.Root size="m">
-            <Table.Header>
-              <Table.Row isHeader>
-                <Table.Head>User</Table.Head>
-                <Table.Head>Status</Table.Head>
-                <Table.Head>Team</Table.Head>
-                <Table.Head>Progress</Table.Head>
-                <Table.Head align="right">Actions</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {users.map((user, index) => {
-                const status = statusConfig[user.status as keyof typeof statusConfig]
-                // Use different team members for each row to show variety
-                const teamAvatars = [
-                  [
-                    { src: users[1].avatar, name: users[1].name },
-                    { src: users[2].avatar, name: users[2].name },
-                    { src: users[3].avatar, name: users[3].name },
-                  ],
-                  [
-                    { src: users[0].avatar, name: users[0].name },
-                    { src: users[4].avatar, name: users[4].name },
-                  ],
-                  [
-                    { src: users[0].avatar, name: users[0].name },
-                    { src: users[1].avatar, name: users[1].name },
-                    { src: users[3].avatar, name: users[3].name },
-                    { src: users[4].avatar, name: users[4].name },
-                  ],
-                  [
-                    { src: users[2].avatar, name: users[2].name },
-                  ],
-                  [
-                    { src: users[1].avatar, name: users[1].name },
-                    { src: users[2].avatar, name: users[2].name },
-                  ],
-                ]
-                return (
-                  <Table.Row key={user.id}>
-                    <Table.TextCell additionalInfo={user.email} emphasized>
-                      {user.name}
-                    </Table.TextCell>
-                    <Table.BadgeCell variant={status.variant}>
-                      {status.label}
-                    </Table.BadgeCell>
-                    <Table.AvatarGroupCell avatars={teamAvatars[index]} />
-                    <Table.ProgressCell
-                      value={user.progress}
-                      tone={user.progress === 100 ? "positive" : user.progress < 50 ? "warning" : "neutral"}
-                    />
-                    <Table.ActionsCell>
-                      <IconButton variant="ghost" size="2xs">
-                        <RiEditLine />
-                      </IconButton>
-                      <IconButton variant="ghost" size="2xs">
-                        <RiDeleteBinLine />
-                      </IconButton>
-                    </Table.ActionsCell>
-                  </Table.Row>
-                )
-              })}
-            </Table.Body>
-          </Table.Root>
+      {/* Prefix Types */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Prefix Types</h2>
+          <p className="text-body-m text-content-subtle">
+            Icons, logos, tokens, and emphasized icons as cell prefixes.
+          </p>
         </div>
+        <PrefixTypesDemo />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">Task Management</h2>
-        <p className="text-body-m text-content-subtle">
-          A task management table with status, priority, and assignee information.
-        </p>
-        <div>
-          <Table.Root size="l">
-            <Table.Header>
-              <Table.Row isHeader>
-                <Table.Head>Task</Table.Head>
-                <Table.Head>Status</Table.Head>
-                <Table.Head>Priority</Table.Head>
-                <Table.Head>Assignee</Table.Head>
-                <Table.Head align="right">Due Date</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {tasks.map((task) => {
-                const status = taskStatusConfig[task.status as keyof typeof taskStatusConfig]
-                const priority = priorityConfig[task.priority as keyof typeof priorityConfig]
-                return (
-                  <Table.Row key={task.id}>
-                    <Table.TextCell
-                      additionalInfo={task.description}
-                      prefix={<RiCheckboxCircleLine className="size-[16px] text-content-subtle" />}
-                      emphasized
-                    >
-                      {task.title}
-                    </Table.TextCell>
-                    <Table.BadgeCell variant={status.variant}>
-                      {status.label}
-                    </Table.BadgeCell>
-                    <Table.BadgeCell variant={priority.variant}>
-                      {priority.label}
-                    </Table.BadgeCell>
-                    <Table.Cell>{task.assignee}</Table.Cell>
-                    <Table.NumberCell>{task.dueDate}</Table.NumberCell>
-                  </Table.Row>
-                )
-              })}
-            </Table.Body>
-          </Table.Root>
+      {/* Selection */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Selection</h2>
+          <p className="text-body-m text-content-subtle">
+            Row selection with checkboxes and indeterminate state.
+          </p>
         </div>
+        <SelectionDemo />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">With Icon Prefix</h2>
-        <p className="text-body-m text-content-subtle">
-          Use icon prefixes to indicate file types, categories, or item types.
-        </p>
-        <div>
-          <Table.Root size="m">
-            <Table.Header>
-              <Table.Row isHeader>
-                <Table.Head>File Name</Table.Head>
-                <Table.Head>Size</Table.Head>
-                <Table.Head align="right">Modified</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {files.map((file) => {
-                const IconComponent = file.icon
-                const colorClass = fileTypeColors[file.type as keyof typeof fileTypeColors]
-                return (
-                  <Table.Row key={file.id}>
-                    <Table.TextCell
-                      prefix={<IconComponent className={`size-[16px] ${colorClass}`} />}
-                      emphasized
-                    >
-                      {file.name}
-                    </Table.TextCell>
-                    <Table.Cell>{file.size}</Table.Cell>
-                    <Table.NumberCell>{file.modified}</Table.NumberCell>
-                  </Table.Row>
-                )
-              })}
-            </Table.Body>
-          </Table.Root>
+      {/* Sorting */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Sorting</h2>
+          <p className="text-body-m text-content-subtle">
+            Sortable columns with ascending/descending indicators.
+          </p>
         </div>
+        <SortingDemo />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">With Crypto Logos</h2>
+      {/* Examples Header */}
+      <div className="flex flex-col gap-[var(--space-4)] border-t border-border-subtle pt-[var(--space-24)]">
+        <h2 className="text-body-2xl-semibold">Examples</h2>
         <p className="text-body-m text-content-subtle">
-          Display cryptocurrency assets with token logos as prefixes.
+          Real-world table patterns combining multiple features.
         </p>
-        <div>
-          <Table.Root size="m">
-            <Table.Header>
-              <Table.Row isHeader>
-                <Table.Head>Asset</Table.Head>
-                <Table.Head align="right">Price</Table.Head>
-                <Table.Head align="right">24h Change</Table.Head>
-                <Table.Head align="right">Holdings</Table.Head>
-                <Table.Head align="right">Value</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {cryptoAssets.map((asset) => (
-                <Table.Row key={asset.id}>
-                  <Table.TextCell
-                    prefix={<Crypto crypto={asset.crypto} size={20} />}
-                    additionalInfo={asset.symbol}
-                    emphasized
-                  >
-                    {asset.name}
-                  </Table.TextCell>
-                  <Table.NumberCell>
-                    ${asset.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </Table.NumberCell>
-                  <Table.Cell className="text-right">
-                    <span className={`inline-flex items-center gap-[var(--space-4)] ${asset.change >= 0 ? "text-content-feedback-success-strong" : "text-content-feedback-danger-strong"}`}>
-                      {asset.change >= 0 ? (
-                        <RiArrowUpLine className="size-[14px]" />
-                      ) : (
-                        <RiArrowDownLine className="size-[14px]" />
-                      )}
-                      {Math.abs(asset.change).toFixed(2)}%
-                    </span>
-                  </Table.Cell>
-                  <Table.NumberCell>
-                    {asset.holdings.toLocaleString(undefined, { minimumFractionDigits: 4 })}
-                  </Table.NumberCell>
-                  <Table.NumberCell>
-                    ${asset.value.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                  </Table.NumberCell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
+      </div>
+
+      {/* Team Directory */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h3 className="text-body-xl-semibold">Team Directory</h3>
+          <p className="text-body-m text-content-subtle">
+            Employee directory with avatars, roles, and status indicators.
+          </p>
         </div>
+        <TeamDirectoryTable />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
-        <h2 className="text-body-xl-semibold">With Company Logos</h2>
-        <p className="text-body-m text-content-subtle">
-          Display companies or integrations with brand logos as prefixes.
-        </p>
-        <div>
-          <Table.Root size="m">
-            <Table.Header>
-              <Table.Row isHeader>
-                <Table.Head>Company</Table.Head>
-                <Table.Head>Industry</Table.Head>
-                <Table.Head>Employees</Table.Head>
-                <Table.Head>Status</Table.Head>
-                <Table.Head align="right">Revenue</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {companies.map((company) => {
-                const status = statusConfig[company.status as keyof typeof statusConfig]
-                return (
-                  <Table.Row key={company.id}>
-                    <Table.TextCell
-                      prefix={<Logo logo={company.logo} variant="filled" size={20} />}
-                      emphasized
-                    >
-                      {company.name}
-                    </Table.TextCell>
-                    <Table.Cell>{company.industry}</Table.Cell>
-                    <Table.Cell>{company.employees}</Table.Cell>
-                    <Table.BadgeCell variant={status.variant}>
-                      {status.label}
-                    </Table.BadgeCell>
-                    <Table.NumberCell>{company.revenue}</Table.NumberCell>
-                  </Table.Row>
-                )
-              })}
-            </Table.Body>
-          </Table.Root>
+      {/* Customer Accounts */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h3 className="text-body-xl-semibold">Customer Accounts</h3>
+          <p className="text-body-m text-content-subtle">
+            B2B customer list with company logos, subscription details, and health scores.
+          </p>
         </div>
+        <CustomerAccountsTable />
+      </section>
+
+      {/* Transactions */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h3 className="text-body-xl-semibold">Recent Transactions</h3>
+          <p className="text-body-m text-content-subtle">
+            Payment history with amounts, status badges, and payment methods.
+          </p>
+        </div>
+        <TransactionsTable />
+      </section>
+
+      {/* Project Tasks */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h3 className="text-body-xl-semibold">Project Tasks</h3>
+          <p className="text-body-m text-content-subtle">
+            Issue tracker with priorities, assignees, and status.
+          </p>
+        </div>
+        <ProjectTasksTable />
+      </section>
+
+      {/* Crypto Portfolio */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h3 className="text-body-xl-semibold">Portfolio Holdings</h3>
+          <p className="text-body-m text-content-subtle">
+            Crypto portfolio with holdings, prices, and profit/loss calculations.
+          </p>
+        </div>
+        <CryptoPortfolioTable />
+      </section>
+
+      {/* Deployments */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h3 className="text-body-xl-semibold">Deployments</h3>
+          <p className="text-body-m text-content-subtle">
+            Deployment history with commit messages, environments, and status.
+          </p>
+        </div>
+        <DeploymentsTable />
       </section>
     </div>
   )
 }
 
-function SelectableTableDemo() {
+// =============================================================================
+// Team Directory Table
+// =============================================================================
+
+function TeamDirectoryTable() {
   const [selectedIds, setSelectedIds] = React.useState<Set<number>>(new Set())
 
-  const allSelected = selectedIds.size === users.length
-  const someSelected = selectedIds.size > 0 && selectedIds.size < users.length
+  const allSelected = selectedIds.size === teamMembers.length
+  const someSelected = selectedIds.size > 0 && selectedIds.size < teamMembers.length
 
   const toggleAll = () => {
     if (allSelected) {
       setSelectedIds(new Set())
     } else {
-      setSelectedIds(new Set(users.map((u) => u.id)))
+      setSelectedIds(new Set(teamMembers.map((m) => m.id)))
     }
   }
 
@@ -484,7 +653,7 @@ function SelectableTableDemo() {
 
   return (
     <div>
-      <Table.Root>
+      <Table.Root size="l">
         <Table.Header>
           <Table.Row isHeader>
             <Table.CheckboxCell
@@ -492,32 +661,58 @@ function SelectableTableDemo() {
               indeterminate={someSelected}
               onCheckedChange={toggleAll}
             />
-            <Table.Head>Name</Table.Head>
-            <Table.Head>Email</Table.Head>
+            <Table.Head>Employee</Table.Head>
             <Table.Head>Role</Table.Head>
+            <Table.Head>Department</Table.Head>
+            <Table.Head>Status</Table.Head>
+            <Table.Head align="right">Actions</Table.Head>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {users.map((user) => (
-            <Table.Row key={user.id} selected={selectedIds.has(user.id)}>
-              <Table.CheckboxCell
-                checked={selectedIds.has(user.id)}
-                onCheckedChange={() => toggleOne(user.id)}
-              />
-              <Table.TextCell emphasized>{user.name}</Table.TextCell>
-              <Table.Cell>{user.email}</Table.Cell>
-              <Table.Cell>{user.role}</Table.Cell>
-            </Table.Row>
-          ))}
+          {teamMembers.map((member) => {
+            const status = teamStatusConfig[member.status as keyof typeof teamStatusConfig]
+            return (
+              <Table.Row key={member.id} selected={selectedIds.has(member.id)}>
+                <Table.CheckboxCell
+                  checked={selectedIds.has(member.id)}
+                  onCheckedChange={() => toggleOne(member.id)}
+                />
+                <Table.TextCell
+                  prefix={<Table.Prefix type="avatar" avatarSrc={member.avatar} avatarInitials={member.name.split(" ").map(n => n[0]).join("")} />}
+                  additionalInfo={member.email}
+                  emphasized
+                >
+                  {member.name}
+                </Table.TextCell>
+                <Table.Cell>{member.role}</Table.Cell>
+                <Table.Cell>{member.department}</Table.Cell>
+                <Table.BadgeCell variant={status.variant}>
+                  {status.label}
+                </Table.BadgeCell>
+                <Table.ActionsCell>
+                  <IconButton variant="ghost" size="2xs">
+                    <RiMailLine />
+                  </IconButton>
+                  <IconButton variant="ghost" size="2xs">
+                    <RiMoreLine />
+                  </IconButton>
+                </Table.ActionsCell>
+              </Table.Row>
+            )
+          })}
         </Table.Body>
       </Table.Root>
     </div>
   )
 }
 
-function SortableTableDemo() {
-  const [sortColumn, setSortColumn] = React.useState<string | null>(null)
-  const [sortDirection, setSortDirection] = React.useState<SortDirection>(null)
+// =============================================================================
+// Customer Accounts Table
+// =============================================================================
+
+function CustomerAccountsTable() {
+  const [sortColumn, setSortColumn] = React.useState<string | null>("mrr")
+  const [sortDirection, setSortDirection] = React.useState<SortDirection>("desc")
 
   const handleSort = (column: string) => {
     if (sortColumn === column) {
@@ -527,22 +722,17 @@ function SortableTableDemo() {
       }
     } else {
       setSortColumn(column)
-      setSortDirection("asc")
+      setSortDirection("desc")
     }
   }
 
-  const sortedUsers = React.useMemo(() => {
-    if (!sortColumn || !sortDirection) return users
+  const sortedCustomers = React.useMemo(() => {
+    if (!sortColumn || !sortDirection) return customers
 
-    return [...users].sort((a, b) => {
+    return [...customers].sort((a, b) => {
       const aVal = a[sortColumn as keyof typeof a]
       const bVal = b[sortColumn as keyof typeof b]
 
-      if (typeof aVal === "string" && typeof bVal === "string") {
-        return sortDirection === "asc"
-          ? aVal.localeCompare(bVal)
-          : bVal.localeCompare(aVal)
-      }
       if (typeof aVal === "number" && typeof bVal === "number") {
         return sortDirection === "asc" ? aVal - bVal : bVal - aVal
       }
@@ -555,40 +745,287 @@ function SortableTableDemo() {
       <Table.Root>
         <Table.Header>
           <Table.Row isHeader>
+            <Table.Head>Company</Table.Head>
+            <Table.Head>Plan</Table.Head>
             <Table.Head
               sortable
-              sortDirection={sortColumn === "name" ? sortDirection : null}
-              onSort={() => handleSort("name")}
-            >
-              Name
-            </Table.Head>
-            <Table.Head>Email</Table.Head>
-            <Table.Head
-              sortable
-              sortDirection={sortColumn === "role" ? sortDirection : null}
-              onSort={() => handleSort("role")}
-            >
-              Role
-            </Table.Head>
-            <Table.Head
-              sortable
-              sortDirection={sortColumn === "amount" ? sortDirection : null}
-              onSort={() => handleSort("amount")}
+              sortDirection={sortColumn === "mrr" ? sortDirection : null}
+              onSort={() => handleSort("mrr")}
               align="right"
             >
-              Amount
+              MRR
             </Table.Head>
+            <Table.Head
+              sortable
+              sortDirection={sortColumn === "seats" ? sortDirection : null}
+              onSort={() => handleSort("seats")}
+              align="right"
+            >
+              Seats
+            </Table.Head>
+            <Table.Head>Health</Table.Head>
+            <Table.Head align="right">Last Active</Table.Head>
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {sortedUsers.map((user) => (
-            <Table.Row key={user.id}>
-              <Table.TextCell emphasized>{user.name}</Table.TextCell>
-              <Table.Cell>{user.email}</Table.Cell>
-              <Table.Cell>{user.role}</Table.Cell>
-              <Table.NumberCell>${user.amount.toFixed(2)}</Table.NumberCell>
-            </Table.Row>
-          ))}
+          {sortedCustomers.map((customer) => {
+            const health = healthConfig[customer.health]
+            return (
+              <Table.Row key={customer.id}>
+                <Table.TextCell
+                  prefix={<Table.Prefix type="logo" logo={customer.logo} />}
+                  emphasized
+                >
+                  {customer.name}
+                </Table.TextCell>
+                <Table.Cell>{customer.plan}</Table.Cell>
+                <Table.NumberCell>
+                  ${customer.mrr.toLocaleString()}
+                </Table.NumberCell>
+                <Table.NumberCell>{customer.seats}</Table.NumberCell>
+                <Table.BadgeCell variant={health.variant}>
+                  {health.label}
+                </Table.BadgeCell>
+                <Table.NumberCell>{customer.lastActive}</Table.NumberCell>
+              </Table.Row>
+            )
+          })}
+        </Table.Body>
+      </Table.Root>
+    </div>
+  )
+}
+
+// =============================================================================
+// Transactions Table
+// =============================================================================
+
+function TransactionsTable() {
+  return (
+    <div>
+      <Table.Root>
+        <Table.Header>
+          <Table.Row isHeader>
+            <Table.Head>Amount</Table.Head>
+            <Table.Head>Status</Table.Head>
+            <Table.Head>Customer</Table.Head>
+            <Table.Head>Payment Method</Table.Head>
+            <Table.Head align="right">Date</Table.Head>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {transactions.map((tx) => {
+            const status = paymentStatusConfig[tx.status as keyof typeof paymentStatusConfig]
+            return (
+              <Table.Row key={tx.id}>
+                <Table.TextCell additionalInfo={tx.id} emphasized>
+                  ${tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </Table.TextCell>
+                <Table.BadgeCell variant={status.variant}>
+                  {status.label}
+                </Table.BadgeCell>
+                <Table.TextCell>{tx.customer}</Table.TextCell>
+                <Table.Cell>{tx.method}</Table.Cell>
+                <Table.NumberCell>{tx.date}</Table.NumberCell>
+              </Table.Row>
+            )
+          })}
+        </Table.Body>
+      </Table.Root>
+    </div>
+  )
+}
+
+// =============================================================================
+// Project Tasks Table
+// =============================================================================
+
+function ProjectTasksTable() {
+  return (
+    <div>
+      <Table.Root size="xl">
+        <Table.Header>
+          <Table.Row isHeader>
+            <Table.Head>Task</Table.Head>
+            <Table.Head>Status</Table.Head>
+            <Table.Head>Priority</Table.Head>
+            <Table.Head>Assignee</Table.Head>
+            <Table.Head align="right">Due</Table.Head>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {tasks.map((task) => {
+            const status = taskStatusConfig[task.status as keyof typeof taskStatusConfig]
+            const priority = priorityConfig[task.priority as keyof typeof priorityConfig]
+            const StatusIcon = status.icon
+            return (
+              <Table.Row key={task.id}>
+                <Table.TextCell additionalInfo={task.id} emphasized>
+                  {task.title}
+                </Table.TextCell>
+                <Table.Cell>
+                  <span className="inline-flex items-center gap-[var(--space-6)]">
+                    <Table.Icon tone={task.status === "done" ? "success" : task.status === "in-progress" ? "info" : "default"}>
+                      <StatusIcon />
+                    </Table.Icon>
+                    <span>{status.label}</span>
+                  </span>
+                </Table.Cell>
+                <Table.Cell>
+                  <span className="inline-flex items-center gap-[var(--space-6)]">
+                    <Table.Icon tone={task.priority === "urgent" ? "danger" : task.priority === "high" ? "warning" : "default"}>
+                      <RiFlag2Fill />
+                    </Table.Icon>
+                    <span>{priority.label}</span>
+                  </span>
+                </Table.Cell>
+                <Table.Cell>
+                  <span className="inline-flex items-center gap-[var(--space-8)]">
+                    <Avatar size="2xs" src={task.assignee.avatar} />
+                    <span>{task.assignee.name}</span>
+                  </span>
+                </Table.Cell>
+                <Table.NumberCell>{task.dueDate}</Table.NumberCell>
+              </Table.Row>
+            )
+          })}
+        </Table.Body>
+      </Table.Root>
+    </div>
+  )
+}
+
+// =============================================================================
+// Crypto Portfolio Table
+// =============================================================================
+
+function CryptoPortfolioTable() {
+  return (
+    <div>
+      <Table.Root size="l">
+        <Table.Header>
+          <Table.Row isHeader>
+            <Table.Head>Asset</Table.Head>
+            <Table.Head align="right">Holdings</Table.Head>
+            <Table.Head align="right">Avg Cost</Table.Head>
+            <Table.Head align="right">Current Price</Table.Head>
+            <Table.Head align="right">24h</Table.Head>
+            <Table.Head align="right">P&L</Table.Head>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {portfolio.map((asset) => {
+            const value = asset.holdings * asset.currentPrice
+            const cost = asset.holdings * asset.avgCost
+            const pnl = value - cost
+            const isPositive = pnl >= 0
+
+            return (
+              <Table.Row key={asset.id}>
+                <Table.TextCell
+                  prefix={<Table.Prefix type="token" token={asset.crypto} />}
+                  additionalInfo={asset.symbol}
+                  emphasized
+                >
+                  {asset.name}
+                </Table.TextCell>
+                <Table.NumberCell>
+                  {asset.holdings.toLocaleString(undefined, { minimumFractionDigits: asset.holdings < 10 ? 4 : 2 })}
+                </Table.NumberCell>
+                <Table.NumberCell>
+                  ${asset.avgCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </Table.NumberCell>
+                <Table.NumberCell>
+                  ${asset.currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                </Table.NumberCell>
+                <Table.Cell className="text-right">
+                  <span className={`inline-flex items-center gap-[var(--space-4)] ${
+                    asset.change24h > 0 ? "text-content-feedback-success-strong" :
+                    asset.change24h < 0 ? "text-content-feedback-danger-strong" :
+                    "text-content-subtle"
+                  }`}>
+                    {asset.change24h > 0 ? (
+                      <RiArrowRightUpBoxFill className="size-[16px]" />
+                    ) : asset.change24h < 0 ? (
+                      <RiArrowRightDownBoxFill className="size-[16px]" />
+                    ) : null}
+                    {asset.change24h > 0 ? "+" : ""}{asset.change24h.toFixed(2)}%
+                  </span>
+                </Table.Cell>
+                <Table.Cell className="text-right">
+                  <span className={isPositive ? "text-content-feedback-success-strong" : "text-content-feedback-danger-strong"}>
+                    {isPositive ? "+" : ""}${Math.abs(pnl).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                </Table.Cell>
+              </Table.Row>
+            )
+          })}
+        </Table.Body>
+      </Table.Root>
+    </div>
+  )
+}
+
+// =============================================================================
+// Deployments Table
+// =============================================================================
+
+function DeploymentsTable() {
+  return (
+    <div>
+      <Table.Root size="l">
+        <Table.Header>
+          <Table.Row isHeader>
+            <Table.Head>Deployment</Table.Head>
+            <Table.Head>Environment</Table.Head>
+            <Table.Head>Branch</Table.Head>
+            <Table.Head align="right">Time</Table.Head>
+            <Table.Head align="right">Actions</Table.Head>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {deployments.map((deploy) => {
+            const status = deploymentStatusConfig[deploy.status as keyof typeof deploymentStatusConfig]
+            const StatusIcon = status.icon
+            return (
+              <Table.Row key={deploy.id}>
+                <Table.TextCell
+                  prefix={
+                    <Table.Prefix
+                      type={`icon-emphasized-${deploy.status === "ready" ? "success" : deploy.status === "error" ? "danger" : "purple"}`}
+                      icon={<StatusIcon />}
+                    />
+                  }
+                  additionalInfo={deploy.url || "Build failed"}
+                  emphasized
+                >
+                  {deploy.commit}
+                </Table.TextCell>
+                <Table.BadgeCell variant={deploy.environment === "Production" ? "info" : "neutral"} isEmphasized={false}>
+                  {deploy.environment}
+                </Table.BadgeCell>
+                <Table.Cell>
+                  <span className="inline-flex items-center gap-[var(--space-6)]">
+                    <Table.Icon>
+                      <RiGitBranchLine />
+                    </Table.Icon>
+                    <span>{deploy.branch}</span>
+                  </span>
+                </Table.Cell>
+                <Table.NumberCell>{deploy.time}</Table.NumberCell>
+                <Table.ActionsCell>
+                  {deploy.url && (
+                    <IconButton variant="ghost" size="2xs">
+                      <RiExternalLinkLine />
+                    </IconButton>
+                  )}
+                  <IconButton variant="ghost" size="2xs">
+                    <RiMoreLine />
+                  </IconButton>
+                </Table.ActionsCell>
+              </Table.Row>
+            )
+          })}
         </Table.Body>
       </Table.Root>
     </div>

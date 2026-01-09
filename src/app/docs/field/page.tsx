@@ -14,7 +14,7 @@ const countries = [
 
 export default function FieldDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Field</h1>
@@ -24,7 +24,7 @@ export default function FieldDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -52,13 +52,13 @@ import { Select } from "@/components/ui/select"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label only</p>
-              <p className="text-body-s text-content-subtle">Simple field label above control</p>
+              <p className="text-body-m text-content-subtle">Simple field label above control</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email">
@@ -69,7 +69,7 @@ import { Select } from "@/components/ui/select"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With description</p>
-              <p className="text-body-s text-content-subtle">Additional context below label</p>
+              <p className="text-body-m text-content-subtle">Additional context below label</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email" description="We'll never share your email with anyone">
@@ -80,13 +80,13 @@ import { Select } from "@/components/ui/select"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Small</p>
-              <p className="text-body-s text-content-subtle">Smaller label text</p>
+              <p className="text-body-m text-content-subtle">Smaller label text</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field size="s" label="Email" description="Help text">
@@ -97,7 +97,7 @@ import { Select } from "@/components/ui/select"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Medium</p>
-              <p className="text-body-s text-content-subtle">Default size</p>
+              <p className="text-body-m text-content-subtle">Default size</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field size="m" label="Email" description="Help text">
@@ -108,7 +108,7 @@ import { Select } from "@/components/ui/select"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Large</p>
-              <p className="text-body-s text-content-subtle">Larger touch targets</p>
+              <p className="text-body-m text-content-subtle">Larger touch targets</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field size="l" label="Email" description="Help text">
@@ -119,7 +119,7 @@ import { Select } from "@/components/ui/select"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -135,7 +135,7 @@ import { Select } from "@/components/ui/select"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled</p>
-              <p className="text-body-s text-content-subtle">Muted label and control</p>
+              <p className="text-body-m text-content-subtle">Muted label and control</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email" disabled>
@@ -146,7 +146,7 @@ import { Select } from "@/components/ui/select"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Error</p>
-              <p className="text-body-s text-content-subtle">Validation error message</p>
+              <p className="text-body-m text-content-subtle">Validation error message</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email" error="Please enter a valid email address">
@@ -157,7 +157,7 @@ import { Select } from "@/components/ui/select"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Different Controls</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -183,13 +183,13 @@ import { Select } from "@/components/ui/select"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Form Example</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Registration form</p>
-              <p className="text-body-s text-content-subtle">Multiple fields together</p>
+              <p className="text-body-m text-content-subtle">Multiple fields together</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-24)]">
               <Field label="Email" description="We'll send a confirmation link">

@@ -70,7 +70,7 @@ const toneRows = [
 
 export default function ButtonDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Button</h1>
@@ -80,7 +80,7 @@ export default function ButtonDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Button } from "@/components/ui/button"
 
@@ -88,7 +88,7 @@ export default function ButtonDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Variants</h2>
         <div className="flex flex-col">
           {variantRows.map((variant) => (
@@ -98,7 +98,7 @@ export default function ButtonDocsPage() {
             >
               <div className="md:min-w-[220px]">
                 <p className="text-body-m text-content-strong">{variant.label}</p>
-                <p className="text-body-s text-content-subtle">
+                <p className="text-body-m text-content-subtle">
                   {variant.description}
                 </p>
               </div>
@@ -113,10 +113,10 @@ export default function ButtonDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Sizings</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Label has separate padding to maintain optical
             balance.
           </p>
@@ -129,7 +129,7 @@ export default function ButtonDocsPage() {
             >
               <div>
                 <p className="text-body-m text-content-strong">{size.label}</p>
-                <p className="text-body-s text-content-subtle">
+                <p className="text-body-m text-content-subtle">
                   {size.height}px height
                 </p>
               </div>
@@ -148,10 +148,10 @@ export default function ButtonDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Tones</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Apply semantic or decorative colors to button.
           </p>
         </div>

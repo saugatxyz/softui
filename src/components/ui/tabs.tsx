@@ -107,8 +107,8 @@ const triggerVariants = cva(
       // Stroke sizes - 0px horizontal padding
       { variant: "stroke", size: "m", className: "pb-[var(--space-8)]" },
       { variant: "stroke", size: "s", className: "pb-[var(--space-6)]" },
-      // Pill sizes - 12px horizontal padding, 36px/32px height
-      { variant: "pill", size: "m", className: "h-[var(--space-36)] px-[var(--space-12)]" },
+      // Pill sizes - 16px horizontal padding for m, 12px for s
+      { variant: "pill", size: "m", className: "h-[var(--space-36)] px-[var(--space-16)]" },
       { variant: "pill", size: "s", className: "h-[var(--space-32)] px-[var(--space-12)]" },
       // Pill-emphasized sizes - 12px horizontal padding, 36px/32px height
       { variant: "pill-emphasized", size: "m", className: "h-[var(--space-36)] px-[var(--space-12)]" },

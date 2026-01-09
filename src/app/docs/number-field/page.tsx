@@ -7,7 +7,7 @@ import { Field } from "@/components/ui/field"
 
 export default function NumberFieldDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Number Field</h1>
@@ -17,7 +17,7 @@ export default function NumberFieldDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { NumberField } from "@/components/ui/number-field"
 
@@ -31,13 +31,13 @@ export default function NumberFieldDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Small</p>
-              <p className="text-body-s text-content-subtle">32px height</p>
+              <p className="text-body-m text-content-subtle">32px height</p>
             </div>
             <div className="flex flex-col gap-[var(--space-16)]">
               <NumberField.Root size="s" defaultValue={5}>
@@ -52,7 +52,7 @@ export default function NumberFieldDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Medium</p>
-              <p className="text-body-s text-content-subtle">36px height</p>
+              <p className="text-body-m text-content-subtle">36px height</p>
             </div>
             <div className="flex flex-col gap-[var(--space-16)]">
               <NumberField.Root size="m" defaultValue={10}>
@@ -67,7 +67,7 @@ export default function NumberFieldDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Large</p>
-              <p className="text-body-s text-content-subtle">40px height</p>
+              <p className="text-body-m text-content-subtle">40px height</p>
             </div>
             <div className="flex flex-col gap-[var(--space-16)]">
               <NumberField.Root size="l" defaultValue={15}>
@@ -82,13 +82,13 @@ export default function NumberFieldDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Min and Max</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With bounds</p>
-              <p className="text-body-s text-content-subtle">Range 0-100</p>
+              <p className="text-body-m text-content-subtle">Range 0-100</p>
             </div>
             <div className="flex flex-col gap-[var(--space-16)]">
               <NumberField.Root defaultValue={50} min={0} max={100}>
@@ -103,13 +103,13 @@ export default function NumberFieldDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Step</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Step by 5</p>
-              <p className="text-body-s text-content-subtle">Increment/decrement by 5</p>
+              <p className="text-body-m text-content-subtle">Increment/decrement by 5</p>
             </div>
             <div className="flex flex-col gap-[var(--space-16)]">
               <NumberField.Root defaultValue={0} step={5}>
@@ -124,7 +124,7 @@ export default function NumberFieldDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Decimal step</p>
-              <p className="text-body-s text-content-subtle">Step by 0.1</p>
+              <p className="text-body-m text-content-subtle">Step by 0.1</p>
             </div>
             <div className="flex flex-col gap-[var(--space-16)]">
               <NumberField.Root defaultValue={0} step={0.1}>
@@ -139,7 +139,7 @@ export default function NumberFieldDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -161,7 +161,7 @@ export default function NumberFieldDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -209,18 +209,18 @@ export default function NumberFieldDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Scrub Area</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Drag to adjust</p>
-              <p className="text-body-s text-content-subtle">Click and drag the label</p>
+              <p className="text-body-m text-content-subtle">Click and drag the label</p>
             </div>
             <div className="flex flex-col gap-[var(--space-16)]">
               <NumberField.Root defaultValue={50}>
                 <NumberField.ScrubArea>
-                  <span className="cursor-ew-resize text-body-s text-content-subtle">
+                  <span className="cursor-ew-resize text-body-m text-content-subtle">
                     Opacity
                   </span>
                 </NumberField.ScrubArea>
@@ -235,13 +235,13 @@ export default function NumberFieldDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Formatting</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Currency</p>
-              <p className="text-body-s text-content-subtle">USD format</p>
+              <p className="text-body-m text-content-subtle">USD format</p>
             </div>
             <div className="flex flex-col gap-[var(--space-16)]">
               <NumberField.Root

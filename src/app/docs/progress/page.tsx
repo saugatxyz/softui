@@ -19,7 +19,7 @@ const sizeRows = [
 
 export default function ProgressDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Progress</h1>
@@ -29,7 +29,7 @@ export default function ProgressDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Progress } from "@/components/ui/progress"
 
@@ -41,7 +41,7 @@ export default function ProgressDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Tones</h2>
         <div className="flex flex-col">
           {toneRows.map((tone) => (
@@ -51,7 +51,7 @@ export default function ProgressDocsPage() {
             >
               <div className="md:min-w-[200px]">
                 <p className="text-body-m text-content-strong">{tone.label}</p>
-                <p className="text-body-s text-content-subtle">{tone.description}</p>
+                <p className="text-body-m text-content-subtle">{tone.description}</p>
               </div>
               <div className="flex-1 md:max-w-[400px]">
                 <Progress.Root tone={tone.value} value={tone.sampleValue}>
@@ -65,7 +65,7 @@ export default function ProgressDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           {sizeRows.map((size) => (
@@ -75,7 +75,7 @@ export default function ProgressDocsPage() {
             >
               <div className="md:min-w-[200px]">
                 <p className="text-body-m text-content-strong">{size.label}</p>
-                <p className="text-body-s text-content-subtle">{size.description}</p>
+                <p className="text-body-m text-content-subtle">{size.description}</p>
               </div>
               <div className="flex-1 md:max-w-[400px]">
                 <Progress.Root size={size.value} value={60}>
@@ -89,13 +89,13 @@ export default function ProgressDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Label</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[200px]">
               <p className="text-body-m text-content-strong">Label and value</p>
-              <p className="text-body-s text-content-subtle">Shows description and percentage</p>
+              <p className="text-body-m text-content-subtle">Shows description and percentage</p>
             </div>
             <div className="flex-1 md:max-w-[400px]">
               <Progress.Root value={45}>
@@ -112,13 +112,13 @@ export default function ProgressDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Indeterminate</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[200px]">
               <p className="text-body-m text-content-strong">Unknown progress</p>
-              <p className="text-body-s text-content-subtle">Set value to null</p>
+              <p className="text-body-m text-content-subtle">Set value to null</p>
             </div>
             <div className="flex-1 md:max-w-[400px]">
               <Progress.Root value={null}>
@@ -131,13 +131,13 @@ export default function ProgressDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Interactive</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[200px]">
               <p className="text-body-m text-content-strong">Simulated upload</p>
-              <p className="text-body-s text-content-subtle">Click to start progress</p>
+              <p className="text-body-m text-content-subtle">Click to start progress</p>
             </div>
             <InteractiveProgressDemo />
           </div>

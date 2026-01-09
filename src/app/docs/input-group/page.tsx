@@ -67,7 +67,7 @@ function CurrencySelect() {
 
 export default function InputGroupDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Input Group</h1>
@@ -77,7 +77,7 @@ export default function InputGroupDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { InputGroup } from "@/components/ui/input-group"
 
@@ -98,7 +98,7 @@ export default function InputGroupDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Prefix & Suffix</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -136,13 +136,13 @@ export default function InputGroupDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Leading icon</p>
-              <p className="text-body-s text-content-subtle">Inside input field</p>
+              <p className="text-body-m text-content-subtle">Inside input field</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
@@ -155,7 +155,7 @@ export default function InputGroupDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Trailing icon</p>
-              <p className="text-body-s text-content-subtle">Inside input field</p>
+              <p className="text-body-m text-content-subtle">Inside input field</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
@@ -169,7 +169,7 @@ export default function InputGroupDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Segment icon</p>
-              <p className="text-body-s text-content-subtle">In prefix/suffix</p>
+              <p className="text-body-m text-content-subtle">In prefix/suffix</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
@@ -182,7 +182,7 @@ export default function InputGroupDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Crypto</p>
-              <p className="text-body-s text-content-subtle">In prefix/suffix</p>
+              <p className="text-body-m text-content-subtle">In prefix/suffix</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
@@ -195,7 +195,7 @@ export default function InputGroupDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Avatar</p>
-              <p className="text-body-s text-content-subtle">In prefix/suffix</p>
+              <p className="text-body-m text-content-subtle">In prefix/suffix</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
@@ -208,13 +208,13 @@ export default function InputGroupDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Small</p>
-              <p className="text-body-s text-content-subtle">32px height</p>
+              <p className="text-body-m text-content-subtle">32px height</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
@@ -228,7 +228,7 @@ export default function InputGroupDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Medium</p>
-              <p className="text-body-s text-content-subtle">36px height</p>
+              <p className="text-body-m text-content-subtle">36px height</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
@@ -242,7 +242,7 @@ export default function InputGroupDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Large</p>
-              <p className="text-body-s text-content-subtle">40px height</p>
+              <p className="text-body-m text-content-subtle">40px height</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
@@ -256,7 +256,7 @@ export default function InputGroupDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -290,7 +290,7 @@ export default function InputGroupDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

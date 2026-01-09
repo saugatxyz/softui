@@ -18,7 +18,7 @@ const sizes = [
 
 export default function ButtonGroupDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Button Group</h1>
@@ -28,7 +28,7 @@ export default function ButtonGroupDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group"
 
@@ -40,10 +40,10 @@ export default function ButtonGroupDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Sizes</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Size prop on ButtonGroup controls all buttons inside.
           </p>
         </div>
@@ -55,7 +55,7 @@ export default function ButtonGroupDocsPage() {
             >
               <div>
                 <p className="text-body-m text-content-strong">{size.label}</p>
-                <p className="text-body-s text-content-subtle">
+                <p className="text-body-m text-content-subtle">
                   {size.height}px height
                 </p>
               </div>
@@ -71,10 +71,10 @@ export default function ButtonGroupDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">With Icons</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Buttons support leading and trailing icons.
           </p>
         </div>
@@ -109,10 +109,10 @@ export default function ButtonGroupDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">States</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Disabled buttons show muted text without fill changes.
           </p>
         </div>
@@ -132,7 +132,7 @@ export default function ButtonGroupDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Mixed states</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Individual items can be disabled
               </p>
             </div>
@@ -147,10 +147,10 @@ export default function ButtonGroupDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Tones</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Apply semantic colors to individual items.
           </p>
         </div>
@@ -158,7 +158,7 @@ export default function ButtonGroupDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Item actions</p>
-              <p className="text-body-s text-content-subtle">
+              <p className="text-body-m text-content-subtle">
                 Danger tone for destructive action
               </p>
             </div>

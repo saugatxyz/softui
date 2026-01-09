@@ -126,7 +126,7 @@ function ToastDocsContent() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Toast</h1>
@@ -136,7 +136,7 @@ function ToastDocsContent() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Toast, useToastManager } from "@/components/ui/toast"
 
@@ -196,7 +196,7 @@ function ToastList() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Card Variant</h2>
         <p className="text-body-m text-content-subtle">
           Use for toasts with title, description, and optional actions.
@@ -206,7 +206,7 @@ function ToastList() {
             <div key={tone} className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
               <div className="md:min-w-[220px]">
                 <p className="text-body-m text-content-strong capitalize">{tone}</p>
-                <p className="text-body-s text-content-subtle">With description</p>
+                <p className="text-body-m text-content-subtle">With description</p>
               </div>
               <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
                 <Button variant="secondary" onClick={() => showCardToast(tone)}>
@@ -218,7 +218,7 @@ function ToastList() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With action</p>
-              <p className="text-body-s text-content-subtle">Tertiary button action</p>
+              <p className="text-body-m text-content-subtle">Tertiary button action</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Button variant="secondary" onClick={showCardToastWithActions}>
@@ -229,7 +229,7 @@ function ToastList() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Compact Variant</h2>
         <p className="text-body-m text-content-subtle">
           Use for brief notifications with title only.
@@ -239,7 +239,7 @@ function ToastList() {
             <div key={tone} className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
               <div className="md:min-w-[220px]">
                 <p className="text-body-m text-content-strong capitalize">{tone}</p>
-                <p className="text-body-s text-content-subtle">Title only</p>
+                <p className="text-body-m text-content-subtle">Title only</p>
               </div>
               <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
                 <Button variant="secondary" onClick={() => showCompactToast(tone)}>
@@ -251,7 +251,7 @@ function ToastList() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With action</p>
-              <p className="text-body-s text-content-subtle">Link-neutral button action</p>
+              <p className="text-body-m text-content-subtle">Link-neutral button action</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Button variant="secondary" onClick={showCompactToastWithActions}>
@@ -262,7 +262,7 @@ function ToastList() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Static Examples</h2>
         <p className="text-body-m text-content-subtle">
           Visual preview of both variants

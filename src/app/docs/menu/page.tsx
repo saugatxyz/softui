@@ -147,7 +147,7 @@ export default function MenuDocsPage() {
   const [notifications, setNotifications] = React.useState(true)
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Menu</h1>
@@ -157,7 +157,7 @@ export default function MenuDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Menu, MenuItem, MenuSeparator } from "@/components/ui/menu"
 
@@ -178,13 +178,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Basic Menu */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Text only</p>
-              <p className="text-body-s text-content-subtle">Simple menu with text labels</p>
+              <p className="text-body-m text-content-subtle">Simple menu with text labels</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -207,7 +207,7 @@ export default function MenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With supporting text</p>
-              <p className="text-body-s text-content-subtle">Medium weight with description</p>
+              <p className="text-body-m text-content-subtle">Medium weight with description</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -228,13 +228,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Menu with Icons */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Icon prefix</p>
-              <p className="text-body-s text-content-subtle">Leading icons for visual recognition</p>
+              <p className="text-body-m text-content-subtle">Leading icons for visual recognition</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -264,13 +264,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Menu with Avatars */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Avatars</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">User selection</p>
-              <p className="text-body-s text-content-subtle">For account switching or mentions</p>
+              <p className="text-body-m text-content-subtle">For account switching or mentions</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -322,13 +322,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Menu with Suffix */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Suffix</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Checkmark</p>
-              <p className="text-body-s text-content-subtle">Indicates selected state</p>
+              <p className="text-body-m text-content-subtle">Indicates selected state</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -349,7 +349,7 @@ export default function MenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Switch</p>
-              <p className="text-body-s text-content-subtle">Toggle settings inline</p>
+              <p className="text-body-m text-content-subtle">Toggle settings inline</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -383,13 +383,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Selectable Items */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Selectable Items</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Checkbox selection</p>
-              <p className="text-body-s text-content-subtle">Multi-select with checkboxes</p>
+              <p className="text-body-m text-content-subtle">Multi-select with checkboxes</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <SelectableCheckboxMenu />
@@ -398,7 +398,7 @@ export default function MenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Radio selection</p>
-              <p className="text-body-s text-content-subtle">Single-select with radio buttons</p>
+              <p className="text-body-m text-content-subtle">Single-select with radio buttons</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <SelectableRadioMenu />
@@ -407,7 +407,7 @@ export default function MenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled selectable</p>
-              <p className="text-body-s text-content-subtle">Disabled states for selection controls</p>
+              <p className="text-body-m text-content-subtle">Disabled states for selection controls</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -444,13 +444,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Menu Groups */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Groups</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With labels</p>
-              <p className="text-body-s text-content-subtle">Organize items into sections</p>
+              <p className="text-body-m text-content-subtle">Organize items into sections</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -490,13 +490,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Submenu */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Submenu</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Nested menu</p>
-              <p className="text-body-s text-content-subtle">For hierarchical navigation</p>
+              <p className="text-body-m text-content-subtle">For hierarchical navigation</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -561,13 +561,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Badges */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Badge</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Highlight new items</p>
-              <p className="text-body-s text-content-subtle">Draw attention to new features</p>
+              <p className="text-body-m text-content-subtle">Draw attention to new features</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -589,13 +589,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Danger Variant */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Danger Variant</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Destructive actions</p>
-              <p className="text-body-s text-content-subtle">Red color for dangerous operations</p>
+              <p className="text-body-m text-content-subtle">Red color for dangerous operations</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -626,13 +626,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* States */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled items</p>
-              <p className="text-body-s text-content-subtle">Non-interactive items</p>
+              <p className="text-body-m text-content-subtle">Non-interactive items</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -670,13 +670,13 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Trigger Variants */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Trigger Variants</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Icon button</p>
-              <p className="text-body-s text-content-subtle">Compact trigger for toolbars</p>
+              <p className="text-body-m text-content-subtle">Compact trigger for toolbars</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -704,7 +704,7 @@ export default function MenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Avatar trigger</p>
-              <p className="text-body-s text-content-subtle">User menu from avatar</p>
+              <p className="text-body-m text-content-subtle">User menu from avatar</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
@@ -741,10 +741,10 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Prefix Types */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Prefix Types</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Available prefix styles for menu items
           </p>
         </div>
@@ -787,10 +787,10 @@ export default function MenuDocsPage() {
       </section>
 
       {/* Suffix Types */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Suffix Types</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Available suffix styles for menu items
           </p>
         </div>

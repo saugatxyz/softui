@@ -56,7 +56,7 @@ const toneRows = [
 
 export default function IconButtonDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Icon Button</h1>
@@ -66,7 +66,7 @@ export default function IconButtonDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { IconButton } from "@/components/ui/icon-button"
 import { SearchIcon } from "@/icons"
@@ -77,7 +77,7 @@ import { SearchIcon } from "@/icons"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Variants</h2>
         <div className="flex flex-col">
           {variantRows.map((variant) => (
@@ -101,7 +101,7 @@ import { SearchIcon } from "@/icons"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizings</h2>
         <div className="flex flex-col">
           {sizes.map((size) => (
@@ -111,7 +111,7 @@ import { SearchIcon } from "@/icons"
             >
               <div>
                 <p className="text-body-m text-content-strong">{size.label}</p>
-                <p className="text-body-s text-content-subtle">
+                <p className="text-body-m text-content-subtle">
                   {size.height}px height · {size.iconSize}px icon
                 </p>
               </div>
@@ -125,10 +125,10 @@ import { SearchIcon } from "@/icons"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Tones</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Apply semantic or decorative colors to button.
           </p>
         </div>

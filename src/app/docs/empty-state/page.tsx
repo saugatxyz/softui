@@ -5,7 +5,7 @@ import { EmptyState } from "@/components/ui/empty-state"
 
 export default function EmptyStateDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Empty State</h1>
@@ -15,7 +15,7 @@ export default function EmptyStateDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { EmptyState } from "@/components/ui/empty-state"
 
@@ -38,7 +38,7 @@ export default function EmptyStateDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Default</h2>
         <p className="text-body-m text-content-subtle">
           Basic empty state with icon, title, description, and action.
@@ -63,7 +63,7 @@ export default function EmptyStateDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Filled</h2>
         <p className="text-body-m text-content-subtle">
           Use the filled prop to add a subtle background, useful when the empty state needs more visual presence.
@@ -88,7 +88,7 @@ export default function EmptyStateDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Without Action</h2>
         <p className="text-body-m text-content-subtle">
           Empty states can be displayed without action buttons when no action is available.
@@ -108,7 +108,7 @@ export default function EmptyStateDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Without Description</h2>
         <p className="text-body-m text-content-subtle">
           Minimal empty state with just an icon, title, and optional action.
@@ -130,7 +130,7 @@ export default function EmptyStateDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Multiple Actions</h2>
         <p className="text-body-m text-content-subtle">
           Empty states can have multiple action buttons.
@@ -158,7 +158,7 @@ export default function EmptyStateDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Custom Icon</h2>
         <p className="text-body-m text-content-subtle">
           Use any icon that fits your context. The default icon is a search icon.

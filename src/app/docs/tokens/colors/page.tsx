@@ -6,7 +6,7 @@ export default function TokensColorsPage() {
   const colorSections = getColorTokenSections()
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-20)]">
         <div className="flex size-[32px] items-center justify-center text-content-strong">
           <PaletteIcon className="size-8" />

@@ -17,7 +17,7 @@ import {
 
 export default function TooltipDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Tooltip</h1>
@@ -27,7 +27,7 @@ export default function TooltipDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Tooltip } from "@/components/ui/tooltip"
 import { Button } from "@/components/ui/button"
@@ -48,7 +48,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* Simple */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Simple</h2>
           <p className="text-body-m text-content-subtle">
@@ -59,7 +59,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Text only</p>
-              <p className="text-body-s text-content-subtle">Simple label tooltip</p>
+              <p className="text-body-m text-content-subtle">Simple label tooltip</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -79,7 +79,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With shortcut</p>
-              <p className="text-body-s text-content-subtle">Label with keyboard shortcut</p>
+              <p className="text-body-m text-content-subtle">Label with keyboard shortcut</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -122,7 +122,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* Explainer */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Explainer</h2>
           <p className="text-body-m text-content-subtle">
@@ -133,7 +133,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Title + description</p>
-              <p className="text-body-s text-content-subtle">More detailed help text</p>
+              <p className="text-body-m text-content-subtle">More detailed help text</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -155,7 +155,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With shortcut</p>
-              <p className="text-body-s text-content-subtle">Includes keyboard shortcut</p>
+              <p className="text-body-m text-content-subtle">Includes keyboard shortcut</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -178,7 +178,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* Breakdown */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Breakdown</h2>
           <p className="text-body-m text-content-subtle">
@@ -189,7 +189,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Chart tooltip</p>
-              <p className="text-body-s text-content-subtle">For data visualizations</p>
+              <p className="text-body-m text-content-subtle">For data visualizations</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -218,7 +218,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Custom colors</p>
-              <p className="text-body-s text-content-subtle">With hex color values</p>
+              <p className="text-body-m text-content-subtle">With hex color values</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -247,7 +247,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* Placement */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Placement</h2>
           <p className="text-body-m text-content-subtle">
@@ -258,7 +258,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Top</p>
-              <p className="text-body-s text-content-subtle">Tooltip appears above</p>
+              <p className="text-body-m text-content-subtle">Tooltip appears above</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -278,7 +278,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Right</p>
-              <p className="text-body-s text-content-subtle">Tooltip appears to the right</p>
+              <p className="text-body-m text-content-subtle">Tooltip appears to the right</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -298,7 +298,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Bottom</p>
-              <p className="text-body-s text-content-subtle">Tooltip appears below</p>
+              <p className="text-body-m text-content-subtle">Tooltip appears below</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
@@ -318,7 +318,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Left</p>
-              <p className="text-body-s text-content-subtle">Tooltip appears to the left</p>
+              <p className="text-body-m text-content-subtle">Tooltip appears to the left</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>

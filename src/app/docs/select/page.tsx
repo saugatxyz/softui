@@ -113,7 +113,7 @@ const features = [
 
 export default function SelectDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <h1 className="text-body-3xl-semibold">Select</h1>
         <p className="max-w-2xl text-body-l text-content-subtle">
@@ -121,7 +121,7 @@ export default function SelectDocsPage() {
         </p>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Select } from "@/components/ui/select"
 import { Field } from "@/components/ui/field"
@@ -155,13 +155,13 @@ const priorities = [
       </section>
 
       {/* Basic */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Basic</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Default</p>
-              <p className="text-body-s text-content-subtle">Simple dropdown selection</p>
+              <p className="text-body-m text-content-subtle">Simple dropdown selection</p>
             </div>
             <div className="w-full max-w-sm">
               <Select options={countries} placeholder="Select country" />
@@ -170,7 +170,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With default value</p>
-              <p className="text-body-s text-content-subtle">Pre-selected option</p>
+              <p className="text-body-m text-content-subtle">Pre-selected option</p>
             </div>
             <div className="w-full max-w-sm">
               <Select options={countries} defaultValue="us" />
@@ -180,13 +180,13 @@ const priorities = [
       </section>
 
       {/* Sizes */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Small (32px)</p>
-              <p className="text-body-s text-content-subtle">Compact areas, inline forms</p>
+              <p className="text-body-m text-content-subtle">Compact areas, inline forms</p>
             </div>
             <div className="w-full max-w-sm">
               <Select size="s" options={timezones} placeholder="Select timezone" />
@@ -195,7 +195,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Medium (36px)</p>
-              <p className="text-body-s text-content-subtle">Default for most forms</p>
+              <p className="text-body-m text-content-subtle">Default for most forms</p>
             </div>
             <div className="w-full max-w-sm">
               <Select size="m" options={timezones} placeholder="Select timezone" />
@@ -204,7 +204,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Large (40px)</p>
-              <p className="text-body-s text-content-subtle">Prominent selections, touch targets</p>
+              <p className="text-body-m text-content-subtle">Prominent selections, touch targets</p>
             </div>
             <div className="w-full max-w-sm">
               <Select size="l" options={timezones} placeholder="Select timezone" />
@@ -214,13 +214,13 @@ const priorities = [
       </section>
 
       {/* With Icons */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Leading icon</p>
-              <p className="text-body-s text-content-subtle">Icon in trigger button</p>
+              <p className="text-body-m text-content-subtle">Icon in trigger button</p>
             </div>
             <div className="w-full max-w-sm">
               <Select
@@ -233,7 +233,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Option icons</p>
-              <p className="text-body-s text-content-subtle">Icons in dropdown items</p>
+              <p className="text-body-m text-content-subtle">Icons in dropdown items</p>
             </div>
             <div className="w-full max-w-sm">
               <Select
@@ -245,7 +245,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Danger icon</p>
-              <p className="text-body-s text-content-subtle">Destructive action indicator</p>
+              <p className="text-body-m text-content-subtle">Destructive action indicator</p>
             </div>
             <div className="w-full max-w-sm">
               <Select
@@ -257,7 +257,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Avatar (images)</p>
-              <p className="text-body-s text-content-subtle">User photos in options</p>
+              <p className="text-body-m text-content-subtle">User photos in options</p>
             </div>
             <div className="w-full max-w-sm">
               <Select
@@ -269,7 +269,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Avatar (placeholders)</p>
-              <p className="text-body-s text-content-subtle">Colored initials in options</p>
+              <p className="text-body-m text-content-subtle">Colored initials in options</p>
             </div>
             <div className="w-full max-w-sm">
               <Select
@@ -281,7 +281,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Crypto tokens</p>
-              <p className="text-body-s text-content-subtle">Cryptocurrency icons</p>
+              <p className="text-body-m text-content-subtle">Cryptocurrency icons</p>
             </div>
             <div className="w-full max-w-sm">
               <Select
@@ -293,7 +293,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Company logos</p>
-              <p className="text-body-s text-content-subtle">Brand icons in options</p>
+              <p className="text-body-m text-content-subtle">Brand icons in options</p>
             </div>
             <div className="w-full max-w-sm">
               <Select
@@ -306,13 +306,13 @@ const priorities = [
       </section>
 
       {/* With Descriptions */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Descriptions</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Plan selection</p>
-              <p className="text-body-s text-content-subtle">Options with secondary text</p>
+              <p className="text-body-m text-content-subtle">Options with secondary text</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Plan">
@@ -326,7 +326,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Role selection</p>
-              <p className="text-body-s text-content-subtle">Permissions explained</p>
+              <p className="text-body-m text-content-subtle">Permissions explained</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Role">
@@ -341,13 +341,13 @@ const priorities = [
       </section>
 
       {/* Multiple Selection */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Multiple Selection</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Multi-select</p>
-              <p className="text-body-s text-content-subtle">Select multiple options</p>
+              <p className="text-body-m text-content-subtle">Select multiple options</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Features">
@@ -362,7 +362,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With avatars</p>
-              <p className="text-body-s text-content-subtle">Multi-select with user avatars</p>
+              <p className="text-body-m text-content-subtle">Multi-select with user avatars</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Assign to">
@@ -378,13 +378,13 @@ const priorities = [
       </section>
 
       {/* With Field */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label only</p>
-              <p className="text-body-s text-content-subtle">Simple field label</p>
+              <p className="text-body-m text-content-subtle">Simple field label</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country">
@@ -398,7 +398,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label + description</p>
-              <p className="text-body-s text-content-subtle">Additional context for the field</p>
+              <p className="text-body-m text-content-subtle">Additional context for the field</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Timezone" description="Used for scheduling and notifications">
@@ -413,13 +413,13 @@ const priorities = [
       </section>
 
       {/* States */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled</p>
-              <p className="text-body-s text-content-subtle">Non-interactive state</p>
+              <p className="text-body-m text-content-subtle">Non-interactive state</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" disabled>
@@ -434,7 +434,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled option</p>
-              <p className="text-body-s text-content-subtle">Individual option unavailable</p>
+              <p className="text-body-m text-content-subtle">Individual option unavailable</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Status">
@@ -448,7 +448,7 @@ const priorities = [
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Error</p>
-              <p className="text-body-s text-content-subtle">Validation error state</p>
+              <p className="text-body-m text-content-subtle">Validation error state</p>
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" error="Country is required">

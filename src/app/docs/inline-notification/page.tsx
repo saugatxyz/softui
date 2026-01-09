@@ -23,7 +23,7 @@ const compactToneRows = [
 
 export default function InlineNotificationDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Inline Notification</h1>
@@ -33,7 +33,7 @@ export default function InlineNotificationDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { InlineNotification } from "@/components/ui/inline-notification"
 
@@ -54,7 +54,7 @@ export default function InlineNotificationDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Tones</h2>
         <div className="flex flex-col">
           {toneRows.map((tone) => (
@@ -64,7 +64,7 @@ export default function InlineNotificationDocsPage() {
             >
               <div className="md:min-w-[200px]">
                 <p className="text-body-m text-content-strong">{tone.label}</p>
-                <p className="text-body-s text-content-subtle">{tone.description}</p>
+                <p className="text-body-m text-content-subtle">{tone.description}</p>
               </div>
               <div className="flex-1">
                 <InlineNotification.Root tone={tone.value}>
@@ -85,10 +85,10 @@ export default function InlineNotificationDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Compact</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Without description for brief notifications.
           </p>
         </div>
@@ -119,13 +119,13 @@ export default function InlineNotificationDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Without Actions</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[200px]">
               <p className="text-body-m text-content-strong">With description</p>
-              <p className="text-body-s text-content-subtle">Informational only</p>
+              <p className="text-body-m text-content-subtle">Informational only</p>
             </div>
             <div className="flex-1">
               <InlineNotification.Root tone="info">
@@ -144,7 +144,7 @@ export default function InlineNotificationDocsPage() {
           <div className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[200px]">
               <p className="text-body-m text-content-strong">Compact</p>
-              <p className="text-body-s text-content-subtle">Title only</p>
+              <p className="text-body-m text-content-subtle">Title only</p>
             </div>
             <div className="flex-1">
               <InlineNotification.Root tone="success">
@@ -160,13 +160,13 @@ export default function InlineNotificationDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Without Close Button</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[200px]">
               <p className="text-body-m text-content-strong">Persistent</p>
-              <p className="text-body-s text-content-subtle">Non-dismissible notification</p>
+              <p className="text-body-m text-content-subtle">Non-dismissible notification</p>
             </div>
             <div className="flex-1">
               <InlineNotification.Root tone="warning">
@@ -187,13 +187,13 @@ export default function InlineNotificationDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Custom Icon</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[200px]">
               <p className="text-body-m text-content-strong">Override default icon</p>
-              <p className="text-body-s text-content-subtle">Pass icon prop to Root</p>
+              <p className="text-body-m text-content-subtle">Pass icon prop to Root</p>
             </div>
             <div className="flex-1">
               <InlineNotification.Root

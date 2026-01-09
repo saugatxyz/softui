@@ -7,7 +7,7 @@ import { Banner, type BannerTone } from "@/components/ui/banner"
 
 export default function BannerDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Banner</h1>
@@ -17,7 +17,7 @@ export default function BannerDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Banner } from "@/components/ui/banner"
 
@@ -33,7 +33,7 @@ export default function BannerDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Tones</h2>
         <p className="text-body-m text-content-subtle">
           Banners support different tones to convey the nature of the message.
@@ -63,7 +63,7 @@ export default function BannerDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Without Actions</h2>
         <p className="text-body-m text-content-subtle">
           Banners can display informational messages without action buttons.
@@ -76,7 +76,7 @@ export default function BannerDocsPage() {
         </Banner.Root>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Without Close Button</h2>
         <p className="text-body-m text-content-subtle">
           Use non-dismissible banners for critical information that users must acknowledge through an action.
@@ -92,7 +92,7 @@ export default function BannerDocsPage() {
         </Banner.Root>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Custom Icon</h2>
         <p className="text-body-m text-content-subtle">
           Pass a custom icon via the icon prop on the Root component.
@@ -115,7 +115,7 @@ export default function BannerDocsPage() {
         </Banner.Root>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Dismissible Banner</h2>
         <p className="text-body-m text-content-subtle">
           Use the onClose callback to handle dismissal.

@@ -68,7 +68,7 @@ const sizes = [
 
 export default function BadgeDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Badge</h1>
@@ -78,7 +78,7 @@ export default function BadgeDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Badge } from "@/components/ui/badge"
 import { PriceTagIcon } from "@/icons"
@@ -92,10 +92,10 @@ import { PriceTagIcon } from "@/icons"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Statuses</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Feedback badges are used to show status.
           </p>
         </div>
@@ -133,10 +133,10 @@ import { PriceTagIcon } from "@/icons"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Decorative</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Decorative badges are used when status badges aren&apos;t enough.
           </p>
         </div>
@@ -162,10 +162,10 @@ import { PriceTagIcon } from "@/icons"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Sizings</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Icons are available for S or M sizes.
           </p>
         </div>
@@ -177,7 +177,7 @@ import { PriceTagIcon } from "@/icons"
             >
               <div>
                 <p className="text-body-m text-content-strong">{size.label}</p>
-                <p className="text-body-s text-content-subtle">
+                <p className="text-body-m text-content-subtle">
                   {size.height}px height
                 </p>
               </div>

@@ -15,7 +15,7 @@ import {
 
 export default function PopoverDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Popover</h1>
@@ -25,7 +25,7 @@ export default function PopoverDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Popover } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
@@ -47,7 +47,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* Basic */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Basic</h2>
           <p className="text-body-m text-content-subtle">
@@ -58,7 +58,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Default</p>
-              <p className="text-body-s text-content-subtle">Title and description</p>
+              <p className="text-body-m text-content-subtle">Title and description</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
@@ -81,7 +81,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">With close button</p>
-              <p className="text-body-s text-content-subtle">Includes dismiss action</p>
+              <p className="text-body-m text-content-subtle">Includes dismiss action</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
@@ -108,7 +108,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* With Arrow */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">With Arrow</h2>
           <p className="text-body-m text-content-subtle">
@@ -119,7 +119,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Arrow indicator</p>
-              <p className="text-body-s text-content-subtle">Points to trigger element</p>
+              <p className="text-body-m text-content-subtle">Points to trigger element</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
@@ -141,7 +141,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* With Form */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">With Form</h2>
           <p className="text-body-m text-content-subtle">
@@ -152,7 +152,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Filter popover</p>
-              <p className="text-body-s text-content-subtle">With small input fields</p>
+              <p className="text-body-m text-content-subtle">With small input fields</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
@@ -194,7 +194,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* Placement */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Placement</h2>
           <p className="text-body-m text-content-subtle">
@@ -205,7 +205,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Top</p>
-              <p className="text-body-s text-content-subtle">Popover appears above</p>
+              <p className="text-body-m text-content-subtle">Popover appears above</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
@@ -223,7 +223,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Right</p>
-              <p className="text-body-s text-content-subtle">Popover appears to the right</p>
+              <p className="text-body-m text-content-subtle">Popover appears to the right</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
@@ -241,7 +241,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Bottom</p>
-              <p className="text-body-s text-content-subtle">Popover appears below</p>
+              <p className="text-body-m text-content-subtle">Popover appears below</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
@@ -259,7 +259,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Left</p>
-              <p className="text-body-s text-content-subtle">Popover appears to the left</p>
+              <p className="text-body-m text-content-subtle">Popover appears to the left</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
@@ -278,7 +278,7 @@ import { Button } from "@/components/ui/button"
       </section>
 
       {/* With Backdrop */}
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">With Backdrop</h2>
           <p className="text-body-m text-content-subtle">
@@ -289,7 +289,7 @@ import { Button } from "@/components/ui/button"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Backdrop overlay</p>
-              <p className="text-body-s text-content-subtle">Dims background content</p>
+              <p className="text-body-m text-content-subtle">Dims background content</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>

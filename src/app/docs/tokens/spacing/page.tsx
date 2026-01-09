@@ -6,7 +6,7 @@ export default function TokensSpacingPage() {
   const radiusScale = getRadiusScale()
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-20)]">
         <div className="flex size-[32px] items-center justify-center text-content-strong">
           <LayoutLeftIcon className="size-8" />
@@ -19,7 +19,7 @@ export default function TokensSpacingPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Spacing</h2>
         <div className="flex flex-col">
           {spacingScale.map((item, index) => (
@@ -40,7 +40,7 @@ export default function TokensSpacingPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Radius</h2>
         <div className="flex flex-col">
           {radiusScale.map((item, index) => (

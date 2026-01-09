@@ -36,17 +36,89 @@ If text isn't important enough for `content-subtle`, remove it.
 
 **Title + subtitle pairing:**
 
-| Title Type | Title Style | Subtitle Size | Subtitle Style |
-|------------|-------------|---------------|----------------|
-| Page title | `content-strong`, semibold | `--font-size-m` | `content-subtle`, regular |
-| Section title | `content-strong`, semibold | `--font-size-m` | `content-subtle`, regular |
-| Small title | `content-strong`, medium | `--font-size-xs` | `content-subtle`, regular |
-| Normal text | `content-strong`, medium | `--font-size-xs` | `content-subtle`, regular |
+| Title Type | Title Size | Title Weight | Subtitle Size | Gap |
+|------------|------------|--------------|---------------|-----|
+| Page title | 2xl (20px) | semibold | m (14px) | 6px |
+| Section title | xl (18px) | semibold | m (14px) | 4px |
+| Card/small title | l (16px) | medium | s (13px) | 2px |
+| List item | m (14px) | medium | s (13px) | 0px |
+
+Subtitles always use `content-subtle` with regular weight.
 
 **Titles:**
 - Not every title needs a subtitle or badge—most don't
 - Only add subtitles when extra context is genuinely needed
 - Only add badges for status or counts, not decoration
+
+### Text Pairing Guide
+
+**Base rule:** Most text should be 14px (`--font-size-m`). Only titles go larger.
+
+**Available text sizes:**
+
+| Token | Size | Use |
+|-------|------|-----|
+| 3xl | 24px | Hero titles only |
+| 2xl | 20px | Page titles |
+| xl | 18px | Section titles |
+| l | 16px | Card titles, emphasized text |
+| m | 14px | Body text, list items (default) |
+| s | 13px | Secondary text, subtitles |
+| xs | 12px | Captions, helper text |
+| 2xs | 10px | Rare, very small labels |
+
+**Size pairings by context:**
+
+| Primary Text | Paired With | Gap | Use Case |
+|--------------|-------------|-----|----------|
+| 2xl (20px) | m (14px) | 6px | Page title + description |
+| xl (18px) | m (14px) | 4px | Section title + description |
+| l (16px) | s (13px) | 2px | Card title + description |
+| m (14px) | s (13px) | 0px | List item title + subtitle |
+
+**List item text pairing:**
+
+For lists and repeating items, use 14px + 13px stacking (no gap):
+
+| Element | Size | Weight | Color |
+|---------|------|--------|-------|
+| Primary text (identifier) | m (14px) | medium | `content-strong` |
+| Secondary text (subtitle) | s (13px) | regular | `content-subtle` |
+
+**What goes in primary vs secondary:**
+
+| Primary (14px, strong) | Secondary (13px, subtle) |
+|------------------------|--------------------------|
+| Name, title, identifier | Email, handle, ID |
+| Action or label | Description, explanation |
+| Main value | Supporting context |
+| File name | File size, date |
+| Task title | Project, assignee |
+
+**Single-line vs stacked:**
+- **Single-line:** Use when secondary info is short (email, date, ID)
+- **Stacked:** Use when secondary info is a full sentence or description
+- **Inline separator:** Use `·` or `—` to separate inline secondary info
+
+```tsx
+// Stacked (list items, cards)
+<div className="flex flex-col">
+  <span className="text-body-m-medium text-content-strong">Sarah Chen</span>
+  <span className="text-body-s text-content-subtle">sarah.chen@company.com</span>
+</div>
+
+// Inline with separator
+<div className="flex items-center gap-[var(--space-6)]">
+  <span className="text-body-m-medium text-content-strong">Document.pdf</span>
+  <span className="text-body-s text-content-subtle">·</span>
+  <span className="text-body-s text-content-subtle">2.4 MB</span>
+</div>
+```
+
+**When NOT to stack:**
+- Single-line items without meaningful secondary info
+- When the list is already dense
+- When secondary info belongs in a separate column (tables)
 
 ### Icons
 

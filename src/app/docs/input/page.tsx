@@ -32,7 +32,7 @@ function ClearableInput() {
 
 export default function InputDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Input</h1>
@@ -42,7 +42,7 @@ export default function InputDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Input } from "@/components/ui/input"
 import { Field } from "@/components/ui/field"
@@ -65,13 +65,13 @@ import { RiMailLine } from "@remixicon/react"
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Small</p>
-              <p className="text-body-s text-content-subtle">32px height</p>
+              <p className="text-body-m text-content-subtle">32px height</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Input
@@ -84,7 +84,7 @@ import { RiMailLine } from "@remixicon/react"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Medium</p>
-              <p className="text-body-s text-content-subtle">36px height</p>
+              <p className="text-body-m text-content-subtle">36px height</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Input
@@ -97,7 +97,7 @@ import { RiMailLine } from "@remixicon/react"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Large</p>
-              <p className="text-body-s text-content-subtle">40px height</p>
+              <p className="text-body-m text-content-subtle">40px height</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Input
@@ -110,7 +110,7 @@ import { RiMailLine } from "@remixicon/react"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -149,7 +149,7 @@ import { RiMailLine } from "@remixicon/react"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Field</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -175,7 +175,7 @@ import { RiMailLine } from "@remixicon/react"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -211,13 +211,13 @@ import { RiMailLine } from "@remixicon/react"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Focus Ring</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Keyboard only</p>
-              <p className="text-body-s text-content-subtle">Focus ring on Tab navigation</p>
+              <p className="text-body-m text-content-subtle">Focus ring on Tab navigation</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Input
@@ -229,7 +229,7 @@ import { RiMailLine } from "@remixicon/react"
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Always visible</p>
-              <p className="text-body-s text-content-subtle">Focus ring on click and Tab</p>
+              <p className="text-body-m text-content-subtle">Focus ring on click and Tab</p>
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Input
@@ -240,7 +240,7 @@ import { RiMailLine } from "@remixicon/react"
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Form Example</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

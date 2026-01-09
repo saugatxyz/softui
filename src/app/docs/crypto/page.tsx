@@ -8,7 +8,7 @@ const cryptoRows = cryptos.map((crypto) => ({
 
 export default function CryptoDocsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-40)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Crypto</h1>
@@ -18,7 +18,7 @@ export default function CryptoDocsPage() {
         </div>
       </header>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Crypto } from "@/components/ui/crypto"
 
@@ -28,7 +28,7 @@ export default function CryptoDocsPage() {
         />
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Tokens</h2>
         <div className="flex flex-col">
           {cryptoRows.map((crypto) => (
@@ -38,7 +38,7 @@ export default function CryptoDocsPage() {
             >
               <div className="md:min-w-[220px]">
                 <p className="text-body-m text-content-strong">{crypto.label}</p>
-                <p className="text-body-s text-content-subtle">{crypto.value}</p>
+                <p className="text-body-m text-content-subtle">{crypto.value}</p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-12)]">
                 <Crypto crypto={crypto.value} size={24} />
@@ -50,10 +50,10 @@ export default function CryptoDocsPage() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-[var(--space-10)]">
+      <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Sizes</h2>
-          <p className="text-body-s text-content-subtle">
+          <p className="text-body-m text-content-subtle">
             Crypto icons can be rendered at any size. Default is 24px.
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function CryptoDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-body-m text-content-strong">Small</p>
-              <p className="text-body-s text-content-subtle">16px</p>
+              <p className="text-body-m text-content-subtle">16px</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <Crypto crypto="btc" size={16} />
@@ -73,7 +73,7 @@ export default function CryptoDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-body-m text-content-strong">Default</p>
-              <p className="text-body-s text-content-subtle">24px</p>
+              <p className="text-body-m text-content-subtle">24px</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <Crypto crypto="btc" size={24} />
@@ -85,7 +85,7 @@ export default function CryptoDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-body-m text-content-strong">Medium</p>
-              <p className="text-body-s text-content-subtle">32px</p>
+              <p className="text-body-m text-content-subtle">32px</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <Crypto crypto="btc" size={32} />
@@ -97,7 +97,7 @@ export default function CryptoDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-body-m text-content-strong">Large</p>
-              <p className="text-body-s text-content-subtle">48px</p>
+              <p className="text-body-m text-content-subtle">48px</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <Crypto crypto="btc" size={48} />

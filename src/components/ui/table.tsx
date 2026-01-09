@@ -6,6 +6,7 @@ import { RiArrowUpSLine, RiArrowDownSLine, RiMoreLine } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 import { CheckboxControl } from "./checkbox-control"
 import { Badge, type BadgeVariant } from "./badge"
+import { TablePrefix, type TablePrefixProps, type TablePrefixType, type TablePrefixSize } from "./table-prefix"
 import { Avatar } from "./avatar"
 import { AvatarGroup } from "./avatar-group"
 import { Progress } from "./progress"
@@ -16,7 +17,7 @@ import { IconButton } from "./icon-button"
 // Types
 // ============================================================================
 
-type TableSize = "s" | "m" | "l"
+type TableSize = "s" | "m" | "l" | "xl"
 type SortDirection = "asc" | "desc" | null
 
 // ============================================================================
@@ -26,13 +27,24 @@ type SortDirection = "asc" | "desc" | null
 const rowHeights: Record<TableSize, string> = {
   s: "h-[40px]",
   m: "h-[48px]",
-  l: "h-[56px]",
+  l: "h-[60px]",
+  xl: "h-[72px]",
 }
 
+const headerRowHeight = "h-[36px]"
+
 const cellPadding: Record<TableSize, string> = {
-  s: "px-[var(--space-12)] py-[var(--space-8)]",
-  m: "px-[var(--space-16)] py-[var(--space-12)]",
-  l: "px-[var(--space-16)] py-[var(--space-12)]",
+  s: "h-[40px] px-[var(--space-12)]",
+  m: "h-[48px] px-[var(--space-16)]",
+  l: "h-[60px] px-[var(--space-16)]",
+  xl: "h-[72px] px-[var(--space-16)]",
+}
+
+const headerCellPadding: Record<TableSize, string> = {
+  s: "h-[36px] px-[var(--space-12)]",
+  m: "h-[36px] px-[var(--space-16)]",
+  l: "h-[36px] px-[var(--space-16)]",
+  xl: "h-[36px] px-[var(--space-16)]",
 }
 
 // ============================================================================
@@ -136,9 +148,10 @@ function TableRow({ selected, isHeader, className, ...props }: TableRowProps) {
       data-selected={selected || undefined}
       className={cn(
         "border-b border-border-muted",
-        !isHeader && "hover:bg-surface-interactive-hover",
-        selected && "bg-surface-interactive-selected",
-        rowHeights[size],
+        !isHeader && "hover:bg-surface-interactive-default",
+        selected && "bg-surface-interactive-default",
+        selected && "shadow-[inset_2px_0_0_0_var(--color-actions-primary-default)]",
+        isHeader ? headerRowHeight : rowHeights[size],
         className
       )}
       {...props}
@@ -175,10 +188,10 @@ function TableHead({
       data-sort={sortDirection || undefined}
       className={cn(
         "align-middle",
-        "text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)]",
+        "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
         "text-content-subtle",
         align === "right" ? "text-right" : "text-left",
-        cellPadding[size],
+        headerCellPadding[size],
         sortable && "cursor-pointer select-none hover:text-content-strong",
         className
       )}
@@ -278,6 +291,7 @@ function TableCheckboxCell({
     s: "pl-[var(--space-12)] py-[var(--space-8)]",
     m: "pl-[var(--space-16)] py-[var(--space-12)]",
     l: "pl-[var(--space-16)] py-[var(--space-12)]",
+    xl: "pl-[var(--space-16)] py-[var(--space-12)]",
   }
 
   return (
@@ -315,16 +329,22 @@ function TableTextCell({
   className,
 }: TableTextCellProps) {
   const { size } = React.useContext(TableContext)
-  const isStacked = size === "l" && additionalInfo
+  const isLargeSize = size === "l" || size === "xl"
+  const isStacked = isLargeSize && additionalInfo
+
+  const prefixGap = isLargeSize ? "gap-[var(--space-12)]" : "gap-[var(--space-10)]"
 
   return (
     <td
       data-slot="table-text-cell"
       className={cn("align-middle", cellPadding[size], className)}
     >
-      <div className="flex min-w-0 items-start gap-[var(--space-8)]">
+      <div className={cn("flex min-w-0", prefixGap, isStacked ? "items-start" : "items-center")}>
         {prefix && (
-          <span className="flex size-[20px] shrink-0 items-center justify-center">
+          <span className={cn(
+            "flex shrink-0 justify-center",
+            isStacked ? "items-start pt-[2px]" : "items-center"
+          )}>
             {prefix}
           </span>
         )}
@@ -342,7 +362,12 @@ function TableTextCell({
               {!isStacked && (
                 <span className="size-[2px] shrink-0 rounded-full bg-content-muted" />
               )}
-              <span className="text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] text-content-subtle">
+              <span className={cn(
+                "font-[var(--font-weight-default)] text-content-subtle",
+                isStacked
+                  ? "text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]"
+                  : "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]"
+              )}>
                 {additionalInfo}
               </span>
             </>
@@ -489,6 +514,93 @@ function TableActionsCell({ children, className }: TableActionsCellProps) {
 }
 
 // ============================================================================
+// Table Icon
+// ============================================================================
+
+type TableIconTone = "default" | "success" | "warning" | "danger" | "info"
+
+type TableIconProps = {
+  children: React.ReactNode
+  /** Use 14px size for icons inside emphasized containers (with background) */
+  emphasized?: boolean
+  /** Semantic color tone. Default uses text-content-strong */
+  tone?: TableIconTone
+  className?: string
+}
+
+const iconToneClasses: Record<TableIconTone, string> = {
+  default: "text-content-strong",
+  success: "text-content-feedback-success-strong",
+  warning: "text-content-feedback-warning-strong",
+  danger: "text-content-feedback-danger-strong",
+  info: "text-content-feedback-info-strong",
+}
+
+function TableIcon({
+  children,
+  emphasized = false,
+  tone = "default",
+  className,
+}: TableIconProps) {
+  const { size: tableSize } = React.useContext(TableContext)
+  const isLargeSize = tableSize === "l" || tableSize === "xl"
+  // Emphasized icons: 17px in large tables, 14px otherwise
+  // Non-emphasized icons: always 16px
+  const iconSize = emphasized
+    ? isLargeSize ? "size-[17px]" : "size-[14px]"
+    : "size-[16px]"
+  const color = iconToneClasses[tone]
+
+  return (
+    <span
+      data-slot="table-icon"
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center [&>svg]:size-full",
+        iconSize,
+        color,
+        className
+      )}
+    >
+      {children}
+    </span>
+  )
+}
+
+// ============================================================================
+// Table Supporting Text
+// ============================================================================
+
+type TableSupportingTextProps = {
+  children: React.ReactNode
+  className?: string
+}
+
+function TableSupportingText({ children, className }: TableSupportingTextProps) {
+  return (
+    <span
+      data-slot="table-supporting-text"
+      className={cn(
+        "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-subtle",
+        className
+      )}
+    >
+      {children}
+    </span>
+  )
+}
+
+// ============================================================================
+// Context-Aware Prefix Wrapper
+// ============================================================================
+
+type ContextAwareTablePrefixProps = Omit<TablePrefixProps, "size">
+
+function ContextAwareTablePrefix(props: ContextAwareTablePrefixProps) {
+  const { size } = React.useContext(TableContext)
+  return <TablePrefix {...props} size={size} />
+}
+
+// ============================================================================
 // Namespace Export
 // ============================================================================
 
@@ -501,6 +613,9 @@ const Table = {
   Head: TableHead,
   Cell: TableCell,
   Caption: TableCaption,
+  Prefix: ContextAwareTablePrefix,
+  Icon: TableIcon,
+  SupportingText: TableSupportingText,
   CheckboxCell: TableCheckboxCell,
   TextCell: TableTextCell,
   NumberCell: TableNumberCell,
@@ -522,6 +637,12 @@ export type {
   TableHeadProps,
   TableCellProps,
   TableCaptionProps,
+  TablePrefixProps,
+  TablePrefixType,
+  TablePrefixSize,
+  TableIconProps,
+  TableIconTone,
+  TableSupportingTextProps,
   TableCheckboxCellProps,
   TableTextCellProps,
   TableNumberCellProps,
