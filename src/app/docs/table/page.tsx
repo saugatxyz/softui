@@ -374,7 +374,7 @@ function SelectionDemo() {
   const someSelected = selected.size > 0 && selected.size < items.length
 
   return (
-    <Table.Root>
+    <Table.Root fixedLayout>
       <Table.Header>
         <Table.Row isHeader>
           <Table.CheckboxCell
@@ -386,7 +386,7 @@ function SelectionDemo() {
             }}
           />
           <Table.Head>Name</Table.Head>
-          <Table.Head align="right">Status</Table.Head>
+          <Table.Head className="w-[120px]">Status</Table.Head>
         </Table.Row>
       </Table.Header>
       <Table.Body>

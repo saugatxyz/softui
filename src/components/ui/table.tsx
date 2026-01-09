@@ -63,16 +63,22 @@ const TableContext = React.createContext<{
 
 type TableRootProps = React.HTMLAttributes<HTMLTableElement> & {
   size?: TableSize
+  /** Use fixed table layout - columns with explicit widths stay fixed, others share remaining space */
+  fixedLayout?: boolean
 }
 
-function TableRoot({ size = "m", className, children, ...props }: TableRootProps) {
+function TableRoot({ size = "m", fixedLayout = false, className, children, ...props }: TableRootProps) {
   return (
     <TableContext.Provider value={{ size }}>
       <div className="w-full overflow-auto">
         <table
           data-slot="table"
           data-size={size}
-          className={cn("w-full caption-bottom border-collapse", className)}
+          className={cn(
+            "w-full caption-bottom border-collapse",
+            fixedLayout && "table-fixed",
+            className
+          )}
           {...props}
         >
           {children}
@@ -287,17 +293,18 @@ function TableCheckboxCell({
 }: TableCheckboxCellProps) {
   const { size } = React.useContext(TableContext)
 
-  const checkboxPadding: Record<TableSize, string> = {
-    s: "pl-[var(--space-12)] py-[var(--space-8)]",
-    m: "pl-[var(--space-16)] py-[var(--space-12)]",
-    l: "pl-[var(--space-16)] py-[var(--space-12)]",
-    xl: "pl-[var(--space-16)] py-[var(--space-12)]",
+  // Width must account for: left padding + checkbox (16px) + small right gap
+  const checkboxCellStyles: Record<TableSize, string> = {
+    s: "w-[36px] pl-[var(--space-12)] pr-[var(--space-8)] py-[var(--space-8)]",
+    m: "w-[44px] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
+    l: "w-[44px] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
+    xl: "w-[44px] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
   }
 
   return (
     <td
       data-slot="table-checkbox-cell"
-      className={cn("w-[24px]", checkboxPadding[size], className)}
+      className={cn(checkboxCellStyles[size], className)}
     >
       <div className="flex size-[16px] items-center justify-center">
         <CheckboxControl
@@ -413,20 +420,26 @@ type TableBadgeCellProps = {
   children: React.ReactNode
   variant?: BadgeVariant
   isEmphasized?: boolean
+  align?: "left" | "right"
+  /** Fixed width to prevent column resizing when content changes */
+  width?: string
   className?: string
 }
 
-function TableBadgeCell({ children, variant = "neutral", isEmphasized = true, className }: TableBadgeCellProps) {
+function TableBadgeCell({ children, variant = "neutral", isEmphasized = true, align = "left", width, className }: TableBadgeCellProps) {
   const { size } = React.useContext(TableContext)
 
   return (
     <td
       data-slot="table-badge-cell"
       className={cn("align-middle", cellPadding[size], className)}
+      style={width ? { width, minWidth: width } : undefined}
     >
-      <Badge variant={variant} size="s" isEmphasized={isEmphasized}>
-        {children}
-      </Badge>
+      <div className={cn("flex", align === "right" ? "justify-end" : "justify-start")}>
+        <Badge variant={variant} size="s" isEmphasized={isEmphasized}>
+          {children}
+        </Badge>
+      </div>
     </td>
   )
 }
