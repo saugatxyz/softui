@@ -8,6 +8,20 @@ import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
 
 // ============================================================================
+// Context for sharing container ref (used for popup anchor positioning)
+// ============================================================================
+
+type AutocompleteContextValue = {
+  containerRef: React.RefObject<HTMLDivElement | null>
+}
+
+const AutocompleteContext = React.createContext<AutocompleteContextValue | null>(null)
+
+function useAutocompleteContext() {
+  return React.useContext(AutocompleteContext)
+}
+
+// ============================================================================
 // Variants
 // ============================================================================
 
@@ -86,6 +100,8 @@ function AutocompleteRoot<ItemValue = unknown>({
 }: AutocompleteRootProps<ItemValue>) {
   const [showFocusRing, setShowFocusRing] = React.useState(false)
   const wasPointerDown = React.useRef(false)
+  // Ref for the container - used as anchor for popup positioning
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
   const handlePointerDown = () => {
     wasPointerDown.current = true
@@ -102,8 +118,11 @@ function AutocompleteRoot<ItemValue = unknown>({
     wasPointerDown.current = false
   }
 
+  const contextValue = React.useMemo(() => ({ containerRef }), [])
+
   const content = (
     <div
+      ref={containerRef}
       data-slot="autocomplete"
       data-size={size}
       className={cn(
@@ -122,22 +141,26 @@ function AutocompleteRoot<ItemValue = unknown>({
 
   if (isGroupedItems(items)) {
     return (
+      <AutocompleteContext.Provider value={contextValue}>
+        <AutocompletePrimitive.Root
+          {...(props as Omit<AutocompletePrimitive.Root.Props<ItemValue>, "items">)}
+          items={items}
+        >
+          {content}
+        </AutocompletePrimitive.Root>
+      </AutocompleteContext.Provider>
+    )
+  }
+
+  return (
+    <AutocompleteContext.Provider value={contextValue}>
       <AutocompletePrimitive.Root
         {...(props as Omit<AutocompletePrimitive.Root.Props<ItemValue>, "items">)}
         items={items}
       >
         {content}
       </AutocompletePrimitive.Root>
-    )
-  }
-
-  return (
-    <AutocompletePrimitive.Root
-      {...(props as Omit<AutocompletePrimitive.Root.Props<ItemValue>, "items">)}
-      items={items}
-    >
-      {content}
-    </AutocompletePrimitive.Root>
+    </AutocompleteContext.Provider>
   )
 }
 
@@ -197,12 +220,16 @@ function AutocompletePositioner({
   collisionPadding = 8,
   ...props
 }: AutocompletePositionerProps) {
+  // Use container ref as anchor so popup matches container width, not just input width
+  const context = useAutocompleteContext()
+
   return (
     <AutocompletePrimitive.Positioner
       data-slot="positioner"
       className={cn("outline-none", className)}
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
+      anchor={context?.containerRef}
       {...props}
     />
   )

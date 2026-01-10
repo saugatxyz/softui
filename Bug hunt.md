@@ -11,7 +11,7 @@ This document tracks visual bugs found during the codexrefactor and provides sol
 
 ## 1. Autocomplete - Width, Gap, and Focus Ring
 **Status:** [x] Fixed
-**Review:** Approved
+**Review:** Code review pending (width fix)
 
 ### Problem
 - Suggestion dropdown doesn't match the width of the trigger field
@@ -56,6 +56,24 @@ const handleBlur = () => setIsMouseFocus(false)
 ### Alternative Solutions
 1. **CSS-only width:** Use `min-w-[var(--anchor-width)]` on popup (already present, verify it's applied)
 2. **For focus ring:** Could use `:focus-visible` pseudo-class directly on the input element instead of container-based approach
+
+### Width Fix Implementation (Added)
+
+**Root Cause:** Base UI's Positioner defaults to anchoring on the Input element, not the visual container. The Input is narrower than the styled container (which includes icons/padding).
+
+**Solution Applied:**
+1. Added React Context (`AutocompleteContext`) to share container ref between Root and Positioner
+2. Added `containerRef` to Root component, attached to the outer styled div
+3. Positioner now uses `anchor={context?.containerRef}` to anchor on the full container
+
+**Why this is NOT modifying Base UI behavior:**
+- `anchor` is a standard Base UI Positioner prop designed for this exact use case
+- We're using Base UI's API, not overriding internal state or behavior
+- Same pattern as passing `sideOffset` or `align` - just configuration
+
+**Files changed:**
+- `src/components/ui/autocomplete.tsx`
+- `src/components/ui/list-item-styles.tsx` (removed conflicting max-w-[400px])
 
 ---
 
@@ -148,7 +166,7 @@ Add `label` and `description` props to Checkbox component with the same layout a
 
 ## 4. Combobox - Focus, Menu, and Empty State
 **Status:** [x] Fixed
-**Review:** Approved
+**Review:** Code review pending (width fix)
 
 ### Problem
 - Same focus ring issue as Autocomplete (not showing on keyboard tab)
@@ -176,6 +194,22 @@ function ComboboxPositioner({
 // Fix empty state example in docs - remove icon prop for "without icon" example
 <ComboboxEmpty>No results found</ComboboxEmpty>
 ```
+
+### Width Fix Implementation (Added)
+
+**Root Cause:** Same as Autocomplete - Base UI's Positioner defaults to anchoring on the Input element.
+
+**Solution Applied:**
+1. Added React Context (`ComboboxContext`) to share container ref between Root and Positioner
+2. Added `containerRef` to Root component, attached to the outer styled div
+3. Positioner now uses `anchor={context?.containerRef}` to anchor on the full container
+
+**Why this is NOT modifying Base UI behavior:**
+- `anchor` is a standard Base UI Positioner prop designed for this exact use case
+- We're using Base UI's API, not overriding internal state or behavior
+
+**Files changed:**
+- `src/components/ui/combobox.tsx`
 
 ---
 
@@ -454,9 +488,10 @@ Add indicator components with check icon to MenuCheckboxItem and MenuRadioItem.
 
 ## 14. Select - Positioning, Width, and Gap
 **Status:** [x] Fixed
+**Review:** Code review pending (alignItemWithTrigger fix)
 
 ### Problem
-Same issues as Autocomplete - menu doesn't match trigger width, missing gap.
+Same issues as Autocomplete - menu doesn't match trigger width, missing gap. Additionally, popup positioning seemed "random" - changing based on which item was selected.
 
 ### Solution from Main Branch
 
@@ -465,6 +500,7 @@ Same issues as Autocomplete - menu doesn't match trigger width, missing gap.
 Main branch has:
 1. `sideOffset={4}` on Positioner
 2. Popup uses `min-w-[var(--anchor-width)]` for width matching
+3. `alignItemWithTrigger={false}` for consistent positioning
 
 ### Implementation
 
@@ -478,6 +514,33 @@ function SelectPositioner({
 // Ensure SelectPopup matches anchor width
 className={cn(listPopupStyles.base, "min-w-[var(--anchor-width)]")}
 ```
+
+### Positioning Fix Implementation (Added)
+
+**Root Cause:** Base UI's `alignItemWithTrigger` prop defaults to `true`, which causes:
+- Popup overlaps trigger to align selected item text with trigger text (macOS-style picker)
+- Position changes based on which item is currently selected
+- Falls back inconsistently based on viewport space or touch interaction
+
+**Solution Applied:**
+Added `alignItemWithTrigger={false}` to SelectPositioner for standard dropdown behavior (popup appears below trigger with consistent 4px gap).
+
+**Why this is NOT modifying Base UI behavior:**
+- `alignItemWithTrigger` is a standard Base UI Positioner prop
+- We're configuring it to use standard dropdown positioning vs macOS-style picker
+- This is the intended use of the prop per Base UI docs
+
+**Files changed:**
+- `src/components/ui/select.tsx`
+- `src/components/ui/list-item-styles.tsx` (removed conflicting `max-w-[400px]`)
+
+### Note: Width Fix
+
+**Why Select width works but Autocomplete/Combobox needed anchor fix:**
+- Select: `SelectPrimitive.Trigger` IS the full-width styled button - Base UI correctly uses it as the anchor
+- Autocomplete/Combobox: Have a styled container div with an Input inside - Base UI defaults to anchoring on the Input, which is narrower
+
+Select only needed the `list-item-styles.tsx` fix for width (removing conflicting `max-w-[400px]`).
 
 ---
 

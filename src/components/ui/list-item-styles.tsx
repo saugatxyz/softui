@@ -29,8 +29,8 @@ export const listPopupStyles = {
     "data-[ending-style]:scale-[0.98] data-[ending-style]:opacity-0",
   ].join(" "),
 
-  // Width constraints - use anchor width but enforce min/max
-  width: "min-w-[max(var(--anchor-width),220px)] max-w-[400px]",
+  // Width constraints - match anchor width
+  width: "min-w-[var(--anchor-width)]",
 } as const
 
 /**

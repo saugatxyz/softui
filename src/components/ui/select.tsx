@@ -167,6 +167,7 @@ function SelectPositioner({
   className,
   sideOffset = 4,
   collisionPadding = 8,
+  alignItemWithTrigger = false,
   ...props
 }: SelectPositionerProps) {
   return (
@@ -175,6 +176,7 @@ function SelectPositioner({
       className={cn("z-[100] outline-none", className)}
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
+      alignItemWithTrigger={alignItemWithTrigger}
       {...props}
     />
   )

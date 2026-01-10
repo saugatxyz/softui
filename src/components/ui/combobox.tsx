@@ -8,6 +8,20 @@ import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
 
 // ============================================================================
+// Context for sharing container ref (used for popup anchor positioning)
+// ============================================================================
+
+type ComboboxContextValue = {
+  containerRef: React.RefObject<HTMLDivElement | null>
+}
+
+const ComboboxContext = React.createContext<ComboboxContextValue | null>(null)
+
+function useComboboxContext() {
+  return React.useContext(ComboboxContext)
+}
+
+// ============================================================================
 // Variants
 // ============================================================================
 
@@ -83,6 +97,8 @@ function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = bo
 }: ComboboxRootProps<Value, Multiple>) {
   const [showFocusRing, setShowFocusRing] = React.useState(false)
   const wasPointerDown = React.useRef(false)
+  // Ref for the container - used as anchor for popup positioning
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
   const handlePointerDown = () => {
     wasPointerDown.current = true
@@ -99,25 +115,30 @@ function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = bo
     wasPointerDown.current = false
   }
 
+  const contextValue = React.useMemo(() => ({ containerRef }), [])
+
   return (
-    <ComboboxPrimitive.Root
-      {...props}
-    >
-      <div
-        data-slot="combobox"
-        data-size={size}
-        className={cn(
-          rootVariants({ size }),
-          showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-          className
-        )}
-        onPointerDown={handlePointerDown}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
+    <ComboboxContext.Provider value={contextValue}>
+      <ComboboxPrimitive.Root
+        {...props}
       >
-        {children}
-      </div>
-    </ComboboxPrimitive.Root>
+        <div
+          ref={containerRef}
+          data-slot="combobox"
+          data-size={size}
+          className={cn(
+            rootVariants({ size }),
+            showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+            className
+          )}
+          onPointerDown={handlePointerDown}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        >
+          {children}
+        </div>
+      </ComboboxPrimitive.Root>
+    </ComboboxContext.Provider>
   )
 }
 
@@ -195,12 +216,16 @@ function ComboboxPositioner({
   collisionPadding = 8,
   ...props
 }: ComboboxPositionerProps) {
+  // Use container ref as anchor so popup matches container width, not just input width
+  const context = useComboboxContext()
+
   return (
     <ComboboxPrimitive.Positioner
       data-slot="positioner"
       className={cn("outline-none", className)}
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
+      anchor={context?.containerRef}
       {...props}
     />
   )
