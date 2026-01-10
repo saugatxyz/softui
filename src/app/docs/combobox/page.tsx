@@ -316,39 +316,61 @@ function ComboboxDemo({
         </span>
       )}
 
-      {multiple && (
-        <Combobox.Chips>
-          <Combobox.Value>
-            {(selectedValue) => {
-              if (!Array.isArray(selectedValue)) return null
-              return selectedValue.map((item) => {
-                const option = item as ComboboxOption
-                const label = option.label ?? String(option.value)
+      {multiple ? (
+        // Multi-select: Input inside Chips>Value for proper keyboard nav (left arrow closes menu)
+        // Uses CSS :has() for conditional styling when chips are present
+        <>
+          <Combobox.Chips
+            className={cn(
+              "flex min-w-0 flex-1 flex-wrap items-center gap-[var(--space-4)]",
+              "has-[[data-slot=chip]]:py-[var(--space-6)] has-[[data-slot=chip]]:-ml-[var(--space-6)]"
+            )}
+          >
+            <Combobox.Value>
+              {(selectedValue) => {
+                const values = Array.isArray(selectedValue) ? selectedValue : []
                 return (
-                  <Combobox.Chip key={option.value ?? label}>
-                    <span className="truncate">{label}</span>
-                    <Combobox.ChipRemove>
-                      <RiCloseLine />
-                    </Combobox.ChipRemove>
-                  </Combobox.Chip>
+                  <>
+                    {values.map((item) => {
+                      const option = item as ComboboxOption
+                      const label = option.label ?? String(option.value)
+                      return (
+                        <Combobox.Chip key={option.value ?? label}>
+                          <span className="truncate">{label}</span>
+                          <Combobox.ChipRemove>
+                            <RiCloseLine />
+                          </Combobox.ChipRemove>
+                        </Combobox.Chip>
+                      )
+                    })}
+                    <Combobox.Input
+                      placeholder={values.length > 0 ? "" : placeholder}
+                    />
+                  </>
                 )
-              })
-            }}
-          </Combobox.Value>
-        </Combobox.Chips>
+              }}
+            </Combobox.Value>
+          </Combobox.Chips>
+          <div className="flex self-stretch pt-[var(--space-10)]">
+            <Combobox.Trigger>
+              <RiExpandUpDownLine />
+            </Combobox.Trigger>
+          </div>
+        </>
+      ) : (
+        // Single-select: standard layout
+        <>
+          <Combobox.Input placeholder={placeholder} />
+          {clearable && (
+            <Combobox.Clear>
+              <RiCloseLine />
+            </Combobox.Clear>
+          )}
+          <Combobox.Trigger>
+            <RiExpandUpDownLine />
+          </Combobox.Trigger>
+        </>
       )}
-
-      <Combobox.Input placeholder={placeholder} />
-
-      {clearable && (
-        <Combobox.Clear>
-          <RiCloseLine />
-        </Combobox.Clear>
-      )}
-
-      <Combobox.Trigger>
-        <RiExpandUpDownLine />
-      </Combobox.Trigger>
 
       <Combobox.Portal>
         <Combobox.Positioner align="start" sideOffset={4} collisionPadding={8}>
@@ -391,7 +413,12 @@ function SearchableSelect({
   defaultValue?: ComboboxOption
 }) {
   return (
-    <Combobox.Root items={options} defaultValue={defaultValue}>
+    // Use unstyled root - Trigger handles all visual styling for select-like appearance
+    <Combobox.Root
+      items={options}
+      defaultValue={defaultValue}
+      className="bg-transparent p-0 min-h-0 rounded-none shadow-none"
+    >
       <Combobox.Trigger
         className={cn(
           "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
@@ -517,15 +544,6 @@ const options = [
             </div>
             <div className="w-full max-w-sm">
               <ComboboxDemo options={fruits} placeholder="Search fruits..." />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">With default value</p>
-              <p className="text-body-m text-content-subtle">Pre-selected option</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <ComboboxDemo options={fruits} defaultValue={{ value: "apple", label: "Apple" }} />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

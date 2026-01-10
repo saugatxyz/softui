@@ -77,10 +77,10 @@ function Textarea({
       data-size={resolvedSize}
       className={cn(
         textareaFieldVariants({ size: resolvedSize }),
-        "group relative cursor-text",
+        "group relative",
+        disabled ? "cursor-not-allowed bg-actions-secondary-disabled" : "cursor-text",
         !disabled && "hover:bg-actions-secondary-hover",
         "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-        disabled && "bg-actions-secondary-disabled",
         className
       )}
       onClick={() => containerRef.current?.querySelector("textarea")?.focus()}
@@ -92,7 +92,7 @@ function Textarea({
         className={cn(
           textareaVariants({ size: resolvedSize, resize }),
           disabled
-            ? "text-content-disabled placeholder:text-content-disabled"
+            ? "cursor-not-allowed text-content-disabled placeholder:text-content-disabled"
             : "text-content-strong"
         )}
         {...props}

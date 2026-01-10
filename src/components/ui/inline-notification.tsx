@@ -19,6 +19,7 @@ import { Separator } from "./separator"
 // ============================================================================
 
 type InlineNotificationTone = "neutral" | "info" | "success" | "warning" | "danger"
+type InlineNotificationVariant = "default" | "filled"
 
 // ============================================================================
 // Tone Mappings (shared with Toast for consistency)
@@ -38,6 +39,33 @@ const toneIcons: Record<InlineNotificationTone, React.ComponentType<{ className?
   success: RiCheckboxCircleFill,
   warning: RiErrorWarningFill,
   danger: RiCloseCircleFill,
+}
+
+// Filled variant background colors
+const toneFilledBackgrounds: Record<InlineNotificationTone, string> = {
+  neutral: "bg-surface-interactive-default",
+  info: "bg-surface-feedback-info-muted",
+  success: "bg-surface-feedback-success-muted",
+  warning: "bg-surface-feedback-warning-muted",
+  danger: "bg-surface-feedback-danger-muted",
+}
+
+// Filled variant title colors (use feedback content subtle for softer look)
+const toneFilledTitleColors: Record<InlineNotificationTone, string> = {
+  neutral: "text-content-strong",
+  info: "text-content-feedback-info-subtle",
+  success: "text-content-feedback-success-subtle",
+  warning: "text-content-feedback-warning-subtle",
+  danger: "text-content-feedback-danger-subtle",
+}
+
+// Filled variant description colors (use feedback content subtle)
+const toneFilledDescriptionColors: Record<InlineNotificationTone, string> = {
+  neutral: "text-content-subtle",
+  info: "text-content-feedback-info-subtle",
+  success: "text-content-feedback-success-subtle",
+  warning: "text-content-feedback-warning-subtle",
+  danger: "text-content-feedback-danger-subtle",
 }
 
 // ============================================================================
@@ -72,14 +100,17 @@ function InlineNotificationIcon({ tone = "neutral", className, ...props }: Inlin
 
 type InlineNotificationRootProps = React.HTMLAttributes<HTMLDivElement> & {
   tone?: InlineNotificationTone
+  variant?: InlineNotificationVariant
   icon?: React.ReactNode
 }
 
 const InlineNotificationContext = React.createContext<{
   tone: InlineNotificationTone
+  variant: InlineNotificationVariant
   hasDescription: boolean
 }>({
   tone: "neutral",
+  variant: "default",
   hasDescription: false,
 })
 
@@ -98,6 +129,7 @@ function hasComponentInTree(children: React.ReactNode, componentType: React.Comp
 
 function InlineNotificationRoot({
   tone = "neutral",
+  variant = "default",
   icon,
   className,
   children,
@@ -106,15 +138,21 @@ function InlineNotificationRoot({
   // Determine if we have a description by checking children tree
   const hasDescription = hasComponentInTree(children, InlineNotificationDescription)
 
+  // Get background color based on variant
+  const bgColor = variant === "filled"
+    ? toneFilledBackgrounds[tone]
+    : "bg-surface-interactive-default"
+
   return (
-    <InlineNotificationContext.Provider value={{ tone, hasDescription }}>
+    <InlineNotificationContext.Provider value={{ tone, variant, hasDescription }}>
       <div
         role="status"
         data-slot="inline-notification"
         data-tone={tone}
+        data-variant={variant}
         data-has-description={hasDescription || undefined}
         className={cn(
-          "bg-surface-interactive-default",
+          bgColor,
           "flex overflow-hidden",
           hasDescription
             ? "items-start gap-[var(--space-12)] rounded-[var(--radius-16)] p-[var(--space-16)]"
@@ -192,12 +230,18 @@ function InlineNotificationTextWrapper({ className, children, ...props }: Inline
 type InlineNotificationTitleProps = React.HTMLAttributes<HTMLParagraphElement>
 
 function InlineNotificationTitle({ className, ...props }: InlineNotificationTitleProps) {
+  const { tone, variant } = React.useContext(InlineNotificationContext)
+
+  const textColor = variant === "filled"
+    ? toneFilledTitleColors[tone]
+    : "text-content-strong"
+
   return (
     <p
       data-slot="inline-notification-title"
       className={cn(
         "text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)]",
-        "text-content-strong",
+        textColor,
         className
       )}
       {...props}
@@ -212,12 +256,18 @@ function InlineNotificationTitle({ className, ...props }: InlineNotificationTitl
 type InlineNotificationDescriptionProps = React.HTMLAttributes<HTMLParagraphElement>
 
 function InlineNotificationDescription({ className, ...props }: InlineNotificationDescriptionProps) {
+  const { tone, variant } = React.useContext(InlineNotificationContext)
+
+  const textColor = variant === "filled"
+    ? toneFilledDescriptionColors[tone]
+    : "text-content-subtle"
+
   return (
     <p
       data-slot="inline-notification-description"
       className={cn(
         "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-        "text-content-subtle",
+        textColor,
         className
       )}
       {...props}
@@ -343,6 +393,7 @@ const InlineNotification = {
 export { InlineNotification }
 export type {
   InlineNotificationTone,
+  InlineNotificationVariant,
   InlineNotificationRootProps,
   InlineNotificationIconProps,
   InlineNotificationContentProps,

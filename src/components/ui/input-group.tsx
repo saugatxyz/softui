@@ -268,9 +268,8 @@ function InputGroup({
             hasPrefix,
             hasSuffix,
           }),
-          "cursor-text",
+          disabled ? "cursor-not-allowed bg-actions-secondary-disabled" : "cursor-text",
           !disabled && "hover:bg-actions-secondary-hover",
-          disabled && "bg-actions-secondary-disabled",
           "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
         )}
         onClick={() => inputRef.current?.focus()}
@@ -294,7 +293,7 @@ function InputGroup({
           className={cn(
             inputVariants({ size: resolvedSize }),
             disabled
-              ? "text-content-disabled placeholder:text-content-disabled"
+              ? "cursor-not-allowed text-content-disabled placeholder:text-content-disabled"
               : "text-content-strong"
           )}
           {...props}

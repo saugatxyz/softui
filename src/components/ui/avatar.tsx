@@ -23,7 +23,7 @@ const avatarVariants = cva(
       },
       isEmphasized: {
         true: "border",
-        false: "bg-actions-secondary-default",
+        false: "bg-[var(--color-utility-avatar)]",
       },
     },
     defaultVariants: {
@@ -119,7 +119,7 @@ const decorativeSubtleClass = {
 const imageVariants = cva("absolute inset-0 size-full object-cover")
 
 const fallbackVariants = cva(
-  "flex items-center justify-center font-[var(--font-weight-medium)] text-content-strong select-none",
+  "flex items-center justify-center font-[var(--font-weight-medium)] text-content-subtle select-none",
   {
     variants: {
       size: {
@@ -138,7 +138,7 @@ const fallbackVariants = cva(
 )
 
 const iconVariants = cva(
-  "flex items-center justify-center text-content-strong [&_svg]:size-full",
+  "flex items-center justify-center text-content-subtle [&_svg]:size-full",
   {
     variants: {
       size: {

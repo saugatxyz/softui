@@ -146,8 +146,8 @@ function Group({ className, ...props }: NumberFieldGroupProps) {
       className={cn(
         groupVariants({ size }),
         !disabled && "hover:bg-surface-interactive-hover",
-        "[&:has([data-focus-visible])]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-        disabled && "opacity-50",
+        "[&:has(:focus-visible)]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        disabled && "opacity-50 cursor-not-allowed",
         className
       )}
       {...props}
@@ -165,7 +165,7 @@ function Input({ className, ...props }: NumberFieldInputProps) {
       data-slot="number-field-input"
       className={cn(
         inputVariants({ size }),
-        disabled && "text-content-disabled placeholder:text-content-disabled",
+        disabled && "cursor-not-allowed text-content-disabled placeholder:text-content-disabled",
         className
       )}
       {...props}

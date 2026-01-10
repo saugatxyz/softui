@@ -10,6 +10,7 @@ import {
   MenuGroupLabel,
   MenuEmpty,
   MenuPrefix,
+  MenuSuffix,
   MenuSeparator,
 } from "@/components/ui/menu"
 import { RiEditLine, RiFileCopyLine, RiArchiveLine, RiFolderLine } from "@remixicon/react"
@@ -383,6 +384,7 @@ export default function MenuDocsPage() {
                       <Menu.SubmenuRoot>
                         <Menu.SubmenuTrigger>
                           <span className={menuItemLabelClassName}>Send via</span>
+                          <MenuSuffix type="submenu" />
                         </Menu.SubmenuTrigger>
                         <Menu.Portal>
                           <Menu.Positioner sideOffset={8} alignOffset={-4} side="right" align="start">

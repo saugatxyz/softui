@@ -365,7 +365,7 @@ function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
   return (
     <ComboboxPrimitive.Chips
       data-slot="chips"
-      className={cn("contents", className)}
+      className={className}
       {...props}
     />
   )

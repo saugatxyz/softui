@@ -181,6 +181,7 @@
   --color-utility-shadow-l3: rgb(var(--utility-shadow-l3));
   --color-utility-shadow-l4: rgb(var(--utility-shadow-l4));
   --color-utility-backdrop: rgb(var(--utility-backdrop));
+  --color-utility-avatar: rgb(var(--utility-avatar));
 
   /* Composite shadows for modals/dialogs */
   --shadow-modal: 0 0 0 1px var(--color-utility-shadow-l1), 0 1px 2px 0 var(--color-utility-shadow-l2), 0 3px 12px 0 var(--color-utility-shadow-l2), 0 4px 16px 0 var(--color-utility-shadow-l3);
@@ -1041,6 +1042,7 @@ html[data-mode="light"][data-scheme="color"] {
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
   --utility-backdrop: var(--darken-64);
+  --utility-avatar: var(--neutral-200);
 }
 
 html[data-mode="dark"][data-scheme="color"] {
@@ -1213,6 +1215,7 @@ html[data-mode="dark"][data-scheme="color"] {
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
   --utility-backdrop: var(--darken-64);
+  --utility-avatar: var(--neutral-800);
 }
 
 html[data-mode="light"][data-scheme="mono"] {
@@ -1385,6 +1388,7 @@ html[data-mode="light"][data-scheme="mono"] {
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
   --utility-backdrop: var(--darken-64);
+  --utility-avatar: var(--neutral-200);
 }
 
 html[data-mode="dark"][data-scheme="mono"] {
@@ -1557,6 +1561,7 @@ html[data-mode="dark"][data-scheme="mono"] {
   --utility-shadow-l3: var(--darken-8);
   --utility-shadow-l4: var(--darken-12);
   --utility-backdrop: var(--darken-64);
+  --utility-avatar: var(--neutral-800);
 }
 
 /* iOS zoom prevention - inputs must be 16px to prevent auto-zoom on focus */

@@ -62,7 +62,7 @@ export const listItemVariants = cva(
     variants: {
       variant: {
         default: "",
-        danger: "",
+        danger: "data-[highlighted]:bg-surface-feedback-danger-muted",
       },
     },
     defaultVariants: {

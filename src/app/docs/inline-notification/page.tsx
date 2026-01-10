@@ -87,6 +87,76 @@ export default function InlineNotificationDocsPage() {
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Filled</h2>
+          <p className="text-body-m text-content-subtle">
+            Colored backgrounds that match the notification tone.
+          </p>
+        </div>
+        <div className="flex flex-col">
+          {toneRows.map((tone) => (
+            <div
+              key={tone.value}
+              className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between"
+            >
+              <div className="md:min-w-[200px]">
+                <p className="text-body-m text-content-strong">{tone.label}</p>
+                <p className="text-body-m text-content-subtle">{tone.description}</p>
+              </div>
+              <div className="flex-1">
+                <InlineNotification.Root tone={tone.value} variant="filled">
+                  <InlineNotification.Content>
+                    <InlineNotification.TextWrapper>
+                      <InlineNotification.Title>{tone.title}</InlineNotification.Title>
+                      <InlineNotification.Description>{tone.message}</InlineNotification.Description>
+                    </InlineNotification.TextWrapper>
+                    <InlineNotification.Actions>
+                      <InlineNotification.Action>Action</InlineNotification.Action>
+                    </InlineNotification.Actions>
+                  </InlineNotification.Content>
+                  <InlineNotification.Close />
+                </InlineNotification.Root>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
+          <h2 className="text-body-xl-semibold">Filled Compact</h2>
+          <p className="text-body-m text-content-subtle">
+            Colored backgrounds without description.
+          </p>
+        </div>
+        <div className="flex flex-col">
+          {compactToneRows.map((tone) => (
+            <div
+              key={tone.value}
+              className="flex flex-col gap-[var(--space-12)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between"
+            >
+              <div className="md:min-w-[200px]">
+                <p className="text-body-m text-content-strong">{tone.label}</p>
+              </div>
+              <div className="flex-1">
+                <InlineNotification.Root tone={tone.value} variant="filled">
+                  <InlineNotification.Content>
+                    <InlineNotification.TextWrapper>
+                      <InlineNotification.Title>{tone.title}</InlineNotification.Title>
+                    </InlineNotification.TextWrapper>
+                    <InlineNotification.Actions>
+                      <InlineNotification.Action>Action</InlineNotification.Action>
+                    </InlineNotification.Actions>
+                  </InlineNotification.Content>
+                  <InlineNotification.Close />
+                </InlineNotification.Root>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Compact</h2>
           <p className="text-body-m text-content-subtle">
             Without description for brief notifications.

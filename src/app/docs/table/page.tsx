@@ -233,11 +233,12 @@ const deploymentStatusConfig = {
 // =============================================================================
 
 function SizesDemo() {
+  const sizeLabels = { s: "Small", m: "Medium", l: "Large", xl: "Extra Large" }
   return (
     <div className="flex flex-col gap-[var(--space-24)]">
       {(["s", "m", "l", "xl"] as const).map((size) => (
         <div key={size} className="flex flex-col gap-[var(--space-8)]">
-          <span className="text-body-s text-content-muted">size=&quot;{size}&quot;</span>
+          <span className="text-body-s text-content-muted">{sizeLabels[size]}</span>
           <Table.Root size={size}>
             <Table.Header>
               <Table.Row isHeader>

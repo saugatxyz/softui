@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { RiArrowRightSLine, RiHome5Line } from "@remixicon/react"
+import { RiArrowRightSLine, RiHome7Fill } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 
@@ -71,7 +71,7 @@ function BreadcrumbsItem({
     <span
       data-slot="breadcrumbs-item-content"
       className={cn(
-        "flex items-center gap-[var(--space-2)] rounded-[var(--radius-8)] px-[var(--space-4)]",
+        "flex items-center gap-[var(--space-6)] rounded-[var(--radius-8)] px-[var(--space-4)]",
         !isCurrent && "transition-colors duration-200",
         !isCurrent && "hover:underline",
         isCurrent
@@ -85,7 +85,7 @@ function BreadcrumbsItem({
           className="flex size-[16px] shrink-0 items-center justify-center text-current"
           aria-hidden="true"
         >
-          <RiHome5Line className="size-full" />
+          <RiHome7Fill className="size-full" />
         </span>
       )}
       <span data-slot="breadcrumbs-label">{children}</span>

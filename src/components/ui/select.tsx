@@ -264,7 +264,7 @@ function SelectItemText({ className, ...props }: SelectItemTextProps) {
   return (
     <SelectPrimitive.ItemText
       data-slot="item-text"
-      className={cn(itemTextVariants(), className)}
+      className={cn(itemTextVariants(), "flex-1 min-w-0", className)}
       {...props}
     />
   )
@@ -278,7 +278,11 @@ function SelectItemIndicator({ className, ...props }: SelectItemIndicatorProps) 
   return (
     <SelectPrimitive.ItemIndicator
       data-slot="indicator"
-      className={cn("flex size-[20px] shrink-0 items-center justify-center", className)}
+      className={cn(
+        "flex size-[20px] shrink-0 items-center justify-center",
+        "group-has-[[data-slot=item-description]]:self-start group-has-[[data-slot=item-description]]:mt-[var(--space-2)]",
+        className
+      )}
       {...props}
     />
   )

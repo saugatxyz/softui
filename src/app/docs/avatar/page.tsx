@@ -267,12 +267,7 @@ import { AvatarGroup } from "@/components/ui/avatar-group"
                 <p className="text-body-m text-content-subtle">{size.size}px</p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-                <AvatarGroup size={size.value} shape="circular" max={4}>
-                  {sampleAvatars.map((avatar, i) => (
-                    <Avatar key={i} src={avatar.src} alt={avatar.alt} />
-                  ))}
-                </AvatarGroup>
-                <AvatarGroup size={size.value} shape="square" max={4}>
+                <AvatarGroup size={size.value} max={4}>
                   {sampleAvatars.map((avatar, i) => (
                     <Avatar key={i} src={avatar.src} alt={avatar.alt} />
                   ))}

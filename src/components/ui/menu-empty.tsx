@@ -27,16 +27,16 @@ function MenuEmpty({
     <div
       data-slot="menu-empty"
       className={cn(
-        "flex w-full flex-col items-center justify-center gap-[var(--space-24)] p-[var(--space-24)]",
+        "flex w-full flex-col items-center justify-center gap-[var(--space-16)] px-[var(--space-28)] py-[var(--space-20)]",
         className
       )}
     >
-      <div className="flex flex-col items-center gap-[var(--space-16)]">
-        <span className="flex size-[24px] items-center justify-center text-content-strong [&_svg]:size-full">
+      <div className="flex flex-col items-center gap-[var(--space-12)]">
+        <span className="flex size-4 items-center justify-center text-content-strong [&_svg]:size-full">
           <RiSearchLine />
         </span>
         <div className="flex flex-col items-center gap-[var(--space-4)] text-center">
-          <span className="text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)] text-content-strong">
+          <span className="text-[length:var(--font-size-s)] font-[var(--font-weight-medium)] leading-[var(--line-height-s)] text-content-strong">
             {title}
           </span>
           {description && (

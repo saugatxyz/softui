@@ -15,10 +15,7 @@ const sizeConfig = {
   l: { overlap: 12, px: 40 },
 } as const
 
-const shapeRadius = {
-  circular: "var(--radius-max)",
-  square: "var(--radius-8)",
-} as const
+const GAP = 2 // gap between avatars in pixels
 
 
 const avatarGroupVariants = cva("flex items-center", {
@@ -38,7 +35,7 @@ const avatarGroupVariants = cva("flex items-center", {
 })
 
 const overflowVariants = cva(
-  "inline-flex shrink-0 items-center justify-center bg-actions-secondary-default backdrop-blur-[10px] font-[var(--font-weight-medium)] text-content-strong select-none shadow-[0_0_0_2px_var(--color-surface-page)]",
+  "inline-flex shrink-0 items-center justify-center rounded-[var(--radius-max)] bg-[var(--color-utility-avatar)] font-[var(--font-weight-medium)] text-content-subtle select-none",
   {
     variants: {
       size: {
@@ -49,14 +46,9 @@ const overflowVariants = cva(
         m: "size-[36px] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
         l: "size-[40px] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
       },
-      shape: {
-        square: "rounded-[var(--radius-8)]",
-        circular: "rounded-[var(--radius-max)]",
-      },
     },
     defaultVariants: {
       size: "m",
-      shape: "circular",
     },
   }
 )
@@ -64,20 +56,17 @@ const overflowVariants = cva(
 type AvatarGroupProps = React.ComponentPropsWithoutRef<"div"> &
   VariantProps<typeof avatarGroupVariants> & {
     max?: number
-    shape?: "square" | "circular"
     children?: React.ReactNode
   }
 
 function AvatarGroup({
   className,
   size,
-  shape = "circular",
   max = 4,
   children,
   ...props
 }: AvatarGroupProps) {
   const resolvedSize = size ?? "m"
-  const resolvedShape = shape ?? "circular"
   const config = sizeConfig[resolvedSize]
 
   const avatars = React.Children.toArray(children).filter(
@@ -88,43 +77,55 @@ function AvatarGroup({
   const visibleAvatars = max ? avatars.slice(0, max) : avatars
   const overflowCount = avatars.length - visibleAvatars.length
   const hasOverflow = overflowCount > 0
-  const totalItems = hasOverflow ? visibleAvatars.length + 1 : visibleAvatars.length
+
+  // Generate CSS mask on RIGHT side (where the next item overlaps from above)
+  const getMaskStyle = (isLast: boolean): React.CSSProperties | undefined => {
+    if (isLast) return undefined
+
+    const avatarRadius = config.px / 2
+    const maskRadius = avatarRadius + GAP
+    // Mask on RIGHT side - center is where the next avatar's center would be
+    const maskCenterX = config.px - config.overlap + avatarRadius
+
+    return {
+      maskImage: `radial-gradient(circle at ${maskCenterX}px 50%, transparent ${maskRadius}px, black ${maskRadius}px)`,
+    }
+  }
 
   return (
     <div
       data-slot="avatar-group"
       data-size={resolvedSize}
-      data-shape={resolvedShape}
       className={cn(avatarGroupVariants({ size: resolvedSize }), className)}
       {...props}
     >
-      {visibleAvatars.map((avatar, index) =>
-        React.cloneElement(avatar, {
+      {/* Avatars first, z-index increases left to right */}
+      {visibleAvatars.map((avatar, index) => {
+        // Last avatar only has no mask if there's no overflow
+        const isLastItem = !hasOverflow && index === visibleAvatars.length - 1
+        return React.cloneElement(avatar, {
           key: avatar.key ?? index,
           size: resolvedSize,
-          shape: resolvedShape,
-          className: cn(
-            "shadow-[0_0_0_2px_var(--color-surface-page)]",
-            avatar.props.className
-          ),
+          shape: "circular",
+          className: avatar.props.className,
           style: {
             width: config.px,
             height: config.px,
-            borderRadius: shapeRadius[resolvedShape],
+            borderRadius: "var(--radius-max)",
             zIndex: index + 1,
             position: "relative" as const,
             marginLeft: index > 0 ? -config.overlap : undefined,
+            ...getMaskStyle(isLastItem),
           },
         })
-      )}
+      })}
+      {/* Overflow last (rightmost) with highest z-index (on top, no mask) */}
       {hasOverflow && (
         <div
           data-slot="avatar-overflow"
-          className={cn(
-            overflowVariants({ size: resolvedSize, shape: resolvedShape })
-          )}
+          className={cn(overflowVariants({ size: resolvedSize }))}
           style={{
-            zIndex: totalItems,
+            zIndex: 100,
             position: "relative",
             marginLeft: -config.overlap,
           }}
