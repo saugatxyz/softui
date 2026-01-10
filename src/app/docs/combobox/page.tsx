@@ -1,13 +1,13 @@
 "use client"
 
+import type { ReactNode } from "react"
 import { CodeBlock } from "@/components/docs/code-block"
-import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox"
-import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
+import { Combobox, type ComboboxRootProps } from "@/components/ui/combobox"
 import { Field } from "@/components/ui/field"
 import { Avatar } from "@/components/ui/avatar"
 import { Crypto } from "@/components/ui/crypto"
 import { Logo } from "@/components/ui/logo"
-import { listPopupStyles, listItemVariants } from "@/components/ui/list-item-styles"
+import { MenuPrefix } from "@/components/ui/menu-prefix"
 import { cn } from "@/lib/utils"
 import {
   RiSearchLine,
@@ -19,6 +19,7 @@ import {
   RiDeleteBinLine,
   RiExpandUpDownLine,
   RiCheckFill,
+  RiCloseLine,
 } from "@remixicon/react"
 
 // Basic options
@@ -211,6 +212,171 @@ const allCountries = [
   { value: "sg", label: "Singapore" },
 ]
 
+type ComboboxOption = {
+  value: string
+  label: string
+  description?: string
+  icon?: ReactNode
+  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
+  disabled?: boolean
+}
+
+type ComboboxGroup = {
+  label: string
+  options: ComboboxOption[]
+}
+
+type ComboboxDemoProps = Omit<ComboboxRootProps, "items"> & {
+  options?: ComboboxOption[]
+  groups?: ComboboxGroup[]
+  placeholder?: string
+  leadingIcon?: ReactNode
+  clearable?: boolean
+}
+
+function renderComboboxItem(option: ComboboxOption) {
+  return (
+    <Combobox.Item key={option.value} value={option} disabled={option.disabled}>
+      {option.icon && (
+        <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
+          <MenuPrefix
+            type={option.prefixType ?? "icon"}
+            icon={option.icon}
+            disabled={option.disabled}
+          />
+        </span>
+      )}
+
+      <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
+        <span
+          className={cn(
+            "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
+            "text-content-strong group-data-[disabled]:text-content-disabled"
+          )}
+        >
+          {option.label}
+        </span>
+        {option.description && (
+          <span
+            data-slot="item-description"
+            className={cn(
+              "truncate text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
+              "text-content-subtle group-data-[disabled]:text-content-disabled"
+            )}
+          >
+            {option.description}
+          </span>
+        )}
+      </div>
+
+      <Combobox.ItemIndicator>
+        <span className="flex size-[16px] items-center justify-center text-content-strong [&_svg]:size-full">
+          <RiCheckFill />
+        </span>
+      </Combobox.ItemIndicator>
+    </Combobox.Item>
+  )
+}
+
+function ComboboxDemo({
+  options = [],
+  groups,
+  placeholder = "Search...",
+  leadingIcon,
+  clearable = false,
+  size = "m",
+  multiple,
+  className,
+  ...props
+}: ComboboxDemoProps) {
+  const items = groups?.length
+    ? groups.map((group) => ({
+        value: group.label,
+        items: group.options,
+      }))
+    : options
+
+  return (
+    <Combobox.Root
+      items={items}
+      size={size}
+      multiple={multiple}
+      className={className}
+      {...props}
+    >
+      {leadingIcon && (
+        <span
+          data-slot="leading-icon"
+          className={cn(
+            "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full",
+            "text-content-subtle"
+          )}
+        >
+          {leadingIcon}
+        </span>
+      )}
+
+      {multiple && (
+        <Combobox.Chips>
+          <Combobox.Value>
+            {(selectedValue) => {
+              if (!Array.isArray(selectedValue)) return null
+              return selectedValue.map((item) => {
+                const option = item as ComboboxOption
+                const label = option.label ?? String(option.value)
+                return (
+                  <Combobox.Chip key={option.value ?? label}>
+                    <span className="truncate">{label}</span>
+                    <Combobox.ChipRemove>
+                      <RiCloseLine />
+                    </Combobox.ChipRemove>
+                  </Combobox.Chip>
+                )
+              })
+            }}
+          </Combobox.Value>
+        </Combobox.Chips>
+      )}
+
+      <Combobox.Input placeholder={placeholder} />
+
+      {clearable && (
+        <Combobox.Clear>
+          <RiCloseLine />
+        </Combobox.Clear>
+      )}
+
+      <Combobox.Trigger>
+        <RiExpandUpDownLine />
+      </Combobox.Trigger>
+
+      <Combobox.Portal>
+        <Combobox.Positioner align="start" sideOffset={4} collisionPadding={8}>
+          <Combobox.Popup>
+            <Combobox.List className="p-[var(--space-4)]">
+              {groups?.length ? (
+                groups.map((group) => (
+                  <Combobox.Group key={group.label} items={group.options}>
+                    <Combobox.GroupLabel>{group.label}</Combobox.GroupLabel>
+                    <Combobox.Collection>
+                      {(option) => renderComboboxItem(option as ComboboxOption)}
+                    </Combobox.Collection>
+                  </Combobox.Group>
+                ))
+              ) : (
+                <Combobox.Collection>
+                  {(option) => renderComboboxItem(option as ComboboxOption)}
+                </Combobox.Collection>
+              )}
+              <Combobox.Empty>No results found</Combobox.Empty>
+            </Combobox.List>
+          </Combobox.Popup>
+        </Combobox.Positioner>
+      </Combobox.Portal>
+    </Combobox.Root>
+  )
+}
+
 // ============================================================================
 // Searchable Select Component (Input Inside Popup)
 // ============================================================================
@@ -220,13 +386,13 @@ function SearchableSelect({
   placeholder = "Select an option",
   defaultValue,
 }: {
-  options: { value: string; label: string }[]
+  options: ComboboxOption[]
   placeholder?: string
-  defaultValue?: { value: string; label: string }
+  defaultValue?: ComboboxOption
 }) {
   return (
-    <ComboboxPrimitive.Root items={options} defaultValue={defaultValue}>
-      <ComboboxPrimitive.Trigger
+    <Combobox.Root items={options} defaultValue={defaultValue}>
+      <Combobox.Trigger
         className={cn(
           "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
           "h-[var(--space-36)] px-[var(--space-12)]",
@@ -235,36 +401,31 @@ function SearchableSelect({
           "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
         )}
       >
-        <ComboboxPrimitive.Value>
+        <Combobox.Value>
           {(value) => {
-            const selected = value as { label: string } | null
+            const selected = value as ComboboxOption | null
             if (selected?.label) {
-              return <span className="min-w-0 flex-1 truncate text-left text-content-strong text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">{selected.label}</span>
+              return (
+                <span className="min-w-0 flex-1 truncate text-left text-content-strong text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">
+                  {selected.label}
+                </span>
+              )
             }
-            return <span className="min-w-0 flex-1 truncate text-left text-content-muted text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">{placeholder}</span>
+            return (
+              <span className="min-w-0 flex-1 truncate text-left text-content-muted text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]">
+                {placeholder}
+              </span>
+            )
           }}
-        </ComboboxPrimitive.Value>
-        <ComboboxPrimitive.Icon
-          className={cn(
-            "ml-auto flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full",
-            "text-content-muted"
-          )}
-        >
+        </Combobox.Value>
+        <span className="ml-auto flex size-[16px] shrink-0 items-center justify-center text-content-muted [&_svg]:size-full">
           <RiExpandUpDownLine />
-        </ComboboxPrimitive.Icon>
-      </ComboboxPrimitive.Trigger>
+        </span>
+      </Combobox.Trigger>
 
-      <ComboboxPrimitive.Portal>
-        <ComboboxPrimitive.Positioner
-          align="start"
-          sideOffset={4}
-          collisionPadding={8}
-          className="outline-none"
-        >
-          <ComboboxPrimitive.Popup
-            className={cn(listPopupStyles.base, listPopupStyles.width)}
-          >
-            {/* Search input inside popup */}
+      <Combobox.Portal>
+        <Combobox.Positioner align="start" sideOffset={4} collisionPadding={8}>
+          <Combobox.Popup>
             <div className="p-[var(--space-4)]">
               <div
                 className={cn(
@@ -277,61 +438,23 @@ function SearchableSelect({
                 <span className="flex size-[16px] shrink-0 items-center justify-center text-content-subtle [&_svg]:size-full">
                   <RiSearchLine />
                 </span>
-                <ComboboxPrimitive.Input
-                  placeholder="Search..."
-                  className={cn(
-                    "flex-1 bg-transparent outline-none px-[var(--space-4)]",
-                    "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                    "text-content-strong placeholder:text-content-muted",
-                    "caret-actions-primary-default"
-                  )}
-                />
+                <Combobox.Input placeholder="Search..." autoFocus className="px-[var(--space-4)]" />
+                <Combobox.Clear>
+                  <RiCloseLine />
+                </Combobox.Clear>
               </div>
             </div>
 
-            <div className="flex max-h-[280px] flex-col gap-[var(--space-2)] overflow-auto p-[var(--space-4)] pt-0">
-              <ComboboxPrimitive.Empty
-                className={cn(
-                  "flex w-full items-center justify-center empty:hidden",
-                  "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
-                  "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                  "text-content-muted"
-                )}
-              >
-                No results found
-              </ComboboxPrimitive.Empty>
-
-              <ComboboxPrimitive.List>
-                {(item: { value: string; label: string }) => (
-                  <ComboboxPrimitive.Item
-                    key={item.value}
-                    value={item}
-                    className={cn(listItemVariants())}
-                  >
-                    <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
-                      <span
-                        className={cn(
-                          "truncate",
-                          "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                          "text-content-strong"
-                        )}
-                      >
-                        {item.label}
-                      </span>
-                    </div>
-                    <ComboboxPrimitive.ItemIndicator className="flex size-[20px] shrink-0 items-center justify-center">
-                      <span className="flex size-[16px] items-center justify-center text-content-strong [&_svg]:size-full">
-                        <RiCheckFill />
-                      </span>
-                    </ComboboxPrimitive.ItemIndicator>
-                  </ComboboxPrimitive.Item>
-                )}
-              </ComboboxPrimitive.List>
-            </div>
-          </ComboboxPrimitive.Popup>
-        </ComboboxPrimitive.Positioner>
-      </ComboboxPrimitive.Portal>
-    </ComboboxPrimitive.Root>
+            <Combobox.List className="max-h-[280px] overflow-auto p-[var(--space-4)] pt-0">
+              <Combobox.Collection>
+                {(option) => renderComboboxItem(option as ComboboxOption)}
+              </Combobox.Collection>
+              <Combobox.Empty>No results found</Combobox.Empty>
+            </Combobox.List>
+          </Combobox.Popup>
+        </Combobox.Positioner>
+      </Combobox.Portal>
+    </Combobox.Root>
   )
 }
 
@@ -347,8 +470,8 @@ export default function ComboboxDocsPage() {
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
-          code={`import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
-import { Field } from "@/components/ui/field"
+          code={`import { Combobox } from "@/components/ui/combobox"
+import { RiCheckFill, RiExpandUpDownLine } from "@remixicon/react"
 
 const options = [
   { value: "apple", label: "Apple" },
@@ -356,32 +479,30 @@ const options = [
   { value: "orange", label: "Orange" },
 ]
 
-// Basic searchable dropdown
-<Combobox options={options} placeholder="Search fruits..." />
-
-// With Field wrapper for labels and validation
-<Field label="Fruit" description="Type to search">
-  <Combobox options={options} placeholder="Search..." />
-</Field>
-
-// With icons and descriptions
-const channels = [
-  { value: "email", label: "Email", description: "Delivered to inbox", icon: <RiMailLine /> },
-  { value: "sms", label: "SMS", description: "Text alerts", icon: <RiPhoneLine /> },
-]
-
-<Combobox options={channels} placeholder="Select channel..." />
-
-// Multi-select with chips
-<Combobox multiple options={options} placeholder="Select fruits..." />
-
-// Grouped options
-const groups = [
-  { label: "Fruits", options: [{ value: "apple", label: "Apple" }] },
-  { label: "Vegetables", options: [{ value: "carrot", label: "Carrot" }] },
-]
-
-<GroupedCombobox groups={groups} placeholder="Search..." />`}
+<Combobox.Root items={options}>
+  <Combobox.Input placeholder="Search fruits..." />
+  <Combobox.Trigger>
+    <RiExpandUpDownLine />
+  </Combobox.Trigger>
+  <Combobox.Portal>
+    <Combobox.Positioner sideOffset={4} align="start">
+      <Combobox.Popup>
+        <Combobox.List>
+          <Combobox.Collection>
+            {(option) => (
+              <Combobox.Item value={option}>
+                {option.label}
+                <Combobox.ItemIndicator>
+                  <RiCheckFill />
+                </Combobox.ItemIndicator>
+              </Combobox.Item>
+            )}
+          </Combobox.Collection>
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>`}
         />
       </section>
 
@@ -395,7 +516,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Type to filter options</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox options={fruits} placeholder="Search fruits..." />
+              <ComboboxDemo options={fruits} placeholder="Search fruits..." />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -404,7 +525,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Pre-selected option</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox options={fruits} defaultValue={{ value: "apple", label: "Apple" }} />
+              <ComboboxDemo options={fruits} defaultValue={{ value: "apple", label: "Apple" }} />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -413,7 +534,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">With clear button</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox options={fruits} defaultValue={{ value: "banana", label: "Banana" }} clearable />
+              <ComboboxDemo options={fruits} defaultValue={{ value: "banana", label: "Banana" }} clearable />
             </div>
           </div>
         </div>
@@ -429,7 +550,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Compact areas</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox size="s" options={fruits} placeholder="Search..." />
+              <ComboboxDemo size="s" options={fruits} placeholder="Search..." />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -438,7 +559,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Default size</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox size="m" options={fruits} placeholder="Search..." />
+              <ComboboxDemo size="m" options={fruits} placeholder="Search..." />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -447,7 +568,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Touch targets</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox size="l" options={fruits} placeholder="Search..." />
+              <ComboboxDemo size="l" options={fruits} placeholder="Search..." />
             </div>
           </div>
         </div>
@@ -463,7 +584,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Icon in trigger</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
+              <ComboboxDemo
                 options={countries}
                 leadingIcon={<RiSearchLine />}
                 placeholder="Search countries..."
@@ -476,7 +597,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Icons in dropdown items</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
+              <ComboboxDemo
                 options={contactMethods}
                 placeholder="Preferred contact..."
               />
@@ -488,7 +609,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Destructive action indicator</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
+              <ComboboxDemo
                 options={dangerActions}
                 placeholder="Select action..."
               />
@@ -500,7 +621,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">User photos in options</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
+              <ComboboxDemo
                 options={reviewers}
                 placeholder="Search reviewers..."
               />
@@ -512,7 +633,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Cryptocurrency icons</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
+              <ComboboxDemo
                 options={cryptoTokens}
                 placeholder="Search tokens..."
               />
@@ -524,7 +645,7 @@ const groups = [
               <p className="text-body-m text-content-subtle">Brand icons in options</p>
             </div>
             <div className="w-full max-w-sm">
-              <Combobox
+              <ComboboxDemo
                 options={integrations}
                 placeholder="Search integrations..."
               />
@@ -544,7 +665,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Plan">
-                <Combobox
+                <ComboboxDemo
                   options={plans}
                   placeholder="Search plans..."
                 />
@@ -558,7 +679,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Notification channel">
-                <Combobox
+                <ComboboxDemo
                   options={notificationChannels}
                   placeholder="Search channels..."
                 />
@@ -572,7 +693,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Assign to">
-                <Combobox
+                <ComboboxDemo
                   options={teamMembers}
                   placeholder="Search team..."
                 />
@@ -586,7 +707,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Permissions">
-                <Combobox
+                <ComboboxDemo
                   multiple
                   options={permissions}
                   placeholder="Select permissions..."
@@ -608,7 +729,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Features">
-                <Combobox
+                <ComboboxDemo
                   multiple
                   options={features}
                   placeholder="Search features..."
@@ -623,7 +744,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Tags">
-                <Combobox
+                <ComboboxDemo
                   multiple
                   options={tags}
                   defaultValue={[{ value: "frontend", label: "Frontend" }, { value: "design", label: "Design" }]}
@@ -646,7 +767,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country">
-                <Combobox
+                <ComboboxDemo
                   options={countries}
                   placeholder="Search countries..."
                 />
@@ -660,7 +781,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" description="Where is your business located?">
-                <Combobox
+                <ComboboxDemo
                   options={countries}
                   placeholder="Search countries..."
                 />
@@ -681,7 +802,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Fruit" disabled>
-                <Combobox
+                <ComboboxDemo
                   options={fruits}
                   defaultValue={{ value: "apple", label: "Apple" }}
                   disabled
@@ -696,7 +817,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Status">
-                <Combobox
+                <ComboboxDemo
                   options={statuses}
                   placeholder="Select status..."
                 />
@@ -710,7 +831,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" error="Country is required">
-                <Combobox
+                <ComboboxDemo
                   options={countries}
                   placeholder="Search countries..."
                 />
@@ -731,7 +852,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Assign to">
-                <GroupedCombobox
+                <ComboboxDemo
                   groups={teamGroups}
                   placeholder="Search team members..."
                 />
@@ -745,7 +866,7 @@ const groups = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Markets">
-                <GroupedCombobox
+                <ComboboxDemo
                   multiple
                   groups={regionGroups}
                   placeholder="Select regions..."

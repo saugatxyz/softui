@@ -64,7 +64,7 @@ export default function AccordionDocsPage() {
   AccordionContent,
 } from "@/components/ui/accordion"
 
-<AccordionRoot type="single" defaultValue={["item-1"]}>
+<AccordionRoot defaultValue={["item-1"]}>
   <AccordionItem value="item-1" variant="list">
     <AccordionTrigger icon={<PriceTagIcon className="size-4" />}>
       Question
@@ -94,7 +94,7 @@ export default function AccordionDocsPage() {
               <p className="text-body-m text-content-strong">List</p>
             </div>
             <div className="w-full max-w-[420px]">
-              <AccordionRoot type="single" defaultValue={["free"]}>
+              <AccordionRoot defaultValue={["free"]}>
                 {faqItems.map((item) => (
                   <AccordionItem key={item.value} value={item.value} variant="list">
                     <AccordionTrigger icon={<item.icon className="size-4" />}>
@@ -113,7 +113,6 @@ export default function AccordionDocsPage() {
             </div>
             <div className="w-full max-w-[420px]">
               <AccordionRoot
-                type="single"
                 defaultValue={["free"]}
                 className="flex flex-col gap-[2px]"
               >
@@ -134,7 +133,7 @@ export default function AccordionDocsPage() {
               <p className="text-body-m text-content-strong">List (no icon)</p>
             </div>
             <div className="w-full max-w-[420px]">
-              <AccordionRoot type="single" defaultValue={["free"]}>
+              <AccordionRoot defaultValue={["free"]}>
                 {faqItems.map((item) => (
                   <AccordionItem
                     key={item.value}
@@ -156,7 +155,6 @@ export default function AccordionDocsPage() {
             </div>
             <div className="w-full max-w-[420px]">
               <AccordionRoot
-                type="single"
                 defaultValue={["free"]}
                 className="flex flex-col gap-[2px]"
               >
@@ -185,7 +183,7 @@ export default function AccordionDocsPage() {
               <p className="text-body-m text-content-strong">Single open</p>
             </div>
             <div className="w-full max-w-[420px]">
-              <AccordionRoot type="single" defaultValue={["free"]}>
+              <AccordionRoot defaultValue={["free"]}>
                 {faqItems.map((item) => (
                   <AccordionItem key={item.value} value={item.value} variant="list">
                     <AccordionTrigger icon={<item.icon className="size-4" />}>

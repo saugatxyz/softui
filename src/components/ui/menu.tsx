@@ -4,40 +4,10 @@ import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 
 import { cn } from "@/lib/utils"
-import { ScrollFadeContainer } from "./scroll-fade-container"
-import {
-  listPopupStyles,
-  listItemVariants,
-  ListSearch,
-  LIST_MAX_HEIGHT,
-  LIST_SEARCH_THRESHOLD,
-} from "./list-item-styles"
+import { listPopupStyles, listItemVariants, LIST_MAX_HEIGHT } from "./list-item-styles"
 
 // Re-export shared styles for consumers
-export {
-  listPopupStyles,
-  listItemVariants,
-  ListSearch,
-  ListEmpty,
-  LIST_MAX_HEIGHT,
-  LIST_SEARCH_THRESHOLD,
-} from "./list-item-styles"
-
-// ============================================================================
-// Menu Search Context
-// ============================================================================
-
-type MenuSearchContextValue = {
-  searchValue: string
-  setSearchValue: (value: string) => void
-  searchInputRef: React.RefObject<HTMLInputElement | null>
-}
-
-const MenuSearchContext = React.createContext<MenuSearchContextValue | null>(null)
-
-function useMenuSearch() {
-  return React.useContext(MenuSearchContext)
-}
+export { listPopupStyles, listItemVariants, LIST_MAX_HEIGHT } from "./list-item-styles"
 
 // Re-export child components
 export { MenuItem } from "./menu-item"
@@ -121,160 +91,26 @@ function MenuPositioner({
 }
 
 // ============================================================================
-// Menu Search
-// ============================================================================
-
-type MenuSearchProps = {
-  /** Placeholder text */
-  placeholder?: string
-  /** Custom className */
-  className?: string
-  /** Auto focus the search input when menu opens */
-  autoFocus?: boolean
-}
-
-function MenuSearch({
-  placeholder = "Search...",
-  className,
-  autoFocus = true,
-}: MenuSearchProps) {
-  const context = useMenuSearch()
-
-  if (!context) {
-    console.warn("MenuSearch must be used within a MenuPopup with searchable enabled")
-    return null
-  }
-
-  const { searchValue, setSearchValue, searchInputRef } = context
-
-  return (
-    <ListSearch
-      value={searchValue}
-      onChange={setSearchValue}
-      placeholder={placeholder}
-      autoFocus={autoFocus}
-      inputRef={searchInputRef}
-      className={className}
-    />
-  )
-}
-
-// ============================================================================
 // Menu Popup
 // ============================================================================
 
 type MenuPopupProps = Omit<MenuPrimitive.Popup.Props, "className"> & {
   className?: string
-  /** Maximum height before scrolling (default: LIST_MAX_HEIGHT) */
-  maxHeight?: number
-  /** Enable search field (default: false, "auto" shows when items exceed threshold) */
-  searchable?: boolean | "auto"
-  /** Number of items threshold for auto-showing search (default: LIST_SEARCH_THRESHOLD) */
-  searchThreshold?: number
-  /** Search placeholder text */
-  searchPlaceholder?: string
-  /** Callback when search value changes */
-  onSearchChange?: (value: string) => void
-  /** Current search value (controlled) */
-  searchValue?: string
 }
 
-function MenuPopup({
-  className,
-  maxHeight = LIST_MAX_HEIGHT,
-  searchable = false,
-  searchThreshold = LIST_SEARCH_THRESHOLD,
-  searchPlaceholder = "Search...",
-  onSearchChange,
-  searchValue: controlledSearchValue,
-  children,
-  ...props
-}: MenuPopupProps) {
-  const [internalSearchValue, setInternalSearchValue] = React.useState("")
-  const searchInputRef = React.useRef<HTMLInputElement>(null)
-  const contentRef = React.useRef<HTMLDivElement>(null)
-  const popupRef = React.useRef<HTMLDivElement>(null)
-  const [itemCount, setItemCount] = React.useState(0)
-  const [initialHeight, setInitialHeight] = React.useState<number | null>(null)
-
-  // Determine if search is controlled
-  const isControlled = controlledSearchValue !== undefined
-  const searchValue = isControlled ? controlledSearchValue : internalSearchValue
-
-  const setSearchValue = React.useCallback((value: string) => {
-    if (!isControlled) {
-      setInternalSearchValue(value)
-    }
-    onSearchChange?.(value)
-  }, [isControlled, onSearchChange])
-
-  // Count items for auto mode
-  React.useEffect(() => {
-    if (searchable === "auto" && contentRef.current) {
-      const timer = setTimeout(() => {
-        const items = contentRef.current?.querySelectorAll('[data-slot="menu-item"], [data-slot="menu-radio-item"], [data-slot="menu-checkbox-item"]')
-        setItemCount(items?.length ?? 0)
-      }, 0)
-      return () => clearTimeout(timer)
-    }
-  }, [searchable, children])
-
-  // Determine if search should be shown
-  const showSearch = searchable === true || (searchable === "auto" && itemCount > searchThreshold)
-
-  // Capture initial height to prevent position flipping when filtering
-  React.useEffect(() => {
-    if (showSearch && popupRef.current && initialHeight === null) {
-      const timer = setTimeout(() => {
-        if (popupRef.current) {
-          setInitialHeight(popupRef.current.offsetHeight)
-        }
-      }, 10)
-      return () => clearTimeout(timer)
-    }
-  }, [showSearch, initialHeight])
-
-  // Reset search and initial height when menu closes
-  React.useEffect(() => {
-    return () => {
-      if (!isControlled) {
-        setInternalSearchValue("")
-      }
-      setInitialHeight(null)
-    }
-  }, [isControlled])
-
-  const contextValue = React.useMemo(() => ({
-    searchValue,
-    setSearchValue,
-    searchInputRef,
-  }), [searchValue, setSearchValue])
-
+function MenuPopup({ className, ...props }: MenuPopupProps) {
   return (
-    <MenuSearchContext.Provider value={contextValue}>
-      <MenuPrimitive.Popup
-        ref={popupRef}
-        data-slot="menu-popup"
-        className={cn(
-          // Shared popup styles (Menu is the authoritative source)
-          listPopupStyles.base,
-          // Menu width: fixed for searchable, flexible for non-searchable
-          showSearch ? "w-[280px]" : "min-w-[220px] max-w-[400px]",
-          className
-        )}
-        style={showSearch && initialHeight ? { minHeight: initialHeight } : undefined}
-        {...props}
-      >
-        {showSearch && (
-          <MenuSearch placeholder={searchPlaceholder} />
-        )}
-        <div ref={contentRef}>
-          <ScrollFadeContainer maxHeight={showSearch ? maxHeight - 52 : maxHeight}>
-            {children}
-          </ScrollFadeContainer>
-        </div>
-      </MenuPrimitive.Popup>
-    </MenuSearchContext.Provider>
+    <MenuPrimitive.Popup
+      data-slot="menu-popup"
+      className={cn(
+        listPopupStyles.base,
+        listPopupStyles.width,
+        "overflow-y-auto",
+        className
+      )}
+      style={{ maxHeight: LIST_MAX_HEIGHT }}
+      {...props}
+    />
   )
 }
 
@@ -385,7 +221,6 @@ const Menu = {
   Portal: MenuPortal,
   Positioner: MenuPositioner,
   Popup: MenuPopup,
-  Search: MenuSearch,
   Arrow: MenuArrow,
   RadioGroup: MenuRadioGroup,
   RadioItem: MenuRadioItem,
@@ -394,14 +229,13 @@ const Menu = {
   SubmenuTrigger: SubmenuTrigger,
 }
 
-export { Menu, useMenuSearch }
+export { Menu }
 export type {
   MenuRootProps,
   MenuTriggerProps,
   MenuPortalProps,
   MenuPositionerProps,
   MenuPopupProps,
-  MenuSearchProps,
   MenuArrowProps,
   MenuRadioGroupProps,
   MenuRadioItemProps,

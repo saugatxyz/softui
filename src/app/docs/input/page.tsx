@@ -14,7 +14,6 @@ function ClearableInput() {
       placeholder="Type something..."
       value={value}
       onChange={(e) => setValue(e.target.value)}
-      focusVisibleOnly
       trailingIcon={
         value ? (
           <button
@@ -49,18 +48,18 @@ import { Field } from "@/components/ui/field"
 import { RiMailLine } from "@remixicon/react"
 
 // Standalone input
-<Input placeholder="Name" focusVisibleOnly />
+<Input placeholder="Name" />
 
 // With Field wrapper for labels and validation
 <Field
   label="Email"
   description="We'll never share your email"
 >
-  <Input placeholder="you@example.com" leadingIcon={<RiMailLine />} focusVisibleOnly />
+  <Input placeholder="you@example.com" leadingIcon={<RiMailLine />} />
 </Field>
 
 <Field label="Password" error="Password must be at least 8 characters">
-  <Input type="password" focusVisibleOnly />
+  <Input type="password" />
 </Field>`}
         />
       </section>
@@ -77,7 +76,6 @@ import { RiMailLine } from "@remixicon/react"
               <Input
                 size="s"
                 placeholder="Name"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -90,7 +88,6 @@ import { RiMailLine } from "@remixicon/react"
               <Input
                 size="m"
                 placeholder="Name"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -103,7 +100,6 @@ import { RiMailLine } from "@remixicon/react"
               <Input
                 size="l"
                 placeholder="Name"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -121,7 +117,6 @@ import { RiMailLine } from "@remixicon/react"
               <Input
                 placeholder="Search..."
                 leadingIcon={<RiSearchLine />}
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -142,7 +137,6 @@ import { RiMailLine } from "@remixicon/react"
                 placeholder="Enter username"
                 leadingIcon={<RiAtLine />}
                 trailingIcon={<RiSearchLine />}
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -158,7 +152,7 @@ import { RiMailLine } from "@remixicon/react"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email">
-                <Input placeholder="you@example.com" focusVisibleOnly />
+                <Input placeholder="you@example.com" />
               </Field>
             </div>
           </div>
@@ -168,7 +162,7 @@ import { RiMailLine } from "@remixicon/react"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email" description="We'll never share your email with anyone">
-                <Input placeholder="you@example.com" focusVisibleOnly />
+                <Input placeholder="you@example.com" />
               </Field>
             </div>
           </div>
@@ -184,7 +178,7 @@ import { RiMailLine } from "@remixicon/react"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email">
-                <Input placeholder="you@example.com" leadingIcon={<RiMailLine />} focusVisibleOnly />
+                <Input placeholder="you@example.com" leadingIcon={<RiMailLine />} />
               </Field>
             </div>
           </div>
@@ -204,7 +198,7 @@ import { RiMailLine } from "@remixicon/react"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Password" error="Password must be at least 8 characters">
-                <Input placeholder="Enter password" type="password" leadingIcon={<RiLockLine />} focusVisibleOnly />
+                <Input placeholder="Enter password" type="password" leadingIcon={<RiLockLine />} />
               </Field>
             </div>
           </div>
@@ -222,7 +216,6 @@ import { RiMailLine } from "@remixicon/react"
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Input
                 placeholder="Name"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -249,10 +242,10 @@ import { RiMailLine } from "@remixicon/react"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-24)]">
               <Field label="Email">
-                <Input placeholder="you@example.com" type="email" leadingIcon={<RiMailLine />} focusVisibleOnly />
+                <Input placeholder="you@example.com" type="email" leadingIcon={<RiMailLine />} />
               </Field>
               <Field label="Password">
-                <Input placeholder="Enter your password" type="password" leadingIcon={<RiLockLine />} focusVisibleOnly />
+                <Input placeholder="Enter your password" type="password" leadingIcon={<RiLockLine />} />
               </Field>
             </div>
           </div>

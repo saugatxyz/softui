@@ -2,19 +2,9 @@
 
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
-import { AnimatePresence, motion } from "motion/react"
 import { RiCloseLine } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
-
-const springTransition = {
-  type: "spring" as const,
-  bounce: 0,
-  duration: 0.15,
-}
-
-// Context to share open state for AnimatePresence
-const DialogContext = React.createContext<{ open: boolean }>({ open: false })
 
 // ============================================================================
 // Dialog Root
@@ -22,29 +12,8 @@ const DialogContext = React.createContext<{ open: boolean }>({ open: false })
 
 type DialogRootProps = DialogPrimitive.Root.Props
 
-function DialogRoot({ open, onOpenChange, defaultOpen, ...props }: DialogRootProps) {
-  // Track open state for AnimatePresence (supports both controlled and uncontrolled)
-  const [internalOpen, setInternalOpen] = React.useState(defaultOpen ?? false)
-  const isOpen = open ?? internalOpen
-
-  const handleOpenChange = React.useCallback(
-    (newOpen: boolean, eventDetails: DialogPrimitive.Root.ChangeEventDetails) => {
-      setInternalOpen(newOpen)
-      onOpenChange?.(newOpen, eventDetails)
-    },
-    [onOpenChange]
-  )
-
-  return (
-    <DialogContext.Provider value={{ open: isOpen }}>
-      <DialogPrimitive.Root
-        open={open}
-        defaultOpen={defaultOpen}
-        onOpenChange={handleOpenChange}
-        {...props}
-      />
-    </DialogContext.Provider>
-  )
+function DialogRoot(props: DialogRootProps) {
+  return <DialogPrimitive.Root {...props} />
 }
 
 // ============================================================================
@@ -74,18 +43,8 @@ type DialogPortalProps = DialogPrimitive.Portal.Props & {
 }
 
 function DialogPortal({ children, ...props }: DialogPortalProps) {
-  const { open } = React.useContext(DialogContext)
-
   return (
-    <DialogPrimitive.Portal {...props} keepMounted>
-      <AnimatePresence>
-        {open && (
-          <React.Fragment key="dialog-content">
-            {children}
-          </React.Fragment>
-        )}
-      </AnimatePresence>
-    </DialogPrimitive.Portal>
+    <DialogPrimitive.Portal {...props}>{children}</DialogPrimitive.Portal>
   )
 }
 
@@ -101,15 +60,12 @@ function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-backdrop"
-      className={cn("fixed inset-0 z-50 bg-utility-backdrop", className)}
-      render={
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={springTransition}
-        />
-      }
+      className={cn(
+        "fixed inset-0 z-50 bg-utility-backdrop",
+        "transition-opacity duration-150 ease-out",
+        "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
+        className
+      )}
       {...props}
     />
   )
@@ -148,27 +104,7 @@ const popupPositionStyles: Record<DialogPosition, string> = {
   ),
 }
 
-const popupAnimations = {
-  center: {
-    initial: { opacity: 0, scale: 0.95, y: 4 },
-    animate: { opacity: 1, scale: 1, y: 0 },
-    exit: { opacity: 0, scale: 0.95, y: 4 },
-  },
-  right: {
-    initial: { opacity: 0, x: "100%" },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: "100%" },
-  },
-  sheet: {
-    initial: { opacity: 0, y: "100%" },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: "100%" },
-  },
-} as const
-
 function DialogPopup({ className, children, position = "center", ...props }: DialogPopupProps) {
-  const animation = popupAnimations[position]
-
   return (
     <DialogPrimitive.Popup
       data-slot="dialog-popup"
@@ -186,18 +122,12 @@ function DialogPopup({ className, children, position = "center", ...props }: Dia
         // Focus
         "outline-none",
         // Nested dialog effect - scale down and push back when child dialog opens
-        "transition-[scale,filter] duration-200 ease-out",
+        "transition-[transform,opacity,filter] duration-200 ease-out",
         "data-[nested-dialog-open]:scale-[0.94] data-[nested-dialog-open]:brightness-[0.6]",
+        // Enter/exit
+        "data-[starting-style]:scale-[0.98] data-[starting-style]:opacity-0 data-[ending-style]:scale-[0.98] data-[ending-style]:opacity-0",
         className
       )}
-      render={
-        <motion.div
-          initial={animation.initial}
-          animate={animation.animate}
-          exit={animation.exit}
-          transition={position === "center" ? springTransition : { ...springTransition, duration: 0.2 }}
-        />
-      }
       {...props}
     >
       {children}

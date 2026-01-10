@@ -60,7 +60,7 @@ function SegmentedControlRoot({
 // -----------------------------------------------------------------------------
 
 const listVariants = cva(
-  "relative inline-flex self-start items-center gap-[2px] rounded-[var(--radius-max)] p-[2px]",
+  "relative inline-flex self-start items-center gap-[var(--space-2)] rounded-[var(--radius-max)] p-[var(--space-2)]",
   {
     variants: {
       variant: {

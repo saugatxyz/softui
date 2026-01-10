@@ -2,12 +2,10 @@
 
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
-import { cva, type VariantProps } from "class-variance-authority"
-import { RiCheckFill, RiExpandUpDownLine } from "@remixicon/react"
+import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
-import { MenuPrefix } from "./menu-prefix"
 
 // ============================================================================
 // Variants
@@ -32,242 +30,372 @@ const triggerVariants = cva(
   }
 )
 
+const valueVariants = cva(
+  "flex-1 truncate text-left text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]"
+)
+
+const iconVariants = cva(
+  "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full"
+)
+
+const itemTextVariants = cva(
+  "truncate text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]"
+)
+
 // ============================================================================
-// Types
+// Types + Context
 // ============================================================================
 
 type SelectSize = "s" | "m" | "l"
 
-type SelectOption = {
-  value: string
-  label: string
-  /** Secondary description text */
-  description?: string
-  /** Icon for the option */
-  icon?: React.ReactNode
-  /** Prefix type for MenuPrefix component */
-  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
-  disabled?: boolean
+type SelectContextValue = {
+  size: SelectSize
 }
 
-// Base props shared between single and multi select
-type SelectBaseProps = VariantProps<typeof triggerVariants> & {
-  /** Select options */
-  options: SelectOption[]
-  /** Placeholder text when no value selected */
-  placeholder?: string
-  /** Leading icon on trigger */
-  leadingIcon?: React.ReactNode
-  /** Disabled state */
-  disabled?: boolean
-  /** Additional class name */
-  className?: string
-  /** Dropdown position relative to trigger */
-  side?: "top" | "bottom" | "left" | "right"
-  /** Dropdown alignment relative to trigger */
-  align?: "start" | "center" | "end"
-  /** Gap between trigger and dropdown */
-  sideOffset?: number
-}
+const SelectContext = React.createContext<SelectContextValue | null>(null)
 
-// Single select props
-type SingleSelectProps = SelectBaseProps & {
-  /** Enable multiple selection */
-  multiple?: false
-  /** Current value (controlled) */
-  value?: string
-  /** Default value (uncontrolled) */
-  defaultValue?: string
-  /** Change handler */
-  onValueChange?: (value: string | null) => void
-}
-
-// Multi select props
-type MultiSelectProps = SelectBaseProps & {
-  /** Enable multiple selection */
-  multiple: true
-  /** Current value (controlled) */
-  value?: string[]
-  /** Default value (uncontrolled) */
-  defaultValue?: string[]
-  /** Change handler */
-  onValueChange?: (value: string[]) => void
-}
-
-type SelectProps = SingleSelectProps | MultiSelectProps
-
-// ============================================================================
-// Select Component
-// ============================================================================
-
-function Select(props: SelectProps) {
-  const {
-    className,
-    size,
-    options,
-    placeholder = "Select an option",
-    leadingIcon,
-    disabled,
-    side = "bottom",
-    align = "start",
-    sideOffset = 4,
-    multiple,
-  } = props
-
-  const resolvedSize: SelectSize = size ?? "m"
-
-  // Get display text for selected value(s)
-  const getDisplayText = (selectedValue: string | string[] | null) => {
-    if (!selectedValue) return placeholder
-
-    if (multiple && Array.isArray(selectedValue)) {
-      if (selectedValue.length === 0) return placeholder
-      if (selectedValue.length === 1) {
-        const option = options.find((o) => o.value === selectedValue[0])
-        return option?.label ?? selectedValue[0]
-      }
-      return `${selectedValue.length} selected`
-    }
-
-    const option = options.find((o) => o.value === selectedValue)
-    return option?.label ?? selectedValue
+function useSelectContext() {
+  const context = React.useContext(SelectContext)
+  if (!context) {
+    throw new Error("Select components must be used within Select")
   }
+  return context
+}
 
+// ============================================================================
+// Select Root
+// ============================================================================
+
+type SelectRootProps<Value = unknown, Multiple extends boolean | undefined = boolean> = SelectPrimitive.Root.Props<Value, Multiple> & {
+  size?: SelectSize
+}
+
+function SelectRoot<Value = unknown, Multiple extends boolean | undefined = boolean>({
+  size = "m",
+  ...props
+}: SelectRootProps<Value, Multiple>) {
   return (
-    <div
-      data-slot="select"
-      data-size={resolvedSize}
-      data-multiple={multiple || undefined}
-      className={className}
-    >
-    <SelectPrimitive.Root
-      value={props.value as string | string[] | undefined}
-      defaultValue={props.defaultValue as string | string[] | undefined}
-      onValueChange={props.onValueChange as ((value: string | string[] | null) => void) | undefined}
-      disabled={disabled}
-      multiple={multiple}
-    >
-      <SelectPrimitive.Trigger
-          data-slot="trigger"
-          className={cn(
-            triggerVariants({ size }),
-            !disabled && "hover:bg-actions-secondary-hover",
-            "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-            disabled && "bg-actions-secondary-disabled cursor-not-allowed"
-          )}
-        >
-          {leadingIcon && (
-            <span
-              data-slot="leading-icon"
-              className={cn(
-                "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full",
-                disabled ? "text-content-disabled" : "text-content-subtle"
-              )}
-            >
-              {leadingIcon}
-            </span>
-          )}
-
-          <SelectPrimitive.Value
-            data-slot="value"
-            className={cn(
-              "flex-1 truncate text-left",
-              "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-              disabled
-                ? "text-content-disabled"
-                : "text-content-strong data-[placeholder]:text-content-muted"
-            )}
-          >
-            {(selectedValue) => getDisplayText(selectedValue as string | string[] | null)}
-          </SelectPrimitive.Value>
-
-          <SelectPrimitive.Icon
-            data-slot="icon"
-            className={cn(
-              "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full",
-              disabled ? "text-content-disabled" : "text-content-muted"
-            )}
-          >
-            <RiExpandUpDownLine />
-          </SelectPrimitive.Icon>
-        </SelectPrimitive.Trigger>
-
-        <SelectPrimitive.Portal>
-          <SelectPrimitive.Positioner
-            data-slot="positioner"
-            side={side}
-            align={align}
-            sideOffset={sideOffset}
-            alignItemWithTrigger={false}
-            collisionPadding={8}
-            className="z-[100] outline-none"
-          >
-            <SelectPrimitive.Popup
-              data-slot="popup"
-              className={cn(listPopupStyles.base, listPopupStyles.width)}
-            >
-              <div className="flex flex-col gap-[var(--space-2)] p-[var(--space-4)]">
-                {options.map((option) => (
-                  <SelectPrimitive.Item
-                    key={option.value}
-                    value={option.value}
-                    disabled={option.disabled}
-                    data-slot="item"
-                    className={cn(listItemVariants())}
-                  >
-                    {option.icon && (
-                      <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
-                        <MenuPrefix
-                          type={option.prefixType ?? "icon"}
-                          icon={option.icon}
-                          disabled={option.disabled}
-                        />
-                      </span>
-                    )}
-
-                    <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
-                      <SelectPrimitive.ItemText
-                        data-slot="item-text"
-                        className={cn(
-                          "truncate",
-                          "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                          option.disabled ? "text-content-disabled" : "text-content-strong"
-                        )}
-                      >
-                        {option.label}
-                      </SelectPrimitive.ItemText>
-                      {option.description && (
-                        <span
-                          data-slot="item-description"
-                          className={cn(
-                            "truncate",
-                            "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
-                            option.disabled ? "text-content-disabled" : "text-content-subtle"
-                          )}
-                        >
-                          {option.description}
-                        </span>
-                      )}
-                    </div>
-
-                    <SelectPrimitive.ItemIndicator
-                      data-slot="indicator"
-                      className="flex size-[20px] shrink-0 items-center justify-center"
-                    >
-                      <span className="flex size-[16px] items-center justify-center text-content-strong [&_svg]:size-full">
-                        <RiCheckFill />
-                      </span>
-                    </SelectPrimitive.ItemIndicator>
-                  </SelectPrimitive.Item>
-                ))}
-              </div>
-            </SelectPrimitive.Popup>
-          </SelectPrimitive.Positioner>
-        </SelectPrimitive.Portal>
-    </SelectPrimitive.Root>
-    </div>
+    <SelectContext.Provider value={{ size }}>
+      <SelectPrimitive.Root
+        {...props}
+      />
+    </SelectContext.Provider>
   )
 }
 
+// ============================================================================
+// Select Trigger
+// ============================================================================
+
+type SelectTriggerProps = Omit<SelectPrimitive.Trigger.Props, "className"> & {
+  className?: string
+}
+
+function SelectTrigger({ className, ...props }: SelectTriggerProps) {
+  const { size } = useSelectContext()
+
+  return (
+    <SelectPrimitive.Trigger
+      data-slot="trigger"
+      className={cn(
+        triggerVariants({ size }),
+        "hover:bg-actions-secondary-hover",
+        "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:cursor-not-allowed",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Select Value
+// ============================================================================
+
+type SelectValueProps = Omit<SelectPrimitive.Value.Props, "className"> & {
+  className?: string
+}
+
+function SelectValue({ className, ...props }: SelectValueProps) {
+  return (
+    <SelectPrimitive.Value
+      data-slot="value"
+      className={cn(
+        valueVariants(),
+        "text-content-strong data-[placeholder]:text-content-muted",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Select Icon
+// ============================================================================
+
+type SelectIconProps = Omit<SelectPrimitive.Icon.Props, "className"> & {
+  className?: string
+}
+
+function SelectIcon({ className, ...props }: SelectIconProps) {
+  return (
+    <SelectPrimitive.Icon
+      data-slot="icon"
+      className={cn(iconVariants(), "text-content-muted", className)}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Select Portal + Positioner + Popup
+// ============================================================================
+
+type SelectPortalProps = SelectPrimitive.Portal.Props
+
+function SelectPortal(props: SelectPortalProps) {
+  return <SelectPrimitive.Portal {...props} />
+}
+
+type SelectPositionerProps = Omit<SelectPrimitive.Positioner.Props, "className"> & {
+  className?: string
+}
+
+function SelectPositioner({ className, collisionPadding = 8, ...props }: SelectPositionerProps) {
+  return (
+    <SelectPrimitive.Positioner
+      data-slot="positioner"
+      className={cn("z-[100] outline-none", className)}
+      collisionPadding={collisionPadding}
+      {...props}
+    />
+  )
+}
+
+type SelectPopupProps = Omit<SelectPrimitive.Popup.Props, "className"> & {
+  className?: string
+}
+
+function SelectPopup({ className, ...props }: SelectPopupProps) {
+  return (
+    <SelectPrimitive.Popup
+      data-slot="popup"
+      className={cn(listPopupStyles.base, listPopupStyles.width, className)}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Select Backdrop
+// ============================================================================
+
+type SelectBackdropProps = Omit<SelectPrimitive.Backdrop.Props, "className"> & {
+  className?: string
+}
+
+function SelectBackdrop({ className, ...props }: SelectBackdropProps) {
+  return (
+    <SelectPrimitive.Backdrop
+      data-slot="backdrop"
+      className={cn(
+        "fixed inset-0 z-40 bg-utility-backdrop",
+        "transition-opacity duration-100",
+        "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Select List + Items
+// ============================================================================
+
+type SelectListProps = Omit<SelectPrimitive.List.Props, "className"> & {
+  className?: string
+}
+
+function SelectList({ className, ...props }: SelectListProps) {
+  return (
+    <SelectPrimitive.List
+      data-slot="list"
+      className={cn("flex flex-col gap-[var(--space-2)] p-[var(--space-4)]", className)}
+      {...props}
+    />
+  )
+}
+
+type SelectItemProps = Omit<SelectPrimitive.Item.Props, "className"> & {
+  className?: string
+}
+
+function SelectItem({ className, ...props }: SelectItemProps) {
+  return (
+    <SelectPrimitive.Item
+      data-slot="item"
+      className={cn(listItemVariants(), className)}
+      {...props}
+    />
+  )
+}
+
+type SelectItemTextProps = Omit<SelectPrimitive.ItemText.Props, "className"> & {
+  className?: string
+}
+
+function SelectItemText({ className, ...props }: SelectItemTextProps) {
+  return (
+    <SelectPrimitive.ItemText
+      data-slot="item-text"
+      className={cn(itemTextVariants(), className)}
+      {...props}
+    />
+  )
+}
+
+type SelectItemIndicatorProps = Omit<SelectPrimitive.ItemIndicator.Props, "className"> & {
+  className?: string
+}
+
+function SelectItemIndicator({ className, ...props }: SelectItemIndicatorProps) {
+  return (
+    <SelectPrimitive.ItemIndicator
+      data-slot="indicator"
+      className={cn("flex size-[20px] shrink-0 items-center justify-center", className)}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Select Group + Label
+// ============================================================================
+
+type SelectGroupProps = Omit<SelectPrimitive.Group.Props, "className"> & {
+  className?: string
+}
+
+function SelectGroup({ className, ...props }: SelectGroupProps) {
+  return (
+    <SelectPrimitive.Group
+      data-slot="group"
+      className={cn("flex flex-col gap-[var(--space-2)]", className)}
+      {...props}
+    />
+  )
+}
+
+type SelectGroupLabelProps = Omit<SelectPrimitive.GroupLabel.Props, "className"> & {
+  className?: string
+}
+
+function SelectGroupLabel({ className, ...props }: SelectGroupLabelProps) {
+  return (
+    <SelectPrimitive.GroupLabel
+      data-slot="group-label"
+      className={cn(
+        "flex min-h-[28px] items-center px-[var(--space-12)] py-[var(--space-6)]",
+        "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
+        "text-content-subtle",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Select Arrow + Scroll Buttons
+// ============================================================================
+
+type SelectArrowProps = Omit<SelectPrimitive.Arrow.Props, "className"> & {
+  className?: string
+}
+
+function SelectArrow({ className, ...props }: SelectArrowProps) {
+  return (
+    <SelectPrimitive.Arrow
+      data-slot="arrow"
+      className={cn("fill-surface-overlay", className)}
+      {...props}
+    />
+  )
+}
+
+type SelectScrollUpArrowProps = Omit<SelectPrimitive.ScrollUpArrow.Props, "className"> & {
+  className?: string
+}
+
+function SelectScrollUpArrow({ className, ...props }: SelectScrollUpArrowProps) {
+  return (
+    <SelectPrimitive.ScrollUpArrow
+      data-slot="scroll-up-arrow"
+      className={cn("flex h-[20px] items-center justify-center text-content-muted", className)}
+      {...props}
+    />
+  )
+}
+
+type SelectScrollDownArrowProps = Omit<SelectPrimitive.ScrollDownArrow.Props, "className"> & {
+  className?: string
+}
+
+function SelectScrollDownArrow({ className, ...props }: SelectScrollDownArrowProps) {
+  return (
+    <SelectPrimitive.ScrollDownArrow
+      data-slot="scroll-down-arrow"
+      className={cn("flex h-[20px] items-center justify-center text-content-muted", className)}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Exports
+// ============================================================================
+
+const Select = Object.assign(SelectRoot, {
+  Root: SelectRoot,
+  Trigger: SelectTrigger,
+  Value: SelectValue,
+  Icon: SelectIcon,
+  Portal: SelectPortal,
+  Positioner: SelectPositioner,
+  Popup: SelectPopup,
+  Backdrop: SelectBackdrop,
+  List: SelectList,
+  Item: SelectItem,
+  ItemText: SelectItemText,
+  ItemIndicator: SelectItemIndicator,
+  Group: SelectGroup,
+  GroupLabel: SelectGroupLabel,
+  Arrow: SelectArrow,
+  ScrollUpArrow: SelectScrollUpArrow,
+  ScrollDownArrow: SelectScrollDownArrow,
+})
+
 export { Select }
-export type { SelectProps, SelectOption, SelectSize }
+export type {
+  SelectRootProps,
+  SelectTriggerProps,
+  SelectValueProps,
+  SelectIconProps,
+  SelectPortalProps,
+  SelectPositionerProps,
+  SelectPopupProps,
+  SelectBackdropProps,
+  SelectListProps,
+  SelectItemProps,
+  SelectItemTextProps,
+  SelectItemIndicatorProps,
+  SelectGroupProps,
+  SelectGroupLabelProps,
+  SelectArrowProps,
+  SelectScrollUpArrowProps,
+  SelectScrollDownArrowProps,
+  SelectSize,
+}

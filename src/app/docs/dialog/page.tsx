@@ -10,6 +10,7 @@ import { InputGroup } from "@/components/ui/input-group"
 import { CheckboxGroup } from "@/components/ui/checkbox-group"
 import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
 import { CheckboxPrefix } from "@/components/ui/checkbox-prefix"
+import { Field as FieldPrimitive } from "@base-ui/react/field"
 import {
   RiMailLine,
   RiLineChartLine,
@@ -216,7 +217,6 @@ import { Button } from "@/components/ui/button"
                             value={displayName}
                             onChange={(e) => setDisplayName(e.target.value)}
                             placeholder="Your name"
-                            focusVisibleOnly
                           />
                         </div>
 
@@ -228,7 +228,6 @@ import { Button } from "@/components/ui/button"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="username"
-                            focusVisibleOnly
                           />
                         </div>
 
@@ -279,13 +278,17 @@ import { Button } from "@/components/ui/button"
                         </div>
 
                         {/* Do not disturb switch */}
-                        <div className="flex items-center justify-between">
+                        <FieldPrimitive.Root className="flex items-center justify-between">
                           <div className="flex flex-col gap-[var(--space-2)]">
-                            <p className="text-body-m-medium text-content-strong">Do not disturb</p>
-                            <p className="text-body-xs text-content-subtle">Pause all notifications</p>
+                            <FieldPrimitive.Label className="text-body-m-medium text-content-strong">
+                              Do not disturb
+                            </FieldPrimitive.Label>
+                            <FieldPrimitive.Description className="text-body-xs text-content-subtle">
+                              Pause all notifications
+                            </FieldPrimitive.Description>
                           </div>
                           <Switch checked={dnd} onCheckedChange={setDnd} />
-                        </div>
+                        </FieldPrimitive.Root>
                       </Dialog.Body>
                     </Dialog.Content>
                     <Dialog.Footer>
@@ -330,7 +333,7 @@ import { Button } from "@/components/ui/button"
                         </p>
                         <div className="flex flex-col gap-[var(--space-8)]">
                           <label className="text-body-m-medium text-content-strong">Invite by email</label>
-                          <Input placeholder="Enter email address" focusVisibleOnly />
+                          <Input placeholder="Enter email address" />
                         </div>
                       </Dialog.Body>
                     </Dialog.Content>
@@ -346,27 +349,39 @@ import { Button } from "@/components/ui/button"
                                 <Dialog.Close />
                               </Dialog.Header>
                               <Dialog.Body>
-                                <div className="flex items-center justify-between">
+                                <FieldPrimitive.Root className="flex items-center justify-between">
                                   <div className="flex flex-col gap-[var(--space-2)]">
-                                    <p className="text-body-m-medium text-content-strong">Allow downloads</p>
-                                    <p className="text-body-xs text-content-subtle">Users can download the file</p>
+                                    <FieldPrimitive.Label className="text-body-m-medium text-content-strong">
+                                      Allow downloads
+                                    </FieldPrimitive.Label>
+                                    <FieldPrimitive.Description className="text-body-xs text-content-subtle">
+                                      Users can download the file
+                                    </FieldPrimitive.Description>
                                   </div>
                                   <Switch />
-                                </div>
-                                <div className="flex items-center justify-between">
+                                </FieldPrimitive.Root>
+                                <FieldPrimitive.Root className="flex items-center justify-between">
                                   <div className="flex flex-col gap-[var(--space-2)]">
-                                    <p className="text-body-m-medium text-content-strong">Allow comments</p>
-                                    <p className="text-body-xs text-content-subtle">Users can leave comments</p>
+                                    <FieldPrimitive.Label className="text-body-m-medium text-content-strong">
+                                      Allow comments
+                                    </FieldPrimitive.Label>
+                                    <FieldPrimitive.Description className="text-body-xs text-content-subtle">
+                                      Users can leave comments
+                                    </FieldPrimitive.Description>
                                   </div>
                                   <Switch defaultChecked />
-                                </div>
-                                <div className="flex items-center justify-between">
+                                </FieldPrimitive.Root>
+                                <FieldPrimitive.Root className="flex items-center justify-between">
                                   <div className="flex flex-col gap-[var(--space-2)]">
-                                    <p className="text-body-m-medium text-content-strong">Require password</p>
-                                    <p className="text-body-xs text-content-subtle">Viewers must enter a password</p>
+                                    <FieldPrimitive.Label className="text-body-m-medium text-content-strong">
+                                      Require password
+                                    </FieldPrimitive.Label>
+                                    <FieldPrimitive.Description className="text-body-xs text-content-subtle">
+                                      Viewers must enter a password
+                                    </FieldPrimitive.Description>
                                   </div>
                                   <Switch />
-                                </div>
+                                </FieldPrimitive.Root>
                               </Dialog.Body>
                             </Dialog.Content>
                             <Dialog.Footer>

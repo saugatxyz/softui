@@ -3,67 +3,13 @@
 import * as React from "react"
 import { Toggle } from "@base-ui/react/toggle"
 import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group"
-import { motion } from "motion/react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
 // ============================================================================
-// Tone System
-// ============================================================================
-
-const feedbackTones = ["default", "info", "warning", "danger", "success"] as const
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const decorativeTones = [
-  "red", "orange", "amber", "yellow", "lime", "green", "emerald",
-  "teal", "cyan", "sky", "blue", "indigo", "violet", "purple",
-  "fuchsia", "pink", "rose",
-] as const
-
-type FeedbackTone = (typeof feedbackTones)[number]
-type DecorativeTone = (typeof decorativeTones)[number]
-type ToggleGroupTone = FeedbackTone | DecorativeTone
-
-const feedbackToneClass: Record<FeedbackTone, string> = {
-  default: "",
-  info: "text-content-feedback-info-strong",
-  warning: "text-content-feedback-warning-strong",
-  danger: "text-content-feedback-danger-strong",
-  success: "text-content-feedback-success-strong",
-}
-
-const decorativeToneClass: Record<DecorativeTone, string> = {
-  red: "text-content-decorative-red-strong",
-  orange: "text-content-decorative-orange-strong",
-  amber: "text-content-decorative-amber-strong",
-  yellow: "text-content-decorative-yellow-strong",
-  lime: "text-content-decorative-lime-strong",
-  green: "text-content-decorative-green-strong",
-  emerald: "text-content-decorative-emerald-strong",
-  teal: "text-content-decorative-teal-strong",
-  cyan: "text-content-decorative-cyan-strong",
-  sky: "text-content-decorative-sky-strong",
-  blue: "text-content-decorative-blue-strong",
-  indigo: "text-content-decorative-indigo-strong",
-  violet: "text-content-decorative-violet-strong",
-  purple: "text-content-decorative-purple-strong",
-  fuchsia: "text-content-decorative-fuchsia-strong",
-  pink: "text-content-decorative-pink-strong",
-  rose: "text-content-decorative-rose-strong",
-}
-
-function isFeedbackTone(tone: ToggleGroupTone): tone is FeedbackTone {
-  return (feedbackTones as readonly string[]).includes(tone)
-}
-
-function getToneClass(tone: ToggleGroupTone | undefined): string {
-  if (!tone) return ""
-  return isFeedbackTone(tone) ? feedbackToneClass[tone] : decorativeToneClass[tone]
-}
-
-// ============================================================================
 // Types
-// ============================================================================
+// ==========================================================================
 
 type ToggleGroupSize = "xs" | "s" | "m" | "l"
 type ToggleGroupVariant = "tertiary" | "ghost" | "secondary"
@@ -72,8 +18,6 @@ type ToggleGroupContextValue = {
   size: ToggleGroupSize
   variant: ToggleGroupVariant
   hideSeparator: boolean
-  /** Current selected values for deriving pressed state */
-  currentValue: string[]
 }
 
 const ToggleGroupContext = React.createContext<ToggleGroupContextValue | null>(null)
@@ -88,7 +32,7 @@ function useToggleGroup() {
 
 // ============================================================================
 // Variants
-// ============================================================================
+// ==========================================================================
 
 const toggleGroupVariants = cva("inline-flex items-center gap-[var(--space-4)]", {
   variants: {
@@ -161,108 +105,23 @@ const labelVariants = cva("flex shrink-0 items-center justify-center", {
   },
 })
 
-const iconSizeMap = {
-  xs: 16,
-  s: 16,
-  m: 16,
-  l: 18,
-} as const
-
-// ============================================================================
-// MorphingIcon Component
-// ============================================================================
-
-function MorphingIcon({
-  pressed,
-  icon,
-  pressedIcon,
-  size,
-  toneClass,
-  morph,
-}: {
-  pressed: boolean
-  icon: React.ReactNode
-  pressedIcon?: React.ReactNode
-  size: number
-  toneClass: string
-  morph: boolean
-}) {
-  // No morphing - smooth fade transition
-  if (!morph) {
-    return (
-      <span
-        className="relative flex shrink-0 items-center justify-center"
-        style={{ width: size, height: size }}
-      >
-        <motion.span
-          className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
-          initial={false}
-          animate={{
-            opacity: pressed ? 0 : 1,
-          }}
-          transition={{ duration: 0.15, ease: "easeOut" }}
-        >
-          {icon}
-        </motion.span>
-        <motion.span
-          className={cn(
-            "absolute inset-0 flex items-center justify-center [&_svg]:size-full",
-            toneClass
-          )}
-          initial={false}
-          animate={{
-            opacity: pressed ? 1 : 0,
-          }}
-          transition={{ duration: 0.15, ease: "easeOut" }}
-        >
-          {pressedIcon ?? icon}
-        </motion.span>
-      </span>
-    )
-  }
-
-  // Morphing animation between icons
-  return (
-    <span
-      className="relative flex shrink-0 items-center justify-center"
-      style={{ width: size, height: size }}
-    >
-      <motion.span
-        className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
-        initial={false}
-        animate={{
-          y: pressed ? -8 : 0,
-          scale: pressed ? 0.5 : 1,
-          opacity: pressed ? 0 : 1,
-          filter: pressed ? "blur(8px)" : "blur(0px)",
-        }}
-        transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
-      >
-        {icon}
-      </motion.span>
-      <motion.span
-        className={cn(
-          "absolute inset-0 flex items-center justify-center [&_svg]:size-full",
-          toneClass
-        )}
-        initial={false}
-        animate={{
-          y: pressed ? 0 : 8,
-          scale: pressed ? 1 : 0.5,
-          opacity: pressed ? 1 : 0,
-          filter: pressed ? "blur(0px)" : "blur(8px)",
-        }}
-        transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
-      >
-        {pressedIcon ?? icon}
-      </motion.span>
-    </span>
-  )
-}
+const iconVariants = cva("flex shrink-0 items-center justify-center text-current [&_svg]:size-full", {
+  variants: {
+    size: {
+      xs: "size-[16px]",
+      s: "size-[16px]",
+      m: "size-[16px]",
+      l: "size-[18px]",
+    },
+  },
+  defaultVariants: {
+    size: "m",
+  },
+})
 
 // ============================================================================
 // ToggleGroup Component
-// ============================================================================
+// ==========================================================================
 
 type ToggleGroupProps = Omit<ToggleGroupPrimitive.Props, "className"> &
   VariantProps<typeof toggleGroupVariants> & {
@@ -278,52 +137,18 @@ function ToggleGroup({
   size = "m",
   variant = "ghost",
   hideSeparator = false,
-  value,
-  defaultValue,
-  onValueChange,
-  multiple,
-  loopFocus = true,
-  orientation = "horizontal",
-  disabled,
   children,
   ...props
 }: ToggleGroupProps) {
-  // Track current value for context (to derive pressed state in items)
-  // For uncontrolled mode, we track internal state; for controlled, we use the provided value
-  const [internalValue, setInternalValue] = React.useState<string[]>(() =>
-    defaultValue ? [...defaultValue] as string[] : []
-  )
-  const currentValue = value ? [...value] as string[] : internalValue
-
-  // Handle value change - update internal state and forward callback
-  const handleValueChange: NonNullable<ToggleGroupPrimitive.Props["onValueChange"]> = React.useCallback(
-    (newValue, eventDetails) => {
-      const stringValue = [...newValue] as string[]
-      if (value === undefined) {
-        // Uncontrolled mode - update internal state
-        setInternalValue(stringValue)
-      }
-      onValueChange?.([...newValue], eventDetails)
-    },
-    [value, onValueChange]
-  )
-
   const childArray = React.Children.toArray(children)
   const count = childArray.length
 
   return (
-    <ToggleGroupContext.Provider value={{ size: size ?? "m", variant, hideSeparator, currentValue }}>
+    <ToggleGroupContext.Provider value={{ size: size ?? "m", variant, hideSeparator }}>
       <ToggleGroupPrimitive
         data-slot="toggle-group"
         data-size={size}
         data-variant={variant}
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={handleValueChange}
-        multiple={multiple}
-        loopFocus={loopFocus}
-        orientation={orientation}
-        disabled={disabled}
         className={cn(toggleGroupVariants({ size, className }))}
         {...props}
       >
@@ -351,55 +176,30 @@ function ToggleGroup({
 
 // ============================================================================
 // ToggleGroupItem Component
-// ============================================================================
+// ==========================================================================
 
-type ToggleGroupItemProps = Omit<Toggle.Props, "className" | "children" | "pressed" | "defaultPressed" | "onPressedChange"> & {
+type ToggleGroupItemProps = Omit<Toggle.Props, "className"> & {
   /** Required: Unique value to identify this toggle in the group */
   value: string
-  /** Required: Icon to display when not pressed */
-  icon: React.ReactNode
-  /** Icon to display when pressed (falls back to icon) */
-  pressedIcon?: React.ReactNode
-  /** Label to display when not pressed */
-  children?: React.ReactNode
-  /** Label to display when pressed (falls back to children) */
-  pressedChildren?: React.ReactNode
-  /** Color tone when pressed */
-  pressedTone?: ToggleGroupTone
-  /** Fixed width for label animation (unpressed state) */
-  labelWidth?: number
-  /** Fixed width for label animation (pressed state) */
-  pressedLabelWidth?: number
-  /** Enable morphing animation between icons. Defaults to false (smooth fade). */
-  morph?: boolean
+  /** Optional leading icon */
+  leadingIcon?: React.ReactNode
+  /** Optional trailing icon */
+  trailingIcon?: React.ReactNode
   className?: string
+  children?: React.ReactNode
 }
 
 function ToggleGroupItem({
   className,
   value,
-  icon,
-  pressedIcon,
+  leadingIcon,
+  trailingIcon,
   children,
-  pressedChildren,
-  pressedTone,
-  labelWidth,
-  pressedLabelWidth,
-  morph,
   ...props
 }: ToggleGroupItemProps) {
-  const { size, variant, currentValue } = useToggleGroup()
-
-  // Derive pressed state from group's current value
-  const pressed = currentValue.includes(value)
-
-  const iconSize = iconSizeMap[size]
-  const toneClass = getToneClass(pressedTone)
-  const shouldMorph = morph ?? false
-
-  const hasLabel = children !== undefined || pressedChildren !== undefined
-  const currentLabel = pressed ? (pressedChildren ?? children) : children
-  const currentWidth = pressed ? (pressedLabelWidth ?? labelWidth) : labelWidth
+  const { size, variant } = useToggleGroup()
+  const hasLabel = React.Children.count(children) > 0
+  const iconOnly = !hasLabel
 
   return (
     <Toggle
@@ -407,40 +207,27 @@ function ToggleGroupItem({
       data-variant={variant}
       data-size={size}
       value={value}
-      className={cn(itemVariants({ variant, size, iconOnly: !hasLabel, className }))}
+      className={cn(itemVariants({ variant, size, iconOnly, className }))}
       {...props}
     >
-      <MorphingIcon
-        pressed={pressed}
-        icon={icon}
-        pressedIcon={pressedIcon}
-        size={iconSize}
-        toneClass={toneClass}
-        morph={shouldMorph}
-      />
+      {leadingIcon && (
+        <span data-slot="icon" className={cn(iconVariants({ size }))}>
+          {leadingIcon}
+        </span>
+      )}
       {hasLabel && (
         <span data-slot="label" className={cn(labelVariants({ size }))}>
-          {currentWidth !== undefined ? (
-            <motion.span
-              className="inline-block overflow-hidden whitespace-nowrap"
-              initial={false}
-              animate={{ width: currentWidth }}
-              transition={{ type: "spring", bounce: 0.15, duration: 0.25 }}
-            >
-              {currentLabel}
-            </motion.span>
-          ) : (
-            currentLabel
-          )}
+          {children}
+        </span>
+      )}
+      {trailingIcon && (
+        <span data-slot="icon" className={cn(iconVariants({ size }))}>
+          {trailingIcon}
         </span>
       )}
     </Toggle>
   )
 }
 
-// ============================================================================
-// Exports
-// ============================================================================
-
 export { ToggleGroup, ToggleGroupItem }
-export type { ToggleGroupProps, ToggleGroupItemProps, ToggleGroupSize, ToggleGroupVariant, ToggleGroupTone }
+export type { ToggleGroupProps, ToggleGroupItemProps, ToggleGroupSize, ToggleGroupVariant }

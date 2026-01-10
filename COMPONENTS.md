@@ -111,30 +111,47 @@ import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components
 - `Select.Root` - Container, manages state
 - `Select.Trigger` - Button that opens dropdown
 - `Select.Value` - Displays selected value
+- `Select.Icon` - Trailing icon slot
 - `Select.Portal` - Renders dropdown in portal
 - `Select.Positioner` - Handles positioning
 - `Select.Popup` - Dropdown container
-- `Select.Option` - Individual option
-- `Select.OptionIndicator` - Checkmark for selected option
+- `Select.Backdrop` - Optional backdrop for modal behavior
+- `Select.List` - List of items
+- `Select.Item` - Individual option
+- `Select.ItemText` - Item label
+- `Select.ItemIndicator` - Checkmark for selected option
+- `Select.Group` - Option group container
+- `Select.GroupLabel` - Group header
+- `Select.Arrow` - Optional arrow element
+- `Select.ScrollUpArrow` / `Select.ScrollDownArrow` - Scroll affordances
 
 **Data Attributes:**
 | Element | Attribute | When Applied |
 |---------|-----------|--------------|
 | `Select.Trigger` | `data-open` | Dropdown is open |
-| `Select.Option` | `data-highlighted` | Option has keyboard/hover focus |
-| `Select.Option` | `data-selected` | Option is the current value |
-| `Select.Option` | `data-disabled` | Option is disabled |
+| `Select.Item` | `data-highlighted` | Option has keyboard/hover focus |
+| `Select.Item` | `data-selected` | Option is the current value |
+| `Select.Item` | `data-disabled` | Option is disabled |
 
 ```tsx
 <Select defaultValue="option1">
   <Select.Trigger>
     <Select.Value placeholder="Select..." />
+    <Select.Icon />
   </Select.Trigger>
   <Select.Portal>
     <Select.Positioner>
       <Select.Popup>
-        <Select.Option value="option1">Option 1</Select.Option>
-        <Select.Option value="option2">Option 2</Select.Option>
+        <Select.List>
+          <Select.Item value="option1">
+            <Select.ItemText>Option 1</Select.ItemText>
+            <Select.ItemIndicator />
+          </Select.Item>
+          <Select.Item value="option2">
+            <Select.ItemText>Option 2</Select.ItemText>
+            <Select.ItemIndicator />
+          </Select.Item>
+        </Select.List>
       </Select.Popup>
     </Select.Positioner>
   </Select.Portal>
@@ -150,6 +167,7 @@ import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components
 - `Combobox.Root` - Container, manages state
 - `Combobox.Input` - Text input for filtering
 - `Combobox.Trigger` - Button to open dropdown
+- `Combobox.Clear` - Clears selection/input
 - `Combobox.Portal` - Renders dropdown in portal
 - `Combobox.Positioner` - Handles positioning
 - `Combobox.Popup` - Dropdown container
@@ -159,12 +177,10 @@ import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components
 - `Combobox.Group` - Option group container
 - `Combobox.GroupLabel` - Group header
 - `Combobox.Empty` - Shown when no results
-- `Combobox.Clear` - Clears selection
-- `Combobox.Chips` - Multi-select chips container
-- `Combobox.Chip` - Individual chip
-- `Combobox.ChipRemove` - Remove button on chip
-- `Combobox.Value` - Value display (multi-select)
-- `Combobox.Collection` - Grouped items renderer
+- `Combobox.Chips` / `Combobox.Chip` / `Combobox.ChipRemove` - Multi-select chips
+- `Combobox.Value` - Access selected value(s)
+- `Combobox.Collection` - Render items from `items`
+- `Combobox.Icon` / `Combobox.Arrow` / `Combobox.Backdrop` / `Combobox.Status` / `Combobox.Row` - Optional slots
 
 **Data Attributes:**
 | Element | Attribute | When Applied |
@@ -174,60 +190,41 @@ import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components
 | `Combobox.Item` | `data-disabled` | Option is disabled |
 | `Combobox.Popup` | `data-open` | Dropdown is open |
 
-**Props (Combobox):**
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `options` | `ComboboxOption[]` | - | Array of options |
-| `size` | `"s"` \| `"m"` \| `"l"` | `"m"` | Combobox size |
-| `placeholder` | `string` | `"Select an option"` | Placeholder text |
-| `leadingIcon` | `ReactNode` | - | Icon at start |
-| `disabled` | `boolean` | `false` | Disable combobox |
-| `clearable` | `boolean` | `false` | Show clear button |
-| `multiple` | `boolean` | `false` | Enable multi-select |
-| `value` | `ComboboxOption \| ComboboxOption[]` | - | Controlled value |
-| `defaultValue` | `ComboboxOption \| ComboboxOption[]` | - | Default value |
-| `onValueChange` | `(value) => void` | - | Change callback |
-| `side` | `"top"` \| `"bottom"` \| `"left"` \| `"right"` | `"bottom"` | Dropdown position |
-| `align` | `"start"` \| `"center"` \| `"end"` | `"start"` | Dropdown alignment |
-
-**ComboboxOption type:**
-```ts
-type ComboboxOption = {
-  value: string
-  label: string
-  description?: string
-  icon?: ReactNode
-  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
-  disabled?: boolean
-}
-```
+**Usage:** Pass `items` to `Combobox.Root` (flat array or grouped). For external filtering, pass `filteredItems` and `onInputValueChange`.
 
 ```tsx
-import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
+import { Combobox } from "@/components/ui/combobox"
+import { RiCheckFill, RiExpandUpDownLine } from "@remixicon/react"
 
-// Basic usage
-<Combobox
-  options={[
-    { value: "opt1", label: "Option 1" },
-    { value: "opt2", label: "Option 2", description: "With description" },
-  ]}
-  placeholder="Search..."
-/>
+const items = [
+  { value: "opt1", label: "Option 1" },
+  { value: "opt2", label: "Option 2" },
+]
 
-// Multi-select
-<Combobox
-  multiple
-  options={options}
-  placeholder="Select multiple..."
-/>
-
-// Grouped options
-<GroupedCombobox
-  groups={[
-    { label: "Group A", options: [...] },
-    { label: "Group B", options: [...] },
-  ]}
-/>
+<Combobox.Root items={items}>
+  <Combobox.Input placeholder="Search..." />
+  <Combobox.Trigger>
+    <RiExpandUpDownLine />
+  </Combobox.Trigger>
+  <Combobox.Portal>
+    <Combobox.Positioner sideOffset={4} align="start">
+      <Combobox.Popup>
+        <Combobox.List>
+          <Combobox.Collection>
+            {(item) => (
+              <Combobox.Item value={item}>
+                {item.label}
+                <Combobox.ItemIndicator>
+                  <RiCheckFill />
+                </Combobox.ItemIndicator>
+              </Combobox.Item>
+            )}
+          </Combobox.Collection>
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
 ```
 
 ---
@@ -252,6 +249,7 @@ import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
 **When to use:** Toggle a single boolean value, or select multiple items from a list.
 
 **Base UI Primitive:** `@base-ui/react/checkbox`
+**Labeling:** Use `Field` for label and description.
 - `Checkbox.Root` - The checkbox element
 - `Checkbox.Indicator` - Visual indicator (checkmark)
 
@@ -264,10 +262,49 @@ import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
 
 ---
 
+### Checkbox Group
+**When to use:** Multi-select lists with consistent layouts and full-row click targets.
+
+**Note:** Custom component, not a Base UI primitive.
+
+**Sub-components:** `CheckboxGroup`, `CheckboxGroupItem`, `CheckboxPrefix`
+
+**Props (CheckboxGroup):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `style` | `"simple"` \| `"list"` \| `"card-small"` \| `"card-big"` | `"simple"` | Layout style for items |
+| `stack` | `"vertical"` \| `"horizontal"` | `"vertical"` | Layout direction |
+
+**Props (CheckboxGroupItem):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | - | Primary label (required) |
+| `description` | `string` | - | Secondary text |
+| `badge` | `ReactNode` | - | Trailing badge |
+| `prefix` | `ReactNode` | - | Leading prefix (cards only) |
+| `checked` | `boolean` | - | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
+| `indeterminate` | `boolean` | `false` | Mixed state |
+| `disabled` | `boolean` | `false` | Disable item |
+
+```tsx
+import { CheckboxGroup } from "@/components/ui/checkbox-group"
+import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
+
+<CheckboxGroup style="list">
+  <CheckboxGroupItem label="Slack notifications" />
+  <CheckboxGroupItem label="Email digest" />
+</CheckboxGroup>
+```
+
+---
+
 ### Switch
 **When to use:** Toggle a setting on/off. Immediate effect (no form submit needed).
 
 **Base UI Primitive:** `@base-ui/react/switch`
+**Labeling:** Use `Field` for label and description.
 - `Switch.Root` - The switch track
 - `Switch.Thumb` - The sliding thumb
 
@@ -279,10 +316,93 @@ import { Combobox, GroupedCombobox } from "@/components/ui/combobox"
 
 ---
 
-### Toggle / Toggle Group
-**When to use:** Toggle = single on/off button. Toggle Group = select one or multiple from button group.
+### Switch Group
+**When to use:** Toggle lists with multiple layout styles and configurations.
 
-**Base UI Primitive:** `@base-ui/react/toggle`, `@base-ui/react/toggle-group`
+**Note:** Custom component, not a Base UI primitive.
+
+**Sub-components:** `SwitchGroup`, `SwitchGroupItem`, `SwitchPrefix`
+
+**Props (SwitchGroup):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `style` | `"simple"` \| `"list"` \| `"card-small"` \| `"card-big"` | `"simple"` | Layout style for items |
+| `stack` | `"vertical"` \| `"horizontal"` | `"vertical"` | Layout direction |
+
+**Props (SwitchGroupItem):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | - | Primary label (required) |
+| `description` | `string` | - | Secondary text |
+| `badge` | `ReactNode` | - | Trailing badge |
+| `prefix` | `ReactNode` | - | Leading prefix (cards only) |
+| `checked` | `boolean` | - | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Change callback |
+| `disabled` | `boolean` | `false` | Disable item |
+
+```tsx
+import { SwitchGroup } from "@/components/ui/switch-group"
+import { SwitchGroupItem } from "@/components/ui/switch-group-item"
+
+<SwitchGroup style="simple">
+  <SwitchGroupItem label="Push notifications" defaultChecked />
+  <SwitchGroupItem label="Email digest" />
+</SwitchGroup>
+```
+
+---
+
+### Toggle Button
+**When to use:** Single on/off button with a pressed state.
+
+**Note:** Custom component built on Base UI Toggle.
+
+**Base UI Primitive:** `@base-ui/react/toggle`
+
+**Props:**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"tertiary"` \| `"ghost"` \| `"secondary"` | `"tertiary"` | Visual style |
+| `size` | `"xs"` \| `"s"` \| `"m"` \| `"l"` | `"m"` | Toggle size |
+| `leadingIcon` | `ReactNode` | - | Icon before label |
+| `trailingIcon` | `ReactNode` | - | Icon after label |
+
+**Data Attributes:**
+| Element | Attribute | When Applied |
+|---------|-----------|--------------|
+| `Toggle.Root` | `data-pressed` | Toggle is active |
+
+```tsx
+import { ToggleButton } from "@/components/ui/toggle-button"
+
+<ToggleButton leadingIcon={<HeartIcon />}>Like</ToggleButton>
+```
+
+---
+
+### Toggle Group
+**When to use:** Select one or multiple options from a group of toggles.
+
+**Note:** Custom component built on Base UI Toggle Group.
+
+**Base UI Primitive:** `@base-ui/react/toggle-group`
+
+**Sub-components:** `ToggleGroup`, `ToggleGroupItem`
+
+**Props (ToggleGroup):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"tertiary"` \| `"ghost"` \| `"secondary"` | `"ghost"` | Visual style for items |
+| `size` | `"xs"` \| `"s"` \| `"m"` \| `"l"` | `"m"` | Toggle size |
+| `hideSeparator` | `boolean` | `false` | Hide dividers between items |
+
+**Props (ToggleGroupItem):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | - | Item value (required) |
+| `leadingIcon` | `ReactNode` | - | Icon before label |
+| `trailingIcon` | `ReactNode` | - | Icon after label |
 
 **Data Attributes:**
 | Element | Attribute | When Applied |
@@ -438,6 +558,7 @@ import { Filter } from "@/components/ui/filter"
 **When to use:** Single collapsible section (simpler than Accordion).
 
 **Base UI Primitive:** `@base-ui/react/collapsible`
+**Note:** No wrapper exists in `src/components/ui`; use Base UI directly. No docs page yet.
 
 **Data Attributes:**
 | Element | Attribute | When Applied |
@@ -574,6 +695,7 @@ import { Chip } from "@/components/ui/chip"
 **When to use:** Container for multiple chips with consistent spacing.
 
 **Note:** Custom component providing context for Chip sizing.
+**Docs:** Covered in `/docs/chip`.
 
 **Props:**
 | Prop | Type | Default | Description |
@@ -623,6 +745,7 @@ import { Avatar } from "@/components/ui/avatar"
 **When to use:** Display multiple avatars in a stacked group.
 
 **Note:** Custom component wrapping Avatar.
+**Docs:** Covered in `/docs/avatar`.
 
 **Props:**
 | Prop | Type | Default | Description |
@@ -842,33 +965,17 @@ import { Meter } from "@/components/ui/meter"
 
 **Base UI Primitive:** `@base-ui/react/slider`
 
-**Props:**
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `number` | - | Controlled value |
-| `defaultValue` | `number` | `min` | Initial uncontrolled value |
-| `min` | `number` | `0` | Minimum value |
-| `max` | `number` | `100` | Maximum value |
-| `step` | `number` | `1` | Step increment |
-| `disabled` | `boolean` | `false` | Disable slider |
-| `label` | `string` | - | Label text |
-| `description` | `string` | - | Description text |
-| `showValue` | `boolean` | `true` | Show value indicator |
-| `editableValue` | `boolean` | `true` | Allow direct value editing |
-| `formatValue` | `(value: number) => string` | - | Custom value formatting |
-| `onValueChange` | `(value: number) => void` | - | Change callback |
-| `onValueCommitted` | `(value: number) => void` | - | Commit callback (drag end) |
-
 ```tsx
 import { Slider } from "@/components/ui/slider"
 
-<Slider
-  label="Volume"
-  defaultValue={50}
-  min={0}
-  max={100}
-  formatValue={(v) => `${v}%`}
-/>
+<Slider defaultValue={50} min={0} max={100}>
+  <Slider.Control>
+    <Slider.Track>
+      <Slider.Indicator />
+      <Slider.Thumb />
+    </Slider.Track>
+  </Slider.Control>
+</Slider>
 ```
 
 ---
@@ -1106,7 +1213,7 @@ import { Pagination, PaginationContent, PageIndicator, PaginationPrevious, Pagin
 ### Input
 **When to use:** Single-line text input.
 
-**Note:** This is a styled native `<input>`, not a Base UI primitive.
+**Base UI Primitive:** `@base-ui/react/input`
 
 **Props:**
 | Prop | Type | Default | Description |
@@ -1128,7 +1235,6 @@ import { Pagination, PaginationContent, PageIndicator, PaginationPrevious, Pagin
 | `size` | `"s"` \| `"m"` \| `"l"` | `"m"` | Textarea size |
 | `rows` | `number` | `3` | Number of visible text rows |
 | `resize` | `"none"` \| `"vertical"` \| `"horizontal"` \| `"both"` | `"vertical"` | Resize behavior |
-| `focusVisibleOnly` | `boolean` | `true` | Only show focus ring on keyboard navigation |
 | `disabled` | `boolean` | `false` | Disable textarea |
 
 ```tsx
@@ -1152,16 +1258,14 @@ import { Textarea } from "@/components/ui/textarea"
 
 **Note:** Custom component for input composition.
 
-**Sub-components:** `InputGroup`, `InputGroup.Prefix`, `InputGroup.Suffix`
-
 ```tsx
 import { InputGroup } from "@/components/ui/input-group"
 
-<InputGroup>
-  <InputGroup.Prefix>$</InputGroup.Prefix>
-  <Input type="number" />
-  <InputGroup.Suffix>USD</InputGroup.Suffix>
-</InputGroup>
+<InputGroup
+  type="number"
+  prefix="$"
+  suffix="USD"
+/>
 ```
 
 ---
@@ -1234,19 +1338,39 @@ import { Form } from "@/components/ui/form"
 ### Autocomplete
 **When to use:** Input with auto-suggestions from a predefined list.
 
-**Base UI Primitive:** Based on `@base-ui/react/combobox`
+**Base UI Primitive:** `@base-ui/react/autocomplete`
 
 **Data Attributes:** Same as Combobox (`data-highlighted`, `data-selected`, `data-disabled`)
 
-**Difference from Combobox:** Autocomplete filters from a static list, while Combobox can have async data loading.
+**Difference from Combobox:** Autocomplete allows free-form input (selection is optional), while Combobox is primarily a selection control.
 
 ```tsx
 import { Autocomplete } from "@/components/ui/autocomplete"
 
-<Autocomplete
-  options={["Apple", "Banana", "Cherry"]}
-  placeholder="Search fruits..."
-/>
+const items = [
+  { value: "apple", label: "Apple" },
+  { value: "banana", label: "Banana" },
+  { value: "cherry", label: "Cherry" },
+]
+
+<Autocomplete.Root items={items}>
+  <Autocomplete.Input placeholder="Search fruits..." />
+  <Autocomplete.Portal>
+    <Autocomplete.Positioner sideOffset={4} align="start">
+      <Autocomplete.Popup>
+        <Autocomplete.List>
+          <Autocomplete.Collection>
+            {(item) => (
+              <Autocomplete.Item value={item}>
+                {item.label}
+              </Autocomplete.Item>
+            )}
+          </Autocomplete.Collection>
+        </Autocomplete.List>
+      </Autocomplete.Popup>
+    </Autocomplete.Positioner>
+  </Autocomplete.Portal>
+</Autocomplete.Root>
 ```
 
 ---

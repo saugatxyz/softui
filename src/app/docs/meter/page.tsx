@@ -172,11 +172,19 @@ function StatusMeterDemo() {
       <div className="md:max-w-[400px]">
         <Slider
           value={storage}
-          onValueChange={setStorage}
+          onValueChange={(value) => {
+            setStorage(Array.isArray(value) ? value[0] ?? 0 : value)
+          }}
           min={0}
           max={100}
-          showValue={false}
-        />
+        >
+          <Slider.Control>
+            <Slider.Track>
+              <Slider.Indicator />
+              <Slider.Thumb />
+            </Slider.Track>
+          </Slider.Control>
+        </Slider>
       </div>
     </div>
   )

@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { Checkbox } from "@base-ui/react/checkbox"
 import { RiCheckFill, RiSubtractFill } from "@remixicon/react"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -27,60 +26,33 @@ type CheckboxControlProps = Omit<Checkbox.Root.Props, "className"> &
     className?: string
   }
 
-function CheckboxControl({
-  checked,
-  defaultChecked,
-  onCheckedChange,
-  indeterminate = false,
-  disabled = false,
-  className,
-  ...props
-}: CheckboxControlProps) {
-  // When indeterminate, force checked=true so Indicator renders
-  // For controlled: pass through checked prop (or true if indeterminate)
-  // For uncontrolled: let Base UI handle internal state
-  const effectiveChecked = indeterminate ? true : checked
-
-  // Determine visual state classes based on selection state
-  const getStateClasses = (isSelected: boolean) => {
-    if (disabled) {
-      if (isSelected) {
-        return "bg-actions-primary-disabled"
-      }
-      return "bg-actions-tertiary-disabled border border-border-muted"
-    }
-
-    if (isSelected) {
-      return "bg-actions-primary-default hover:bg-actions-primary-hover focus-visible:bg-actions-primary-hover focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
-    }
-
-    return "bg-actions-tertiary-default shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1),0_0_0_1px_var(--color-utility-shadow-l1)] hover:bg-actions-tertiary-hover focus-visible:bg-actions-tertiary-hover focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
-  }
-
+function CheckboxControl({ className, ...props }: CheckboxControlProps) {
   return (
     <Checkbox.Root
       data-slot="checkbox-control"
-      checked={effectiveChecked}
-      defaultChecked={defaultChecked}
-      onCheckedChange={onCheckedChange}
-      disabled={disabled}
-      className={({ checked: isChecked }) => {
-        const isSelected = isChecked === true || indeterminate
-        return cn(checkboxControlVariants(), getStateClasses(isSelected), className)
-      }}
+      className={cn(
+        checkboxControlVariants(),
+        "group",
+        "bg-actions-tertiary-default shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1),0_0_0_1px_var(--color-utility-shadow-l1)]",
+        "hover:bg-actions-tertiary-hover",
+        "focus-visible:bg-actions-tertiary-hover focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        "data-[checked]:bg-actions-primary-default data-[checked]:hover:bg-actions-primary-hover data-[checked]:focus-visible:bg-actions-primary-hover",
+        "data-[indeterminate]:bg-actions-primary-default data-[indeterminate]:hover:bg-actions-primary-hover data-[indeterminate]:focus-visible:bg-actions-primary-hover",
+        "data-[disabled]:bg-actions-tertiary-disabled data-[disabled]:border data-[disabled]:border-border-muted data-[disabled]:shadow-none data-[disabled]:hover:bg-actions-tertiary-disabled",
+        "data-[disabled]:data-[checked]:bg-actions-primary-disabled",
+        "data-[disabled]:data-[indeterminate]:bg-actions-primary-disabled",
+        className
+      )}
       {...props}
     >
       <Checkbox.Indicator
         className={cn(
-          "flex items-center justify-center",
-          disabled ? "text-content-on-accent-disabled" : "text-content-on-accent-strong"
+          "flex items-center justify-center text-content-on-accent-strong",
+          "group-data-[disabled]:text-content-on-accent-disabled"
         )}
       >
-        {indeterminate ? (
-          <RiSubtractFill className="size-[12px]" />
-        ) : (
-          <RiCheckFill className="size-[12px]" />
-        )}
+        <RiCheckFill className="size-[12px] group-data-[indeterminate]:hidden" />
+        <RiSubtractFill className="hidden size-[12px] group-data-[indeterminate]:block" />
       </Checkbox.Indicator>
     </Checkbox.Root>
   )

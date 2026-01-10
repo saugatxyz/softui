@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Image from "next/image"
 import { RiUploadCloud2Line } from "@remixicon/react"
 import { cn } from "@/lib/utils"
 
@@ -30,10 +31,16 @@ type FileIconProps = {
 // ============================================================================
 
 const sizeClasses = {
-  s: "size-[32px] rounded-[var(--radius-6)]",
-  m: "size-[44px] rounded-[var(--radius-8)]",
-  l: "size-[56px] rounded-[var(--radius-10)]",
+  s: "size-[var(--space-32)] rounded-[var(--radius-6)]",
+  m: "size-[calc(var(--space-32)+var(--space-12))] rounded-[var(--radius-8)]",
+  l: "size-[var(--space-56)] rounded-[var(--radius-10)]",
 }
+
+const imagePixelSizes = {
+  s: 32,
+  m: 44,
+  l: 56,
+} as const
 
 // ============================================================================
 // SVG Icons
@@ -387,10 +394,13 @@ function FileIcon({ className, fileType = "generic", size = "m", color = "lime",
         data-size={size}
         className={cn("shrink-0 overflow-hidden", sizeClasses[size], className)}
       >
-        <img
+        <Image
           src={src}
           alt=""
           className="size-full object-cover"
+          width={imagePixelSizes[size]}
+          height={imagePixelSizes[size]}
+          unoptimized
         />
       </div>
     )
@@ -429,9 +439,9 @@ type UploadIconProps = {
 }
 
 const uploadIconSizeClasses = {
-  s: "size-[16px]",
-  m: "size-[20px]",
-  l: "size-[24px]",
+  s: "size-[var(--space-16)]",
+  m: "size-[var(--space-20)]",
+  l: "size-[var(--space-24)]",
 }
 
 function UploadIcon({ className, size = "m" }: UploadIconProps) {

@@ -1,9 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { Switch } from "@base-ui/react/switch"
 import { cva, type VariantProps } from "class-variance-authority"
-import { motion, type Transition } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
@@ -21,83 +19,37 @@ const switchControlVariants = cva(
   }
 )
 
-const thumbTransition: Transition = {
-  type: "spring",
-  bounce: 0.1,
-  duration: 0.25,
-}
-
 type SwitchControlProps = Omit<Switch.Root.Props, "className"> &
   VariantProps<typeof switchControlVariants> & {
     className?: string
   }
 
-function SwitchControl({
-  checked: controlledChecked,
-  defaultChecked = false,
-  onCheckedChange,
-  disabled = false,
-  className,
-  ...props
-}: SwitchControlProps) {
-  // Track internal state for animation
-  const [internalChecked, setInternalChecked] = React.useState(defaultChecked)
-
-  // Use controlled value if provided, otherwise use internal state
-  const isChecked = controlledChecked !== undefined ? controlledChecked : internalChecked
-
-  const handleCheckedChange: Switch.Root.Props["onCheckedChange"] = (newChecked, event) => {
-    if (controlledChecked === undefined) {
-      setInternalChecked(newChecked)
-    }
-    onCheckedChange?.(newChecked, event)
-  }
-
-  const getStateClasses = () => {
-    if (disabled) {
-      if (isChecked) {
-        return "bg-actions-primary-disabled"
-      }
-      return "bg-actions-secondary-disabled"
-    }
-
-    if (isChecked) {
-      return "bg-actions-primary-default hover:bg-actions-primary-hover focus-visible:bg-actions-primary-hover focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
-    }
-
-    return "bg-actions-secondary-default hover:bg-actions-secondary-hover focus-visible:bg-actions-secondary-hover focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
-  }
-
+function SwitchControl({ className, ...props }: SwitchControlProps) {
   return (
     <Switch.Root
       data-slot="switch-control"
-      checked={isChecked}
-      onCheckedChange={handleCheckedChange}
-      disabled={disabled}
-      className={cn(switchControlVariants(), getStateClasses(), className)}
+      className={cn(
+        switchControlVariants(),
+        "group",
+        "bg-actions-secondary-default hover:bg-actions-secondary-hover",
+        "data-[checked]:bg-actions-primary-default data-[checked]:hover:bg-actions-primary-hover",
+        "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:cursor-not-allowed",
+        "data-[disabled]:data-[checked]:bg-actions-primary-disabled",
+        "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        className
+      )}
       {...props}
     >
       <Switch.Thumb
-        render={
-          <motion.span
-            data-slot="switch-thumb"
-            initial={false}
-            animate={{
-              x: isChecked ? 16 : 0,
-            }}
-            transition={thumbTransition}
-            className={cn(
-              "block size-[12px] rounded-full shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
-              disabled
-                        ? isChecked
-                          ? "bg-content-on-accent-disabled"
-                          : "bg-neutral-400"
-                        : isChecked
-                          ? "bg-content-on-accent-strong"
-                          : "bg-white"
-            )}
-          />
-        }
+        className={cn(
+          "block size-[12px] rounded-full",
+          "bg-content-inverse-strong",
+          "shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
+          "transition-transform duration-200 ease-out",
+          "group-data-[checked]:translate-x-[16px]",
+          "group-data-[disabled]:bg-content-muted",
+          "group-data-[disabled]:group-data-[checked]:bg-content-inverse-strong"
+        )}
       />
     </Switch.Root>
   )

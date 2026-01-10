@@ -25,26 +25,26 @@ type SortDirection = "asc" | "desc" | null
 // ============================================================================
 
 const rowHeights: Record<TableSize, string> = {
-  s: "h-[40px]",
-  m: "h-[48px]",
-  l: "h-[60px]",
-  xl: "h-[72px]",
+  s: "h-[var(--space-40)]",
+  m: "h-[var(--space-48)]",
+  l: "h-[calc(var(--space-52)+var(--space-8))]",
+  xl: "h-[calc(var(--space-52)+var(--space-20))]",
 }
 
-const headerRowHeight = "h-[36px]"
+const headerRowHeight = "h-[var(--space-36)]"
 
 const cellPadding: Record<TableSize, string> = {
-  s: "h-[40px] px-[var(--space-12)]",
-  m: "h-[48px] px-[var(--space-16)]",
-  l: "h-[60px] px-[var(--space-16)]",
-  xl: "h-[72px] px-[var(--space-16)]",
+  s: "h-[var(--space-40)] px-[var(--space-12)]",
+  m: "h-[var(--space-48)] px-[var(--space-16)]",
+  l: "h-[calc(var(--space-52)+var(--space-8))] px-[var(--space-16)]",
+  xl: "h-[calc(var(--space-52)+var(--space-20))] px-[var(--space-16)]",
 }
 
 const headerCellPadding: Record<TableSize, string> = {
-  s: "h-[36px] px-[var(--space-12)]",
-  m: "h-[36px] px-[var(--space-16)]",
-  l: "h-[36px] px-[var(--space-16)]",
-  xl: "h-[36px] px-[var(--space-16)]",
+  s: "h-[var(--space-36)] px-[var(--space-12)]",
+  m: "h-[var(--space-36)] px-[var(--space-16)]",
+  l: "h-[var(--space-36)] px-[var(--space-16)]",
+  xl: "h-[var(--space-36)] px-[var(--space-16)]",
 }
 
 // ============================================================================
@@ -156,7 +156,7 @@ function TableRow({ selected, isHeader, className, ...props }: TableRowProps) {
         "border-b border-border-muted",
         !isHeader && "hover:bg-surface-interactive-default",
         selected && "bg-surface-interactive-default",
-        selected && "shadow-[inset_2px_0_0_0_var(--color-actions-primary-default)]",
+        selected && "shadow-[inset_var(--space-2)_0_0_0_var(--color-actions-primary-default)]",
         isHeader ? headerRowHeight : rowHeights[size],
         className
       )}
@@ -212,16 +212,16 @@ function TableHead({
         {sortable && (
           <span
             className={cn(
-              "flex size-[16px] shrink-0 items-center justify-center",
+              "flex size-[var(--space-16)] shrink-0 items-center justify-center",
               sortDirection ? "text-content-strong" : "text-content-muted"
             )}
           >
             {sortDirection === "asc" ? (
-              <RiArrowUpSLine className="size-[16px]" />
+              <RiArrowUpSLine className="size-[var(--space-16)]" />
             ) : sortDirection === "desc" ? (
-              <RiArrowDownSLine className="size-[16px]" />
+              <RiArrowDownSLine className="size-[var(--space-16)]" />
             ) : (
-              <RiArrowUpSLine className="size-[16px] opacity-50" />
+              <RiArrowUpSLine className="size-[var(--space-16)] opacity-50" />
             )}
           </span>
         )}
@@ -295,10 +295,10 @@ function TableCheckboxCell({
 
   // Width must account for: left padding + checkbox (16px) + small right gap
   const checkboxCellStyles: Record<TableSize, string> = {
-    s: "w-[36px] pl-[var(--space-12)] pr-[var(--space-8)] py-[var(--space-8)]",
-    m: "w-[44px] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
-    l: "w-[44px] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
-    xl: "w-[44px] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
+    s: "w-[var(--space-36)] pl-[var(--space-12)] pr-[var(--space-8)] py-[var(--space-8)]",
+    m: "w-[calc(var(--space-16)+var(--space-16)+var(--space-12))] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
+    l: "w-[calc(var(--space-16)+var(--space-16)+var(--space-12))] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
+    xl: "w-[calc(var(--space-16)+var(--space-16)+var(--space-12))] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
   }
 
   return (
@@ -306,7 +306,7 @@ function TableCheckboxCell({
       data-slot="table-checkbox-cell"
       className={cn(checkboxCellStyles[size], className)}
     >
-      <div className="flex size-[16px] items-center justify-center">
+      <div className="flex size-[var(--space-16)] items-center justify-center">
         <CheckboxControl
           checked={checked}
           onCheckedChange={onCheckedChange}
@@ -350,7 +350,7 @@ function TableTextCell({
         {prefix && (
           <span className={cn(
             "flex shrink-0 justify-center",
-            isStacked ? "items-start pt-[2px]" : "items-center"
+            isStacked ? "items-start pt-[var(--space-2)]" : "items-center"
           )}>
             {prefix}
           </span>
@@ -367,7 +367,7 @@ function TableTextCell({
           {additionalInfo && (
             <>
               {!isStacked && (
-                <span className="size-[2px] shrink-0 rounded-full bg-content-muted" />
+                <span className="size-[var(--space-2)] shrink-0 rounded-full bg-content-muted" />
               )}
               <span className={cn(
                 "font-[var(--font-weight-default)] text-content-subtle",
@@ -381,7 +381,7 @@ function TableTextCell({
           )}
         </div>
         {suffix && (
-          <span className="flex size-[20px] shrink-0 items-center justify-center">
+          <span className="flex size-[var(--space-20)] shrink-0 items-center justify-center">
             {suffix}
           </span>
         )}
@@ -534,7 +534,7 @@ type TableIconTone = "default" | "success" | "warning" | "danger" | "info"
 
 type TableIconProps = {
   children: React.ReactNode
-  /** Use 14px size for icons inside emphasized containers (with background) */
+  /** Use the emphasized icon size inside emphasized containers (with background). */
   emphasized?: boolean
   /** Semantic color tone. Default uses text-content-strong */
   tone?: TableIconTone
@@ -551,17 +551,10 @@ const iconToneClasses: Record<TableIconTone, string> = {
 
 function TableIcon({
   children,
-  emphasized = false,
   tone = "default",
   className,
 }: TableIconProps) {
-  const { size: tableSize } = React.useContext(TableContext)
-  const isLargeSize = tableSize === "l" || tableSize === "xl"
-  // Emphasized icons: 17px in large tables, 14px otherwise
-  // Non-emphasized icons: always 16px
-  const iconSize = emphasized
-    ? isLargeSize ? "size-[17px]" : "size-[14px]"
-    : "size-[16px]"
+  const iconSize = "size-[var(--space-16)]"
   const color = iconToneClasses[tone]
 
   return (

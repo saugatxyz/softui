@@ -129,16 +129,45 @@ function parseEmphasizedColor(type: TablePrefixType): DecorativeColor | Feedback
 
 // Size mappings
 const sizeConfig: Record<TablePrefixSize, {
-  container: number
-  emphasizedContainer: number
-  emphasizedIcon: number
-  icon: number
+  containerClass: string
+  emphasizedContainerClass: string
+  emphasizedIconClass: string
+  iconClass: string
+  containerValue: number
   avatarSize: "2xs" | "xs" | "s" | "m"
 }> = {
-  s: { container: 24, emphasizedContainer: 24, emphasizedIcon: 14, icon: 16, avatarSize: "2xs" },
-  m: { container: 24, emphasizedContainer: 24, emphasizedIcon: 14, icon: 16, avatarSize: "2xs" },
-  l: { container: 36, emphasizedContainer: 36, emphasizedIcon: 17, icon: 16, avatarSize: "m" },
-  xl: { container: 36, emphasizedContainer: 36, emphasizedIcon: 17, icon: 16, avatarSize: "m" },
+  s: {
+    containerClass: "size-[var(--space-24)]",
+    emphasizedContainerClass: "size-[var(--space-24)]",
+    emphasizedIconClass: "size-[var(--space-16)]",
+    iconClass: "size-[var(--space-16)]",
+    containerValue: 24,
+    avatarSize: "2xs",
+  },
+  m: {
+    containerClass: "size-[var(--space-24)]",
+    emphasizedContainerClass: "size-[var(--space-24)]",
+    emphasizedIconClass: "size-[var(--space-16)]",
+    iconClass: "size-[var(--space-16)]",
+    containerValue: 24,
+    avatarSize: "2xs",
+  },
+  l: {
+    containerClass: "size-[var(--space-36)]",
+    emphasizedContainerClass: "size-[var(--space-36)]",
+    emphasizedIconClass: "size-[var(--space-16)]",
+    iconClass: "size-[var(--space-16)]",
+    containerValue: 36,
+    avatarSize: "m",
+  },
+  xl: {
+    containerClass: "size-[var(--space-36)]",
+    emphasizedContainerClass: "size-[var(--space-36)]",
+    emphasizedIconClass: "size-[var(--space-16)]",
+    iconClass: "size-[var(--space-16)]",
+    containerValue: 36,
+    avatarSize: "m",
+  },
 }
 
 function TablePrefix({
@@ -176,16 +205,16 @@ function TablePrefix({
           data-type={type}
           className={cn(
             "flex shrink-0 items-center justify-center",
+            sizes.iconClass,
             className
           )}
-          style={{ width: sizes.icon, height: sizes.icon }}
         >
           <span
             className={cn(
               "flex shrink-0 items-center justify-center text-content-strong [&_svg]:size-full",
+              sizes.iconClass,
               iconClassName
             )}
-            style={{ width: sizes.icon, height: sizes.icon }}
           >
             {icon}
           </span>
@@ -201,17 +230,17 @@ function TablePrefix({
         className={cn(
           "flex shrink-0 items-center justify-center rounded-[var(--radius-8)] border border-border-subtle",
           bgClass,
+          sizes.emphasizedContainerClass,
           className
         )}
-        style={{ width: sizes.emphasizedContainer, height: sizes.emphasizedContainer }}
       >
         <span
           className={cn(
             "flex shrink-0 items-center justify-center [&_svg]:size-full",
             iconColorClass,
+            sizes.emphasizedIconClass,
             iconClassName
           )}
-          style={{ width: sizes.emphasizedIcon, height: sizes.emphasizedIcon }}
         >
           {icon}
         </span>
@@ -225,10 +254,13 @@ function TablePrefix({
       <span
         data-slot="table-prefix"
         data-type={type}
-        className={cn("inline-flex shrink-0 items-center justify-center", className)}
-        style={{ width: sizes.container, height: sizes.container }}
+        className={cn(
+          "inline-flex shrink-0 items-center justify-center",
+          sizes.containerClass,
+          className
+        )}
       >
-        <Crypto crypto={token} size={sizes.container} />
+        <Crypto crypto={token} size={sizes.containerValue} />
       </span>
     )
   }
@@ -239,10 +271,13 @@ function TablePrefix({
       <span
         data-slot="table-prefix"
         data-type={type}
-        className={cn("inline-flex shrink-0 items-center justify-center", className)}
-        style={{ width: sizes.container, height: sizes.container }}
+        className={cn(
+          "inline-flex shrink-0 items-center justify-center",
+          sizes.containerClass,
+          className
+        )}
       >
-        <Logo logo={logo} variant="filled" size={sizes.container} />
+        <Logo logo={logo} variant="filled" size={sizes.containerValue} />
       </span>
     )
   }
@@ -265,8 +300,11 @@ function TablePrefix({
     <span
       data-slot="table-prefix"
       data-type={type}
-      className={cn("inline-flex shrink-0 items-center justify-center", className)}
-      style={{ width: sizes.container, height: sizes.container }}
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center",
+        sizes.containerClass,
+        className
+      )}
     />
   )
 }

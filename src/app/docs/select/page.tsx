@@ -1,12 +1,15 @@
 "use client"
 
 import { CodeBlock } from "@/components/docs/code-block"
-import { Select } from "@/components/ui/select"
+import { SelectDemo } from "@/components/docs/select-demo"
 import { Field } from "@/components/ui/field"
+import { Select } from "@/components/ui/select"
 import { Avatar } from "@/components/ui/avatar"
 import { Crypto } from "@/components/ui/crypto"
 import { Logo } from "@/components/ui/logo"
 import {
+  RiCheckFill,
+  RiExpandUpDownLine,
   RiGlobalLine,
   RiMailLine,
   RiPhoneLine,
@@ -102,6 +105,27 @@ const roles = [
   { value: "owner", label: "Owner", description: "Can transfer or delete workspace", disabled: true },
 ]
 
+const frameworkGroups = [
+  {
+    label: "Frontend",
+    options: [
+      { value: "react", label: "React" },
+      { value: "vue", label: "Vue" },
+      { value: "svelte", label: "Svelte" },
+    ],
+  },
+  {
+    label: "Backend",
+    options: [
+      { value: "node", label: "Node.js" },
+      { value: "go", label: "Go" },
+      { value: "ruby", label: "Ruby" },
+    ],
+  },
+]
+
+const frameworkOptions = frameworkGroups.flatMap((group) => group.options)
+
 // Multi-select options
 const features = [
   { value: "dark-mode", label: "Dark mode" },
@@ -110,6 +134,47 @@ const features = [
   { value: "sync", label: "Cloud sync" },
   { value: "analytics", label: "Analytics" },
 ]
+
+function GroupedSelect() {
+  return (
+    <Select defaultValue="react">
+      <Select.Trigger>
+        <Select.Value>
+          {(value) => {
+            if (!value || Array.isArray(value)) return "Select framework"
+            return frameworkOptions.find((option) => option.value === value)?.label ?? value
+          }}
+        </Select.Value>
+        <Select.Icon>
+          <RiExpandUpDownLine />
+        </Select.Icon>
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Positioner sideOffset={4} align="start" collisionPadding={8}>
+          <Select.Popup>
+            <Select.List>
+              {frameworkGroups.map((group) => (
+                <Select.Group key={group.label}>
+                  <Select.GroupLabel>{group.label}</Select.GroupLabel>
+                  {group.options.map((option) => (
+                    <Select.Item key={option.value} value={option.value}>
+                      <Select.ItemText>{option.label}</Select.ItemText>
+                      <Select.ItemIndicator>
+                        <span className="flex size-[16px] items-center justify-center text-content-strong [&_svg]:size-full">
+                          <RiCheckFill />
+                        </span>
+                      </Select.ItemIndicator>
+                    </Select.Item>
+                  ))}
+                </Select.Group>
+              ))}
+            </Select.List>
+          </Select.Popup>
+        </Select.Positioner>
+      </Select.Portal>
+    </Select>
+  )
+}
 
 export default function SelectDocsPage() {
   return (
@@ -124,7 +189,7 @@ export default function SelectDocsPage() {
       <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Select } from "@/components/ui/select"
-import { Field } from "@/components/ui/field"
+import { RiCheckFill, RiExpandUpDownLine } from "@remixicon/react"
 
 const options = [
   { value: "apple", label: "Apple" },
@@ -132,25 +197,35 @@ const options = [
   { value: "orange", label: "Orange" },
 ]
 
-// Basic
-<Select options={options} placeholder="Select fruit" />
-
-// With Field wrapper for labels and validation
-<Field label="Fruit" description="Choose your favorite">
-  <Select options={options} placeholder="Select fruit" />
-</Field>
-
-// With icons
-const priorities = [
-  { value: "high", label: "High", icon: <RiArrowUpLine /> },
-  { value: "medium", label: "Medium", icon: <RiSubtractLine /> },
-  { value: "low", label: "Low", icon: <RiArrowDownLine /> },
-]
-
-<Select options={priorities} placeholder="Set priority" />
-
-// Multi-select
-<Select multiple options={options} placeholder="Select fruits" />`}
+<Select defaultValue="apple">
+  <Select.Trigger>
+    <Select.Value>
+      {(value) => {
+        if (!value || Array.isArray(value)) return "Select fruit"
+        return options.find((option) => option.value === value)?.label ?? value
+      }}
+    </Select.Value>
+    <Select.Icon>
+      <RiExpandUpDownLine />
+    </Select.Icon>
+  </Select.Trigger>
+  <Select.Portal>
+    <Select.Positioner sideOffset={4} align="start">
+      <Select.Popup>
+        <Select.List>
+          {options.map((option) => (
+            <Select.Item key={option.value} value={option.value}>
+              <Select.ItemText>{option.label}</Select.ItemText>
+              <Select.ItemIndicator>
+                <RiCheckFill />
+              </Select.ItemIndicator>
+            </Select.Item>
+          ))}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+</Select>`}
         />
       </section>
 
@@ -164,7 +239,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Simple dropdown selection</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select options={countries} placeholder="Select country" />
+              <SelectDemo options={countries} placeholder="Select country" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -173,7 +248,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Pre-selected option</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select options={countries} defaultValue="us" />
+              <SelectDemo options={countries} defaultValue="us" />
             </div>
           </div>
         </div>
@@ -189,7 +264,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Compact areas, inline forms</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select size="s" options={timezones} placeholder="Select timezone" />
+              <SelectDemo size="s" options={timezones} placeholder="Select timezone" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -198,7 +273,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Default for most forms</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select size="m" options={timezones} placeholder="Select timezone" />
+              <SelectDemo size="m" options={timezones} placeholder="Select timezone" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -207,7 +282,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Prominent selections, touch targets</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select size="l" options={timezones} placeholder="Select timezone" />
+              <SelectDemo size="l" options={timezones} placeholder="Select timezone" />
             </div>
           </div>
         </div>
@@ -223,7 +298,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Icon in trigger button</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
+              <SelectDemo
                 options={countries}
                 leadingIcon={<RiGlobalLine />}
                 placeholder="Select country"
@@ -236,7 +311,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Icons in dropdown items</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
+              <SelectDemo
                 options={contactMethods}
                 placeholder="Preferred contact"
               />
@@ -248,7 +323,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Destructive action indicator</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
+              <SelectDemo
                 options={dangerActions}
                 placeholder="Select action"
               />
@@ -260,7 +335,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">User photos in options</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
+              <SelectDemo
                 options={reviewers}
                 placeholder="Select reviewer"
               />
@@ -272,7 +347,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Colored initials in options</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
+              <SelectDemo
                 options={assignees}
                 placeholder="Select assignee"
               />
@@ -284,7 +359,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Cryptocurrency icons</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
+              <SelectDemo
                 options={cryptoTokens}
                 placeholder="Select token"
               />
@@ -296,7 +371,7 @@ const priorities = [
               <p className="text-body-m text-content-subtle">Brand icons in options</p>
             </div>
             <div className="w-full max-w-sm">
-              <Select
+              <SelectDemo
                 options={integrations}
                 placeholder="Select integration"
               />
@@ -316,7 +391,7 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Plan">
-                <Select
+                <SelectDemo
                   options={plans}
                   placeholder="Select a plan"
                 />
@@ -330,11 +405,27 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Role">
-                <Select
+                <SelectDemo
                   options={roles}
                   placeholder="Select a role"
                 />
               </Field>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Grouped Options */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Grouped Options</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Grouped list</p>
+              <p className="text-body-m text-content-subtle">Organize related options under headings</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <GroupedSelect />
             </div>
           </div>
         </div>
@@ -351,7 +442,7 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Features">
-                <Select
+                <SelectDemo
                   multiple
                   options={features}
                   placeholder="Select features"
@@ -366,7 +457,7 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Assign to">
-                <Select
+                <SelectDemo
                   multiple
                   options={assignees}
                   defaultValue={["alice", "bob"]}
@@ -388,7 +479,7 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country">
-                <Select
+                <SelectDemo
                   options={countries}
                   placeholder="Select country"
                 />
@@ -402,7 +493,7 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Timezone" description="Used for scheduling and notifications">
-                <Select
+                <SelectDemo
                   options={timezones}
                   placeholder="Select timezone"
                 />
@@ -423,7 +514,7 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" disabled>
-                <Select
+                <SelectDemo
                   options={countries}
                   defaultValue="us"
                   disabled
@@ -438,7 +529,7 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Status">
-                <Select
+                <SelectDemo
                   options={statuses}
                   placeholder="Select status"
                 />
@@ -452,7 +543,7 @@ const priorities = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" error="Country is required">
-                <Select
+                <SelectDemo
                   options={countries}
                   placeholder="Select country"
                 />

@@ -4,7 +4,7 @@ import { CodeBlock } from "@/components/docs/code-block"
 import { Fieldset } from "@/components/ui/fieldset"
 import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { Select } from "@/components/ui/select"
+import { SelectDemo } from "@/components/docs/select-demo"
 import { Separator } from "@/components/ui/separator"
 
 const countries = [
@@ -61,13 +61,13 @@ import { Input } from "@/components/ui/input"
               <Fieldset>
                 <Fieldset.Legend>Contact Details</Fieldset.Legend>
                 <Field label="Full name">
-                  <Input name="name" placeholder="John Doe" focusVisibleOnly />
+                  <Input name="name" placeholder="John Doe" />
                 </Field>
                 <Field label="Email">
-                  <Input name="email" type="email" placeholder="you@example.com" focusVisibleOnly />
+                  <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Field label="Phone">
-                  <Input name="phone" type="tel" placeholder="+1 (555) 000-0000" focusVisibleOnly />
+                  <Input name="phone" type="tel" placeholder="+1 (555) 000-0000" />
                 </Field>
               </Fieldset>
             </div>
@@ -87,40 +87,40 @@ import { Input } from "@/components/ui/input"
               <Fieldset>
                 <Fieldset.Legend>Personal Information</Fieldset.Legend>
                 <Field label="First name">
-                  <Input name="firstName" placeholder="John" focusVisibleOnly />
+                  <Input name="firstName" placeholder="John" />
                 </Field>
                 <Field label="Last name">
-                  <Input name="lastName" placeholder="Doe" focusVisibleOnly />
+                  <Input name="lastName" placeholder="Doe" />
                 </Field>
               </Fieldset>
               <Separator />
               <Fieldset>
                 <Fieldset.Legend>Billing Address</Fieldset.Legend>
                 <Field label="Street address">
-                  <Input name="street" placeholder="123 Main St" focusVisibleOnly />
+                  <Input name="street" placeholder="123 Main St" />
                 </Field>
                 <Field label="City">
-                  <Input name="city" placeholder="San Francisco" focusVisibleOnly />
+                  <Input name="city" placeholder="San Francisco" />
                 </Field>
                 <Field label="State">
-                  <Select options={states} placeholder="Select state" />
+                  <SelectDemo options={states} placeholder="Select state" />
                 </Field>
                 <Field label="Country">
-                  <Select options={countries} placeholder="Select country" />
+                  <SelectDemo options={countries} placeholder="Select country" />
                 </Field>
               </Fieldset>
               <Separator />
               <Fieldset>
                 <Fieldset.Legend>Payment Details</Fieldset.Legend>
                 <Field label="Card number">
-                  <Input name="cardNumber" placeholder="4242 4242 4242 4242" focusVisibleOnly />
+                  <Input name="cardNumber" placeholder="4242 4242 4242 4242" />
                 </Field>
                 <div className="flex gap-[var(--space-16)]">
                   <Field label="Expiry">
-                    <Input name="expiry" placeholder="MM/YY" focusVisibleOnly />
+                    <Input name="expiry" placeholder="MM/YY" />
                   </Field>
                   <Field label="CVC">
-                    <Input name="cvc" placeholder="123" focusVisibleOnly />
+                    <Input name="cvc" placeholder="123" />
                   </Field>
                 </div>
               </Fieldset>
@@ -140,10 +140,10 @@ import { Input } from "@/components/ui/input"
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Fieldset>
                 <Field label="Username">
-                  <Input name="username" placeholder="johndoe" focusVisibleOnly />
+                  <Input name="username" placeholder="johndoe" />
                 </Field>
                 <Field label="Password">
-                  <Input name="password" type="password" placeholder="Enter password" focusVisibleOnly />
+                  <Input name="password" type="password" placeholder="Enter password" />
                 </Field>
               </Fieldset>
             </div>

@@ -33,7 +33,6 @@ function SocialSelect() {
       }
       prefixType="select"
       placeholder="username"
-      focusVisibleOnly
     />
   )
 }
@@ -60,7 +59,6 @@ function CurrencySelect() {
       suffixType="action"
       onSuffixClick={() => console.log("Max clicked")}
       placeholder="0.00"
-      focusVisibleOnly
     />
   )
 }
@@ -121,7 +119,6 @@ export default function InputGroupDocsPage() {
                 suffixType="action"
                 onSuffixClick={() => console.log("Check clicked")}
                 placeholder="username"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -148,7 +145,6 @@ export default function InputGroupDocsPage() {
               <InputGroup
                 leadingIcon={<RiSearchLine />}
                 placeholder="Search..."
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -162,7 +158,6 @@ export default function InputGroupDocsPage() {
                 prefix="https://"
                 trailingIcon={<RiGlobalLine />}
                 placeholder="example.com"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -175,7 +170,6 @@ export default function InputGroupDocsPage() {
               <InputGroup
                 prefixIcon={<RiGlobalLine />}
                 placeholder="example.com"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -188,7 +182,6 @@ export default function InputGroupDocsPage() {
               <InputGroup
                 prefixIcon={<Crypto crypto="eth" size={20} />}
                 placeholder="0.00"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -201,7 +194,6 @@ export default function InputGroupDocsPage() {
               <InputGroup
                 prefixIcon={<Avatar size="2xs" initials="JD" />}
                 placeholder="Send message..."
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -221,7 +213,6 @@ export default function InputGroupDocsPage() {
                 size="s"
                 prefix="https://"
                 placeholder="example.com"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -235,7 +226,6 @@ export default function InputGroupDocsPage() {
                 size="m"
                 prefix="https://"
                 placeholder="example.com"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -249,7 +239,6 @@ export default function InputGroupDocsPage() {
                 size="l"
                 prefix="https://"
                 placeholder="example.com"
-                focusVisibleOnly
               />
             </div>
           </div>
@@ -268,7 +257,6 @@ export default function InputGroupDocsPage() {
                 <InputGroup
                   prefix="https://"
                   placeholder="example.com"
-                  focusVisibleOnly
                 />
               </Field>
             </div>
@@ -282,7 +270,6 @@ export default function InputGroupDocsPage() {
                 <InputGroup
                   prefix="https://"
                   placeholder="example.com"
-                  focusVisibleOnly
                 />
               </Field>
             </div>
@@ -302,7 +289,6 @@ export default function InputGroupDocsPage() {
                 <InputGroup
                   prefix="https://"
                   placeholder="example.com"
-                  focusVisibleOnly
                 />
               </Field>
             </div>
@@ -330,7 +316,6 @@ export default function InputGroupDocsPage() {
                 <InputGroup
                   prefix="https://"
                   placeholder="example.com"
-                  focusVisibleOnly
                 />
               </Field>
             </div>

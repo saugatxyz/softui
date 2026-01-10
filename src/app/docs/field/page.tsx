@@ -3,7 +3,7 @@
 import { CodeBlock } from "@/components/docs/code-block"
 import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { Select } from "@/components/ui/select"
+import { SelectDemo } from "@/components/docs/select-demo"
 import { RiMailLine } from "@remixicon/react"
 
 const countries = [
@@ -47,7 +47,28 @@ import { Select } from "@/components/ui/select"
 
 // With any form control
 <Field label="Country">
-  <Select options={countries} placeholder="Select country" />
+  <Select defaultValue="us">
+    <Select.Trigger>
+      <Select.Value>
+        {(value) => (value ? countries.find((c) => c.value === value)?.label : "Select country")}
+      </Select.Value>
+      <Select.Icon />
+    </Select.Trigger>
+    <Select.Portal>
+      <Select.Positioner>
+        <Select.Popup>
+          <Select.List>
+            {countries.map((country) => (
+              <Select.Item key={country.value} value={country.value}>
+                <Select.ItemText>{country.label}</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+            ))}
+          </Select.List>
+        </Select.Popup>
+      </Select.Positioner>
+    </Select.Portal>
+  </Select>
 </Field>`}
         />
       </section>
@@ -62,7 +83,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email">
-                <Input placeholder="you@example.com" focusVisibleOnly />
+                <Input placeholder="you@example.com" />
               </Field>
             </div>
           </div>
@@ -73,7 +94,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email" description="We'll never share your email with anyone">
-                <Input placeholder="you@example.com" focusVisibleOnly />
+                <Input placeholder="you@example.com" />
               </Field>
             </div>
           </div>
@@ -90,7 +111,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field size="s" label="Email" description="Help text">
-                <Input size="s" placeholder="you@example.com" focusVisibleOnly />
+                <Input size="s" placeholder="you@example.com" />
               </Field>
             </div>
           </div>
@@ -101,7 +122,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field size="m" label="Email" description="Help text">
-                <Input size="m" placeholder="you@example.com" focusVisibleOnly />
+                <Input size="m" placeholder="you@example.com" />
               </Field>
             </div>
           </div>
@@ -112,7 +133,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field size="l" label="Email" description="Help text">
-                <Input size="l" placeholder="you@example.com" focusVisibleOnly />
+                <Input size="l" placeholder="you@example.com" />
               </Field>
             </div>
           </div>
@@ -128,7 +149,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email">
-                <Input placeholder="you@example.com" leadingIcon={<RiMailLine />} focusVisibleOnly />
+                <Input placeholder="you@example.com" leadingIcon={<RiMailLine />} />
               </Field>
             </div>
           </div>
@@ -150,7 +171,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Email" error="Please enter a valid email address">
-                <Input placeholder="you@example.com" leadingIcon={<RiMailLine />} focusVisibleOnly />
+                <Input placeholder="you@example.com" leadingIcon={<RiMailLine />} />
               </Field>
             </div>
           </div>
@@ -166,7 +187,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Full name" description="Enter your legal name">
-                <Input placeholder="John Doe" focusVisibleOnly />
+                <Input placeholder="John Doe" />
               </Field>
             </div>
           </div>
@@ -176,7 +197,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Country" description="Where is your business located?">
-                <Select options={countries} placeholder="Select country" />
+              <SelectDemo options={countries} placeholder="Select country" />
               </Field>
             </div>
           </div>
@@ -193,13 +214,13 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-24)]">
               <Field label="Email" description="We'll send a confirmation link">
-                <Input placeholder="you@example.com" type="email" focusVisibleOnly />
+                <Input placeholder="you@example.com" type="email" />
               </Field>
               <Field label="Country">
-                <Select options={countries} placeholder="Select country" />
+              <SelectDemo options={countries} placeholder="Select country" />
               </Field>
               <Field label="Password" error="Password must be at least 8 characters">
-                <Input placeholder="Enter password" type="password" focusVisibleOnly />
+                <Input placeholder="Enter password" type="password" />
               </Field>
             </div>
           </div>

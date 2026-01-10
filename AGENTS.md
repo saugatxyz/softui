@@ -29,6 +29,8 @@ Follow this pattern for any new components:
 
 ## Docs Page Layout (all component/token pages)
 Files: `src/app/docs/*`
+- Preserve the existing documentation page structure; do not reformat sections unless explicitly requested (use `src/app/docs/button/page.tsx` as the layout reference).
+- After changing component styles, recheck docs/examples to avoid unintended visual regressions.
 
 ## MCP + Figma Workflow (for components)
 When a component has a Figma source:

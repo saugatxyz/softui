@@ -134,8 +134,6 @@ type InputGroupProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size" 
     leadingIcon?: React.ReactNode
     /** Icon shown after the input text */
     trailingIcon?: React.ReactNode
-    /** Only show focus ring on keyboard navigation */
-    focusVisibleOnly?: boolean
   }
 
 function InputGroup({
@@ -151,34 +149,13 @@ function InputGroup({
   onSuffixClick,
   leadingIcon,
   trailingIcon,
-  focusVisibleOnly = true,
   disabled,
   ...props
 }: InputGroupProps) {
   const resolvedSize: InputGroupSize = size ?? "m"
   const hasPrefix = Boolean(prefix) || Boolean(prefixIcon)
   const hasSuffix = Boolean(suffix) || Boolean(suffixIcon)
-  const [showFocusRing, setShowFocusRing] = React.useState(false)
-  const wasMouseDown = React.useRef(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
-
-  const handleMouseDown = () => {
-    wasMouseDown.current = true
-  }
-
-  const handleFocus = () => {
-    if (focusVisibleOnly) {
-      setShowFocusRing(!wasMouseDown.current)
-    } else {
-      setShowFocusRing(true)
-    }
-    wasMouseDown.current = false
-  }
-
-  const handleBlur = () => {
-    setShowFocusRing(false)
-    wasMouseDown.current = false
-  }
 
   const getSegmentTextColor = (type: SegmentType) => {
     if (disabled) return "text-content-disabled"
@@ -198,9 +175,9 @@ function InputGroup({
       className={cn(
         fieldContainerVariants({ size: resolvedSize }),
         "relative rounded-[var(--radius-10)]",
+        "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className
       )}
-      onMouseDown={handleMouseDown}
     >
       {/* Prefix segment */}
       {hasPrefix && (
@@ -295,7 +272,7 @@ function InputGroup({
           "cursor-text",
           !disabled && "hover:bg-actions-secondary-hover",
           disabled && "bg-actions-secondary-disabled",
-          showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
+          "focus-within:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
         )}
         onClick={() => inputRef.current?.focus()}
       >
@@ -321,8 +298,6 @@ function InputGroup({
               ? "text-content-disabled placeholder:text-content-disabled"
               : "text-content-strong"
           )}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
           {...props}
         />
 

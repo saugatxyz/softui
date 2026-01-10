@@ -5,26 +5,103 @@ import { CodeBlock } from "@/components/docs/code-block"
 import {
   ContextMenu,
   MenuItem,
-  MenuPrefix,
-  MenuSuffix,
-  MenuSeparator,
   MenuGroup,
   MenuGroupLabel,
+  MenuEmpty,
+  MenuPrefix,
+  MenuSeparator,
 } from "@/components/ui/context-menu"
-import {
-  CopyIcon,
-  TrashIcon,
-} from "@/icons"
-import {
-  RiEditLine,
-  RiShareLine,
-  RiDownloadLine,
-  RiFolderLine,
-  RiFileCopyLine,
-  RiArrowGoBackLine,
-  RiArrowGoForwardLine,
-  RiRefreshLine,
-} from "@remixicon/react"
+import { CopyIcon, TrashIcon } from "@/icons"
+import { RiEditLine, RiShareLine, RiDownloadLine } from "@remixicon/react"
+
+const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
+const menuItemLabelClassName =
+  "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]"
+
+function SelectableCheckboxContextMenu() {
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([
+    "rulers",
+    "grid",
+  ])
+
+  const handleCheckedChange = (item: string) => (checked: boolean) => {
+    setSelectedItems((prev) =>
+      checked ? [...new Set([...prev, item])] : prev.filter((value) => value !== item)
+    )
+  }
+
+  return (
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+          Right click for toggles
+        </button>
+      </ContextMenu.Trigger>
+      <ContextMenu.Portal>
+        <ContextMenu.Positioner>
+          <ContextMenu.Popup className={menuPopupClassName}>
+            <ContextMenu.CheckboxItem
+              checked={selectedItems.includes("rulers")}
+              onCheckedChange={handleCheckedChange("rulers")}
+              closeOnClick={false}
+            >
+              <span className={menuItemLabelClassName}>Show rulers</span>
+            </ContextMenu.CheckboxItem>
+            <ContextMenu.CheckboxItem
+              checked={selectedItems.includes("guides")}
+              onCheckedChange={handleCheckedChange("guides")}
+              closeOnClick={false}
+            >
+              <span className={menuItemLabelClassName}>Show guides</span>
+            </ContextMenu.CheckboxItem>
+            <ContextMenu.CheckboxItem
+              checked={selectedItems.includes("grid")}
+              onCheckedChange={handleCheckedChange("grid")}
+              closeOnClick={false}
+            >
+              <span className={menuItemLabelClassName}>Show grid</span>
+            </ContextMenu.CheckboxItem>
+          </ContextMenu.Popup>
+        </ContextMenu.Positioner>
+      </ContextMenu.Portal>
+    </ContextMenu.Root>
+  )
+}
+
+function SelectableRadioContextMenu() {
+  const [selectedSort, setSelectedSort] = React.useState("date")
+
+  return (
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+          Right click for sorting
+        </button>
+      </ContextMenu.Trigger>
+      <ContextMenu.Portal>
+        <ContextMenu.Positioner>
+          <ContextMenu.Popup className={menuPopupClassName}>
+            <ContextMenu.RadioGroup
+              className="flex flex-col gap-[var(--space-2)]"
+              value={selectedSort}
+              onValueChange={setSelectedSort}
+            >
+              <ContextMenu.RadioItem value="name">
+                <span className={menuItemLabelClassName}>Name</span>
+              </ContextMenu.RadioItem>
+              <ContextMenu.RadioItem value="date">
+                <span className={menuItemLabelClassName}>Date modified</span>
+              </ContextMenu.RadioItem>
+              <ContextMenu.RadioItem value="size">
+                <span className={menuItemLabelClassName}>File size</span>
+              </ContextMenu.RadioItem>
+            </ContextMenu.RadioGroup>
+          </ContextMenu.Popup>
+        </ContextMenu.Positioner>
+      </ContextMenu.Portal>
+    </ContextMenu.Root>
+  )
+}
 
 export default function ContextMenuDocsPage() {
   return (
@@ -33,7 +110,7 @@ export default function ContextMenuDocsPage() {
         <div className="flex flex-col gap-[var(--space-6)]">
           <h1 className="text-body-3xl-semibold">Context Menu</h1>
           <p className="max-w-2xl text-body-l text-content-subtle">
-            A menu activated by right-clicking or long-pressing on a trigger area
+            Right-click menu for contextual actions
           </p>
         </div>
       </header>
@@ -44,71 +121,55 @@ export default function ContextMenuDocsPage() {
 
 <ContextMenu.Root>
   <ContextMenu.Trigger>
-    <div className="...">Right click here</div>
+    <div>Right click me</div>
   </ContextMenu.Trigger>
-  <ContextMenu.Portal>
-    <ContextMenu.Positioner>
-      <ContextMenu.Popup>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Copy</MenuItem>
-        <MenuSeparator />
-        <MenuItem variant="danger">Delete</MenuItem>
-      </ContextMenu.Popup>
-    </ContextMenu.Positioner>
-  </ContextMenu.Portal>
+      <ContextMenu.Portal>
+        <ContextMenu.Positioner>
+          <ContextMenu.Popup className="flex flex-col gap-[var(--space-2)] p-[var(--space-4)]">
+            <MenuItem>Edit</MenuItem>
+            <MenuItem>Copy</MenuItem>
+            <MenuSeparator />
+            <MenuItem variant="danger">Delete</MenuItem>
+          </ContextMenu.Popup>
+        </ContextMenu.Positioner>
+      </ContextMenu.Portal>
 </ContextMenu.Root>`}
         />
       </section>
 
-      {/* Basic Context Menu */}
       <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Basic</h2>
+        <h2 className="text-body-xl-semibold">Basics</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Text only</p>
-              <p className="text-body-m text-content-subtle">Simple menu with text labels</p>
+              <p className="text-body-m text-content-strong">File actions</p>
+              <p className="text-body-m text-content-subtle">
+                Common actions for a document
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-                    Right click here
-                  </div>
+                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                    Right click me
+                  </button>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuItem>New file</MenuItem>
-                      <MenuItem>Open</MenuItem>
-                      <MenuItem>Save</MenuItem>
-                      <MenuItem>Save as...</MenuItem>
+                    <ContextMenu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>New file</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Open</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Save</span>
+                      </MenuItem>
                       <MenuSeparator />
-                      <MenuItem>Close</MenuItem>
-                    </ContextMenu.Popup>
-                  </ContextMenu.Positioner>
-                </ContextMenu.Portal>
-              </ContextMenu.Root>
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">With supporting text</p>
-              <p className="text-body-m text-content-subtle">Items with descriptions</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <ContextMenu.Root>
-                <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-                    Right click here
-                  </div>
-                </ContextMenu.Trigger>
-                <ContextMenu.Portal>
-                  <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuItem supportingText="Create a new document">New</MenuItem>
-                      <MenuItem supportingText="Open existing file">Open</MenuItem>
-                      <MenuItem supportingText="Save current changes">Save</MenuItem>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Close</span>
+                      </MenuItem>
                     </ContextMenu.Popup>
                   </ContextMenu.Positioner>
                 </ContextMenu.Portal>
@@ -118,80 +179,79 @@ export default function ContextMenuDocsPage() {
         </div>
       </section>
 
-      {/* With Icons */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Empty State</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">No results</p>
+              <p className="text-body-m text-content-subtle">
+                Use MenuEmpty to guide users
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <ContextMenu.Root>
+                <ContextMenu.Trigger>
+                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                    Right click me
+                  </button>
+                </ContextMenu.Trigger>
+                <ContextMenu.Portal>
+                  <ContextMenu.Positioner>
+                    <ContextMenu.Popup className={menuPopupClassName}>
+                      <MenuEmpty
+                        title="No matching files"
+                        description="Try a different keyword."
+                      />
+                    </ContextMenu.Popup>
+                  </ContextMenu.Positioner>
+                </ContextMenu.Portal>
+              </ContextMenu.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon prefix</p>
-              <p className="text-body-m text-content-subtle">Leading icons for actions</p>
+              <p className="text-body-m text-content-strong">Project actions</p>
+              <p className="text-body-m text-content-subtle">
+                Helpful visuals for quick scanning
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-                    Right click here
-                  </div>
+                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                    Right click for actions
+                  </button>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                        Edit
+                    <ContextMenu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiEditLine />} />
+                        <span className={menuItemLabelClassName}>Edit</span>
                       </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiFileCopyLine />} />}>
-                        Duplicate
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<CopyIcon />} />
+                        <span className={menuItemLabelClassName}>Duplicate</span>
                       </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiShareLine />} />}>
-                        Share
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiShareLine />} />
+                        <span className={menuItemLabelClassName}>Share</span>
                       </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiFolderLine />} />}>
-                        Move to folder
-                      </MenuItem>
-                    </ContextMenu.Popup>
-                  </ContextMenu.Positioner>
-                </ContextMenu.Portal>
-              </ContextMenu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Browser-style Context Menu */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Browser Style</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Page context menu</p>
-              <p className="text-body-m text-content-subtle">Common browser actions</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <ContextMenu.Root>
-                <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-                    Right click here
-                  </div>
-                </ContextMenu.Trigger>
-                <ContextMenu.Portal>
-                  <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiArrowGoBackLine />} />}>
-                        Back
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiArrowGoForwardLine />} />} disabled>
-                        Forward
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiRefreshLine />} />}>
-                        Reload
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiDownloadLine />} />
+                        <span className={menuItemLabelClassName}>Download</span>
                       </MenuItem>
                       <MenuSeparator />
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<CopyIcon />} />}>
-                        Copy
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiDownloadLine />} />}>
-                        Save as...
+                      <MenuItem variant="danger">
+                        <MenuPrefix type="danger-icon" icon={<TrashIcon />} />
+                        <span className={menuItemLabelClassName}>Delete</span>
                       </MenuItem>
                     </ContextMenu.Popup>
                   </ContextMenu.Positioner>
@@ -202,42 +262,40 @@ export default function ContextMenuDocsPage() {
         </div>
       </section>
 
-      {/* Groups */}
       <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Groups</h2>
+        <h2 className="text-body-xl-semibold">Grouped</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">With labels</p>
-              <p className="text-body-m text-content-subtle">Organize items into sections</p>
+              <p className="text-body-m text-content-strong">Grouped actions</p>
+              <p className="text-body-m text-content-subtle">
+                Separate sections by intent
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-                    Right click here
-                  </div>
+                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                    Right click for grouped menu
+                  </button>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuGroup>
-                        <MenuGroupLabel>Edit</MenuGroupLabel>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                          Edit file
+                    <ContextMenu.Popup className={menuPopupClassName}>
+                      <MenuGroup className="flex flex-col gap-[var(--space-2)]">
+                        <MenuGroupLabel>View</MenuGroupLabel>
+                        <MenuItem>
+                          <span className={menuItemLabelClassName}>Zoom in</span>
                         </MenuItem>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<RiFileCopyLine />} />}>
-                          Duplicate
+                        <MenuItem>
+                          <span className={menuItemLabelClassName}>Zoom out</span>
                         </MenuItem>
                       </MenuGroup>
                       <MenuSeparator />
-                      <MenuGroup>
-                        <MenuGroupLabel>Organize</MenuGroupLabel>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<RiFolderLine />} />}>
-                          Move to folder
-                        </MenuItem>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<RiDownloadLine />} />}>
-                          Download
+                      <MenuGroup className="flex flex-col gap-[var(--space-2)]">
+                        <MenuGroupLabel>Danger zone</MenuGroupLabel>
+                        <MenuItem variant="danger">
+                          <span className={menuItemLabelClassName}>Delete</span>
                         </MenuItem>
                       </MenuGroup>
                     </ContextMenu.Popup>
@@ -249,89 +307,13 @@ export default function ContextMenuDocsPage() {
         </div>
       </section>
 
-      {/* Submenu */}
       <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Submenu</h2>
+        <h2 className="text-body-xl-semibold">Selections</h2>
         <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Nested menu</p>
-              <p className="text-body-m text-content-subtle">For hierarchical navigation</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <ContextMenu.Root>
-                <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-                    Right click here
-                  </div>
-                </ContextMenu.Trigger>
-                <ContextMenu.Portal>
-                  <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                        Edit
-                      </MenuItem>
-                      <ContextMenu.SubmenuRoot>
-                        <ContextMenu.SubmenuTrigger>
-                          <MenuPrefix type="icon" icon={<RiShareLine />} />
-                          <span className="flex min-w-0 flex-1 pl-[var(--space-2)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] text-content-strong">
-                            Share
-                          </span>
-                          <MenuSuffix type="submenu" />
-                        </ContextMenu.SubmenuTrigger>
-                        <ContextMenu.Portal>
-                          <ContextMenu.Positioner sideOffset={2} alignOffset={-4} side="right" align="start">
-                            <ContextMenu.Popup>
-                              <MenuItem>Copy link</MenuItem>
-                              <MenuItem>Email</MenuItem>
-                              <MenuItem>Twitter</MenuItem>
-                              <MenuItem>LinkedIn</MenuItem>
-                            </ContextMenu.Popup>
-                          </ContextMenu.Positioner>
-                        </ContextMenu.Portal>
-                      </ContextMenu.SubmenuRoot>
-                      <ContextMenu.SubmenuRoot>
-                        <ContextMenu.SubmenuTrigger>
-                          <MenuPrefix type="icon" icon={<RiFolderLine />} />
-                          <span className="flex min-w-0 flex-1 pl-[var(--space-2)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] text-content-strong">
-                            Move to
-                          </span>
-                          <MenuSuffix type="submenu" />
-                        </ContextMenu.SubmenuTrigger>
-                        <ContextMenu.Portal>
-                          <ContextMenu.Positioner sideOffset={2} alignOffset={-4} side="right" align="start">
-                            <ContextMenu.Popup>
-                              <MenuItem>Documents</MenuItem>
-                              <MenuItem>Downloads</MenuItem>
-                              <MenuItem>Archive</MenuItem>
-                            </ContextMenu.Popup>
-                          </ContextMenu.Positioner>
-                        </ContextMenu.Portal>
-                      </ContextMenu.SubmenuRoot>
-                      <MenuSeparator />
-                      <MenuItem
-                        variant="danger"
-                        prefix={<MenuPrefix type="danger-icon" icon={<TrashIcon />} />}
-                      >
-                        Delete
-                      </MenuItem>
-                    </ContextMenu.Popup>
-                  </ContextMenu.Positioner>
-                </ContextMenu.Portal>
-              </ContextMenu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Selection Controls */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Selectable Items</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Checkbox selection</p>
-              <p className="text-body-m text-content-subtle">Multi-select with checkboxes</p>
+              <p className="text-body-m text-content-subtle">Toggle multiple options</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <SelectableCheckboxContextMenu />
@@ -340,7 +322,7 @@ export default function ContextMenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Radio selection</p>
-              <p className="text-body-m text-content-subtle">Single-select with radio buttons</p>
+              <p className="text-body-m text-content-subtle">Choose a single option</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <SelectableRadioContextMenu />
@@ -349,86 +331,49 @@ export default function ContextMenuDocsPage() {
         </div>
       </section>
 
-      {/* Danger Variant */}
       <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Danger Variant</h2>
+        <h2 className="text-body-xl-semibold">Submenu</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Destructive actions</p>
-              <p className="text-body-m text-content-subtle">Red color for dangerous operations</p>
+              <p className="text-body-m text-content-strong">Nested actions</p>
+              <p className="text-body-m text-content-subtle">
+                Secondary options within a submenu
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-                    Right click here
-                  </div>
+                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                    Right click for submenu
+                  </button>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                        Edit
+                    <ContextMenu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Copy link</span>
                       </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiFileCopyLine />} />}>
-                        Duplicate
-                      </MenuItem>
-                      <MenuSeparator />
-                      <MenuItem
-                        variant="danger"
-                        prefix={<MenuPrefix type="danger-icon" icon={<TrashIcon />} />}
-                      >
-                        Delete permanently
-                      </MenuItem>
-                    </ContextMenu.Popup>
-                  </ContextMenu.Positioner>
-                </ContextMenu.Portal>
-              </ContextMenu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* States */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">States</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Disabled items</p>
-              <p className="text-body-m text-content-subtle">Non-interactive items</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <ContextMenu.Root>
-                <ContextMenu.Trigger>
-                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-                    Right click here
-                  </div>
-                </ContextMenu.Trigger>
-                <ContextMenu.Portal>
-                  <ContextMenu.Positioner>
-                    <ContextMenu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                        Edit
-                      </MenuItem>
-                      <MenuItem
-                        prefix={<MenuPrefix type="icon" icon={<CopyIcon />} disabled />}
-                        disabled
-                      >
-                        Copy (No permission)
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiShareLine />} />}>
-                        Share
-                      </MenuItem>
-                      <MenuSeparator />
-                      <MenuItem
-                        variant="danger"
-                        prefix={<MenuPrefix type="danger-icon" icon={<TrashIcon />} disabled />}
-                        disabled
-                      >
-                        Delete (Locked)
-                      </MenuItem>
+                      <ContextMenu.SubmenuRoot>
+                        <ContextMenu.SubmenuTrigger>
+                          <span className={menuItemLabelClassName}>Send via</span>
+                        </ContextMenu.SubmenuTrigger>
+                        <ContextMenu.Portal>
+                          <ContextMenu.Positioner sideOffset={8} alignOffset={-4} side="right" align="start">
+                            <ContextMenu.Popup className={menuPopupClassName}>
+                              <MenuItem>
+                                <span className={menuItemLabelClassName}>Email</span>
+                              </MenuItem>
+                              <MenuItem>
+                                <span className={menuItemLabelClassName}>Slack</span>
+                              </MenuItem>
+                              <MenuItem>
+                                <span className={menuItemLabelClassName}>Twitter</span>
+                              </MenuItem>
+                            </ContextMenu.Popup>
+                          </ContextMenu.Positioner>
+                        </ContextMenu.Portal>
+                      </ContextMenu.SubmenuRoot>
                     </ContextMenu.Popup>
                   </ContextMenu.Positioner>
                 </ContextMenu.Portal>
@@ -438,101 +383,5 @@ export default function ContextMenuDocsPage() {
         </div>
       </section>
     </div>
-  )
-}
-
-// Helper component for checkbox selection
-function SelectableCheckboxContextMenu() {
-  const [selectedItems, setSelectedItems] = React.useState<string[]>(["grid"])
-
-  const toggleItem = (item: string) => {
-    setSelectedItems((prev) =>
-      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
-    )
-  }
-
-  return (
-    <ContextMenu.Root>
-      <ContextMenu.Trigger>
-        <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-          Right click here
-        </div>
-      </ContextMenu.Trigger>
-      <ContextMenu.Portal>
-        <ContextMenu.Positioner>
-          <ContextMenu.Popup>
-            <MenuItem
-              selectionControl="checkbox"
-              selected={selectedItems.includes("grid")}
-              onClick={() => toggleItem("grid")}
-              closeOnClick={false}
-            >
-              Show grid
-            </MenuItem>
-            <MenuItem
-              selectionControl="checkbox"
-              selected={selectedItems.includes("rulers")}
-              onClick={() => toggleItem("rulers")}
-              closeOnClick={false}
-            >
-              Show rulers
-            </MenuItem>
-            <MenuItem
-              selectionControl="checkbox"
-              selected={selectedItems.includes("guides")}
-              onClick={() => toggleItem("guides")}
-              closeOnClick={false}
-            >
-              Show guides
-            </MenuItem>
-          </ContextMenu.Popup>
-        </ContextMenu.Positioner>
-      </ContextMenu.Portal>
-    </ContextMenu.Root>
-  )
-}
-
-// Helper component for radio selection
-function SelectableRadioContextMenu() {
-  const [selectedView, setSelectedView] = React.useState("list")
-
-  return (
-    <ContextMenu.Root>
-      <ContextMenu.Trigger>
-        <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
-          Right click here
-        </div>
-      </ContextMenu.Trigger>
-      <ContextMenu.Portal>
-        <ContextMenu.Positioner>
-          <ContextMenu.Popup>
-            <MenuItem
-              selectionControl="radio"
-              selected={selectedView === "list"}
-              onClick={() => setSelectedView("list")}
-              closeOnClick={false}
-            >
-              List view
-            </MenuItem>
-            <MenuItem
-              selectionControl="radio"
-              selected={selectedView === "grid"}
-              onClick={() => setSelectedView("grid")}
-              closeOnClick={false}
-            >
-              Grid view
-            </MenuItem>
-            <MenuItem
-              selectionControl="radio"
-              selected={selectedView === "columns"}
-              onClick={() => setSelectedView("columns")}
-              closeOnClick={false}
-            >
-              Column view
-            </MenuItem>
-          </ContextMenu.Popup>
-        </ContextMenu.Positioner>
-      </ContextMenu.Portal>
-    </ContextMenu.Root>
   )
 }

@@ -107,9 +107,9 @@ function FileItem({
       <FileIcon fileType={fileType} size="m" src={imageUrl} className="relative z-10" />
 
       <div className="relative z-10 flex min-w-0 flex-1 flex-col gap-[var(--space-4)]">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-[var(--space-2)]">
           <p className="truncate text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)] text-content-strong">{file.name}</p>
-          <span className="relative flex size-[18px] shrink-0 items-center justify-center">
+          <span className="relative flex size-[var(--space-16)] shrink-0 items-center justify-center">
             <AnimatePresence mode="popLayout" initial={false}>
               {state === "uploading" && (
                 <motion.span
@@ -124,7 +124,7 @@ function FileItem({
                     duration: 0.25,
                   }}
                 >
-                  <RiLoader2Line className="size-[18px] animate-spin" style={{ animationDuration: "0.8s" }} />
+                  <RiLoader2Line className="size-[var(--space-16)] animate-spin" style={{ animationDuration: "0.8s" }} />
                 </motion.span>
               )}
               {state === "uploaded" && (
@@ -135,7 +135,7 @@ function FileItem({
                   animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ type: "spring", bounce: 0.3, duration: 0.35 }}
                 >
-                  <RiCheckboxCircleFill className="size-[18px]" />
+                  <RiCheckboxCircleFill className="size-[var(--space-16)]" />
                 </motion.span>
               )}
               {state === "error" && (
@@ -146,7 +146,7 @@ function FileItem({
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: "spring", bounce: 0.3, duration: 0.25 }}
                 >
-                  <RiErrorWarningFill className="size-[18px]" />
+                  <RiErrorWarningFill className="size-[var(--space-16)]" />
                 </motion.span>
               )}
               {state === "warning" && (
@@ -157,7 +157,7 @@ function FileItem({
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ type: "spring", bounce: 0.3, duration: 0.25 }}
                 >
-                  <RiErrorWarningFill className="size-[18px]" />
+                  <RiErrorWarningFill className="size-[var(--space-16)]" />
                 </motion.span>
               )}
             </AnimatePresence>
@@ -356,7 +356,7 @@ function FileUpload({
   return (
     <div
       data-slot="file-upload"
-      className={cn("flex flex-col gap-1", className)}
+      className={cn("flex flex-col gap-[var(--space-2)]", className)}
     >
       <div
         data-slot="dropzone"
@@ -436,7 +436,7 @@ function FileUpload({
       </div>
 
       {files.length > 0 && (
-        <div data-slot="file-list" className="flex flex-col gap-1">
+        <div data-slot="file-list" className="flex flex-col gap-[var(--space-2)]">
           {files.map((fileItem, index) => (
             <FileItem
               key={`${fileItem.file.name}-${index}`}

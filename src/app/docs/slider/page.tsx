@@ -5,6 +5,21 @@ import { CodeBlock } from "@/components/docs/code-block"
 import { Slider } from "@/components/ui/slider"
 import { Field } from "@/components/ui/field"
 
+type SliderExampleProps = React.ComponentProps<typeof Slider>
+
+function SliderExample(props: SliderExampleProps) {
+  return (
+    <Slider {...props}>
+      <Slider.Control>
+        <Slider.Track>
+          <Slider.Indicator />
+          <Slider.Thumb />
+        </Slider.Track>
+      </Slider.Control>
+    </Slider>
+  )
+}
+
 export default function SliderDocsPage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
@@ -21,13 +36,14 @@ export default function SliderDocsPage() {
         <CodeBlock
           code={`import { Slider } from "@/components/ui/slider"
 
-<Slider label="Volume" defaultValue={50} />
-<Slider
-  label="Brightness"
-  description="Adjust screen brightness"
-  defaultValue={75}
-/>
-<Slider min={0} max={10} step={1} defaultValue={5} />`}
+<Slider defaultValue={50} min={0} max={100}>
+  <Slider.Control>
+    <Slider.Track>
+      <Slider.Indicator />
+      <Slider.Thumb />
+    </Slider.Track>
+  </Slider.Control>
+</Slider>`}
         />
       </section>
 
@@ -35,7 +51,7 @@ export default function SliderDocsPage() {
         <div className="flex flex-col gap-[var(--space-4)]">
           <h2 className="text-body-xl-semibold">Basic</h2>
           <p className="text-body-m text-content-subtle">
-            Simple slider with label and editable value indicator.
+            Simple slider with default range values.
           </p>
         </div>
         <div className="flex flex-col">
@@ -45,66 +61,7 @@ export default function SliderDocsPage() {
               <p className="text-body-m text-content-subtle">Drag or click to change value</p>
             </div>
             <div className="w-full max-w-sm">
-              <Slider label="Volume" defaultValue={0} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">With value</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider label="Volume" defaultValue={50} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">With Description</h2>
-          <p className="text-body-m text-content-subtle">
-            Slider with additional description text for context.
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Label and description</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider
-                label="Brightness"
-                description="Adjust your screen brightness level"
-                defaultValue={75}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">Editable Value</h2>
-          <p className="text-body-m text-content-subtle">
-            Hover over the value to reveal an edit icon. Click to enter a value directly.
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Editable (default)</p>
-              <p className="text-body-m text-content-subtle">Hover over the value</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider label="Opacity" defaultValue={80} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Non-editable</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider label="Progress" defaultValue={65} editableValue={false} />
+              <SliderExample defaultValue={50} />
             </div>
           </div>
         </div>
@@ -123,80 +80,7 @@ export default function SliderDocsPage() {
               <p className="text-body-m text-content-strong">0-10 range</p>
             </div>
             <div className="w-full max-w-sm">
-              <Slider label="Rating" min={0} max={10} step={1} defaultValue={7} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Step of 5</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider label="Quantity" min={0} max={100} step={5} defaultValue={25} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">Custom Formatting</h2>
-          <p className="text-body-m text-content-subtle">
-            Use formatValue to customize how the value is displayed.
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Percentage</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider
-                label="Opacity"
-                defaultValue={80}
-                formatValue={(v) => `${v}%`}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Currency</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider
-                label="Budget"
-                min={0}
-                max={1000}
-                step={50}
-                defaultValue={500}
-                formatValue={(v) => `$${v}`}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">Without Value Indicator</h2>
-          <p className="text-body-m text-content-subtle">
-            Hide the value indicator for a cleaner look.
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Label only</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider label="Volume" defaultValue={50} showValue={false} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Value only</p>
-            </div>
-            <div className="w-full max-w-sm">
-              <Slider defaultValue={50} />
+              <SliderExample min={0} max={10} step={1} defaultValue={7} />
             </div>
           </div>
         </div>
@@ -215,12 +99,7 @@ export default function SliderDocsPage() {
               <p className="text-body-m text-content-strong">Disabled</p>
             </div>
             <div className="w-full max-w-sm">
-              <Slider
-                label="Volume"
-                description="This setting is locked"
-                defaultValue={50}
-                disabled
-              />
+              <SliderExample defaultValue={50} disabled />
             </div>
           </div>
         </div>
@@ -243,7 +122,7 @@ export default function SliderDocsPage() {
                 label="Effort estimate"
                 description="How much effort will this task require?"
               >
-                <Slider min={1} max={10} defaultValue={5} showValue={false} />
+                <SliderExample min={1} max={10} defaultValue={5} />
               </Field>
             </div>
           </div>

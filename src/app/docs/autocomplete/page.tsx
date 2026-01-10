@@ -2,8 +2,10 @@
 
 import * as React from "react"
 import { CodeBlock } from "@/components/docs/code-block"
-import { Autocomplete } from "@/components/ui/autocomplete"
+import { Autocomplete, type AutocompleteRootProps } from "@/components/ui/autocomplete"
 import { Field } from "@/components/ui/field"
+import { MenuPrefix } from "@/components/ui/menu-prefix"
+import { cn } from "@/lib/utils"
 import {
   RiSearchLine,
   RiMapPinLine,
@@ -51,6 +53,129 @@ const users = [
   { value: "alice", label: "Alice Chen", description: "alice@example.com", icon: <RiUser3Line />, prefixType: "icon" as const },
 ]
 
+type AutocompleteOption = {
+  value: string
+  label: string
+  description?: string
+  icon?: React.ReactNode
+  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
+  disabled?: boolean
+}
+
+type AutocompleteGroup = {
+  label: string
+  options: AutocompleteOption[]
+}
+
+type AutocompleteDemoProps = Omit<AutocompleteRootProps, "items"> & {
+  options?: AutocompleteOption[]
+  groups?: AutocompleteGroup[]
+  placeholder?: string
+  leadingIcon?: React.ReactNode
+}
+
+function renderAutocompleteItem(option: AutocompleteOption) {
+  return (
+    <Autocomplete.Item key={option.value} value={option} disabled={option.disabled}>
+      {option.icon && (
+        <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
+          <MenuPrefix
+            type={option.prefixType ?? "icon"}
+            icon={option.icon}
+            disabled={option.disabled}
+          />
+        </span>
+      )}
+
+      <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
+        <span
+          className={cn(
+            "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
+            "text-content-strong group-data-[disabled]:text-content-disabled"
+          )}
+        >
+          {option.label}
+        </span>
+        {option.description && (
+          <span
+            data-slot="item-description"
+            className={cn(
+              "truncate text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
+              "text-content-subtle group-data-[disabled]:text-content-disabled"
+            )}
+          >
+            {option.description}
+          </span>
+        )}
+      </div>
+    </Autocomplete.Item>
+  )
+}
+
+function AutocompleteDemo({
+  options = [],
+  groups,
+  placeholder = "Search...",
+  leadingIcon,
+  size = "m",
+  className,
+  ...props
+}: AutocompleteDemoProps) {
+  const items = groups?.length
+    ? groups.map((group) => ({
+        value: group.label,
+        items: group.options,
+      }))
+    : options
+
+  return (
+    <Autocomplete.Root
+      items={items}
+      size={size}
+      className={className}
+      {...props}
+    >
+      {leadingIcon && (
+        <span
+          data-slot="leading-icon"
+          className={cn(
+            "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full",
+            "text-content-subtle"
+          )}
+        >
+          {leadingIcon}
+        </span>
+      )}
+
+      <Autocomplete.Input placeholder={placeholder} />
+
+      <Autocomplete.Portal>
+        <Autocomplete.Positioner align="start" sideOffset={4} collisionPadding={8}>
+          <Autocomplete.Popup>
+            <Autocomplete.List className="p-[var(--space-4)]">
+              {groups?.length ? (
+                groups.map((group) => (
+                  <Autocomplete.Group key={group.label} items={group.options}>
+                    <Autocomplete.GroupLabel>{group.label}</Autocomplete.GroupLabel>
+                    <Autocomplete.Collection>
+                      {(option) => renderAutocompleteItem(option as AutocompleteOption)}
+                    </Autocomplete.Collection>
+                  </Autocomplete.Group>
+                ))
+              ) : (
+                <Autocomplete.Collection>
+                  {(option) => renderAutocompleteItem(option as AutocompleteOption)}
+                </Autocomplete.Collection>
+              )}
+              <Autocomplete.Empty>No results found</Autocomplete.Empty>
+            </Autocomplete.List>
+          </Autocomplete.Popup>
+        </Autocomplete.Positioner>
+      </Autocomplete.Portal>
+    </Autocomplete.Root>
+  )
+}
+
 // Async loading demo component
 function AsyncAutocomplete() {
   const [inputValue, setInputValue] = React.useState("")
@@ -79,9 +204,9 @@ function AsyncAutocomplete() {
   return (
     <div className="flex flex-col gap-[var(--space-4)]">
       <Field label="Country">
-        <Autocomplete
+        <AutocompleteDemo
           options={countries}
-          filteredOptions={filteredOptions}
+          filteredItems={filteredOptions}
           value={inputValue}
           onValueChange={setInputValue}
           placeholder="Search countries..."
@@ -109,7 +234,6 @@ export default function AutocompleteDocsPage() {
       <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
           code={`import { Autocomplete } from "@/components/ui/autocomplete"
-import { Field } from "@/components/ui/field"
 
 const options = [
   { value: "us", label: "United States" },
@@ -117,16 +241,24 @@ const options = [
   { value: "ca", label: "Canada" },
 ]
 
-// Basic
-<Autocomplete options={options} placeholder="Search countries..." />
-
-// With Field wrapper for label and description
-<Field label="Country" description="Start typing to see suggestions">
-  <Autocomplete options={options} placeholder="Search..." />
-</Field>
-
-// Free-form text is allowed - user can type anything
-// Suggestions are optional, not required`}
+<Autocomplete.Root items={options}>
+  <Autocomplete.Input placeholder="Search countries..." />
+  <Autocomplete.Portal>
+    <Autocomplete.Positioner sideOffset={4} align="start">
+      <Autocomplete.Popup>
+        <Autocomplete.List>
+          <Autocomplete.Collection>
+            {(option) => (
+              <Autocomplete.Item value={option}>
+                {option.label}
+              </Autocomplete.Item>
+            )}
+          </Autocomplete.Collection>
+        </Autocomplete.List>
+      </Autocomplete.Popup>
+    </Autocomplete.Positioner>
+  </Autocomplete.Portal>
+</Autocomplete.Root>`}
         />
       </section>
 
@@ -140,7 +272,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Type to filter suggestions</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete options={countries} placeholder="Search countries..." />
+              <AutocompleteDemo options={countries} placeholder="Search countries..." />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -149,7 +281,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Pre-filled input text</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete options={countries} defaultValue="United" placeholder="Search countries..." />
+              <AutocompleteDemo options={countries} defaultValue="United" placeholder="Search countries..." />
             </div>
           </div>
         </div>
@@ -165,7 +297,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Compact areas, inline forms</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete size="s" options={countries} placeholder="Search..." />
+              <AutocompleteDemo size="s" options={countries} placeholder="Search..." />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -174,7 +306,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Default for most forms</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete size="m" options={countries} placeholder="Search..." />
+              <AutocompleteDemo size="m" options={countries} placeholder="Search..." />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -183,7 +315,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Prominent inputs, touch targets</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete size="l" options={countries} placeholder="Search..." />
+              <AutocompleteDemo size="l" options={countries} placeholder="Search..." />
             </div>
           </div>
         </div>
@@ -199,7 +331,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Search icon in input</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
+              <AutocompleteDemo
                 options={countries}
                 leadingIcon={<RiSearchLine />}
                 placeholder="Search countries..."
@@ -212,7 +344,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Icons in dropdown items</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
+              <AutocompleteDemo
                 options={locations}
                 leadingIcon={<RiMapPinLine />}
                 placeholder="Search locations..."
@@ -232,7 +364,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Options with descriptions</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
+              <AutocompleteDemo
                 options={cities}
                 leadingIcon={<RiGlobalLine />}
                 placeholder="Search cities..."
@@ -245,7 +377,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Full option detail</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
+              <AutocompleteDemo
                 options={users}
                 leadingIcon={<RiSearchLine />}
                 placeholder="Search users..."
@@ -266,7 +398,7 @@ const options = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country">
-                <Autocomplete options={countries} placeholder="Search countries..." />
+                <AutocompleteDemo options={countries} placeholder="Search countries..." />
               </Field>
             </div>
           </div>
@@ -277,7 +409,7 @@ const options = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" description="You can type any country name or select from suggestions">
-                <Autocomplete options={countries} placeholder="Search or type..." />
+                <AutocompleteDemo options={countries} placeholder="Search or type..." />
               </Field>
             </div>
           </div>
@@ -295,7 +427,7 @@ const options = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" disabled>
-                <Autocomplete options={countries} defaultValue="United States" disabled />
+                <AutocompleteDemo options={countries} defaultValue="United States" disabled />
               </Field>
             </div>
           </div>
@@ -306,7 +438,7 @@ const options = [
             </div>
             <div className="w-full max-w-sm">
               <Field label="Country" error="Please enter a valid country">
-                <Autocomplete options={countries} placeholder="Search countries..." />
+                <AutocompleteDemo options={countries} placeholder="Search countries..." />
               </Field>
             </div>
           </div>
@@ -323,7 +455,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Filters as you type</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
+              <AutocompleteDemo
                 options={countries}
                 mode="list"
                 placeholder="Type to filter..."
@@ -336,7 +468,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Filters + updates input on arrow keys</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
+              <AutocompleteDemo
                 options={countries}
                 mode="both"
                 placeholder="Type or use arrows..."
@@ -349,7 +481,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Static list, input updates on navigation</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
+              <AutocompleteDemo
                 options={countries}
                 mode="inline"
                 placeholder="Use arrows to navigate..."
@@ -362,7 +494,7 @@ const options = [
               <p className="text-body-m text-content-subtle">Static list, no auto-filtering</p>
             </div>
             <div className="w-full max-w-sm">
-              <Autocomplete
+              <AutocompleteDemo
                 options={countries}
                 mode="none"
                 placeholder="Browse all options..."

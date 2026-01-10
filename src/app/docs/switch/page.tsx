@@ -4,6 +4,7 @@ import * as React from "react"
 import { CodeBlock } from "@/components/docs/code-block"
 import { Switch } from "@/components/ui/switch"
 import { SwitchControl } from "@/components/ui/switch-control"
+import { Field } from "@/components/ui/field"
 
 export default function SwitchDocsPage() {
   return (
@@ -19,14 +20,19 @@ export default function SwitchDocsPage() {
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
-          code={`import { Switch } from "@/components/ui/switch"
+          code={`import { Field } from "@/components/ui/field"
+import { Switch } from "@/components/ui/switch"
 import { SwitchControl } from "@/components/ui/switch-control"
 
-<Switch label="Enable notifications" />
-<Switch
+<Field label="Enable notifications">
+  <Switch />
+</Field>
+<Field
   label="Dark mode"
   description="Use dark theme across the app"
-/>
+>
+  <Switch />
+</Field>
 <SwitchControl />`}
         />
       </section>
@@ -63,9 +69,9 @@ import { SwitchControl } from "@/components/ui/switch-control"
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">With Label</h2>
+          <h2 className="text-body-xl-semibold">With Field Label</h2>
           <p className="text-body-m text-content-subtle">
-            Switch with an associated label for better accessibility.
+            Use Field to provide the label and description for the switch.
           </p>
         </div>
         <div className="flex flex-col">
@@ -73,117 +79,33 @@ import { SwitchControl } from "@/components/ui/switch-control"
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label only</p>
             </div>
-            <Switch label="Enable notifications" />
+            <Field label="Enable notifications" className="max-w-xs">
+              <Switch />
+            </Field>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label and description</p>
             </div>
-            <Switch
+            <Field
               label="Dark mode"
               description="Switch between light and dark themes"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">Position</h2>
-          <p className="text-body-m text-content-subtle">
-            Switch can be positioned on the left or right of the label.
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Right (default)</p>
-            </div>
-            <Switch
-              label="Show online status"
-              description="Let others see when you're active"
-              position="right"
-            />
+              className="max-w-xs"
+            >
+              <Switch />
+            </Field>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Left</p>
-            </div>
-            <Switch
-              label="Show online status"
-              description="Let others see when you're active"
-              position="left"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">Card Variant</h2>
-          <p className="text-body-m text-content-subtle">
-            Switch displayed inside a card container for prominence.
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Card + Right</p>
-            </div>
-            <div className="flex w-full max-w-md flex-col gap-[var(--space-4)]">
-              <Switch
-                label="Two-factor authentication"
-                description="Add an extra layer of security to your account"
-                isCard
-                position="right"
-              />
-              <Switch
-                label="Biometric login"
-                description="Use Face ID or fingerprint to sign in"
-                isCard
-                position="right"
-                defaultChecked
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Card + Left</p>
-            </div>
-            <div className="flex w-full max-w-md flex-col gap-[var(--space-4)]">
-              <Switch
-                label="Two-factor authentication"
-                description="Add an extra layer of security to your account"
-                isCard
-                position="left"
-              />
-              <Switch
-                label="Biometric login"
-                description="Use Face ID or fingerprint to sign in"
-                isCard
-                position="left"
-                defaultChecked
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled</p>
             </div>
-            <div className="flex w-full max-w-md flex-col gap-[var(--space-4)]">
-              <Switch
-                label="Remember this device"
-                description="Skip verification on trusted devices"
-                isCard
-                disabled
-              />
-              <Switch
-                label="Single sign-on"
-                description="Managed by your organization"
-                isCard
-                disabled
-                defaultChecked
-              />
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <Field label="Notifications" className="max-w-xs" disabled>
+                <Switch disabled />
+              </Field>
+              <Field label="Dark mode" className="max-w-xs" disabled>
+                <Switch disabled defaultChecked />
+              </Field>
             </div>
           </div>
         </div>

@@ -6,86 +6,67 @@ import { Button } from "@/components/ui/button"
 import {
   Menu,
   MenuItem,
-  MenuPrefix,
-  MenuSuffix,
-  MenuSeparator,
   MenuGroup,
   MenuGroupLabel,
+  MenuEmpty,
+  MenuPrefix,
+  MenuSeparator,
 } from "@/components/ui/menu"
-import { Avatar } from "@/components/ui/avatar"
-import {
-  CopyIcon,
-  TrashIcon,
-  SettingsIcon,
-  AddIcon,
-  StarIcon,
-  HeartIcon,
-  BookmarkIcon,
-} from "@/icons"
-import {
-  RiEditLine,
-  RiShareLine,
-  RiDownloadLine,
-  RiMoreLine,
-  RiMailLine,
-  RiUserLine,
-  RiLogoutBoxLine,
-  RiArchiveLine,
-  RiFolderLine,
-  RiPrinterLine,
-  RiFileCopyLine,
-  RiMoonLine,
-  RiNotification3Line,
-} from "@remixicon/react"
+import { RiEditLine, RiFileCopyLine, RiArchiveLine, RiFolderLine } from "@remixicon/react"
+import { TrashIcon } from "@/icons"
 
-// Helper component for checkbox selection menu
+const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
+const menuItemLabelClassName =
+  "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]"
+const menuItemDescriptionClassName =
+  "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-subtle"
+
 function SelectableCheckboxMenu() {
-  const [selectedItems, setSelectedItems] = React.useState<string[]>(["notifications", "updates"])
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([
+    "updates",
+    "security",
+  ])
 
-  const toggleItem = (item: string) => {
+  const handleCheckedChange = (item: string) => (checked: boolean) => {
     setSelectedItems((prev) =>
-      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+      checked ? [...new Set([...prev, item])] : prev.filter((value) => value !== item)
     )
   }
 
   return (
     <Menu.Root>
-      <Menu.Trigger render={<Button variant="secondary">Email Preferences</Button>} />
+      <Menu.Trigger render={<Button variant="secondary">Notification preferences</Button>} />
       <Menu.Portal>
         <Menu.Positioner>
-          <Menu.Popup>
-            <MenuItem
-              selectionControl="checkbox"
-              selected={selectedItems.includes("notifications")}
-              onClick={() => toggleItem("notifications")}
+          <Menu.Popup className={menuPopupClassName}>
+            <Menu.CheckboxItem
+              checked={selectedItems.includes("updates")}
+              onCheckedChange={handleCheckedChange("updates")}
               closeOnClick={false}
             >
-              Notifications
-            </MenuItem>
-            <MenuItem
-              selectionControl="checkbox"
-              selected={selectedItems.includes("updates")}
-              onClick={() => toggleItem("updates")}
+              <span className={menuItemLabelClassName}>Product updates</span>
+            </Menu.CheckboxItem>
+            <Menu.CheckboxItem
+              checked={selectedItems.includes("security")}
+              onCheckedChange={handleCheckedChange("security")}
               closeOnClick={false}
             >
-              Product updates
-            </MenuItem>
-            <MenuItem
-              selectionControl="checkbox"
-              selected={selectedItems.includes("newsletter")}
-              onClick={() => toggleItem("newsletter")}
+              <span className={menuItemLabelClassName}>Security alerts</span>
+            </Menu.CheckboxItem>
+            <Menu.CheckboxItem
+              checked={selectedItems.includes("tips")}
+              onCheckedChange={handleCheckedChange("tips")}
               closeOnClick={false}
             >
-              Newsletter
-            </MenuItem>
-            <MenuItem
-              selectionControl="checkbox"
-              selected={selectedItems.includes("marketing")}
-              onClick={() => toggleItem("marketing")}
+              <span className={menuItemLabelClassName}>Product tips</span>
+            </Menu.CheckboxItem>
+            <Menu.CheckboxItem
+              checked={selectedItems.includes("newsletter")}
+              onCheckedChange={handleCheckedChange("newsletter")}
               closeOnClick={false}
             >
-              Marketing emails
-            </MenuItem>
+              <span className={menuItemLabelClassName}>Monthly newsletter</span>
+            </Menu.CheckboxItem>
           </Menu.Popup>
         </Menu.Positioner>
       </Menu.Portal>
@@ -93,48 +74,33 @@ function SelectableCheckboxMenu() {
   )
 }
 
-// Helper component for radio selection menu
 function SelectableRadioMenu() {
   const [selectedSort, setSelectedSort] = React.useState("date")
 
   return (
     <Menu.Root>
-      <Menu.Trigger render={<Button variant="secondary">Sort By</Button>} />
+      <Menu.Trigger render={<Button variant="secondary">Sort by</Button>} />
       <Menu.Portal>
         <Menu.Positioner>
-          <Menu.Popup>
-            <MenuItem
-              selectionControl="radio"
-              selected={selectedSort === "name"}
-              onClick={() => setSelectedSort("name")}
-              closeOnClick={false}
+          <Menu.Popup className={menuPopupClassName}>
+            <Menu.RadioGroup
+              className="flex flex-col gap-[var(--space-2)]"
+              value={selectedSort}
+              onValueChange={setSelectedSort}
             >
-              Name
-            </MenuItem>
-            <MenuItem
-              selectionControl="radio"
-              selected={selectedSort === "date"}
-              onClick={() => setSelectedSort("date")}
-              closeOnClick={false}
-            >
-              Date modified
-            </MenuItem>
-            <MenuItem
-              selectionControl="radio"
-              selected={selectedSort === "size"}
-              onClick={() => setSelectedSort("size")}
-              closeOnClick={false}
-            >
-              Size
-            </MenuItem>
-            <MenuItem
-              selectionControl="radio"
-              selected={selectedSort === "type"}
-              onClick={() => setSelectedSort("type")}
-              closeOnClick={false}
-            >
-              Type
-            </MenuItem>
+              <Menu.RadioItem value="name">
+                <span className={menuItemLabelClassName}>Name</span>
+              </Menu.RadioItem>
+              <Menu.RadioItem value="date">
+                <span className={menuItemLabelClassName}>Date modified</span>
+              </Menu.RadioItem>
+              <Menu.RadioItem value="size">
+                <span className={menuItemLabelClassName}>File size</span>
+              </Menu.RadioItem>
+              <Menu.RadioItem value="type">
+                <span className={menuItemLabelClassName}>File type</span>
+              </Menu.RadioItem>
+            </Menu.RadioGroup>
           </Menu.Popup>
         </Menu.Positioner>
       </Menu.Portal>
@@ -143,9 +109,6 @@ function SelectableRadioMenu() {
 }
 
 export default function MenuDocsPage() {
-  const [darkMode, setDarkMode] = React.useState(false)
-  const [notifications, setNotifications] = React.useState(true)
-
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
       <header className="flex flex-col gap-[var(--space-10)]">
@@ -163,61 +126,52 @@ export default function MenuDocsPage() {
 
 <Menu.Root>
   <Menu.Trigger render={<Button>Open Menu</Button>} />
-  <Menu.Portal>
-    <Menu.Positioner>
-      <Menu.Popup>
-        <MenuItem>Edit</MenuItem>
-        <MenuItem>Copy</MenuItem>
-        <MenuSeparator />
-        <MenuItem variant="danger">Delete</MenuItem>
-      </Menu.Popup>
-    </Menu.Positioner>
-  </Menu.Portal>
+      <Menu.Portal>
+        <Menu.Positioner>
+          <Menu.Popup className="flex flex-col gap-[var(--space-2)] p-[var(--space-4)]">
+            <MenuItem>Edit</MenuItem>
+            <MenuItem>Copy</MenuItem>
+            <MenuSeparator />
+            <MenuItem variant="danger">Delete</MenuItem>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
 </Menu.Root>`}
         />
       </section>
 
-      {/* Basic Menu */}
       <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Basic</h2>
+        <h2 className="text-body-xl-semibold">Basics</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Text only</p>
-              <p className="text-body-m text-content-subtle">Simple menu with text labels</p>
+              <p className="text-body-m text-content-strong">File actions</p>
+              <p className="text-body-m text-content-subtle">
+                Common tasks for a document or project
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Open Menu</Button>} />
+                <Menu.Trigger render={<Button variant="secondary">File</Button>} />
                 <Menu.Portal>
                   <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem>New file</MenuItem>
-                      <MenuItem>Open</MenuItem>
-                      <MenuItem>Save</MenuItem>
-                      <MenuItem>Save as...</MenuItem>
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>New file</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Open recent</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Save</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Save as...</span>
+                      </MenuItem>
                       <MenuSeparator />
-                      <MenuItem>Close</MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">With supporting text</p>
-              <p className="text-body-m text-content-subtle">Medium weight with description</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Select Plan</Button>} />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem supportingText="For individuals">Free</MenuItem>
-                      <MenuItem supportingText="For small teams">Pro</MenuItem>
-                      <MenuItem supportingText="For organizations">Enterprise</MenuItem>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Close</span>
+                      </MenuItem>
                     </Menu.Popup>
                   </Menu.Positioner>
                 </Menu.Portal>
@@ -227,32 +181,37 @@ export default function MenuDocsPage() {
         </div>
       </section>
 
-      {/* Menu with Icons */}
       <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon prefix</p>
-              <p className="text-body-m text-content-subtle">Leading icons for visual recognition</p>
+              <p className="text-body-m text-content-strong">Project actions</p>
+              <p className="text-body-m text-content-subtle">
+                Visual cues for quicker scanning
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
                 <Menu.Trigger render={<Button variant="secondary">Actions</Button>} />
                 <Menu.Portal>
                   <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                        Edit
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiEditLine />} />
+                        <span className={menuItemLabelClassName}>Edit details</span>
                       </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiFileCopyLine />} />}>
-                        Duplicate
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiFileCopyLine />} />
+                        <span className={menuItemLabelClassName}>Duplicate</span>
                       </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiArchiveLine />} />}>
-                        Archive
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiArchiveLine />} />
+                        <span className={menuItemLabelClassName}>Archive</span>
                       </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiFolderLine />} />}>
-                        Move to folder
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiFolderLine />} />
+                        <span className={menuItemLabelClassName}>Move</span>
                       </MenuItem>
                     </Menu.Popup>
                   </Menu.Positioner>
@@ -263,55 +222,81 @@ export default function MenuDocsPage() {
         </div>
       </section>
 
-      {/* Menu with Avatars */}
       <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">With Avatars</h2>
+        <h2 className="text-body-xl-semibold">With Description</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">User selection</p>
-              <p className="text-body-m text-content-subtle">For account switching or mentions</p>
+              <p className="text-body-m text-content-strong">Plan selection</p>
+              <p className="text-body-m text-content-subtle">
+                Supporting text for clearer choices
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Select Account</Button>} />
+                <Menu.Trigger render={<Button variant="secondary">Select plan</Button>} />
                 <Menu.Portal>
                   <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem
-                        prefix={
-                          <MenuPrefix type="avatar">
-                            <Avatar size="2xs" initials="JD" fallback="initials" />
-                          </MenuPrefix>
-                        }
-                        supportingText="john@example.com"
-                      >
-                        John Doe
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <span className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)]">
+                          <span className={menuItemLabelClassName}>Free</span>
+                          <span className={menuItemDescriptionClassName}>For individuals</span>
+                        </span>
                       </MenuItem>
-                      <MenuItem
-                        prefix={
-                          <MenuPrefix type="avatar">
-                            <Avatar size="2xs" initials="AS" fallback="initials" />
-                          </MenuPrefix>
-                        }
-                        supportingText="alice@example.com"
-                      >
-                        Alice Smith
+                      <MenuItem>
+                        <span className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)]">
+                          <span className={menuItemLabelClassName}>Pro</span>
+                          <span className={menuItemDescriptionClassName}>For small teams</span>
+                        </span>
                       </MenuItem>
-                      <MenuItem
-                        prefix={
-                          <MenuPrefix type="avatar">
-                            <Avatar size="2xs" initials="BJ" fallback="initials" />
-                          </MenuPrefix>
-                        }
-                        supportingText="bob@example.com"
-                      >
-                        Bob Johnson
+                      <MenuItem>
+                        <span className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)]">
+                          <span className={menuItemLabelClassName}>Enterprise</span>
+                          <span className={menuItemDescriptionClassName}>For organizations</span>
+                        </span>
                       </MenuItem>
+                    </Menu.Popup>
+                  </Menu.Positioner>
+                </Menu.Portal>
+              </Menu.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Grouped</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Grouped actions</p>
+              <p className="text-body-m text-content-subtle">
+                Separate sections by intent
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <Menu.Root>
+                <Menu.Trigger render={<Button variant="secondary">Grouped menu</Button>} />
+                <Menu.Portal>
+                  <Menu.Positioner>
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuGroup className="flex flex-col gap-[var(--space-2)]">
+                        <MenuGroupLabel>Workspace</MenuGroupLabel>
+                        <MenuItem>
+                          <span className={menuItemLabelClassName}>Invite members</span>
+                        </MenuItem>
+                        <MenuItem>
+                          <span className={menuItemLabelClassName}>Manage roles</span>
+                        </MenuItem>
+                      </MenuGroup>
                       <MenuSeparator />
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<AddIcon />} />}>
-                        Add account
-                      </MenuItem>
+                      <MenuGroup className="flex flex-col gap-[var(--space-2)]">
+                        <MenuGroupLabel>Danger zone</MenuGroupLabel>
+                        <MenuItem variant="danger">
+                          <span className={menuItemLabelClassName}>Delete workspace</span>
+                        </MenuItem>
+                      </MenuGroup>
                     </Menu.Popup>
                   </Menu.Positioner>
                 </Menu.Portal>
@@ -321,58 +306,26 @@ export default function MenuDocsPage() {
         </div>
       </section>
 
-      {/* Menu with Suffix */}
       <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">With Suffix</h2>
+        <h2 className="text-body-xl-semibold">Empty State</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Checkmark</p>
-              <p className="text-body-m text-content-subtle">Indicates selected state</p>
+              <p className="text-body-m text-content-strong">No results</p>
+              <p className="text-body-m text-content-subtle">
+                Use MenuEmpty to guide users
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Sort By</Button>} />
+                <Menu.Trigger render={<Button variant="secondary">Search</Button>} />
                 <Menu.Portal>
                   <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem suffix={<MenuSuffix type="checkmark" />}>Name</MenuItem>
-                      <MenuItem>Date created</MenuItem>
-                      <MenuItem>Date modified</MenuItem>
-                      <MenuItem>Size</MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Switch</p>
-              <p className="text-body-m text-content-subtle">Toggle settings inline</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Preferences</Button>} />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem
-                        prefix={<MenuPrefix type="icon" icon={<RiMoonLine />} />}
-                        suffix={<MenuSuffix type="switch" checked={darkMode} />}
-                        onClick={() => setDarkMode(!darkMode)}
-                        closeOnClick={false}
-                      >
-                        Dark mode
-                      </MenuItem>
-                      <MenuItem
-                        prefix={<MenuPrefix type="icon" icon={<RiNotification3Line />} />}
-                        suffix={<MenuSuffix type="switch" checked={notifications} />}
-                        onClick={() => setNotifications(!notifications)}
-                        closeOnClick={false}
-                      >
-                        Notifications
-                      </MenuItem>
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuEmpty
+                        title="No matching files"
+                        description="Try a different keyword."
+                      />
                     </Menu.Popup>
                   </Menu.Positioner>
                 </Menu.Portal>
@@ -382,14 +335,15 @@ export default function MenuDocsPage() {
         </div>
       </section>
 
-      {/* Selectable Items */}
       <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Selectable Items</h2>
+        <h2 className="text-body-xl-semibold">Selections</h2>
         <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Checkbox selection</p>
-              <p className="text-body-m text-content-subtle">Multi-select with checkboxes</p>
+              <p className="text-body-m text-content-subtle">
+                Toggle multiple options
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <SelectableCheckboxMenu />
@@ -398,426 +352,63 @@ export default function MenuDocsPage() {
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Radio selection</p>
-              <p className="text-body-m text-content-subtle">Single-select with radio buttons</p>
+              <p className="text-body-m text-content-subtle">Choose a single option</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <SelectableRadioMenu />
             </div>
           </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Disabled selectable</p>
-              <p className="text-body-m text-content-subtle">Disabled states for selection controls</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Disabled States</Button>} />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem selectionControl="checkbox" selected>
-                        Enabled checked
-                      </MenuItem>
-                      <MenuItem selectionControl="checkbox" selected disabled>
-                        Disabled checked
-                      </MenuItem>
-                      <MenuItem selectionControl="checkbox" disabled>
-                        Disabled unchecked
-                      </MenuItem>
-                      <MenuSeparator />
-                      <MenuItem selectionControl="radio" selected>
-                        Enabled selected
-                      </MenuItem>
-                      <MenuItem selectionControl="radio" selected disabled>
-                        Disabled selected
-                      </MenuItem>
-                      <MenuItem selectionControl="radio" disabled>
-                        Disabled unselected
-                      </MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Menu Groups */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Groups</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">With labels</p>
-              <p className="text-body-m text-content-subtle">Organize items into sections</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">File Menu</Button>} />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuGroup>
-                        <MenuGroupLabel>Document</MenuGroupLabel>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<AddIcon />} />}>
-                          New
-                        </MenuItem>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<RiFileCopyLine />} />}>
-                          Duplicate
-                        </MenuItem>
-                      </MenuGroup>
-                      <MenuSeparator />
-                      <MenuGroup>
-                        <MenuGroupLabel>Export</MenuGroupLabel>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<RiDownloadLine />} />}>
-                          Download
-                        </MenuItem>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<RiPrinterLine />} />}>
-                          Print
-                        </MenuItem>
-                        <MenuItem prefix={<MenuPrefix type="icon" icon={<RiShareLine />} />}>
-                          Share
-                        </MenuItem>
-                      </MenuGroup>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Submenu */}
       <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Submenu</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Nested menu</p>
-              <p className="text-body-m text-content-subtle">For hierarchical navigation</p>
+              <p className="text-body-m text-content-strong">Nested actions</p>
+              <p className="text-body-m text-content-subtle">
+                Secondary options within a submenu
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Options</Button>} />
+                <Menu.Trigger render={<Button variant="secondary">Share</Button>} />
                 <Menu.Portal>
                   <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                        Edit
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <span className={menuItemLabelClassName}>Copy link</span>
                       </MenuItem>
                       <Menu.SubmenuRoot>
                         <Menu.SubmenuTrigger>
-                          <MenuPrefix type="icon" icon={<RiShareLine />} />
-                          <span className="flex min-w-0 flex-1 pl-[var(--space-2)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] text-content-strong">
-                            Share
-                          </span>
-                          <MenuSuffix type="submenu" />
+                          <span className={menuItemLabelClassName}>Send via</span>
                         </Menu.SubmenuTrigger>
                         <Menu.Portal>
                           <Menu.Positioner sideOffset={8} alignOffset={-4} side="right" align="start">
-                            <Menu.Popup>
-                              <MenuItem>Copy link</MenuItem>
-                              <MenuItem>Email</MenuItem>
-                              <MenuItem>Twitter</MenuItem>
-                              <MenuItem>LinkedIn</MenuItem>
-                            </Menu.Popup>
-                          </Menu.Positioner>
-                        </Menu.Portal>
-                      </Menu.SubmenuRoot>
-                      <Menu.SubmenuRoot>
-                        <Menu.SubmenuTrigger>
-                          <MenuPrefix type="icon" icon={<RiFolderLine />} />
-                          <span className="flex min-w-0 flex-1 pl-[var(--space-2)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] text-content-strong">
-                            Move to
-                          </span>
-                          <MenuSuffix type="submenu" />
-                        </Menu.SubmenuTrigger>
-                        <Menu.Portal>
-                          <Menu.Positioner sideOffset={8} alignOffset={-4} side="right" align="start">
-                            <Menu.Popup>
-                              <MenuItem>Documents</MenuItem>
-                              <MenuItem>Downloads</MenuItem>
-                              <MenuItem>Archive</MenuItem>
+                            <Menu.Popup className={menuPopupClassName}>
+                              <MenuItem>
+                                <span className={menuItemLabelClassName}>Email</span>
+                              </MenuItem>
+                              <MenuItem>
+                                <span className={menuItemLabelClassName}>Slack</span>
+                              </MenuItem>
+                              <MenuItem>
+                                <span className={menuItemLabelClassName}>Twitter</span>
+                              </MenuItem>
                             </Menu.Popup>
                           </Menu.Positioner>
                         </Menu.Portal>
                       </Menu.SubmenuRoot>
                       <MenuSeparator />
-                      <MenuItem
-                        variant="danger"
-                        prefix={<MenuPrefix type="danger-icon" icon={<TrashIcon />} />}
-                      >
-                        Delete
+                      <MenuItem variant="danger">
+                        <MenuPrefix type="danger-icon" icon={<TrashIcon />} />
+                        <span className={menuItemLabelClassName}>Delete</span>
                       </MenuItem>
                     </Menu.Popup>
                   </Menu.Positioner>
                 </Menu.Portal>
               </Menu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Badges */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">With Badge</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Highlight new items</p>
-              <p className="text-body-m text-content-subtle">Draw attention to new features</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Features</Button>} />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem>Dashboard</MenuItem>
-                      <MenuItem badge="New">Analytics</MenuItem>
-                      <MenuItem badge="Beta">AI Assistant</MenuItem>
-                      <MenuItem>Settings</MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Danger Variant */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Danger Variant</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Destructive actions</p>
-              <p className="text-body-m text-content-subtle">Red color for dangerous operations</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Manage</Button>} />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                        Edit
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiArchiveLine />} />}>
-                        Archive
-                      </MenuItem>
-                      <MenuSeparator />
-                      <MenuItem
-                        variant="danger"
-                        prefix={<MenuPrefix type="danger-icon" icon={<TrashIcon />} />}
-                      >
-                        Delete permanently
-                      </MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* States */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">States</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Disabled items</p>
-              <p className="text-body-m text-content-subtle">Non-interactive items</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger render={<Button variant="secondary">Actions</Button>} />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiEditLine />} />}>
-                        Edit
-                      </MenuItem>
-                      <MenuItem
-                        prefix={<MenuPrefix type="icon" icon={<CopyIcon />} disabled />}
-                        disabled
-                      >
-                        Copy (No permission)
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiShareLine />} />}>
-                        Share
-                      </MenuItem>
-                      <MenuSeparator />
-                      <MenuItem
-                        variant="danger"
-                        prefix={<MenuPrefix type="danger-icon" icon={<TrashIcon />} disabled />}
-                        disabled
-                      >
-                        Delete (Locked)
-                      </MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Trigger Variants */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <h2 className="text-body-xl-semibold">Trigger Variants</h2>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon button</p>
-              <p className="text-body-m text-content-subtle">Compact trigger for toolbars</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger
-                  render={
-                    <Button variant="ghost" size="s" className="size-[32px] p-0">
-                      <RiMoreLine className="size-[20px]" />
-                    </Button>
-                  }
-                />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem>View details</MenuItem>
-                      <MenuItem>Edit</MenuItem>
-                      <MenuItem>Duplicate</MenuItem>
-                      <MenuSeparator />
-                      <MenuItem variant="danger">Delete</MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Avatar trigger</p>
-              <p className="text-body-m text-content-subtle">User menu from avatar</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Menu.Root>
-                <Menu.Trigger
-                  render={
-                    <button className="cursor-pointer rounded-full outline-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]">
-                      <Avatar size="m" initials="JD" fallback="initials" />
-                    </button>
-                  }
-                />
-                <Menu.Portal>
-                  <Menu.Positioner>
-                    <Menu.Popup>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiUserLine />} />}>
-                        Profile
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<SettingsIcon />} />}>
-                        Settings
-                      </MenuItem>
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiMailLine />} />}>
-                        Messages
-                      </MenuItem>
-                      <MenuSeparator />
-                      <MenuItem prefix={<MenuPrefix type="icon" icon={<RiLogoutBoxLine />} />}>
-                        Sign out
-                      </MenuItem>
-                    </Menu.Popup>
-                  </Menu.Positioner>
-                </Menu.Portal>
-              </Menu.Root>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Prefix Types */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">Prefix Types</h2>
-          <p className="text-body-m text-content-subtle">
-            Available prefix styles for menu items
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <MenuPrefix type="icon" icon={<StarIcon />} />
-              <MenuPrefix type="icon" icon={<HeartIcon />} />
-              <MenuPrefix type="icon" icon={<BookmarkIcon />} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Danger icon</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <MenuPrefix type="danger-icon" icon={<TrashIcon />} />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Avatar</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <MenuPrefix type="avatar">
-                <Avatar size="2xs" initials="JD" fallback="initials" />
-              </MenuPrefix>
-              <MenuPrefix type="avatar">
-                <Avatar size="2xs" initials="AS" fallback="initials" />
-              </MenuPrefix>
-              <MenuPrefix type="avatar">
-                <Avatar size="2xs" initials="BJ" fallback="initials" />
-              </MenuPrefix>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Suffix Types */}
-      <section className="flex flex-col gap-[var(--space-20)]">
-        <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">Suffix Types</h2>
-          <p className="text-body-m text-content-subtle">
-            Available suffix styles for menu items
-          </p>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Checkmark</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <MenuSuffix type="checkmark" />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Submenu arrow</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <MenuSuffix type="submenu" />
-            </div>
-          </div>
-          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
-            <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Switch</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <MenuSuffix type="switch" />
-              <MenuSuffix type="switch" defaultChecked />
             </div>
           </div>
         </div>

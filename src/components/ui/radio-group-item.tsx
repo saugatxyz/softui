@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { Field as FieldPrimitive } from "@base-ui/react/field"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -19,7 +20,7 @@ const radioGroupItemVariants = cva(
         "card-small":
           "items-center gap-[var(--space-12)] rounded-[var(--radius-12)] bg-surface-interactive-default p-[var(--space-12)] hover:bg-surface-interactive-hover",
         "card-big":
-          "items-center gap-[var(--space-12)] rounded-[var(--radius-12)] bg-surface-interactive-default p-[14px] hover:bg-surface-interactive-hover",
+          "items-center gap-[var(--space-12)] rounded-[var(--radius-12)] bg-surface-interactive-default p-[var(--space-12)] hover:bg-surface-interactive-hover",
       },
       disabled: {
         true: "cursor-not-allowed",
@@ -107,24 +108,29 @@ function RadioGroupItem({
     : prefix
 
   return (
-    <label
+    <FieldPrimitive.Root
       data-slot="radio-group-item"
       data-type={type}
       data-disabled={disabled || undefined}
-      className={cn(
-        radioGroupItemVariants({ type, disabled }),
-        // Focus-visible styling for card types
-        isCard && "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-        className
-      )}
+      disabled={disabled}
+      className="w-full"
     >
+      <FieldPrimitive.Label
+        data-slot="label-container"
+        className={cn(
+          radioGroupItemVariants({ type, disabled }),
+          // Focus-visible styling for card types
+          isCard && "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          className
+        )}
+      >
       {/* Prefix (card types only) */}
       {showPrefix && (
         <span
           data-slot="prefix-wrapper"
           className={cn(
             "flex shrink-0 items-center self-start",
-            isPrefixPlainIcon && showDescription && "-mt-[2px]"
+            isPrefixPlainIcon && showDescription && "-mt-[var(--space-2)]"
           )}
         >
           {prefixWithSize}
@@ -144,7 +150,7 @@ function RadioGroupItem({
 
       {/* Label and description */}
       <span
-        data-slot="label-container"
+        data-slot="label-text"
         className={cn(
           "flex min-w-0 flex-1 flex-col",
           (isList || isCard) && "gap-[var(--space-2)]"
@@ -160,7 +166,7 @@ function RadioGroupItem({
           {label}
         </span>
         {showDescription && (
-          <span
+          <FieldPrimitive.Description
             data-slot="description"
             className={cn(
               "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
@@ -168,7 +174,7 @@ function RadioGroupItem({
             )}
           >
             {description}
-          </span>
+          </FieldPrimitive.Description>
         )}
       </span>
 
@@ -198,7 +204,8 @@ function RadioGroupItem({
           </span>
         </span>
       )}
-    </label>
+      </FieldPrimitive.Label>
+    </FieldPrimitive.Root>
   )
 }
 

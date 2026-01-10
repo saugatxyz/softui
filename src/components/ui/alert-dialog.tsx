@@ -2,18 +2,8 @@
 
 import * as React from "react"
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog"
-import { AnimatePresence, motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
-
-const springTransition = {
-  type: "spring" as const,
-  bounce: 0,
-  duration: 0.15,
-}
-
-// Context to share open state for AnimatePresence
-const AlertDialogContext = React.createContext<{ open: boolean }>({ open: false })
 
 // ============================================================================
 // AlertDialog Root
@@ -21,29 +11,8 @@ const AlertDialogContext = React.createContext<{ open: boolean }>({ open: false 
 
 type AlertDialogRootProps = AlertDialogPrimitive.Root.Props
 
-function AlertDialogRoot({ open, onOpenChange, defaultOpen, ...props }: AlertDialogRootProps) {
-  // Track open state for AnimatePresence (supports both controlled and uncontrolled)
-  const [internalOpen, setInternalOpen] = React.useState(defaultOpen ?? false)
-  const isOpen = open ?? internalOpen
-
-  const handleOpenChange = React.useCallback(
-    (newOpen: boolean, eventDetails: AlertDialogPrimitive.Root.ChangeEventDetails) => {
-      setInternalOpen(newOpen)
-      onOpenChange?.(newOpen, eventDetails)
-    },
-    [onOpenChange]
-  )
-
-  return (
-    <AlertDialogContext.Provider value={{ open: isOpen }}>
-      <AlertDialogPrimitive.Root
-        open={open}
-        defaultOpen={defaultOpen}
-        onOpenChange={handleOpenChange}
-        {...props}
-      />
-    </AlertDialogContext.Provider>
-  )
+function AlertDialogRoot(props: AlertDialogRootProps) {
+  return <AlertDialogPrimitive.Root {...props} />
 }
 
 // ============================================================================
@@ -73,18 +42,8 @@ type AlertDialogPortalProps = AlertDialogPrimitive.Portal.Props & {
 }
 
 function AlertDialogPortal({ children, ...props }: AlertDialogPortalProps) {
-  const { open } = React.useContext(AlertDialogContext)
-
   return (
-    <AlertDialogPrimitive.Portal {...props} keepMounted>
-      <AnimatePresence>
-        {open && (
-          <React.Fragment key="alert-dialog-content">
-            {children}
-          </React.Fragment>
-        )}
-      </AnimatePresence>
-    </AlertDialogPrimitive.Portal>
+    <AlertDialogPrimitive.Portal {...props}>{children}</AlertDialogPrimitive.Portal>
   )
 }
 
@@ -100,15 +59,12 @@ function AlertDialogBackdrop({ className, ...props }: AlertDialogBackdropProps) 
   return (
     <AlertDialogPrimitive.Backdrop
       data-slot="alert-dialog-backdrop"
-      className={cn("fixed inset-0 z-50 bg-utility-backdrop", className)}
-      render={
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={springTransition}
-        />
-      }
+      className={cn(
+        "fixed inset-0 z-50 bg-utility-backdrop",
+        "transition-opacity duration-150 ease-out",
+        "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
+        className
+      )}
       {...props}
     />
   )
@@ -141,18 +97,12 @@ function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupPro
         // Focus
         "outline-none",
         // Nested dialog effect - scale down and push back when child dialog opens
-        "transition-[scale,filter] duration-200 ease-out",
+        "transition-[transform,opacity,filter] duration-200 ease-out",
         "data-[nested-dialog-open]:scale-[0.94] data-[nested-dialog-open]:brightness-[0.6]",
+        // Enter/exit
+        "data-[starting-style]:scale-[0.98] data-[starting-style]:opacity-0 data-[ending-style]:scale-[0.98] data-[ending-style]:opacity-0",
         className
       )}
-      render={
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 4 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 4 }}
-          transition={springTransition}
-        />
-      }
       {...props}
     >
       {children}

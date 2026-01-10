@@ -7,7 +7,7 @@ import { Field } from "@/components/ui/field"
 import { Fieldset } from "@/components/ui/fieldset"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Select } from "@/components/ui/select"
+import { SelectDemo } from "@/components/docs/select-demo"
 
 const countries = [
   { value: "us", label: "United States" },
@@ -82,10 +82,10 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form onFormSubmit={(values) => console.log(values)}>
                 <Field label="Email">
-                  <Input name="email" type="email" placeholder="you@example.com" focusVisibleOnly />
+                  <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Field label="Password">
-                  <Input name="password" type="password" placeholder="Enter password" focusVisibleOnly />
+                  <Input name="password" type="password" placeholder="Enter password" />
                 </Field>
                 <Button type="submit">Sign in</Button>
               </Form>
@@ -107,19 +107,19 @@ import { Button } from "@/components/ui/button"
                 <Fieldset>
                   <Fieldset.Legend>Personal Information</Fieldset.Legend>
                   <Field label="Full name">
-                    <Input name="name" placeholder="John Doe" focusVisibleOnly />
+                    <Input name="name" placeholder="John Doe" />
                   </Field>
                   <Field label="Email">
-                    <Input name="email" type="email" placeholder="you@example.com" focusVisibleOnly />
+                    <Input name="email" type="email" placeholder="you@example.com" />
                   </Field>
                 </Fieldset>
                 <Fieldset>
                   <Fieldset.Legend>Address</Fieldset.Legend>
                   <Field label="Street">
-                    <Input name="street" placeholder="123 Main St" focusVisibleOnly />
+                    <Input name="street" placeholder="123 Main St" />
                   </Field>
                   <Field label="Country">
-                    <Select options={countries} placeholder="Select country" />
+                    <SelectDemo options={countries} placeholder="Select country" />
                   </Field>
                 </Fieldset>
                 <Button type="submit">Save</Button>
@@ -140,10 +140,10 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form errors={errors} onFormSubmit={handleSubmit}>
                 <Field label="Email" error={errors.email}>
-                  <Input name="email" type="email" placeholder="you@example.com" focusVisibleOnly />
+                  <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Field label="Password" error={errors.password}>
-                  <Input name="password" type="password" placeholder="Enter password" focusVisibleOnly />
+                  <Input name="password" type="password" placeholder="Enter password" />
                 </Field>
                 <Button type="submit">Submit</Button>
               </Form>
@@ -163,7 +163,7 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onSubmit">
                 <Field label="Email">
-                  <Input name="email" type="email" placeholder="you@example.com" focusVisibleOnly />
+                  <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Button type="submit">Submit</Button>
               </Form>
@@ -177,7 +177,7 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onBlur">
                 <Field label="Email">
-                  <Input name="email" type="email" placeholder="you@example.com" focusVisibleOnly />
+                  <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Button type="submit">Submit</Button>
               </Form>
@@ -191,7 +191,7 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onChange">
                 <Field label="Email">
-                  <Input name="email" type="email" placeholder="you@example.com" focusVisibleOnly />
+                  <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Button type="submit">Submit</Button>
               </Form>

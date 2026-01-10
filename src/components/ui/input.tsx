@@ -60,8 +60,6 @@ type InputProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
   VariantProps<typeof inputFieldVariants> & {
     leadingIcon?: React.ReactNode
     trailingIcon?: React.ReactNode
-    /** Only show focus ring on keyboard navigation */
-    focusVisibleOnly?: boolean
   }
 
 function Input({
@@ -69,32 +67,11 @@ function Input({
   size,
   leadingIcon,
   trailingIcon,
-  focusVisibleOnly = true,
   disabled,
   ...props
 }: InputProps) {
   const resolvedSize: InputSize = size ?? "m"
-  const [showFocusRing, setShowFocusRing] = React.useState(false)
-  const wasMouseDown = React.useRef(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
-
-  const handleMouseDown = () => {
-    wasMouseDown.current = true
-  }
-
-  const handleFocus = () => {
-    if (focusVisibleOnly) {
-      setShowFocusRing(!wasMouseDown.current)
-    } else {
-      setShowFocusRing(true)
-    }
-    wasMouseDown.current = false
-  }
-
-  const handleBlur = () => {
-    setShowFocusRing(false)
-    wasMouseDown.current = false
-  }
 
   return (
     <div
@@ -104,11 +81,10 @@ function Input({
         inputFieldVariants({ size: resolvedSize }),
         "group relative cursor-text",
         !disabled && "hover:bg-actions-secondary-hover",
-        showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         disabled && "bg-actions-secondary-disabled",
         className
       )}
-      onMouseDown={handleMouseDown}
       onClick={() => inputRef.current?.focus()}
     >
       {leadingIcon && (
@@ -133,8 +109,6 @@ function Input({
             ? "text-content-disabled placeholder:text-content-disabled"
             : "text-content-strong"
         )}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
         {...props}
       />
 

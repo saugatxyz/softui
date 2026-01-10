@@ -54,7 +54,7 @@ function InlineNotificationIcon({ tone = "neutral", className, ...props }: Inlin
     <span
       data-slot="inline-notification-icon"
       className={cn(
-        "flex size-[20px] shrink-0 items-center justify-center [&_svg]:size-full",
+        "flex size-[var(--space-20)] shrink-0 items-center justify-center [&_svg]:size-full",
         toneIconColors[tone],
         className
       )}
@@ -118,7 +118,7 @@ function InlineNotificationRoot({
           "flex overflow-hidden",
           hasDescription
             ? "items-start gap-[var(--space-12)] rounded-[var(--radius-16)] p-[var(--space-16)]"
-            : "min-h-[36px] items-center gap-[var(--space-2)] rounded-[var(--radius-10)] py-[var(--space-4)] pl-[var(--space-10)] pr-[var(--space-6)]",
+            : "min-h-[var(--space-36)] items-center gap-[var(--space-2)] rounded-[var(--radius-10)] py-[var(--space-4)] pl-[var(--space-10)] pr-[var(--space-6)]",
           className
         )}
         {...props}
@@ -253,7 +253,7 @@ function InlineNotificationActions({ className, children, ...props }: InlineNoti
       className={cn("flex shrink-0 items-center gap-[var(--space-8)]", className)}
       {...props}
     >
-      <Separator orientation="vertical" className="h-[15px]" />
+      <Separator orientation="vertical" className="h-[var(--space-12)]" />
       {children}
     </div>
   )

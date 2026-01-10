@@ -53,7 +53,7 @@ function EmptyStateIcon({ className, children, ...props }: EmptyStateIconProps) 
     <span
       data-slot="empty-state-icon"
       className={cn(
-        "flex size-[24px] items-center justify-center text-content-strong [&_svg]:size-full",
+        "flex size-[var(--space-24)] items-center justify-center text-content-strong [&_svg]:size-full",
         className
       )}
       aria-hidden="true"

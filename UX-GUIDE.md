@@ -1796,10 +1796,10 @@ Use smaller values (4-8) for subtle rounding, medium values (10-16) for standard
 
 ### Filter Bar
 ```tsx
-<div className="flex gap-2">
-  <Chip selected onRemove={() => {}}>Active</Chip>
-  <Chip>Pending</Chip>
-  <Chip>Archived</Chip>
+<div className="flex gap-[var(--space-8)]">
+  <Filter label="Status" value={status} onClear={() => setStatus(null)} />
+  <Filter label="Type" value={type} onClear={() => setType(null)} />
+  <Filter label="Date" icon={<RiCalendarLine />} />
 </div>
 ```
 

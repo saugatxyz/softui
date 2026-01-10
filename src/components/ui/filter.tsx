@@ -43,8 +43,8 @@ const paddingVariants = cva("", {
   compoundVariants: [
     { size: "xs", hasValue: false, className: "pl-[var(--space-12)] pr-[var(--space-10)]" },
     { size: "xs", hasValue: true, className: "pl-[var(--space-12)] pr-[var(--space-6)]" },
-    { size: "s", hasValue: false, className: "pl-[14px] pr-[var(--space-10)]" },
-    { size: "s", hasValue: true, className: "pl-[14px] pr-[var(--space-6)]" },
+    { size: "s", hasValue: false, className: "pl-[var(--space-12)] pr-[var(--space-10)]" },
+    { size: "s", hasValue: true, className: "pl-[var(--space-12)] pr-[var(--space-6)]" },
     { size: "m", hasValue: false, className: "pl-[var(--space-16)] pr-[var(--space-12)]" },
     { size: "m", hasValue: true, className: "pl-[var(--space-16)] pr-[var(--space-8)]" },
   ],
@@ -59,9 +59,9 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        xs: "size-[14px]",
-        s: "size-[14px]",
-        m: "size-[16px]",
+        xs: "size-[var(--space-16)]",
+        s: "size-[var(--space-16)]",
+        m: "size-[var(--space-16)]",
       },
     },
     defaultVariants: {
@@ -75,9 +75,9 @@ const clearButtonVariants = cva(
   {
     variants: {
       size: {
-        xs: "size-[18px] [&_svg]:size-[12px]",
-        s: "size-[18px] [&_svg]:size-[12px]",
-        m: "size-[20px] [&_svg]:size-[14px]",
+        xs: "size-[var(--space-20)] [&_svg]:size-[var(--space-12)]",
+        s: "size-[var(--space-20)] [&_svg]:size-[var(--space-12)]",
+        m: "size-[var(--space-20)] [&_svg]:size-[var(--space-16)]",
       },
     },
     defaultVariants: {
@@ -87,13 +87,13 @@ const clearButtonVariants = cva(
 )
 
 const dividerVariants = cva("w-px", {
-  variants: {
-    size: {
-      xs: "mx-[var(--space-4)] h-[10px]",
-      s: "mx-[var(--space-4)] h-[10px]",
-      m: "mx-[var(--space-6)] h-[12px]",
+    variants: {
+      size: {
+        xs: "mx-[var(--space-4)] h-[var(--space-10)]",
+        s: "mx-[var(--space-4)] h-[var(--space-10)]",
+        m: "mx-[var(--space-6)] h-[var(--space-12)]",
+      },
     },
-  },
   defaultVariants: {
     size: "m",
   },

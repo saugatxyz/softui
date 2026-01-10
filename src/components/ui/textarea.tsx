@@ -57,8 +57,6 @@ type TextareaProps = Omit<
     rows?: number
     /** Resize behavior */
     resize?: TextareaResize
-    /** Only show focus ring on keyboard navigation */
-    focusVisibleOnly?: boolean
   }
 
 function Textarea({
@@ -66,32 +64,11 @@ function Textarea({
   size,
   rows = 3,
   resize = "vertical",
-  focusVisibleOnly = true,
   disabled,
   ...props
 }: TextareaProps) {
   const resolvedSize: TextareaSize = size ?? "m"
-  const [showFocusRing, setShowFocusRing] = React.useState(false)
-  const wasMouseDown = React.useRef(false)
   const containerRef = React.useRef<HTMLDivElement>(null)
-
-  const handleMouseDown = () => {
-    wasMouseDown.current = true
-  }
-
-  const handleFocus = () => {
-    if (focusVisibleOnly) {
-      setShowFocusRing(!wasMouseDown.current)
-    } else {
-      setShowFocusRing(true)
-    }
-    wasMouseDown.current = false
-  }
-
-  const handleBlur = () => {
-    setShowFocusRing(false)
-    wasMouseDown.current = false
-  }
 
   return (
     <div
@@ -102,12 +79,10 @@ function Textarea({
         textareaFieldVariants({ size: resolvedSize }),
         "group relative cursor-text",
         !disabled && "hover:bg-actions-secondary-hover",
-        showFocusRing &&
-          "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         disabled && "bg-actions-secondary-disabled",
         className
       )}
-      onMouseDown={handleMouseDown}
       onClick={() => containerRef.current?.querySelector("textarea")?.focus()}
     >
       <InputPrimitive
@@ -120,8 +95,6 @@ function Textarea({
             ? "text-content-disabled placeholder:text-content-disabled"
             : "text-content-strong"
         )}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
         {...props}
       />
     </div>

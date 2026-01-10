@@ -10,12 +10,12 @@ const avatarVariants = cva(
   {
     variants: {
       size: {
-        "3xs": "size-[20px]",
-        "2xs": "size-[24px]",
-        xs: "size-[28px]",
-        s: "size-[32px]",
-        m: "size-[36px]",
-        l: "size-[40px]",
+        "3xs": "size-[var(--space-20)]",
+        "2xs": "size-[var(--space-24)]",
+        xs: "size-[var(--space-28)]",
+        s: "size-[var(--space-32)]",
+        m: "size-[var(--space-36)]",
+        l: "size-[var(--space-40)]",
       },
       shape: {
         square: "rounded-[var(--radius-8)]",
@@ -142,12 +142,12 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        "3xs": "size-[10px]",
-        "2xs": "size-[12px]",
-        xs: "size-[14px]",
-        s: "size-[16px]",
-        m: "size-[18px]",
-        l: "size-[20px]",
+        "3xs": "size-[var(--space-10)]",
+        "2xs": "size-[var(--space-12)]",
+        xs: "size-[calc(var(--space-16)-var(--space-2))]",
+        s: "size-[var(--space-16)]",
+        m: "size-[calc(var(--space-20)-var(--space-2))]",
+        l: "size-[var(--space-20)]",
       },
     },
     defaultVariants: {

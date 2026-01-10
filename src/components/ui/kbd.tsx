@@ -8,7 +8,7 @@ const kbdVariants = cva(
     // Layout
     "inline-flex items-center justify-center shrink-0",
     // Sizing
-    "min-w-[20px] h-[20px] px-[var(--space-4)]",
+    "min-w-[var(--space-20)] h-[var(--space-20)] px-[var(--space-4)]",
     // Appearance
     "rounded-[var(--radius-6)] overflow-clip",
     // Typography - use system font for better unicode support (⌘, ⇧, etc.)

@@ -163,7 +163,7 @@ function SwitchPrefix({
             data-slot="switch-prefix"
             data-type={type}
             data-size={resolvedSize}
-            className={cn("flex shrink-0 items-start pt-[2px]", className)}
+            className={cn("flex shrink-0 items-start pt-[var(--space-2)]", className)}
             style={{ width: iconSize }}
           >
             <span

@@ -16,6 +16,21 @@ import {
   RiCloseLine,
 } from "@remixicon/react"
 
+type FilterMenuItemProps = {
+  selected?: boolean
+  onSelect: () => void
+  children: React.ReactNode
+}
+
+function FilterMenuItem({ selected, onSelect, children }: FilterMenuItemProps) {
+  return (
+    <MenuItem onClick={onSelect}>
+      <span className="flex-1">{children}</span>
+      {selected ? <MenuSuffix type="checkmark" /> : null}
+    </MenuItem>
+  )
+}
+
 // Example: Simple status filter with Menu
 function StatusFilterExample() {
   const [status, setStatus] = React.useState<string | undefined>(undefined)
@@ -35,10 +50,10 @@ function StatusFilterExample() {
       <Menu.Portal>
         <Menu.Positioner>
           <Menu.Popup>
-            <MenuItem suffix={status === "Active" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setStatus("Active")}>Active</MenuItem>
-            <MenuItem suffix={status === "Pending" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setStatus("Pending")}>Pending</MenuItem>
-            <MenuItem suffix={status === "Completed" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setStatus("Completed")}>Completed</MenuItem>
-            <MenuItem suffix={status === "Archived" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setStatus("Archived")}>Archived</MenuItem>
+            <FilterMenuItem selected={ status === "Active" } onSelect={ () => setStatus("Active") }>Active</FilterMenuItem>
+            <FilterMenuItem selected={ status === "Pending" } onSelect={ () => setStatus("Pending") }>Pending</FilterMenuItem>
+            <FilterMenuItem selected={ status === "Completed" } onSelect={ () => setStatus("Completed") }>Completed</FilterMenuItem>
+            <FilterMenuItem selected={ status === "Archived" } onSelect={ () => setStatus("Archived") }>Archived</FilterMenuItem>
           </Menu.Popup>
         </Menu.Positioner>
       </Menu.Portal>
@@ -66,10 +81,10 @@ function CategoryFilterExample() {
       <Menu.Portal>
         <Menu.Positioner>
           <Menu.Popup>
-            <MenuItem suffix={category === "Design" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setCategory("Design")}>Design</MenuItem>
-            <MenuItem suffix={category === "Engineering" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setCategory("Engineering")}>Engineering</MenuItem>
-            <MenuItem suffix={category === "Marketing" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setCategory("Marketing")}>Marketing</MenuItem>
-            <MenuItem suffix={category === "Sales" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setCategory("Sales")}>Sales</MenuItem>
+            <FilterMenuItem selected={ category === "Design" } onSelect={ () => setCategory("Design") }>Design</FilterMenuItem>
+            <FilterMenuItem selected={ category === "Engineering" } onSelect={ () => setCategory("Engineering") }>Engineering</FilterMenuItem>
+            <FilterMenuItem selected={ category === "Marketing" } onSelect={ () => setCategory("Marketing") }>Marketing</FilterMenuItem>
+            <FilterMenuItem selected={ category === "Sales" } onSelect={ () => setCategory("Sales") }>Sales</FilterMenuItem>
           </Menu.Popup>
         </Menu.Positioner>
       </Menu.Portal>
@@ -97,10 +112,10 @@ function AssigneeFilterExample() {
       <Menu.Portal>
         <Menu.Positioner>
           <Menu.Popup>
-            <MenuItem suffix={assignee === "Alice" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setAssignee("Alice")}>Alice</MenuItem>
-            <MenuItem suffix={assignee === "Bob" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setAssignee("Bob")}>Bob</MenuItem>
-            <MenuItem suffix={assignee === "Charlie" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setAssignee("Charlie")}>Charlie</MenuItem>
-            <MenuItem suffix={assignee === "Diana" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setAssignee("Diana")}>Diana</MenuItem>
+            <FilterMenuItem selected={ assignee === "Alice" } onSelect={ () => setAssignee("Alice") }>Alice</FilterMenuItem>
+            <FilterMenuItem selected={ assignee === "Bob" } onSelect={ () => setAssignee("Bob") }>Bob</FilterMenuItem>
+            <FilterMenuItem selected={ assignee === "Charlie" } onSelect={ () => setAssignee("Charlie") }>Charlie</FilterMenuItem>
+            <FilterMenuItem selected={ assignee === "Diana" } onSelect={ () => setAssignee("Diana") }>Diana</FilterMenuItem>
           </Menu.Popup>
         </Menu.Positioner>
       </Menu.Portal>
@@ -197,9 +212,9 @@ function FilterBarExample() {
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup>
-              <MenuItem suffix={status === "Active" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setStatus("Active")}>Active</MenuItem>
-              <MenuItem suffix={status === "Pending" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setStatus("Pending")}>Pending</MenuItem>
-              <MenuItem suffix={status === "Completed" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setStatus("Completed")}>Completed</MenuItem>
+              <FilterMenuItem selected={ status === "Active" } onSelect={ () => setStatus("Active") }>Active</FilterMenuItem>
+              <FilterMenuItem selected={ status === "Pending" } onSelect={ () => setStatus("Pending") }>Pending</FilterMenuItem>
+              <FilterMenuItem selected={ status === "Completed" } onSelect={ () => setStatus("Completed") }>Completed</FilterMenuItem>
             </Menu.Popup>
           </Menu.Positioner>
         </Menu.Portal>
@@ -219,9 +234,9 @@ function FilterBarExample() {
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup>
-              <MenuItem suffix={priority === "High" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setPriority("High")}>High</MenuItem>
-              <MenuItem suffix={priority === "Medium" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setPriority("Medium")}>Medium</MenuItem>
-              <MenuItem suffix={priority === "Low" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setPriority("Low")}>Low</MenuItem>
+              <FilterMenuItem selected={ priority === "High" } onSelect={ () => setPriority("High") }>High</FilterMenuItem>
+              <FilterMenuItem selected={ priority === "Medium" } onSelect={ () => setPriority("Medium") }>Medium</FilterMenuItem>
+              <FilterMenuItem selected={ priority === "Low" } onSelect={ () => setPriority("Low") }>Low</FilterMenuItem>
             </Menu.Popup>
           </Menu.Positioner>
         </Menu.Portal>
@@ -242,9 +257,9 @@ function FilterBarExample() {
         <Menu.Portal>
           <Menu.Positioner>
             <Menu.Popup>
-              <MenuItem suffix={assignee === "Alice" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setAssignee("Alice")}>Alice</MenuItem>
-              <MenuItem suffix={assignee === "Bob" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setAssignee("Bob")}>Bob</MenuItem>
-              <MenuItem suffix={assignee === "Charlie" ? <MenuSuffix type="checkmark" /> : undefined} onClick={() => setAssignee("Charlie")}>Charlie</MenuItem>
+              <FilterMenuItem selected={ assignee === "Alice" } onSelect={ () => setAssignee("Alice") }>Alice</FilterMenuItem>
+              <FilterMenuItem selected={ assignee === "Bob" } onSelect={ () => setAssignee("Bob") }>Bob</FilterMenuItem>
+              <FilterMenuItem selected={ assignee === "Charlie" } onSelect={ () => setAssignee("Charlie") }>Charlie</FilterMenuItem>
             </Menu.Popup>
           </Menu.Positioner>
         </Menu.Portal>
@@ -283,17 +298,13 @@ import { Menu, MenuItem, MenuSuffix } from "@/components/ui/menu"
   <Menu.Portal>
     <Menu.Positioner>
       <Menu.Popup>
-        <MenuItem
-          suffix={status === "Active" ? <MenuSuffix type="checkmark" /> : undefined}
-          onClick={() => setStatus("Active")}
-        >
-          Active
+        <MenuItem onClick={() => setStatus("Active")}>
+          <span className="flex-1">Active</span>
+          {status === "Active" ? <MenuSuffix type="checkmark" /> : null}
         </MenuItem>
-        <MenuItem
-          suffix={status === "Pending" ? <MenuSuffix type="checkmark" /> : undefined}
-          onClick={() => setStatus("Pending")}
-        >
-          Pending
+        <MenuItem onClick={() => setStatus("Pending")}>
+          <span className="flex-1">Pending</span>
+          {status === "Pending" ? <MenuSuffix type="checkmark" /> : null}
         </MenuItem>
       </Menu.Popup>
     </Menu.Positioner>

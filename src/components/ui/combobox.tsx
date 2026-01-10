@@ -2,18 +2,16 @@
 
 import * as React from "react"
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox"
-import { cva, type VariantProps } from "class-variance-authority"
-import { RiCheckFill, RiArrowDownSLine, RiCloseLine } from "@remixicon/react"
+import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
-import { MenuPrefix } from "./menu-prefix"
 
 // ============================================================================
 // Variants
 // ============================================================================
 
-const triggerVariants = cva(
+const rootVariants = cva(
   [
     "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
     "bg-actions-secondary-default transition-colors duration-200 outline-none",
@@ -21,9 +19,9 @@ const triggerVariants = cva(
   {
     variants: {
       size: {
-        s: "min-h-[var(--space-32)] px-[var(--space-10)] py-[var(--space-4)]",
-        m: "min-h-[var(--space-36)] px-[var(--space-12)] py-[var(--space-4)]",
-        l: "min-h-[var(--space-40)] px-[var(--space-12)] py-[var(--space-6)]",
+        s: "min-h-[var(--space-32)] px-[var(--space-10)]",
+        m: "min-h-[var(--space-36)] px-[var(--space-12)]",
+        l: "min-h-[var(--space-40)] px-[var(--space-12)]",
       },
     },
     defaultVariants: {
@@ -32,728 +30,459 @@ const triggerVariants = cva(
   }
 )
 
+const inputVariants = cva(
+  "min-w-[60px] flex-1 truncate bg-transparent outline-none text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] placeholder:text-content-muted caret-actions-primary-default"
+)
+
+const iconVariants = cva(
+  "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full"
+)
+
+const chipVariants = cva(
+  [
+    "inline-flex h-[var(--space-24)] items-center gap-[var(--space-4)]",
+    "rounded-[var(--radius-max)] bg-actions-tertiary-default backdrop-blur-[12px]",
+    "shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
+    "pl-[var(--space-10)] pr-[var(--space-2)]",
+    "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
+    "outline-none select-none",
+    "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+    "data-[disabled]:bg-actions-tertiary-disabled data-[disabled]:shadow-none data-[disabled]:text-content-disabled",
+  ].join(" ")
+)
+
+const chipRemoveVariants = cva(
+  [
+    "flex size-[20px] shrink-0 items-center justify-center rounded-[var(--radius-max)] p-[2px]",
+    "transition-[background-color] duration-200 ease-out [&_svg]:size-full",
+    "text-content-subtle hover:bg-actions-secondary-hover hover:text-content-strong",
+    "data-[disabled]:text-content-disabled data-[disabled]:hover:bg-transparent data-[disabled]:hover:text-content-disabled",
+  ].join(" ")
+)
+
 // ============================================================================
 // Types
 // ============================================================================
 
 type ComboboxSize = "s" | "m" | "l"
 
-type ComboboxOption = {
-  value: string
-  label: string
-  /** Secondary description text */
-  description?: string
-  /** Icon for the option */
-  icon?: React.ReactNode
-  /** Prefix type for MenuPrefix component */
-  prefixType?: "icon" | "danger-icon" | "avatar" | "company" | "token"
-  disabled?: boolean
-}
+// ============================================================================
+// Root
+// ============================================================================
 
-type ComboboxGroup = {
-  label: string
-  options: ComboboxOption[]
-}
-
-// Base props shared between single and multi select
-type ComboboxBaseProps = VariantProps<typeof triggerVariants> & {
-  /** Combobox options */
-  options: ComboboxOption[]
-  /** Placeholder text when no value selected */
-  placeholder?: string
-  /** Leading icon on trigger */
-  leadingIcon?: React.ReactNode
-  /** Disabled state */
-  disabled?: boolean
-  /** Show clear button */
-  clearable?: boolean
-  /** Additional class name */
+type ComboboxRootProps<Value = unknown, Multiple extends boolean | undefined = boolean> = ComboboxPrimitive.Root.Props<Value, Multiple> & {
+  size?: ComboboxSize
   className?: string
-  /** Dropdown position relative to trigger */
-  side?: "top" | "bottom" | "left" | "right"
-  /** Dropdown alignment relative to trigger */
-  align?: "start" | "center" | "end"
-  /** Gap between trigger and dropdown */
-  sideOffset?: number
 }
 
-// Single select props
-type SingleComboboxProps = ComboboxBaseProps & {
-  /** Enable multiple selection */
-  multiple?: false
-  /** Current value (controlled) - pass the full option object */
-  value?: ComboboxOption | null
-  /** Default value (uncontrolled) */
-  defaultValue?: ComboboxOption | null
-  /** Change handler - receives the full option object */
-  onValueChange?: (value: ComboboxOption | null) => void
-}
-
-// Multi select props
-type MultiComboboxProps = ComboboxBaseProps & {
-  /** Enable multiple selection */
-  multiple: true
-  /** Current value (controlled) - pass array of option objects */
-  value?: ComboboxOption[]
-  /** Default value (uncontrolled) */
-  defaultValue?: ComboboxOption[]
-  /** Change handler - receives array of option objects */
-  onValueChange?: (value: ComboboxOption[]) => void
-}
-
-type ComboboxProps = SingleComboboxProps | MultiComboboxProps
-
-// Helper to get label from item (for input display)
-function getItemLabel(item: unknown): string {
-  if (!item) return ""
-  if (typeof item === "object" && "label" in item) {
-    return (item as ComboboxOption).label
-  }
-  return ""
-}
-
-// Helper to get value from item (for filtering/matching)
-function getItemValue(item: unknown): string {
-  if (!item) return ""
-  if (typeof item === "object" && "value" in item) {
-    return (item as ComboboxOption).value
-  }
-  return ""
-}
-
-// ============================================================================
-// Combobox Component
-// ============================================================================
-
-function Combobox(props: ComboboxProps) {
-  const {
-    className,
-    size,
-    options,
-    placeholder = "Select an option",
-    leadingIcon,
-    disabled,
-    clearable = false,
-    side = "bottom",
-    align = "start",
-    sideOffset = 4,
-    multiple,
-  } = props
-
-  const resolvedSize: ComboboxSize = size ?? "m"
-
-  // Track if focus came from mouse to hide focus ring
-  const [isMouseFocus, setIsMouseFocus] = React.useState(false)
-
-  // Ref for the trigger container to use as anchor
-  const triggerRef = React.useRef<HTMLDivElement>(null)
-
-  // Get props for controlled/uncontrolled mode - pass through directly to Base UI
-  const { value, defaultValue, onValueChange } = multiple
-    ? (props as MultiComboboxProps)
-    : (props as SingleComboboxProps)
-
+function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = boolean>({
+  size = "m",
+  className,
+  children,
+  ...props
+}: ComboboxRootProps<Value, Multiple>) {
   return (
-    <div
-      data-slot="combobox"
-      data-size={resolvedSize}
-      data-multiple={multiple || undefined}
-      className={className}
-    >
     <ComboboxPrimitive.Root
-      items={options}
-      value={value}
-      defaultValue={defaultValue}
-      defaultInputValue={
-        !multiple && defaultValue && !Array.isArray(defaultValue)
-          ? getItemLabel(defaultValue)
-          : undefined
-      }
-      onValueChange={onValueChange as (value: unknown) => void}
-      disabled={disabled}
-      multiple={multiple}
-      itemToStringLabel={getItemLabel}
-      itemToStringValue={getItemValue}
+      {...props}
     >
-        <div
-          ref={triggerRef}
-          data-slot="trigger-container"
-          onMouseDown={() => setIsMouseFocus(true)}
-          onBlur={() => setIsMouseFocus(false)}
-          className={cn(
-            triggerVariants({ size }),
-            !disabled && "hover:bg-actions-secondary-hover",
-            !isMouseFocus && "has-[:focus]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-            disabled && "bg-actions-secondary-disabled cursor-not-allowed",
-            multiple && "flex-wrap gap-[6px] !pl-[var(--space-6)]"
-          )}
-        >
-          {leadingIcon && (
-            <span
-              data-slot="leading-icon"
-              className={cn(
-                "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full",
-                disabled ? "text-content-disabled" : "text-content-subtle"
-              )}
-            >
-              {leadingIcon}
-            </span>
-          )}
-
-          {/* Multi-select: Input MUST be inside Chips for keyboard context */}
-          {multiple ? (
-            <ComboboxPrimitive.Chips className="contents">
-              <ComboboxPrimitive.Value>
-                {(selectedItems) => {
-                  const items = selectedItems as ComboboxOption[]
-                  const hasChips = items.length > 0
-                  return (
-                    <>
-                      {items.map((option) => (
-                        <ComboboxPrimitive.Chip
-                          key={option.value}
-                          data-slot="chip"
-                          className={cn(
-                            "inline-flex h-[var(--space-24)] items-center gap-[var(--space-4)]",
-                            "rounded-[var(--radius-max)] bg-actions-tertiary-default backdrop-blur-[12px]",
-                            "shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
-                            "pl-[var(--space-10)] pr-[var(--space-2)]",
-                            "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
-                            "outline-none select-none",
-                            "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-                            disabled && "bg-actions-tertiary-disabled shadow-none"
-                          )}
-                        >
-                          <span className={disabled ? "text-content-disabled" : "text-content-strong"}>
-                            {option.label}
-                          </span>
-                          <ComboboxPrimitive.ChipRemove
-                            data-slot="chip-remove"
-                            className={cn(
-                              "flex size-[20px] shrink-0 items-center justify-center rounded-[var(--radius-max)] p-[2px]",
-                              "transition-[background-color] duration-200 ease-out [&_svg]:size-full",
-                              disabled
-                                ? "text-content-disabled"
-                                : "text-content-subtle hover:bg-actions-secondary-hover hover:text-content-strong"
-                            )}
-                          >
-                            <RiCloseLine />
-                          </ComboboxPrimitive.ChipRemove>
-                        </ComboboxPrimitive.Chip>
-                      ))}
-                      <ComboboxPrimitive.Input
-                        data-slot="input"
-                        placeholder={hasChips ? "" : placeholder}
-                        disabled={disabled}
-                        className={cn(
-                          "min-w-[60px] flex-1 truncate bg-transparent outline-none",
-                          "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                          "placeholder:text-content-muted caret-actions-primary-default",
-                          hasChips ? "" : "pl-[var(--space-6)]",
-                          disabled
-                            ? "text-content-disabled placeholder:text-content-disabled cursor-not-allowed"
-                            : "text-content-strong"
-                        )}
-                      />
-                    </>
-                  )
-                }}
-              </ComboboxPrimitive.Value>
-            </ComboboxPrimitive.Chips>
-          ) : (
-            <ComboboxPrimitive.Input
-              data-slot="input"
-              placeholder={placeholder}
-              disabled={disabled}
-              className={cn(
-                "min-w-[60px] flex-1 truncate bg-transparent outline-none",
-                "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                "placeholder:text-content-muted caret-actions-primary-default",
-                disabled
-                  ? "text-content-disabled placeholder:text-content-disabled cursor-not-allowed"
-                  : "text-content-strong"
-              )}
-            />
-          )}
-
-          {/* Clear button - only for single select */}
-          {clearable && !multiple && !disabled && (
-            <ComboboxPrimitive.Clear
-              data-slot="clear"
-              className={cn(
-                "flex size-[16px] shrink-0 items-center justify-center rounded-[var(--radius-4)] [&_svg]:size-full cursor-pointer",
-                "text-content-muted hover:text-content-strong transition-colors duration-200"
-              )}
-            >
-              <RiCloseLine />
-            </ComboboxPrimitive.Clear>
-          )}
-
-          {!multiple && (
-            <ComboboxPrimitive.Trigger
-              data-slot="trigger"
-              disabled={disabled}
-              className={cn(
-                "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full cursor-pointer",
-                disabled ? "text-content-disabled cursor-not-allowed" : "text-content-muted"
-              )}
-            >
-              <RiArrowDownSLine />
-            </ComboboxPrimitive.Trigger>
-          )}
-        </div>
-
-        <ComboboxPrimitive.Portal>
-          <ComboboxPrimitive.Positioner
-            data-slot="positioner"
-            anchor={triggerRef}
-            side={side}
-            align={align}
-            sideOffset={sideOffset}
-            collisionPadding={8}
-            className="outline-none"
-          >
-            <ComboboxPrimitive.Popup
-              data-slot="popup"
-              className={cn(
-                listPopupStyles.base,
-                listPopupStyles.width
-              )}
-            >
-              <div className="flex max-h-[320px] flex-col overflow-auto p-[var(--space-4)] scroll-p-[var(--space-4)]">
-                <ComboboxPrimitive.Empty
-                  data-slot="empty"
-                  className={cn(
-                    "flex w-full items-center justify-center empty:hidden rounded-[var(--radius-10)]",
-                    "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
-                    "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                    "text-content-muted"
-                  )}
-                >
-                  No results found
-                </ComboboxPrimitive.Empty>
-                <ComboboxPrimitive.List className="flex flex-col gap-[var(--space-2)] empty:hidden">
-                  {(item) => {
-                    const option = item as ComboboxOption
-                    return (
-                      <ComboboxPrimitive.Item
-                        key={option.value}
-                        value={option}
-                        disabled={option.disabled}
-                        data-slot="item"
-                        className={cn(listItemVariants())}
-                      >
-                        {option.icon && (
-                          <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
-                            <MenuPrefix
-                              type={option.prefixType ?? "icon"}
-                              icon={option.icon}
-                              disabled={option.disabled}
-                            />
-                          </span>
-                        )}
-
-                        <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
-                          <span
-                            data-slot="item-text"
-                            className={cn(
-                              "truncate",
-                              "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                              option.disabled ? "text-content-disabled" : "text-content-strong"
-                            )}
-                          >
-                            {option.label}
-                          </span>
-                          {option.description && (
-                            <span
-                              data-slot="item-description"
-                              className={cn(
-                                "truncate",
-                                "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
-                                option.disabled ? "text-content-disabled" : "text-content-subtle"
-                              )}
-                            >
-                              {option.description}
-                            </span>
-                          )}
-                        </div>
-
-                        <ComboboxPrimitive.ItemIndicator
-                          data-slot="indicator"
-                          className="flex size-[20px] shrink-0 items-center justify-center"
-                        >
-                          <span className="flex size-[16px] items-center justify-center text-content-strong [&_svg]:size-full">
-                            <RiCheckFill />
-                          </span>
-                        </ComboboxPrimitive.ItemIndicator>
-                      </ComboboxPrimitive.Item>
-                    )
-                  }}
-                </ComboboxPrimitive.List>
-              </div>
-            </ComboboxPrimitive.Popup>
-          </ComboboxPrimitive.Positioner>
-        </ComboboxPrimitive.Portal>
+      <div
+        data-slot="combobox"
+        data-size={size}
+        className={cn(rootVariants({ size }), className)}
+      >
+        {children}
+      </div>
     </ComboboxPrimitive.Root>
-    </div>
   )
 }
 
 // ============================================================================
-// Grouped Combobox Types
+// Input + Trigger + Clear
 // ============================================================================
 
-type GroupedComboboxBaseProps = VariantProps<typeof triggerVariants> & {
-  /** Grouped options */
-  groups: ComboboxGroup[]
-  /** Placeholder text when no value selected */
-  placeholder?: string
-  /** Leading icon on trigger */
-  leadingIcon?: React.ReactNode
-  /** Disabled state */
-  disabled?: boolean
-  /** Show clear button */
-  clearable?: boolean
-  /** Additional class name */
+type ComboboxInputProps = Omit<ComboboxPrimitive.Input.Props, "className"> & {
   className?: string
-  /** Dropdown position relative to trigger */
-  side?: "top" | "bottom" | "left" | "right"
-  /** Dropdown alignment relative to trigger */
-  align?: "start" | "center" | "end"
-  /** Gap between trigger and dropdown */
-  sideOffset?: number
 }
 
-type SingleGroupedComboboxProps = GroupedComboboxBaseProps & {
-  multiple?: false
-  /** Current value (controlled) - pass the full option object */
-  value?: ComboboxOption | null
-  /** Default value (uncontrolled) */
-  defaultValue?: ComboboxOption | null
-  /** Change handler - receives the full option object */
-  onValueChange?: (value: ComboboxOption | null) => void
-}
-
-type MultiGroupedComboboxProps = GroupedComboboxBaseProps & {
-  multiple: true
-  /** Current value (controlled) - pass array of option objects */
-  value?: ComboboxOption[]
-  /** Default value (uncontrolled) */
-  defaultValue?: ComboboxOption[]
-  /** Change handler - receives array of option objects */
-  onValueChange?: (value: ComboboxOption[]) => void
-}
-
-type GroupedComboboxProps = SingleGroupedComboboxProps | MultiGroupedComboboxProps
-
-// ============================================================================
-// Grouped Combobox Component
-// ============================================================================
-
-function GroupedCombobox(props: GroupedComboboxProps) {
-  const {
-    className,
-    size,
-    groups,
-    placeholder = "Select an option",
-    leadingIcon,
-    disabled,
-    clearable = false,
-    side = "bottom",
-    align = "start",
-    sideOffset = 4,
-    multiple,
-  } = props
-
-  const resolvedSize: ComboboxSize = size ?? "m"
-
-  // Track if focus came from mouse to hide focus ring
-  const [isMouseFocus, setIsMouseFocus] = React.useState(false)
-
-  // Transform groups to Base UI's expected format (with `items` property)
-  const groupedItems = groups.map((g) => ({
-    value: g.label,
-    label: g.label,
-    items: g.options,
-  }))
-
-  // Ref for the trigger container
-  const triggerRef = React.useRef<HTMLDivElement>(null)
-
-  // Get props for controlled/uncontrolled mode - pass through directly to Base UI
-  const { value, defaultValue, onValueChange } = multiple
-    ? (props as MultiGroupedComboboxProps)
-    : (props as SingleGroupedComboboxProps)
-
+function ComboboxInput({ className, ...props }: ComboboxInputProps) {
   return (
-    <div
-      data-slot="combobox"
-      data-size={resolvedSize}
-      data-multiple={multiple || undefined}
-      data-grouped
-      className={className}
-    >
-    <ComboboxPrimitive.Root
-      items={groupedItems}
-      value={value}
-      defaultValue={defaultValue}
-      onValueChange={onValueChange as (value: unknown) => void}
-      disabled={disabled}
-      multiple={multiple}
-      itemToStringLabel={getItemLabel}
-      itemToStringValue={getItemValue}
-    >
-        <div
-          ref={triggerRef}
-          data-slot="trigger-container"
-          onMouseDown={() => setIsMouseFocus(true)}
-          onBlur={() => setIsMouseFocus(false)}
-          className={cn(
-            triggerVariants({ size }),
-            !disabled && "hover:bg-actions-secondary-hover",
-            !isMouseFocus && "has-[:focus]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-            disabled && "bg-actions-secondary-disabled cursor-not-allowed",
-            multiple && "flex-wrap gap-[6px] !pl-[var(--space-6)]"
-          )}
-        >
-          {leadingIcon && (
-            <span
-              data-slot="leading-icon"
-              className={cn(
-                "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full",
-                disabled ? "text-content-disabled" : "text-content-subtle"
-              )}
-            >
-              {leadingIcon}
-            </span>
-          )}
-
-          {/* Multi-select: Input MUST be inside Chips for keyboard context */}
-          {multiple ? (
-            <ComboboxPrimitive.Chips className="contents">
-              <ComboboxPrimitive.Value>
-                {(selectedItems) => {
-                  const items = selectedItems as ComboboxOption[]
-                  const hasChips = items.length > 0
-                  return (
-                    <>
-                      {items.map((option) => (
-                        <ComboboxPrimitive.Chip
-                          key={option.value}
-                          data-slot="chip"
-                          className={cn(
-                            "inline-flex h-[var(--space-24)] items-center gap-[var(--space-4)]",
-                            "rounded-[var(--radius-max)] bg-actions-tertiary-default backdrop-blur-[12px]",
-                            "shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
-                            "pl-[var(--space-10)] pr-[var(--space-2)]",
-                            "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
-                            "outline-none select-none",
-                            "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-                            disabled && "bg-actions-tertiary-disabled shadow-none"
-                          )}
-                        >
-                          <span className={disabled ? "text-content-disabled" : "text-content-strong"}>
-                            {option.label}
-                          </span>
-                          <ComboboxPrimitive.ChipRemove
-                            data-slot="chip-remove"
-                            className={cn(
-                              "flex size-[20px] shrink-0 items-center justify-center rounded-[var(--radius-max)] p-[2px]",
-                              "transition-[background-color] duration-200 ease-out [&_svg]:size-full",
-                              disabled
-                                ? "text-content-disabled"
-                                : "text-content-subtle hover:bg-actions-secondary-hover hover:text-content-strong"
-                            )}
-                          >
-                            <RiCloseLine />
-                          </ComboboxPrimitive.ChipRemove>
-                        </ComboboxPrimitive.Chip>
-                      ))}
-                      <ComboboxPrimitive.Input
-                        data-slot="input"
-                        placeholder={hasChips ? "" : placeholder}
-                        disabled={disabled}
-                        className={cn(
-                          "min-w-[60px] flex-1 truncate bg-transparent outline-none",
-                          "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                          "placeholder:text-content-muted caret-actions-primary-default",
-                          hasChips ? "" : "pl-[var(--space-6)]",
-                          disabled
-                            ? "text-content-disabled placeholder:text-content-disabled cursor-not-allowed"
-                            : "text-content-strong"
-                        )}
-                      />
-                    </>
-                  )
-                }}
-              </ComboboxPrimitive.Value>
-            </ComboboxPrimitive.Chips>
-          ) : (
-            <ComboboxPrimitive.Input
-              data-slot="input"
-              placeholder={placeholder}
-              disabled={disabled}
-              className={cn(
-                "min-w-[60px] flex-1 truncate bg-transparent outline-none",
-                "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                "placeholder:text-content-muted caret-actions-primary-default",
-                disabled
-                  ? "text-content-disabled placeholder:text-content-disabled cursor-not-allowed"
-                  : "text-content-strong"
-              )}
-            />
-          )}
-
-          {/* Clear button - only for single select */}
-          {clearable && !multiple && !disabled && (
-            <ComboboxPrimitive.Clear
-              data-slot="clear"
-              className={cn(
-                "flex size-[16px] shrink-0 items-center justify-center rounded-[var(--radius-4)] [&_svg]:size-full cursor-pointer",
-                "text-content-muted hover:text-content-strong transition-colors duration-200"
-              )}
-            >
-              <RiCloseLine />
-            </ComboboxPrimitive.Clear>
-          )}
-
-          {!multiple && (
-            <ComboboxPrimitive.Trigger
-              data-slot="trigger"
-              disabled={disabled}
-              className={cn(
-                "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full cursor-pointer",
-                disabled ? "text-content-disabled cursor-not-allowed" : "text-content-muted"
-              )}
-            >
-              <RiArrowDownSLine />
-            </ComboboxPrimitive.Trigger>
-          )}
-        </div>
-
-        <ComboboxPrimitive.Portal>
-          <ComboboxPrimitive.Positioner
-            data-slot="positioner"
-            anchor={triggerRef}
-            side={side}
-            align={align}
-            sideOffset={sideOffset}
-            collisionPadding={8}
-            className="outline-none"
-          >
-            <ComboboxPrimitive.Popup
-              data-slot="popup"
-              className={cn(
-                listPopupStyles.base,
-                listPopupStyles.width
-              )}
-            >
-              <div className="flex max-h-[320px] flex-col overflow-auto p-[var(--space-4)] scroll-p-[var(--space-4)]">
-                <ComboboxPrimitive.Empty
-                  data-slot="empty"
-                  className={cn(
-                    "flex w-full items-center justify-center empty:hidden rounded-[var(--radius-10)]",
-                    "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
-                    "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                    "text-content-muted"
-                  )}
-                >
-                  No results found
-                </ComboboxPrimitive.Empty>
-                <ComboboxPrimitive.List className="flex flex-col empty:hidden">
-                  {(group: { value: string; label: string; items: ComboboxOption[] }) => (
-                    <ComboboxPrimitive.Group
-                      key={group.value}
-                      items={group.items}
-                      data-slot="group"
-                      className="flex flex-col gap-[var(--space-2)] [&:not(:first-child)]:mt-[var(--space-8)] [&:not(:first-child)]:border-t [&:not(:first-child)]:border-border-muted [&:not(:first-child)]:pt-[var(--space-8)]"
-                    >
-                      <ComboboxPrimitive.GroupLabel
-                        data-slot="group-label"
-                        className={cn(
-                          "flex min-h-[28px] items-center px-[var(--space-12)] py-[var(--space-6)]",
-                          "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
-                          "text-content-subtle"
-                        )}
-                      >
-                        {group.label}
-                      </ComboboxPrimitive.GroupLabel>
-                      <ComboboxPrimitive.Collection>
-                        {(option: ComboboxOption) => (
-                          <ComboboxPrimitive.Item
-                            key={option.value}
-                            value={option}
-                            disabled={option.disabled}
-                            data-slot="item"
-                            className={cn(listItemVariants())}
-                          >
-                            {option.icon && (
-                              <span className="flex shrink-0 group-has-[[data-slot=item-description]]:items-start group-has-[[data-slot=item-description]]:self-stretch group-has-[[data-slot=item-description]]:pt-[var(--space-2)]">
-                                <MenuPrefix
-                                  type={option.prefixType ?? "icon"}
-                                  icon={option.icon}
-                                      disabled={option.disabled}
-                                />
-                              </span>
-                            )}
-
-                            <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
-                              <span
-                                data-slot="item-text"
-                                className={cn(
-                                  "truncate",
-                                  "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
-                                  option.disabled ? "text-content-disabled" : "text-content-strong"
-                                )}
-                              >
-                                {option.label}
-                              </span>
-                              {option.description && (
-                                <span
-                                  data-slot="item-description"
-                                  className={cn(
-                                    "truncate",
-                                    "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)]",
-                                    option.disabled ? "text-content-disabled" : "text-content-subtle"
-                                  )}
-                                >
-                                  {option.description}
-                                </span>
-                              )}
-                            </div>
-
-                            <ComboboxPrimitive.ItemIndicator
-                              data-slot="indicator"
-                              className="flex size-[20px] shrink-0 items-center justify-center"
-                            >
-                              <span className="flex size-[16px] items-center justify-center text-content-strong [&_svg]:size-full">
-                                <RiCheckFill />
-                              </span>
-                            </ComboboxPrimitive.ItemIndicator>
-                          </ComboboxPrimitive.Item>
-                        )}
-                      </ComboboxPrimitive.Collection>
-                    </ComboboxPrimitive.Group>
-                  )}
-                </ComboboxPrimitive.List>
-              </div>
-            </ComboboxPrimitive.Popup>
-          </ComboboxPrimitive.Positioner>
-        </ComboboxPrimitive.Portal>
-    </ComboboxPrimitive.Root>
-    </div>
+    <ComboboxPrimitive.Input
+      data-slot="input"
+      className={cn(inputVariants(), "text-content-strong data-[disabled]:text-content-disabled data-[disabled]:placeholder:text-content-disabled data-[disabled]:cursor-not-allowed", className)}
+      {...props}
+    />
   )
 }
 
-export { Combobox, GroupedCombobox }
+type ComboboxTriggerProps = Omit<ComboboxPrimitive.Trigger.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxTrigger({ className, ...props }: ComboboxTriggerProps) {
+  return (
+    <ComboboxPrimitive.Trigger
+      data-slot="trigger"
+      className={cn(
+        iconVariants(),
+        "cursor-pointer text-content-muted data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+type ComboboxClearProps = Omit<ComboboxPrimitive.Clear.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxClear({ className, ...props }: ComboboxClearProps) {
+  return (
+    <ComboboxPrimitive.Clear
+      data-slot="clear"
+      className={cn(
+        "flex size-[16px] shrink-0 items-center justify-center rounded-[var(--radius-4)] [&_svg]:size-full cursor-pointer",
+        "text-content-muted hover:text-content-strong transition-colors duration-200",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Portal + Positioner + Popup
+// ============================================================================
+
+type ComboboxPortalProps = ComboboxPrimitive.Portal.Props
+
+function ComboboxPortal(props: ComboboxPortalProps) {
+  return <ComboboxPrimitive.Portal {...props} />
+}
+
+type ComboboxPositionerProps = Omit<ComboboxPrimitive.Positioner.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxPositioner({ className, collisionPadding = 8, ...props }: ComboboxPositionerProps) {
+  return (
+    <ComboboxPrimitive.Positioner
+      data-slot="positioner"
+      className={cn("outline-none", className)}
+      collisionPadding={collisionPadding}
+      {...props}
+    />
+  )
+}
+
+type ComboboxPopupProps = Omit<ComboboxPrimitive.Popup.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxPopup({ className, ...props }: ComboboxPopupProps) {
+  return (
+    <ComboboxPrimitive.Popup
+      data-slot="popup"
+      className={cn(listPopupStyles.base, listPopupStyles.width, className)}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// List + Items
+// ============================================================================
+
+type ComboboxListProps = Omit<ComboboxPrimitive.List.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxList({ className, ...props }: ComboboxListProps) {
+  return (
+    <ComboboxPrimitive.List
+      data-slot="list"
+      className={cn("flex flex-col gap-[var(--space-2)] empty:hidden", className)}
+      {...props}
+    />
+  )
+}
+
+type ComboboxItemProps = Omit<ComboboxPrimitive.Item.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxItem({ className, ...props }: ComboboxItemProps) {
+  return (
+    <ComboboxPrimitive.Item
+      data-slot="item"
+      className={cn(listItemVariants(), className)}
+      {...props}
+    />
+  )
+}
+
+type ComboboxItemIndicatorProps = Omit<ComboboxPrimitive.ItemIndicator.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxItemIndicator({ className, ...props }: ComboboxItemIndicatorProps) {
+  return (
+    <ComboboxPrimitive.ItemIndicator
+      data-slot="indicator"
+      className={cn("flex size-[20px] shrink-0 items-center justify-center", className)}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Empty + Group
+// ============================================================================
+
+type ComboboxEmptyProps = Omit<ComboboxPrimitive.Empty.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxEmpty({ className, ...props }: ComboboxEmptyProps) {
+  return (
+    <ComboboxPrimitive.Empty
+      data-slot="empty"
+      className={cn(
+        "flex w-full items-center justify-center empty:hidden rounded-[var(--radius-10)]",
+        "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
+        "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
+        "text-content-muted",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+type ComboboxGroupProps = Omit<ComboboxPrimitive.Group.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxGroup({ className, ...props }: ComboboxGroupProps) {
+  return (
+    <ComboboxPrimitive.Group
+      data-slot="group"
+      className={cn("flex flex-col gap-[var(--space-2)]", className)}
+      {...props}
+    />
+  )
+}
+
+type ComboboxGroupLabelProps = Omit<ComboboxPrimitive.GroupLabel.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxGroupLabel({ className, ...props }: ComboboxGroupLabelProps) {
+  return (
+    <ComboboxPrimitive.GroupLabel
+      data-slot="group-label"
+      className={cn(
+        "flex min-h-[28px] items-center px-[var(--space-12)] py-[var(--space-6)]",
+        "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
+        "text-content-subtle",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Chips
+// ============================================================================
+
+type ComboboxChipsProps = Omit<ComboboxPrimitive.Chips.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
+  return (
+    <ComboboxPrimitive.Chips
+      data-slot="chips"
+      className={cn("contents", className)}
+      {...props}
+    />
+  )
+}
+
+type ComboboxChipProps = Omit<ComboboxPrimitive.Chip.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxChip({ className, ...props }: ComboboxChipProps) {
+  return (
+    <ComboboxPrimitive.Chip
+      data-slot="chip"
+      className={cn(chipVariants(), className)}
+      {...props}
+    />
+  )
+}
+
+type ComboboxChipRemoveProps = Omit<ComboboxPrimitive.ChipRemove.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxChipRemove({ className, ...props }: ComboboxChipRemoveProps) {
+  return (
+    <ComboboxPrimitive.ChipRemove
+      data-slot="chip-remove"
+      className={cn(chipRemoveVariants(), className)}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Misc
+// ============================================================================
+
+type ComboboxValueProps = ComboboxPrimitive.Value.Props
+
+function ComboboxValue(props: ComboboxValueProps) {
+  return <ComboboxPrimitive.Value {...props} />
+}
+
+type ComboboxCollectionProps = ComboboxPrimitive.Collection.Props
+
+function ComboboxCollection(props: ComboboxCollectionProps) {
+  return <ComboboxPrimitive.Collection {...props} />
+}
+
+type ComboboxIconProps = Omit<ComboboxPrimitive.Icon.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxIcon({ className, ...props }: ComboboxIconProps) {
+  return (
+    <ComboboxPrimitive.Icon
+      data-slot="icon"
+      className={cn(iconVariants(), "text-content-muted", className)}
+      {...props}
+    />
+  )
+}
+
+type ComboboxArrowProps = Omit<ComboboxPrimitive.Arrow.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxArrow({ className, ...props }: ComboboxArrowProps) {
+  return (
+    <ComboboxPrimitive.Arrow
+      data-slot="arrow"
+      className={cn("fill-surface-overlay", className)}
+      {...props}
+    />
+  )
+}
+
+type ComboboxBackdropProps = Omit<ComboboxPrimitive.Backdrop.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxBackdrop({ className, ...props }: ComboboxBackdropProps) {
+  return (
+    <ComboboxPrimitive.Backdrop
+      data-slot="backdrop"
+      className={cn(
+        "fixed inset-0 z-40 bg-utility-backdrop",
+        "transition-opacity duration-100",
+        "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+type ComboboxRowProps = Omit<ComboboxPrimitive.Row.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxRow({ className, ...props }: ComboboxRowProps) {
+  return (
+    <ComboboxPrimitive.Row
+      data-slot="row"
+      className={className}
+      {...props}
+    />
+  )
+}
+
+type ComboboxStatusProps = Omit<ComboboxPrimitive.Status.Props, "className"> & {
+  className?: string
+}
+
+function ComboboxStatus({ className, ...props }: ComboboxStatusProps) {
+  return (
+    <ComboboxPrimitive.Status
+      data-slot="status"
+      className={className}
+      {...props}
+    />
+  )
+}
+
+// ============================================================================
+// Exports
+// ============================================================================
+
+const Combobox = Object.assign(ComboboxRoot, {
+  Root: ComboboxRoot,
+  Trigger: ComboboxTrigger,
+  Input: ComboboxInput,
+  Clear: ComboboxClear,
+  Portal: ComboboxPortal,
+  Positioner: ComboboxPositioner,
+  Popup: ComboboxPopup,
+  List: ComboboxList,
+  Item: ComboboxItem,
+  ItemIndicator: ComboboxItemIndicator,
+  Value: ComboboxValue,
+  Icon: ComboboxIcon,
+  Arrow: ComboboxArrow,
+  Backdrop: ComboboxBackdrop,
+  Empty: ComboboxEmpty,
+  Group: ComboboxGroup,
+  GroupLabel: ComboboxGroupLabel,
+  Row: ComboboxRow,
+  Chips: ComboboxChips,
+  Chip: ComboboxChip,
+  ChipRemove: ComboboxChipRemove,
+  Status: ComboboxStatus,
+  Collection: ComboboxCollection,
+})
+
+export { Combobox }
 export type {
-  ComboboxProps,
-  ComboboxOption,
+  ComboboxRootProps,
+  ComboboxTriggerProps,
+  ComboboxInputProps,
+  ComboboxClearProps,
+  ComboboxPortalProps,
+  ComboboxPositionerProps,
+  ComboboxPopupProps,
+  ComboboxListProps,
+  ComboboxItemProps,
+  ComboboxItemIndicatorProps,
+  ComboboxValueProps,
+  ComboboxIconProps,
+  ComboboxArrowProps,
+  ComboboxBackdropProps,
+  ComboboxEmptyProps,
+  ComboboxGroupProps,
+  ComboboxGroupLabelProps,
+  ComboboxRowProps,
+  ComboboxChipsProps,
+  ComboboxChipProps,
+  ComboboxChipRemoveProps,
+  ComboboxStatusProps,
+  ComboboxCollectionProps,
   ComboboxSize,
-  ComboboxGroup,
-  SingleComboboxProps,
-  MultiComboboxProps,
-  GroupedComboboxProps,
-  SingleGroupedComboboxProps,
-  MultiGroupedComboboxProps
 }

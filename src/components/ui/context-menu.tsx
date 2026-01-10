@@ -4,7 +4,6 @@ import * as React from "react"
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu"
 
 import { cn } from "@/lib/utils"
-import { ScrollFadeContainer } from "./scroll-fade-container"
 import {
   listPopupStyles,
   listItemVariants,
@@ -94,13 +93,10 @@ function ContextMenuPositioner({
 
 type ContextMenuPopupProps = Omit<ContextMenuPrimitive.Popup.Props, "className"> & {
   className?: string
-  /** Maximum height before scrolling (default: LIST_MAX_HEIGHT) */
-  maxHeight?: number
 }
 
 function ContextMenuPopup({
   className,
-  maxHeight = LIST_MAX_HEIGHT,
   children,
   ...props
 }: ContextMenuPopupProps) {
@@ -109,14 +105,13 @@ function ContextMenuPopup({
       data-slot="context-menu-popup"
       className={cn(
         listPopupStyles.base,
-        "min-w-[220px] max-w-[400px]",
+        "min-w-[220px] max-w-[400px] overflow-y-auto",
         className
       )}
+      style={{ maxHeight: LIST_MAX_HEIGHT }}
       {...props}
     >
-      <ScrollFadeContainer maxHeight={maxHeight}>
-        {children}
-      </ScrollFadeContainer>
+      {children}
     </ContextMenuPrimitive.Popup>
   )
 }
