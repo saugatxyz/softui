@@ -187,7 +187,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Full name" description="Enter your legal name">
-                <Input placeholder="John Doe" />
+                <Input defaultValue="John Doe" />
               </Field>
             </div>
           </div>
@@ -197,7 +197,7 @@ import { Select } from "@/components/ui/select"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Field label="Country" description="Where is your business located?">
-              <SelectDemo options={countries} placeholder="Select country" />
+                <SelectDemo options={countries} defaultValue="us" placeholder="Select country" />
               </Field>
             </div>
           </div>

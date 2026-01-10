@@ -769,6 +769,41 @@ className={cn(
 
 ---
 
+## 21. Field Docs - Filled State Text Color
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+In Field docs page, the "With Different Controls" section showed placeholder states for both Input and Select examples. The text was using placeholder color (`text-content-muted`) when it should demonstrate filled/selected state with proper text color (`text-content-strong`).
+
+### Root Cause Analysis
+Both "With Input" and "With Select" examples were using `placeholder` prop without any `defaultValue`:
+- Input: `<Input placeholder="John Doe" />` - shows placeholder text
+- Select: `<SelectDemo options={...} placeholder="Select country" />` - shows placeholder text
+
+Base UI correctly applies `data-placeholder` attribute when no value is selected, which triggers `text-content-muted` color. This is correct behavior - the examples were simply showing placeholder state rather than filled state.
+
+### Solution Applied
+Updated the docs to show filled/selected states:
+
+**File:** `src/app/docs/field/page.tsx`
+
+```diff
+- <Input placeholder="John Doe" />
++ <Input defaultValue="John Doe" />
+
+- <SelectDemo options={countries} placeholder="Select country" />
++ <SelectDemo options={countries} defaultValue="us" placeholder="Select country" />
+```
+
+### Why This Is the Correct Fix
+- No component code changes needed - styling was already correct
+- The issue was documentation examples not demonstrating the intended state
+- With `defaultValue` set, Base UI removes the `data-placeholder` attribute
+- Text color correctly changes to `text-content-strong`
+
+---
+
 ## Summary Priority List
 
 ### High Priority (Affects functionality)
@@ -866,7 +901,7 @@ This section documents all animations that existed in the main branch but were r
 
 ---
 
-## 21. Accordion - Expand/Collapse Animation
+## 22. Accordion - Expand/Collapse Animation
 **Status:** [ ] Not started
 
 ### Missing Animations
@@ -940,7 +975,7 @@ import { AnimatePresence, motion } from "motion/react"
 
 ---
 
-## 22. Alert Dialog - Enter/Exit Animation
+## 23. Alert Dialog - Enter/Exit Animation
 **Status:** [ ] Not started
 
 ### Missing Animations
@@ -1003,7 +1038,7 @@ const AlertDialogContext = React.createContext<{ open: boolean }>({ open: false 
 
 ---
 
-## 23. Dialog - Enter/Exit Animation
+## 24. Dialog - Enter/Exit Animation
 **Status:** [ ] Not started
 
 ### Missing Animations
@@ -1084,7 +1119,7 @@ const animations = {
 
 ---
 
-## 24. Switch Control - Thumb Slide Animation
+## 25. Switch Control - Thumb Slide Animation
 **Status:** [ ] Not started
 
 ### Missing Animations
@@ -1148,7 +1183,7 @@ Keep CSS `transition-transform duration-200 ease-out` if spring feel is not crit
 
 ---
 
-## 25. Toggle Button - Icon Morphing Animation
+## 26. Toggle Button - Icon Morphing Animation
 **Status:** [ ] Not started
 
 ### Missing Animations
@@ -1243,7 +1278,7 @@ function MorphingIcon({ pressed, icon, pressedIcon, morph }) {
 
 ---
 
-## 26. Toggle Group - Icon Morphing Animation
+## 27. Toggle Group - Icon Morphing Animation
 **Status:** [ ] Not started
 
 ### Missing Animations
@@ -1300,14 +1335,14 @@ Always use `transform: translateZ(0)` or `willChange: "height"` for animated hei
 ## Summary: Animation Restoration Priority
 
 ### High Priority
-1. **Bug #25 - Toggle Button** - Core functionality relies on icon/state animations
-2. **Bug #26 - Toggle Group** - Same as Toggle Button
-3. **Bug #24 - Switch Control** - Spring feel important for toggle UX
+1. **Bug #26 - Toggle Button** - Core functionality relies on icon/state animations
+2. **Bug #27 - Toggle Group** - Same as Toggle Button
+3. **Bug #25 - Switch Control** - Spring feel important for toggle UX
 
 ### Medium Priority
-4. **Bug #23 - Dialog** - Polish for modal experience
-5. **Bug #22 - Alert Dialog** - Same as Dialog
-6. **Bug #21 - Accordion** - Expand/collapse polish
+4. **Bug #24 - Dialog** - Polish for modal experience
+5. **Bug #23 - Alert Dialog** - Same as Dialog
+6. **Bug #22 - Accordion** - Expand/collapse polish
 
 ### Notes
 - **File Upload, Slider, Tooltip** already have motion animations
