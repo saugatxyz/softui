@@ -8,8 +8,11 @@ import {
   ItalicIcon,
   UnderlineIcon,
   HeartIcon,
+  HeartFillIcon,
   StarIcon,
+  StarFillIcon,
   BookmarkIcon,
+  BookmarkFillIcon,
 } from "@/icons"
 
 export default function ToggleGroupDocsPage() {
@@ -29,9 +32,9 @@ export default function ToggleGroupDocsPage() {
           code={`import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 <ToggleGroup multiple defaultValue={["heart"]}>
-  <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} />
-  <ToggleGroupItem value="star" leadingIcon={<StarIcon />} />
-  <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} />
+  <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} />
+  <ToggleGroupItem value="star" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} />
+  <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} />
 </ToggleGroup>`}
         />
       </section>
@@ -93,9 +96,9 @@ export default function ToggleGroupDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleGroup multiple size="xs" hideSeparator defaultValue={["heart"]}>
-                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} />
-                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} />
-                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} />
+                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} />
+                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} />
+                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} />
               </ToggleGroup>
             </div>
           </div>
@@ -106,9 +109,9 @@ export default function ToggleGroupDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleGroup multiple size="s" hideSeparator defaultValue={["heart"]}>
-                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} />
-                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} />
-                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} />
+                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} />
+                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} />
+                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} />
               </ToggleGroup>
             </div>
           </div>
@@ -119,9 +122,9 @@ export default function ToggleGroupDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleGroup multiple size="m" hideSeparator defaultValue={["heart"]}>
-                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} />
-                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} />
-                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} />
+                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} />
+                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} />
+                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} />
               </ToggleGroup>
             </div>
           </div>
@@ -132,9 +135,9 @@ export default function ToggleGroupDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleGroup multiple size="l" hideSeparator defaultValue={["heart"]}>
-                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} />
-                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} />
-                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} />
+                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} />
+                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} />
+                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} />
               </ToggleGroup>
             </div>
           </div>
@@ -150,9 +153,9 @@ export default function ToggleGroupDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleGroup multiple variant="ghost" hideSeparator defaultValue={["star"]}>
-                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} />
-                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} />
-                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} />
+                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} />
+                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} />
+                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} />
               </ToggleGroup>
             </div>
           </div>
@@ -162,9 +165,9 @@ export default function ToggleGroupDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleGroup multiple variant="secondary" hideSeparator defaultValue={["star"]}>
-                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} />
-                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} />
-                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} />
+                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} />
+                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} />
+                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} />
               </ToggleGroup>
             </div>
           </div>
@@ -174,9 +177,9 @@ export default function ToggleGroupDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
               <ToggleGroup multiple variant="tertiary" hideSeparator defaultValue={["star"]}>
-                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} />
-                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} />
-                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} />
+                <ToggleGroupItem value="heart" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} />
+                <ToggleGroupItem value="star" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} />
+                <ToggleGroupItem value="bookmark" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} />
               </ToggleGroup>
             </div>
           </div>

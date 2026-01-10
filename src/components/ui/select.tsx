@@ -163,11 +163,17 @@ type SelectPositionerProps = Omit<SelectPrimitive.Positioner.Props, "className">
   className?: string
 }
 
-function SelectPositioner({ className, collisionPadding = 8, ...props }: SelectPositionerProps) {
+function SelectPositioner({
+  className,
+  sideOffset = 4,
+  collisionPadding = 8,
+  ...props
+}: SelectPositionerProps) {
   return (
     <SelectPrimitive.Positioner
       data-slot="positioner"
       className={cn("z-[100] outline-none", className)}
+      sideOffset={sideOffset}
       collisionPadding={collisionPadding}
       {...props}
     />
@@ -182,7 +188,12 @@ function SelectPopup({ className, ...props }: SelectPopupProps) {
   return (
     <SelectPrimitive.Popup
       data-slot="popup"
-      className={cn(listPopupStyles.base, listPopupStyles.width, className)}
+      className={cn(
+        listPopupStyles.base,
+        listPopupStyles.width,
+        "min-w-[var(--anchor-width)] max-w-[var(--anchor-width)] w-[var(--anchor-width)]",
+        className
+      )}
       {...props}
     />
   )

@@ -131,7 +131,7 @@ function ButtonGroup({
 }
 
 const itemVariants = cva(
-  "relative inline-flex items-center justify-center whitespace-nowrap font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] transition-[background-color,color,box-shadow] outline-none select-none bg-transparent text-content-strong hover:enabled:bg-actions-tertiary-hover disabled:cursor-not-allowed disabled:text-content-disabled focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+  "group relative inline-flex items-center justify-center whitespace-nowrap font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] transition-[background-color,color,box-shadow] outline-none select-none bg-transparent text-content-strong cursor-pointer hover:enabled:bg-actions-tertiary-hover disabled:cursor-not-allowed disabled:text-content-disabled focus-visible:z-10 focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
   {
     variants: {
       size: {
@@ -157,10 +157,10 @@ const itemVariants = cva(
 const labelVariants = cva("flex shrink-0 items-center justify-center", {
   variants: {
     size: {
-      xs: "px-[var(--space-4)] py-[var(--space-4)]",
-      s: "px-[var(--space-4)] py-[var(--space-4)]",
-      m: "px-[var(--space-4)] py-[var(--space-4)]",
-      l: "px-[var(--space-6)] py-[var(--space-6)]",
+      xs: "",
+      s: "",
+      m: "",
+      l: "",
     },
   },
   defaultVariants: {
@@ -217,7 +217,7 @@ function ButtonGroupItem({
     >
       <span
         data-slot="content"
-        className="inline-flex items-center justify-center transition-transform [gap:inherit] active:scale-[0.94]"
+        className="inline-flex items-center justify-center transition-transform [gap:inherit] group-active:scale-[0.94]"
       >
         {leadingIcon ? (
           <span

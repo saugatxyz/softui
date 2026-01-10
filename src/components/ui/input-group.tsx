@@ -175,7 +175,6 @@ function InputGroup({
       className={cn(
         fieldContainerVariants({ size: resolvedSize }),
         "relative rounded-[var(--radius-10)]",
-        "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className
       )}
     >
@@ -192,7 +191,7 @@ function InputGroup({
             !disabled && (prefixType === "action" || prefixType === "select") && "cursor-pointer",
             !disabled && "hover:bg-actions-secondary-hover",
             !disabled && prefixType === "action" && "focus:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-            !disabled && prefixType === "select" && "focus-within:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+            !disabled && prefixType === "select" && "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
             disabled && "bg-actions-secondary-disabled"
           )}
           onClick={(e) => {
@@ -272,7 +271,7 @@ function InputGroup({
           "cursor-text",
           !disabled && "hover:bg-actions-secondary-hover",
           disabled && "bg-actions-secondary-disabled",
-          "focus-within:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
+          "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
         )}
         onClick={() => inputRef.current?.focus()}
       >
@@ -327,7 +326,7 @@ function InputGroup({
             !disabled && (suffixType === "action" || suffixType === "select") && "cursor-pointer",
             !disabled && "hover:bg-actions-secondary-hover",
             !disabled && suffixType === "action" && "focus:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-            !disabled && suffixType === "select" && "focus-within:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+            !disabled && suffixType === "select" && "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
             disabled && "bg-actions-secondary-disabled"
           )}
           onClick={(e) => {

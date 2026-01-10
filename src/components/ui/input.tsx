@@ -60,6 +60,7 @@ type InputProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
   VariantProps<typeof inputFieldVariants> & {
     leadingIcon?: React.ReactNode
     trailingIcon?: React.ReactNode
+    focusVisibleOnly?: boolean
   }
 
 function Input({
@@ -67,11 +68,33 @@ function Input({
   size,
   leadingIcon,
   trailingIcon,
+  focusVisibleOnly = true,
   disabled,
   ...props
 }: InputProps) {
   const resolvedSize: InputSize = size ?? "m"
   const inputRef = React.useRef<HTMLInputElement>(null)
+  const [showFocusRing, setShowFocusRing] = React.useState(false)
+  const wasPointerDown = React.useRef(false)
+
+  const handlePointerDown = () => {
+    wasPointerDown.current = true
+  }
+
+  const handleFocus = () => {
+    if (focusVisibleOnly) {
+      setShowFocusRing(!wasPointerDown.current)
+    } else {
+      setShowFocusRing(true)
+    }
+    wasPointerDown.current = false
+  }
+
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget as Node)) return
+    setShowFocusRing(false)
+    wasPointerDown.current = false
+  }
 
   return (
     <div
@@ -81,10 +104,14 @@ function Input({
         inputFieldVariants({ size: resolvedSize }),
         "group relative cursor-text",
         !disabled && "hover:bg-actions-secondary-hover",
-        "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        showFocusRing &&
+          "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         disabled && "bg-actions-secondary-disabled",
         className
       )}
+      onPointerDown={handlePointerDown}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       onClick={() => inputRef.current?.focus()}
     >
       {leadingIcon && (

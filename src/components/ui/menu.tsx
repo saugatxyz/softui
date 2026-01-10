@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
+import { RiCheckFill } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants, LIST_MAX_HEIGHT } from "./list-item-styles"
@@ -162,6 +163,12 @@ function MenuRadioItem({ className, children, ...props }: MenuRadioItemProps) {
       {...props}
     >
       {children}
+      <MenuPrimitive.RadioItemIndicator
+        data-slot="menu-radio-indicator"
+        className="ml-auto flex size-[20px] shrink-0 items-center justify-center text-actions-primary-default data-[disabled]:text-content-disabled"
+      >
+        <RiCheckFill className="size-[16px]" />
+      </MenuPrimitive.RadioItemIndicator>
     </MenuPrimitive.RadioItem>
   )
 }
@@ -183,6 +190,12 @@ function MenuCheckboxItem({ className, children, ...props }: MenuCheckboxItemPro
       {...props}
     >
       {children}
+      <MenuPrimitive.CheckboxItemIndicator
+        data-slot="menu-checkbox-indicator"
+        className="ml-auto flex size-[20px] shrink-0 items-center justify-center text-actions-primary-default data-[disabled]:text-content-disabled"
+      >
+        <RiCheckFill className="size-[16px]" />
+      </MenuPrimitive.CheckboxItemIndicator>
     </MenuPrimitive.CheckboxItem>
   )
 }

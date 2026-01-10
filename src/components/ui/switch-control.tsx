@@ -47,8 +47,9 @@ function SwitchControl({ className, ...props }: SwitchControlProps) {
           "shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
           "transition-transform duration-200 ease-out",
           "group-data-[checked]:translate-x-[16px]",
+          "group-data-[checked]:bg-content-on-accent-strong",
           "group-data-[disabled]:bg-content-muted",
-          "group-data-[disabled]:group-data-[checked]:bg-content-inverse-strong"
+          "group-data-[disabled]:group-data-[checked]:bg-content-on-accent-disabled"
         )}
       />
     </Switch.Root>

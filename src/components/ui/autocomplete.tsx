@@ -15,7 +15,6 @@ const rootVariants = cva(
   [
     "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
     "bg-actions-secondary-default transition-colors duration-200 outline-none",
-    "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
   ].join(" "),
   {
     variants: {
@@ -85,11 +84,37 @@ function AutocompleteRoot<ItemValue = unknown>({
   items,
   ...props
 }: AutocompleteRootProps<ItemValue>) {
+  const [showFocusRing, setShowFocusRing] = React.useState(false)
+  const wasPointerDown = React.useRef(false)
+
+  const handlePointerDown = () => {
+    wasPointerDown.current = true
+  }
+
+  const handleFocus = () => {
+    setShowFocusRing(!wasPointerDown.current)
+    wasPointerDown.current = false
+  }
+
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget as Node)) return
+    setShowFocusRing(false)
+    wasPointerDown.current = false
+  }
+
   const content = (
     <div
       data-slot="autocomplete"
       data-size={size}
-      className={cn(rootVariants({ size }), className)}
+      className={cn(
+        rootVariants({ size }),
+        showFocusRing &&
+          "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        className
+      )}
+      onPointerDown={handlePointerDown}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     >
       {children}
     </div>

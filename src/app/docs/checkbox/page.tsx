@@ -4,7 +4,6 @@ import * as React from "react"
 import { CodeBlock } from "@/components/docs/code-block"
 import { Checkbox } from "@/components/ui/checkbox"
 import { CheckboxControl } from "@/components/ui/checkbox-control"
-import { Field } from "@/components/ui/field"
 
 export default function CheckboxDocsPage() {
   const [items, setItems] = React.useState([
@@ -38,19 +37,14 @@ export default function CheckboxDocsPage() {
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
-          code={`import { Field } from "@/components/ui/field"
-import { Checkbox } from "@/components/ui/checkbox"
+          code={`import { Checkbox } from "@/components/ui/checkbox"
 import { CheckboxControl } from "@/components/ui/checkbox-control"
 
-<Field label="Accept terms and conditions">
-  <Checkbox />
-</Field>
-<Field
+<Checkbox label="Accept terms and conditions" />
+<Checkbox
   label="Subscribe to newsletter"
   description="We'll send you updates about new features"
->
-  <Checkbox />
-</Field>
+/>
 <CheckboxControl />`}
         />
       </section>
@@ -95,9 +89,9 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">With Field Label</h2>
+          <h2 className="text-body-xl-semibold">With Label</h2>
           <p className="text-body-m text-content-subtle">
-            Use Field to provide the label and description for the checkbox.
+            Use the label prop for side-by-side alignment.
           </p>
         </div>
         <div className="flex flex-col">
@@ -106,9 +100,7 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
               <p className="text-body-m text-content-strong">Default</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Field label="Enable notifications" className="max-w-xs">
-                <Checkbox />
-              </Field>
+              <Checkbox label="Enable notifications" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -116,9 +108,7 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
               <p className="text-body-m text-content-strong">Checked</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Field label="Enable notifications" className="max-w-xs">
-                <Checkbox defaultChecked />
-              </Field>
+              <Checkbox label="Enable notifications" defaultChecked />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -126,12 +116,8 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
               <p className="text-body-m text-content-strong">Disabled</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Field label="Enable notifications" className="max-w-xs" disabled>
-                <Checkbox disabled />
-              </Field>
-              <Field label="Enable notifications" className="max-w-xs" disabled>
-                <Checkbox disabled defaultChecked />
-              </Field>
+              <Checkbox label="Enable notifications" disabled />
+              <Checkbox label="Enable notifications" disabled defaultChecked />
             </div>
           </div>
         </div>
@@ -139,9 +125,9 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">With Field Description</h2>
+          <h2 className="text-body-xl-semibold">With Description</h2>
           <p className="text-body-m text-content-subtle">
-            Use Field description to add supporting text for the checkbox.
+            Use the description prop for supporting text.
           </p>
         </div>
         <div className="flex flex-col">
@@ -150,13 +136,10 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
               <p className="text-body-m text-content-strong">Default</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Field
+              <Checkbox
                 label="Marketing emails"
                 description="Receive updates about new products and features"
-                className="max-w-xs"
-              >
-                <Checkbox />
-              </Field>
+              />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -164,13 +147,11 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
               <p className="text-body-m text-content-strong">Checked</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Field
+              <Checkbox
                 label="Marketing emails"
                 description="Receive updates about new products and features"
-                className="max-w-xs"
-              >
-                <Checkbox defaultChecked />
-              </Field>
+                defaultChecked
+              />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -178,14 +159,11 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
               <p className="text-body-m text-content-strong">Disabled</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Field
+              <Checkbox
                 label="Marketing emails"
                 description="Receive updates about new products and features"
-                className="max-w-xs"
                 disabled
-              >
-                <Checkbox disabled />
-              </Field>
+              />
             </div>
           </div>
         </div>
@@ -207,21 +185,20 @@ import { CheckboxControl } from "@/components/ui/checkbox-control"
               </p>
             </div>
             <div className="flex w-full max-w-xs flex-col gap-[var(--space-8)]">
-              <Field label="Select all notifications">
-                <Checkbox
-                  checked={allChecked}
-                  indeterminate={isIndeterminate}
-                  onCheckedChange={handleSelectAll}
-                />
-              </Field>
+              <Checkbox
+                label="Select all notifications"
+                checked={allChecked}
+                indeterminate={isIndeterminate}
+                onCheckedChange={handleSelectAll}
+              />
               <div className="flex flex-col gap-[var(--space-4)] pl-[var(--space-28)]">
                 {items.map((item) => (
-                  <Field key={item.id} label={item.label}>
-                    <Checkbox
-                      checked={item.checked}
-                      onCheckedChange={(checked) => handleItemChange(item.id, checked as boolean)}
-                    />
-                  </Field>
+                  <Checkbox
+                    key={item.id}
+                    label={item.label}
+                    checked={item.checked}
+                    onCheckedChange={(checked) => handleItemChange(item.id, checked as boolean)}
+                  />
                 ))}
               </div>
             </div>

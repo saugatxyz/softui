@@ -15,6 +15,13 @@ const countries = [
   { value: "ca", label: "Canada" },
 ]
 
+const required = (label: string) => (value: unknown) => {
+  if (typeof value === "string") {
+    return value.trim() ? null : `${label} is required`
+  }
+  return value ? null : `${label} is required`
+}
+
 export default function FormDocsPage() {
   const [errors, setErrors] = React.useState<Record<string, string>>({})
 
@@ -50,8 +57,8 @@ import { Button } from "@/components/ui/button"
 
 // Basic form
 <Form onFormSubmit={(values) => console.log(values)}>
-  <Field label="Email" name="email">
-    <Input name="email" placeholder="you@example.com" />
+  <Field label="Email" name="email" validate={(value) => value ? undefined : "Email is required"}>
+    <Input name="email" type="email" placeholder="you@example.com" />
   </Field>
   <Button type="submit">Submit</Button>
 </Form>
@@ -61,7 +68,9 @@ import { Button } from "@/components/ui/button"
   errors={{ email: "This email is already taken" }}
   onFormSubmit={handleSubmit}
 >
-  ...
+  <Field label="Email" name="email">
+    <Input name="email" type="email" placeholder="you@example.com" />
+  </Field>
 </Form>
 
 // Validation modes
@@ -139,10 +148,10 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form errors={errors} onFormSubmit={handleSubmit}>
-                <Field label="Email" error={errors.email}>
+                <Field label="Email" name="email">
                   <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
-                <Field label="Password" error={errors.password}>
+                <Field label="Password" name="password">
                   <Input name="password" type="password" placeholder="Enter password" />
                 </Field>
                 <Button type="submit">Submit</Button>
@@ -162,7 +171,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onSubmit">
-                <Field label="Email">
+                <Field label="Email" name="email" validate={required("Email")}>
                   <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Button type="submit">Submit</Button>
@@ -176,7 +185,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onBlur">
-                <Field label="Email">
+                <Field label="Email" name="email" validate={required("Email")}>
                   <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Button type="submit">Submit</Button>
@@ -190,7 +199,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Form validationMode="onChange">
-                <Field label="Email">
+                <Field label="Email" name="email" validate={required("Email")}>
                   <Input name="email" type="email" placeholder="you@example.com" />
                 </Field>
                 <Button type="submit">Submit</Button>

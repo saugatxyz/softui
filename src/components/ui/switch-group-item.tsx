@@ -97,9 +97,6 @@ function SwitchGroupItem({
   const showPrefix = isCard && prefix
 
   // Detect if prefix is a plain icon (no container) - needs offset with description
-  const isPrefixPlainIcon = React.isValidElement(prefix) &&
-    (prefix.props as { type?: string })?.type === "icon"
-
   // Inject size prop into prefix based on card type (only for Prefix components)
   const prefixSize = isCardBig ? "m" : "s"
   const isPrefixComponent = React.isValidElement(prefix) &&
@@ -130,10 +127,7 @@ function SwitchGroupItem({
       {showPrefix && (
         <span
           data-slot="prefix-wrapper"
-          className={cn(
-            "flex shrink-0 items-center self-start",
-            isPrefixPlainIcon && showDescription && "-mt-[var(--space-2)]"
-          )}
+          className="flex shrink-0 items-center self-start"
         >
           {prefixWithSize}
         </span>

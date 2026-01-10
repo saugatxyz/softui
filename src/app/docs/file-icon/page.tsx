@@ -2,13 +2,13 @@ import { CodeBlock } from "@/components/docs/code-block"
 import { FileIcon, UploadIcon } from "@/components/ui/file-icon"
 
 const fileTypes = [
-  { type: "doc", color: "#3B82F6", label: "Document", description: ".doc, .docx, .txt, .rtf, .odt" },
-  { type: "spreadsheet", color: "#10B981", label: "Spreadsheet", description: ".xls, .xlsx, .csv, .ods" },
-  { type: "pdf", color: "#EF4444", label: "PDF", description: ".pdf" },
-  { type: "slides", color: "#FF6900", label: "Slides", description: ".ppt, .pptx, .key, .odp" },
-  { type: "audio", color: "#F43F5E", label: "Audio", description: ".mp3, .wav, .flac, .aac, .ogg" },
-  { type: "image", color: "#84CC16", label: "Image", description: ".jpg, .png, .gif, .webp, .svg" },
-  { type: "generic", color: "#404040", label: "Generic", description: "Unknown file types" },
+  { type: "doc", label: "Document", description: ".doc, .docx, .txt, .rtf, .odt" },
+  { type: "spreadsheet", label: "Spreadsheet", description: ".xls, .xlsx, .csv, .ods" },
+  { type: "pdf", label: "PDF", description: ".pdf" },
+  { type: "slides", label: "Slides", description: ".ppt, .pptx, .key, .odp" },
+  { type: "audio", label: "Audio", description: ".mp3, .wav, .flac, .aac, .ogg" },
+  { type: "image", label: "Image", description: ".jpg, .png, .gif, .webp, .svg" },
+  { type: "generic", label: "Generic", description: "Unknown file types" },
 ] as const
 
 const customColors = [
@@ -60,7 +60,7 @@ const type = getFileTypeFromExtension("report.xlsx")
           </p>
         </div>
         <div className="flex flex-col">
-          {fileTypes.map(({ type, color, label, description }) => (
+          {fileTypes.map(({ type, label, description }) => (
             <div
               key={type}
               className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] md:flex-row md:items-center md:justify-between"
@@ -71,7 +71,6 @@ const type = getFileTypeFromExtension("report.xlsx")
               </div>
               <div className="flex items-center gap-[var(--space-12)]">
                 <FileIcon fileType={type} size="m" />
-                <span className="text-body-xs text-content-subtle">{color}</span>
               </div>
             </div>
           ))}

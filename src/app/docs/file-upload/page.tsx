@@ -20,7 +20,7 @@ function FileStatesDemo() {
   ]
 
   return (
-    <div className="flex flex-col gap-[var(--space-8)]">
+    <div className="flex flex-col gap-[var(--space-2)]">
       {mockFiles.map((item, index) => (
         <FileItem
           key={index}
@@ -85,7 +85,7 @@ function SimulatedUploadDemo() {
   }
 
   return (
-    <div className="flex flex-col gap-[var(--space-8)]">
+    <div className="flex flex-col gap-[var(--space-2)]">
       <FileUpload
         hint="Upload any file to see simulated progress"
         onFilesAdded={simulateUpload}

@@ -30,7 +30,8 @@ const labelVariants = cva("flex w-full flex-col items-start gap-[var(--space-2)]
 
 type FieldSize = "s" | "m" | "l"
 
-type FieldProps = VariantProps<typeof labelVariants> & {
+type FieldProps = Omit<FieldPrimitive.Root.Props, "className" | "children"> &
+  VariantProps<typeof labelVariants> & {
   /** Label text displayed above the control */
   label?: string
   /** Description text displayed below the label */
@@ -55,13 +56,16 @@ function Field({
   label,
   description,
   error,
+  invalid: invalidProp,
   disabled,
   children,
+  ...props
 }: FieldProps) {
   const resolvedSize: FieldSize = size ?? "m"
   const hasLabel = Boolean(label)
   const hasDescription = Boolean(description)
   const hasError = Boolean(error)
+  const invalid = hasError ? true : invalidProp
 
   const labelSection = (hasLabel || hasDescription) && (
     <div
@@ -102,8 +106,9 @@ function Field({
       data-slot="field"
       data-size={resolvedSize}
       disabled={disabled}
-      invalid={hasError}
+      invalid={invalid}
       className={cn("flex w-full flex-col gap-[var(--space-8)]", className)}
+      {...props}
     >
       {/* Label section */}
       {labelSection}
@@ -112,7 +117,7 @@ function Field({
       {children}
 
       {/* Error message */}
-      {hasError && (
+      {hasError ? (
         <div
           data-slot="error"
           className="flex w-full items-center gap-[var(--space-4)]"
@@ -122,6 +127,22 @@ function Field({
             {error}
           </span>
         </div>
+      ) : (
+        <FieldPrimitive.Error
+          data-slot="error"
+          render={(errorProps) => (
+            <div
+              {...errorProps}
+              className={cn(
+                "flex w-full items-start gap-[var(--space-4)] text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-feedback-danger-strong",
+                errorProps.className
+              )}
+            >
+              <RiErrorWarningFill className="mt-[2px] size-[16px] shrink-0 text-content-feedback-danger-strong" />
+              <div className="flex-1">{errorProps.children}</div>
+            </div>
+          )}
+        />
       )}
     </FieldPrimitive.Root>
   )

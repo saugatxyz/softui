@@ -44,7 +44,10 @@
       "Skill(dev)",
       "Bash(timeout 15 pnpm dev:*)",
       "Bash(pnpm update:*)",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "Bash(for file in accordion alert-dialog dialog switch-control toggle-button toggle-group tooltip file-upload slider)",
+      "Bash(do git show main:src/components/ui/$file.tsx)",
+      "Bash(echo:*)"
     ]
   }
 }

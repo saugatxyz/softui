@@ -2,11 +2,17 @@ import { CodeBlock } from "@/components/docs/code-block"
 import { ToggleButton } from "@/components/ui/toggle-button"
 import {
   HeartIcon,
+  HeartFillIcon,
   StarIcon,
+  StarFillIcon,
   BookmarkIcon,
+  BookmarkFillIcon,
   ThumbUpIcon,
+  ThumbUpFillIcon,
   EyeIcon,
+  EyeOffIcon,
   NotificationIcon,
+  NotificationOffIcon,
 } from "@/icons"
 
 export default function ToggleButtonDocsPage() {
@@ -25,26 +31,28 @@ export default function ToggleButtonDocsPage() {
         <CodeBlock
           code={`import { ToggleButton } from "@/components/ui/toggle-button"
 
-<ToggleButton leadingIcon={<HeartIcon />}>Like</ToggleButton>
-<ToggleButton leadingIcon={<StarIcon />} aria-label="Favorite" />`}
+<ToggleButton leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />}>
+  Like
+</ToggleButton>
+<ToggleButton leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} aria-label="Favorite" />`}
         />
       </section>
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Icon Only</h2>
         <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-          <ToggleButton leadingIcon={<HeartIcon />} aria-label="Like" />
-          <ToggleButton leadingIcon={<StarIcon />} aria-label="Favorite" />
-          <ToggleButton leadingIcon={<BookmarkIcon />} aria-label="Save" />
+          <ToggleButton leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} aria-label="Like" />
+          <ToggleButton leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} aria-label="Favorite" />
+          <ToggleButton leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} aria-label="Save" />
         </div>
       </section>
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Label</h2>
         <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-          <ToggleButton leadingIcon={<EyeIcon />}>Show</ToggleButton>
-          <ToggleButton leadingIcon={<NotificationIcon />}>Notify</ToggleButton>
-          <ToggleButton leadingIcon={<ThumbUpIcon />}>Approve</ToggleButton>
+          <ToggleButton leadingIcon={<EyeIcon />} pressedIcon={<EyeOffIcon />}>Show</ToggleButton>
+          <ToggleButton leadingIcon={<NotificationIcon />} pressedIcon={<NotificationOffIcon />}>Notify</ToggleButton>
+          <ToggleButton leadingIcon={<ThumbUpIcon />} pressedIcon={<ThumbUpFillIcon />}>Approve</ToggleButton>
         </div>
       </section>
 
@@ -57,7 +65,7 @@ export default function ToggleButtonDocsPage() {
               <p className="text-body-m text-content-subtle">28px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleButton size="xs" leadingIcon={<StarIcon />} aria-label="Favorite" />
+              <ToggleButton size="xs" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} aria-label="Favorite" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -66,7 +74,12 @@ export default function ToggleButtonDocsPage() {
               <p className="text-body-m text-content-subtle">32px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleButton size="s" leadingIcon={<HeartIcon />} aria-label="Like" />
+              <ToggleButton
+                size="s"
+                leadingIcon={<HeartIcon />}
+                pressedIcon={<HeartFillIcon className="text-content-decorative-red-strong" />}
+                aria-label="Like"
+              />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -75,7 +88,7 @@ export default function ToggleButtonDocsPage() {
               <p className="text-body-m text-content-subtle">36px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleButton size="m" leadingIcon={<BookmarkIcon />} aria-label="Save" />
+              <ToggleButton size="m" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} aria-label="Save" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -84,7 +97,12 @@ export default function ToggleButtonDocsPage() {
               <p className="text-body-m text-content-subtle">40px height</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleButton size="l" leadingIcon={<ThumbUpIcon />} aria-label="Approve" />
+              <ToggleButton
+                size="l"
+                leadingIcon={<ThumbUpIcon />}
+                pressedIcon={<ThumbUpFillIcon className="text-content-decorative-blue-strong" />}
+                aria-label="Approve"
+              />
             </div>
           </div>
         </div>
@@ -98,7 +116,7 @@ export default function ToggleButtonDocsPage() {
               <p className="text-body-m text-content-strong">Tertiary</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleButton variant="tertiary" leadingIcon={<StarIcon />} aria-label="Favorite" />
+              <ToggleButton variant="tertiary" leadingIcon={<StarIcon />} pressedIcon={<StarFillIcon />} aria-label="Favorite" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -106,7 +124,7 @@ export default function ToggleButtonDocsPage() {
               <p className="text-body-m text-content-strong">Ghost</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleButton variant="ghost" leadingIcon={<HeartIcon />} aria-label="Like" />
+              <ToggleButton variant="ghost" leadingIcon={<HeartIcon />} pressedIcon={<HeartFillIcon />} aria-label="Like" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
@@ -114,7 +132,7 @@ export default function ToggleButtonDocsPage() {
               <p className="text-body-m text-content-strong">Secondary</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <ToggleButton variant="secondary" leadingIcon={<BookmarkIcon />} aria-label="Save" />
+              <ToggleButton variant="secondary" leadingIcon={<BookmarkIcon />} pressedIcon={<BookmarkFillIcon />} aria-label="Save" />
             </div>
           </div>
         </div>

@@ -88,7 +88,7 @@ function TabsList({ className, ...props }: TabsListProps) {
 // -----------------------------------------------------------------------------
 
 const triggerVariants = cva(
-  "relative inline-flex shrink-0 items-center justify-center gap-[var(--space-6)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] outline-none select-none transition-colors data-[disabled]:cursor-not-allowed",
+  "group relative inline-flex shrink-0 items-center justify-center gap-[var(--space-6)] font-[var(--font-weight-medium)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)] outline-none select-none transition-colors data-[disabled]:cursor-not-allowed",
   {
     variants: {
       variant: {
@@ -163,6 +163,8 @@ function TabsTrigger({
       data-slot="tabs-trigger"
       className={cn(
         triggerVariants({ variant, size }),
+        variant !== "stroke" &&
+          "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         "focus-visible:outline-none",
         className
       )}
@@ -173,7 +175,7 @@ function TabsTrigger({
         className={cn(
           labelContainerVariants({ variant, size }),
           variant === "stroke" &&
-            "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
+            "group-focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
         )}
       >
         {leadingIcon && (

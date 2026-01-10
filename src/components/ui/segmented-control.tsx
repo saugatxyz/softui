@@ -109,7 +109,7 @@ const itemVariants = cva(
     // Inactive state
     "text-content-subtle",
     // Hover state (inactive only)
-    "hover:not-data-[disabled]:not-data-[active]:text-content-default",
+    "hover:not-data-[disabled]:not-data-[active]:text-content-strong",
     // Active state (text only - background is on indicator)
     "data-[active]:text-content-strong",
     // Disabled state

@@ -81,6 +81,24 @@ function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = bo
   children,
   ...props
 }: ComboboxRootProps<Value, Multiple>) {
+  const [showFocusRing, setShowFocusRing] = React.useState(false)
+  const wasPointerDown = React.useRef(false)
+
+  const handlePointerDown = () => {
+    wasPointerDown.current = true
+  }
+
+  const handleFocus = () => {
+    setShowFocusRing(!wasPointerDown.current)
+    wasPointerDown.current = false
+  }
+
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget as Node)) return
+    setShowFocusRing(false)
+    wasPointerDown.current = false
+  }
+
   return (
     <ComboboxPrimitive.Root
       {...props}
@@ -88,7 +106,14 @@ function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = bo
       <div
         data-slot="combobox"
         data-size={size}
-        className={cn(rootVariants({ size }), className)}
+        className={cn(
+          rootVariants({ size }),
+          showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          className
+        )}
+        onPointerDown={handlePointerDown}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       >
         {children}
       </div>
@@ -164,11 +189,17 @@ type ComboboxPositionerProps = Omit<ComboboxPrimitive.Positioner.Props, "classNa
   className?: string
 }
 
-function ComboboxPositioner({ className, collisionPadding = 8, ...props }: ComboboxPositionerProps) {
+function ComboboxPositioner({
+  className,
+  sideOffset = 4,
+  collisionPadding = 8,
+  ...props
+}: ComboboxPositionerProps) {
   return (
     <ComboboxPrimitive.Positioner
       data-slot="positioner"
       className={cn("outline-none", className)}
+      sideOffset={sideOffset}
       collisionPadding={collisionPadding}
       {...props}
     />
@@ -183,7 +214,12 @@ function ComboboxPopup({ className, ...props }: ComboboxPopupProps) {
   return (
     <ComboboxPrimitive.Popup
       data-slot="popup"
-      className={cn(listPopupStyles.base, listPopupStyles.width, className)}
+      className={cn(
+        listPopupStyles.base,
+        listPopupStyles.width,
+        "min-w-[var(--anchor-width)] max-w-[var(--anchor-width)] w-[var(--anchor-width)]",
+        className
+      )}
       {...props}
     />
   )

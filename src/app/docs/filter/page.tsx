@@ -22,6 +22,8 @@ type FilterMenuItemProps = {
   children: React.ReactNode
 }
 
+const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
+
 function FilterMenuItem({ selected, onSelect, children }: FilterMenuItemProps) {
   return (
     <MenuItem onClick={onSelect}>
@@ -49,7 +51,7 @@ function StatusFilterExample() {
       />
       <Menu.Portal>
         <Menu.Positioner>
-          <Menu.Popup>
+          <Menu.Popup className={menuPopupClassName}>
             <FilterMenuItem selected={ status === "Active" } onSelect={ () => setStatus("Active") }>Active</FilterMenuItem>
             <FilterMenuItem selected={ status === "Pending" } onSelect={ () => setStatus("Pending") }>Pending</FilterMenuItem>
             <FilterMenuItem selected={ status === "Completed" } onSelect={ () => setStatus("Completed") }>Completed</FilterMenuItem>
@@ -80,7 +82,7 @@ function CategoryFilterExample() {
       />
       <Menu.Portal>
         <Menu.Positioner>
-          <Menu.Popup>
+          <Menu.Popup className={menuPopupClassName}>
             <FilterMenuItem selected={ category === "Design" } onSelect={ () => setCategory("Design") }>Design</FilterMenuItem>
             <FilterMenuItem selected={ category === "Engineering" } onSelect={ () => setCategory("Engineering") }>Engineering</FilterMenuItem>
             <FilterMenuItem selected={ category === "Marketing" } onSelect={ () => setCategory("Marketing") }>Marketing</FilterMenuItem>
@@ -111,7 +113,7 @@ function AssigneeFilterExample() {
       />
       <Menu.Portal>
         <Menu.Positioner>
-          <Menu.Popup>
+          <Menu.Popup className={menuPopupClassName}>
             <FilterMenuItem selected={ assignee === "Alice" } onSelect={ () => setAssignee("Alice") }>Alice</FilterMenuItem>
             <FilterMenuItem selected={ assignee === "Bob" } onSelect={ () => setAssignee("Bob") }>Bob</FilterMenuItem>
             <FilterMenuItem selected={ assignee === "Charlie" } onSelect={ () => setAssignee("Charlie") }>Charlie</FilterMenuItem>
@@ -211,7 +213,7 @@ function FilterBarExample() {
         />
         <Menu.Portal>
           <Menu.Positioner>
-            <Menu.Popup>
+            <Menu.Popup className={menuPopupClassName}>
               <FilterMenuItem selected={ status === "Active" } onSelect={ () => setStatus("Active") }>Active</FilterMenuItem>
               <FilterMenuItem selected={ status === "Pending" } onSelect={ () => setStatus("Pending") }>Pending</FilterMenuItem>
               <FilterMenuItem selected={ status === "Completed" } onSelect={ () => setStatus("Completed") }>Completed</FilterMenuItem>
@@ -233,7 +235,7 @@ function FilterBarExample() {
         />
         <Menu.Portal>
           <Menu.Positioner>
-            <Menu.Popup>
+            <Menu.Popup className={menuPopupClassName}>
               <FilterMenuItem selected={ priority === "High" } onSelect={ () => setPriority("High") }>High</FilterMenuItem>
               <FilterMenuItem selected={ priority === "Medium" } onSelect={ () => setPriority("Medium") }>Medium</FilterMenuItem>
               <FilterMenuItem selected={ priority === "Low" } onSelect={ () => setPriority("Low") }>Low</FilterMenuItem>
@@ -256,7 +258,7 @@ function FilterBarExample() {
         />
         <Menu.Portal>
           <Menu.Positioner>
-            <Menu.Popup>
+            <Menu.Popup className={menuPopupClassName}>
               <FilterMenuItem selected={ assignee === "Alice" } onSelect={ () => setAssignee("Alice") }>Alice</FilterMenuItem>
               <FilterMenuItem selected={ assignee === "Bob" } onSelect={ () => setAssignee("Bob") }>Bob</FilterMenuItem>
               <FilterMenuItem selected={ assignee === "Charlie" } onSelect={ () => setAssignee("Charlie") }>Charlie</FilterMenuItem>
@@ -297,7 +299,7 @@ import { Menu, MenuItem, MenuSuffix } from "@/components/ui/menu"
   />
   <Menu.Portal>
     <Menu.Positioner>
-      <Menu.Popup>
+      <Menu.Popup className="flex flex-col gap-[var(--space-2)] p-[var(--space-4)]">
         <MenuItem onClick={() => setStatus("Active")}>
           <span className="flex-1">Active</span>
           {status === "Active" ? <MenuSuffix type="checkmark" /> : null}

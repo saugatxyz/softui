@@ -4,7 +4,6 @@ import * as React from "react"
 import { CodeBlock } from "@/components/docs/code-block"
 import { Switch } from "@/components/ui/switch"
 import { SwitchControl } from "@/components/ui/switch-control"
-import { Field } from "@/components/ui/field"
 
 export default function SwitchDocsPage() {
   return (
@@ -20,19 +19,15 @@ export default function SwitchDocsPage() {
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <CodeBlock
-          code={`import { Field } from "@/components/ui/field"
-import { Switch } from "@/components/ui/switch"
+          code={`import { Switch } from "@/components/ui/switch"
 import { SwitchControl } from "@/components/ui/switch-control"
 
-<Field label="Enable notifications">
-  <Switch />
-</Field>
-<Field
+<Switch label="Enable notifications" />
+<Switch
   label="Dark mode"
   description="Use dark theme across the app"
->
-  <Switch />
-</Field>
+/>
+<Switch label="Label on right" position="left" />
 <SwitchControl />`}
         />
       </section>
@@ -69,43 +64,40 @@ import { SwitchControl } from "@/components/ui/switch-control"
 
       <section className="flex flex-col gap-[var(--space-20)]">
         <div className="flex flex-col gap-[var(--space-4)]">
-          <h2 className="text-body-xl-semibold">With Field Label</h2>
+          <h2 className="text-body-xl-semibold">With Label</h2>
           <p className="text-body-m text-content-subtle">
-            Use Field to provide the label and description for the switch.
+            Use the label prop for side-by-side alignment and position to change placement.
           </p>
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Label only</p>
+              <p className="text-body-m text-content-strong">Label on left</p>
             </div>
-            <Field label="Enable notifications" className="max-w-xs">
-              <Switch />
-            </Field>
+            <Switch label="Enable notifications" />
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Label on right</p>
+            </div>
+            <Switch label="Enable notifications" position="left" />
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Label and description</p>
             </div>
-            <Field
+            <Switch
               label="Dark mode"
               description="Switch between light and dark themes"
-              className="max-w-xs"
-            >
-              <Switch />
-            </Field>
+            />
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-center md:justify-between">
             <div className="md:min-w-[220px]">
               <p className="text-body-m text-content-strong">Disabled</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <Field label="Notifications" className="max-w-xs" disabled>
-                <Switch disabled />
-              </Field>
-              <Field label="Dark mode" className="max-w-xs" disabled>
-                <Switch disabled defaultChecked />
-              </Field>
+              <Switch label="Notifications" disabled />
+              <Switch label="Dark mode" disabled defaultChecked />
             </div>
           </div>
         </div>
