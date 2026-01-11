@@ -167,17 +167,17 @@ import { RadioGroupItem } from "@/components/ui/radio-group-item"
                 <RadioGroupItem
                   value="light"
                   label="Light"
-                  prefix={<RadioPrefix type="icon-emphasized-orange" size="s" icon={<SunIcon />} />}
+                  prefix={<RadioPrefix type="icon" size="s" icon={<SunIcon />} containerStyle="subtle" containerColor="orange" />}
                 />
                 <RadioGroupItem
                   value="dark"
                   label="Dark"
-                  prefix={<RadioPrefix type="icon-emphasized-indigo" size="s" icon={<MoonIcon />} />}
+                  prefix={<RadioPrefix type="icon" size="s" icon={<MoonIcon />} containerStyle="subtle" containerColor="indigo" />}
                 />
                 <RadioGroupItem
                   value="system"
                   label="System"
-                  prefix={<RadioPrefix type="icon-emphasized-green" size="s" icon={<SwapIcon />} />}
+                  prefix={<RadioPrefix type="icon" size="s" icon={<SwapIcon />} containerStyle="subtle" containerColor="green" />}
                 />
               </RadioGroup>
             </div>
@@ -313,24 +313,48 @@ import { RadioGroupItem } from "@/components/ui/radio-group-item"
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon Emphasized</p>
+              <p className="text-body-m text-content-strong">Container Subtle</p>
+              <p className="text-body-m text-content-subtle">Default (neutral)</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <RadioPrefix type="icon-emphasized" size="s" icon={<SunIcon />} />
-              <RadioPrefix type="icon-emphasized" size="m" icon={<SunIcon />} />
+              <RadioPrefix type="icon" size="s" icon={<SunIcon />} containerStyle="subtle" />
+              <RadioPrefix type="icon" size="m" icon={<SunIcon />} containerStyle="subtle" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon Emphasized Colors</p>
+              <p className="text-body-m text-content-strong">Container Subtle Colors</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <RadioPrefix type="icon-emphasized-blue" size="s" icon={<MoonIcon />} />
-              <RadioPrefix type="icon-emphasized-green" size="s" icon={<SwapIcon />} />
-              <RadioPrefix type="icon-emphasized-orange" size="s" icon={<SunIcon />} />
-              <RadioPrefix type="icon-emphasized-purple" size="s" icon={<MoonIcon />} />
-              <RadioPrefix type="icon-emphasized-red" size="s" icon={<SwapIcon />} />
-              <RadioPrefix type="icon-emphasized-cyan" size="s" icon={<SunIcon />} />
+              <RadioPrefix type="icon" size="s" icon={<MoonIcon />} containerStyle="subtle" containerColor="blue" />
+              <RadioPrefix type="icon" size="s" icon={<SwapIcon />} containerStyle="subtle" containerColor="green" />
+              <RadioPrefix type="icon" size="s" icon={<SunIcon />} containerStyle="subtle" containerColor="orange" />
+              <RadioPrefix type="icon" size="s" icon={<MoonIcon />} containerStyle="subtle" containerColor="purple" />
+              <RadioPrefix type="icon" size="s" icon={<SwapIcon />} containerStyle="subtle" containerColor="red" />
+              <RadioPrefix type="icon" size="s" icon={<SunIcon />} containerStyle="subtle" containerColor="cyan" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Container Strong</p>
+              <p className="text-body-m text-content-subtle">Default (neutral)</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <RadioPrefix type="icon" size="s" icon={<SunIcon />} containerStyle="strong" />
+              <RadioPrefix type="icon" size="m" icon={<SunIcon />} containerStyle="strong" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Container Strong Colors</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
+              <RadioPrefix type="icon" size="s" icon={<MoonIcon />} containerStyle="strong" containerColor="blue" />
+              <RadioPrefix type="icon" size="s" icon={<SwapIcon />} containerStyle="strong" containerColor="green" />
+              <RadioPrefix type="icon" size="s" icon={<SunIcon />} containerStyle="strong" containerColor="orange" />
+              <RadioPrefix type="icon" size="s" icon={<MoonIcon />} containerStyle="strong" containerColor="purple" />
+              <RadioPrefix type="icon" size="s" icon={<SwapIcon />} containerStyle="strong" containerColor="red" />
+              <RadioPrefix type="icon" size="s" icon={<SunIcon />} containerStyle="strong" containerColor="cyan" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

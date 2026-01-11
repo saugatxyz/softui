@@ -27,13 +27,10 @@ const decorativeColors = [
 
 type DecorativeColor = (typeof decorativeColors)[number]
 
-type PrefixType =
-  | "icon"
-  | "token"  // Keep "token" as the type value for backwards compatibility
-  | "logo"
-  | "icon-emphasized"
-  | "icon-emphasized-neutral"
-  | `icon-emphasized-${DecorativeColor}`
+type ContainerStyle = "subtle" | "strong"
+type ContainerColor = "default" | "neutral" | DecorativeColor
+
+type PrefixType = "icon" | "token" | "logo"
 
 const prefixVariants = cva(
   "inline-flex shrink-0 items-center justify-center",
@@ -65,10 +62,10 @@ const iconWrapperVariants = cva(
   }
 )
 
-// Background color classes for emphasized icon types
-const emphasizedBgClass: Record<DecorativeColor | "neutral" | "default", string> = {
+// Background color classes for subtle container style
+const subtleBgClass: Record<ContainerColor, string> = {
   default: "bg-actions-secondary-default",
-  neutral: "bg-surface-neutral-subtle",
+  neutral: "bg-surface-interactive-default",
   red: "bg-surface-decorative-red-subtle",
   orange: "bg-surface-decorative-orange-subtle",
   amber: "bg-surface-decorative-amber-subtle",
@@ -88,8 +85,8 @@ const emphasizedBgClass: Record<DecorativeColor | "neutral" | "default", string>
   rose: "bg-surface-decorative-rose-subtle",
 }
 
-// Icon color classes for emphasized icon types
-const emphasizedIconClass: Record<DecorativeColor | "neutral" | "default", string> = {
+// Icon color classes for subtle container style
+const subtleIconClass: Record<ContainerColor, string> = {
   default: "text-content-strong",
   neutral: "text-content-subtle",
   red: "text-content-decorative-red-subtle",
@@ -111,22 +108,60 @@ const emphasizedIconClass: Record<DecorativeColor | "neutral" | "default", strin
   rose: "text-content-decorative-rose-subtle",
 }
 
+// Background color classes for strong container style
+const strongBgClass: Record<ContainerColor, string> = {
+  default: "bg-actions-primary-default",
+  neutral: "bg-surface-inverse",
+  red: "bg-surface-decorative-red-strong",
+  orange: "bg-surface-decorative-orange-strong",
+  amber: "bg-surface-decorative-amber-strong",
+  yellow: "bg-surface-decorative-yellow-strong",
+  lime: "bg-surface-decorative-lime-strong",
+  green: "bg-surface-decorative-green-strong",
+  emerald: "bg-surface-decorative-emerald-strong",
+  teal: "bg-surface-decorative-teal-strong",
+  cyan: "bg-surface-decorative-cyan-strong",
+  sky: "bg-surface-decorative-sky-strong",
+  blue: "bg-surface-decorative-blue-strong",
+  indigo: "bg-surface-decorative-indigo-strong",
+  violet: "bg-surface-decorative-violet-strong",
+  purple: "bg-surface-decorative-purple-strong",
+  fuchsia: "bg-surface-decorative-fuchsia-strong",
+  pink: "bg-surface-decorative-pink-strong",
+  rose: "bg-surface-decorative-rose-strong",
+}
+
+// Icon color classes for strong container style
+const strongIconClass: Record<ContainerColor, string> = {
+  default: "text-content-on-accent-strong",
+  neutral: "text-content-on-accent-strong",
+  red: "text-content-inverse-strong",
+  orange: "text-content-inverse-strong",
+  amber: "text-content-inverse-strong",
+  yellow: "text-content-inverse-strong",
+  lime: "text-content-inverse-strong",
+  green: "text-content-inverse-strong",
+  emerald: "text-content-inverse-strong",
+  teal: "text-content-inverse-strong",
+  cyan: "text-content-inverse-strong",
+  sky: "text-content-inverse-strong",
+  blue: "text-content-inverse-strong",
+  indigo: "text-content-inverse-strong",
+  violet: "text-content-inverse-strong",
+  purple: "text-content-inverse-strong",
+  fuchsia: "text-content-inverse-strong",
+  pink: "text-content-inverse-strong",
+  rose: "text-content-inverse-strong",
+}
+
 type CheckboxPrefixProps = VariantProps<typeof prefixVariants> & {
   type: PrefixType
   icon?: React.ReactNode
   token?: CryptoType
   logo?: LogoType
+  containerStyle?: ContainerStyle
+  containerColor?: ContainerColor
   className?: string
-}
-
-function parseEmphasizedColor(type: PrefixType): DecorativeColor | "neutral" | "default" | null {
-  if (type === "icon-emphasized") return "default"
-  if (type === "icon-emphasized-neutral") return "neutral"
-  if (type.startsWith("icon-emphasized-")) {
-    const color = type.replace("icon-emphasized-", "") as DecorativeColor
-    if (decorativeColors.includes(color)) return color
-  }
-  return null
 }
 
 function CheckboxPrefix({
@@ -135,28 +170,24 @@ function CheckboxPrefix({
   icon,
   token,
   logo,
+  containerStyle,
+  containerColor = "default",
   className,
 }: CheckboxPrefixProps) {
   const resolvedSize = size ?? "s"
   const iconSize = resolvedSize === "m" ? 17 : 16
   const assetSize = resolvedSize === "m" ? 40 : 28
 
-  const emphasizedColor = parseEmphasizedColor(type)
-  const isEmphasized = emphasizedColor !== null
-  const isIcon = type === "icon" || isEmphasized
+  const isIcon = type === "icon"
   const isToken = type === "token"
   const isLogo = type === "logo"
 
-  // For icon types (plain or emphasized)
+  // For icon types (plain or with container)
   if (isIcon) {
-    const needsBackground = isEmphasized
-    const bgClass = needsBackground ? emphasizedBgClass[emphasizedColor!] : ""
-    const iconColorClass = needsBackground
-      ? emphasizedIconClass[emphasizedColor!]
-      : "text-content-strong"
+    const hasContainer = containerStyle !== undefined
 
-    // Plain icon - small: tight width, top-aligned; medium: centered in container
-    if (!needsBackground) {
+    // Plain icon - no container
+    if (!hasContainer) {
       if (resolvedSize === "s") {
         return (
           <span
@@ -192,12 +223,21 @@ function CheckboxPrefix({
       )
     }
 
-    // Emphasized icon - full container with background
+    // Container icon - subtle or strong
+    const bgClass = containerStyle === "strong"
+      ? strongBgClass[containerColor]
+      : subtleBgClass[containerColor]
+    const iconColorClass = containerStyle === "strong"
+      ? strongIconClass[containerColor]
+      : subtleIconClass[containerColor]
+
     return (
       <span
         data-slot="checkbox-prefix"
         data-type={type}
         data-size={resolvedSize}
+        data-container-style={containerStyle}
+        data-container-color={containerColor}
         className={cn(
           iconWrapperVariants({ size: resolvedSize }),
           bgClass,
@@ -257,4 +297,4 @@ function CheckboxPrefix({
 }
 
 export { CheckboxPrefix, decorativeColors }
-export type { CheckboxPrefixProps, PrefixType, DecorativeColor }
+export type { CheckboxPrefixProps, PrefixType, DecorativeColor, ContainerStyle, ContainerColor }

@@ -56,9 +56,10 @@ type SwitchGroupItemProps = Omit<SwitchControlProps, "className" | "prefix"> & {
   className?: string
 }
 
-// Context for SwitchGroup to pass down the type
+// Context for SwitchGroup to pass down the type and stack
 type SwitchGroupContextValue = {
   type?: SwitchGroupItemType
+  stack?: "vertical" | "horizontal"
 }
 
 const SwitchGroupContext = React.createContext<SwitchGroupContextValue | null>(null)
@@ -82,12 +83,14 @@ function SwitchGroupItem({
 }: SwitchGroupItemProps) {
   const context = useSwitchGroupContext()
   const type = typeProp ?? context?.type ?? "simple"
+  const stack = context?.stack ?? "vertical"
 
   const isSimple = type === "simple"
   const isList = type === "list"
   const isCardSmall = type === "card-small"
   const isCardBig = type === "card-big"
   const isCard = isCardSmall || isCardBig
+  const isInline = isSimple && stack === "horizontal"
 
   // For simple/list types: switch on left
   // For card types: switch on right with prefix on left
@@ -112,7 +115,7 @@ function SwitchGroupItem({
       data-type={type}
       data-disabled={disabled || undefined}
       disabled={disabled}
-      className="w-full"
+      className={isInline ? undefined : "w-full"}
     >
       <FieldPrimitive.Label
         data-slot="label-container"
@@ -190,10 +193,13 @@ function SwitchGroupItem({
       {showSwitchOnRight && (
         <span
           data-slot="suffix-wrapper"
-          className="flex shrink-0 items-start gap-[var(--space-8)] self-stretch pr-[var(--space-2)] pt-[var(--space-2)]"
+          className={cn(
+            "flex shrink-0 gap-[var(--space-8)] self-stretch pr-[var(--space-2)]",
+            showDescription ? "items-start pt-[var(--space-2)]" : "items-center"
+          )}
         >
           {badge}
-          <span className="flex h-[20px] shrink-0 items-center">
+          <span className="flex shrink-0">
             <SwitchControl
               checked={checked}
               defaultChecked={defaultChecked}

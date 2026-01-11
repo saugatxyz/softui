@@ -197,7 +197,13 @@ const options = [
   { value: "orange", label: "Orange" },
 ]
 
+// Default (secondary variant)
 <Select defaultValue="apple">
+  ...
+</Select>
+
+// With tertiary variant (shadow treatment)
+<Select variant="tertiary" defaultValue="apple">
   <Select.Trigger>
     <Select.Value>
       {(value) => {
@@ -283,6 +289,69 @@ const options = [
             </div>
             <div className="w-full max-w-sm">
               <SelectDemo size="l" options={timezones} placeholder="Select timezone" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Variants */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Variants</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Secondary</p>
+              <p className="text-body-m text-content-subtle">Default variant</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <Select variant="secondary" defaultValue="us">
+                <Select.Trigger>
+                  <Select.Value placeholder="Select country" />
+                  <Select.Icon><RiExpandUpDownLine /></Select.Icon>
+                </Select.Trigger>
+                <Select.Portal>
+                  <Select.Positioner>
+                    <Select.Popup>
+                      <Select.List>
+                        {countries.map((country) => (
+                          <Select.Item key={country.value} value={country.value}>
+                            <Select.ItemText>{country.label}</Select.ItemText>
+                            <Select.ItemIndicator><RiCheckFill /></Select.ItemIndicator>
+                          </Select.Item>
+                        ))}
+                      </Select.List>
+                    </Select.Popup>
+                  </Select.Positioner>
+                </Select.Portal>
+              </Select>
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Tertiary</p>
+              <p className="text-body-m text-content-subtle">With shadow treatment</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <Select variant="tertiary" defaultValue="us">
+                <Select.Trigger>
+                  <Select.Value placeholder="Select country" />
+                  <Select.Icon><RiExpandUpDownLine /></Select.Icon>
+                </Select.Trigger>
+                <Select.Portal>
+                  <Select.Positioner>
+                    <Select.Popup>
+                      <Select.List>
+                        {countries.map((country) => (
+                          <Select.Item key={country.value} value={country.value}>
+                            <Select.ItemText>{country.label}</Select.ItemText>
+                            <Select.ItemIndicator><RiCheckFill /></Select.ItemIndicator>
+                          </Select.Item>
+                        ))}
+                      </Select.List>
+                    </Select.Popup>
+                  </Select.Positioner>
+                </Select.Portal>
+              </Select>
             </div>
           </div>
         </div>

@@ -2977,3 +2977,318 @@ Added new `plain` variant:
 - Uses same Base UI Button primitive
 
 ---
+
+## Input Components - Tertiary Variant
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+All input components only had secondary fill styling. Need a tertiary variant with the same shadow treatment as tertiary buttons.
+
+### Solution
+
+Added `variant` prop to all input-like components with two options:
+- `secondary` (default) - existing behavior
+- `tertiary` - tertiary fill with shadow treatment
+
+### Tertiary Styling
+```tsx
+bg-actions-tertiary-default
+backdrop-blur-[12px]
+shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]
+hover:bg-actions-tertiary-hover
+disabled:bg-actions-tertiary-disabled disabled:shadow-none
+```
+
+### Files Changed
+
+| Component | File | Changes |
+|-----------|------|---------|
+| Input | `src/components/ui/input.tsx` | Added `variant` prop to inputFieldVariants CVA |
+| Textarea | `src/components/ui/textarea.tsx` | Added `variant` prop to textareaFieldVariants CVA |
+| Select | `src/components/ui/select.tsx` | Added `variant` prop to context + triggerVariants CVA |
+| Autocomplete | `src/components/ui/autocomplete.tsx` | Added `variant` prop to rootVariants CVA |
+| Combobox | `src/components/ui/combobox.tsx` | Added `variant` prop to rootVariants CVA |
+
+### Usage
+
+```tsx
+// Input
+<Input variant="tertiary" placeholder="Tertiary input" />
+
+// Textarea
+<Textarea variant="tertiary" placeholder="Tertiary textarea" />
+
+// Select
+<Select variant="tertiary">
+  <Select.Trigger>...</Select.Trigger>
+</Select>
+
+// Autocomplete
+<Autocomplete variant="tertiary">...</Autocomplete>
+
+// Combobox
+<Combobox variant="tertiary">...</Combobox>
+```
+
+### Why This Is NOT Breaking Base UI
+
+- Pure CSS styling addition via CVA variants
+- New prop, existing behavior unchanged
+- Default variant remains "secondary"
+- All Base UI primitives used unchanged
+
+---
+
+## InputGroup - Tertiary Variant
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+InputGroup component only had secondary fill styling. Need a tertiary variant matching other input components.
+
+### Solution
+
+Added `variant` prop to InputGroup with:
+- `secondary` (default) - existing behavior
+- `tertiary` - tertiary fill with shadow treatment on container
+
+**File:** `src/components/ui/input-group.tsx`
+
+### Changes
+
+1. Added `variant` to `segmentVariants` and `mainSegmentVariants` CVA:
+```tsx
+variant: {
+  secondary: "bg-actions-secondary-default",
+  tertiary: "bg-actions-tertiary-default",
+},
+```
+
+2. Added `InputGroupVariant` type and `variant` prop to component:
+```tsx
+type InputGroupVariant = "secondary" | "tertiary"
+
+function InputGroup({
+  variant = "secondary",
+  ...
+}: InputGroupProps) {
+  const isSecondary = resolvedVariant === "secondary"
+  const isTertiary = resolvedVariant === "tertiary"
+```
+
+3. Container gets tertiary shadow when `variant="tertiary"`:
+```tsx
+isTertiary && "backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]"
+```
+
+4. All segments use variant-aware hover/disabled styles:
+```tsx
+!disabled && isSecondary && "hover:bg-actions-secondary-hover",
+!disabled && isTertiary && "hover:bg-actions-tertiary-hover",
+disabled && isSecondary && "bg-actions-secondary-disabled",
+disabled && isTertiary && "bg-actions-tertiary-disabled"
+```
+
+### Usage
+
+```tsx
+// Secondary (default)
+<InputGroup prefix="https://" placeholder="example.com" />
+
+// Tertiary
+<InputGroup variant="tertiary" prefix="https://" placeholder="example.com" />
+```
+
+### Why This Is NOT Breaking Base UI
+
+- Pure CSS styling addition
+- New prop, existing behavior unchanged
+- Uses native input element (no Base UI primitive)
+
+---
+
+## Input Variants - Documentation Updates
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+New tertiary variant for inputs was not documented in code examples or shown in Field/Fieldset/Form docs.
+
+### Solution
+
+Updated code examples and added "Input Variants" sections to relevant docs.
+
+### Files Changed
+
+| File | Changes |
+|------|---------|
+| `src/app/docs/input/page.tsx` | Added tertiary example to CodeBlock |
+| `src/app/docs/textarea/page.tsx` | Added tertiary example to CodeBlock |
+| `src/app/docs/select/page.tsx` | Added tertiary example to CodeBlock |
+| `src/app/docs/autocomplete/page.tsx` | Added tertiary example to CodeBlock |
+| `src/app/docs/combobox/page.tsx` | Added tertiary example to CodeBlock |
+| `src/app/docs/input-group/page.tsx` | Added tertiary example to CodeBlock + Variants section |
+| `src/app/docs/field/page.tsx` | Added "Input Variants" section |
+| `src/app/docs/fieldset/page.tsx` | Added "Input Variants" section |
+| `src/app/docs/form/page.tsx` | Added "Input Variants" section |
+
+### Code Example Updates
+
+Each input component docs now shows tertiary variant in the CodeBlock:
+
+```tsx
+// Input
+<Input variant="tertiary" placeholder="Search..." />
+
+// Textarea
+<Textarea variant="tertiary" placeholder="Enter your message..." />
+
+// Select
+<Select variant="tertiary" defaultValue="apple">...</Select>
+
+// Autocomplete
+<Autocomplete.Root items={options} variant="tertiary">...</Autocomplete.Root>
+
+// Combobox
+<Combobox.Root items={options} variant="tertiary">...</Combobox.Root>
+
+// InputGroup
+<InputGroup variant="tertiary" prefix="https://" placeholder="example.com" />
+```
+
+### New "Input Variants" Sections
+
+Field, Fieldset, and Form docs now include sections showing:
+- Secondary inputs (default)
+- Tertiary inputs (with shadow treatment)
+
+This helps users understand how to use different input variants within form contexts.
+
+---
+
+## InputGroup - Static Segments No Hover
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+Static prefix/suffix segments (like "https://" or "$") show hover background change even though they're not interactive. This is misleading UX.
+
+### Solution
+
+Only apply hover states when segment type is `"action"` or `"select"`, not `"static"`.
+
+**File:** `src/components/ui/input-group.tsx`
+
+### Changes
+
+**Before:**
+```tsx
+// Hover applied unconditionally to all segment types
+!disabled && isSecondary && "hover:bg-actions-secondary-hover",
+!disabled && isTertiary && "hover:bg-actions-tertiary-hover",
+```
+
+**After:**
+```tsx
+// Only hover on interactive segments (action or select)
+!disabled && (prefixType === "action" || prefixType === "select") && isSecondary && "hover:bg-actions-secondary-hover",
+!disabled && (prefixType === "action" || prefixType === "select") && isTertiary && "hover:bg-actions-tertiary-hover",
+```
+
+Applied to both prefix and suffix segments.
+
+### Behavior by Segment Type
+
+| Type | Interactive | Hover State | Cursor |
+|------|-------------|-------------|--------|
+| `static` | No | None | Default |
+| `action` | Yes | Background change | Pointer |
+| `select` | Yes | Background change | Pointer |
+
+### Why This Makes Sense
+
+- Static segments are just labels (e.g., "https://", "$", ".com")
+- No click handler, no keyboard interaction
+- Hover feedback implies interactivity that doesn't exist
+- Action/select segments remain interactive with proper hover feedback
+
+---
+
+## Icon Search Page - Use Input Component
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+Icon search page used a custom inline input implementation instead of the design system's Input component.
+
+### Solution
+
+Replaced custom input with our `Input` component for consistency.
+
+**File:** `src/app/docs/tokens/icons/page.tsx`
+
+### Before
+```tsx
+<div className="flex h-[40px] w-full items-center gap-[var(--space-8)] rounded-[var(--radius-10)] bg-actions-secondary-default px-[var(--space-12)] ...">
+  <span className="...">
+    <SearchIcon className="size-[16px]" />
+  </span>
+  <input
+    type="search"
+    value={query}
+    onChange={(event) => setQuery(event.target.value)}
+    placeholder="Search by icon name"
+    className="h-full w-full bg-transparent ..."
+  />
+  <span>
+    {query ? (
+      <button onClick={() => setQuery("")}>
+        <CloseIcon />
+      </button>
+    ) : null}
+  </span>
+</div>
+```
+
+### After
+```tsx
+<Input
+  id="icon-search"
+  size="l"
+  value={query}
+  onChange={(event) => setQuery(event.target.value)}
+  placeholder="Search by icon name"
+  aria-label="Search icons"
+  leadingIcon={<RiSearchLine />}
+  trailingIcon={
+    query ? (
+      <button
+        type="button"
+        onClick={() => setQuery("")}
+        className="flex size-full items-center justify-center"
+        aria-label="Clear search"
+      >
+        <RiCloseLine />
+      </button>
+    ) : null
+  }
+/>
+```
+
+### Benefits
+
+- Consistent with design system styling
+- Built-in focus ring, hover states
+- Proper icon sizing and positioning
+- Supports variants (secondary/tertiary)
+- Reduced custom code
+
+### Import Changes
+```diff
++ import { RiSearchLine, RiCloseLine } from "@remixicon/react"
++ import { Input } from "@/components/ui/input"
+- import { CloseIcon, SearchIcon } from "@/icons"
+```
+
+---

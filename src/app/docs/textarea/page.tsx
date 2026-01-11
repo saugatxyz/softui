@@ -24,6 +24,9 @@ import { Field } from "@/components/ui/field"
 // Standalone textarea
 <Textarea placeholder="Enter your message..." />
 
+// With tertiary variant (shadow treatment)
+<Textarea variant="tertiary" placeholder="Enter your message..." />
+
 // With Field wrapper for labels and validation
 <Field label="Message" description="Max 500 characters">
   <Textarea placeholder="Type your message here..." rows={4} />
@@ -63,6 +66,30 @@ import { Field } from "@/components/ui/field"
             </div>
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <Textarea size="l" placeholder="Enter text..." />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Variants</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Secondary</p>
+              <p className="text-body-m text-content-subtle">Default variant</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+              <Textarea variant="secondary" placeholder="Secondary textarea..." />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Tertiary</p>
+              <p className="text-body-m text-content-subtle">With shadow treatment</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+              <Textarea variant="tertiary" placeholder="Tertiary textarea..." />
             </div>
           </div>
         </div>

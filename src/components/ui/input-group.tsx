@@ -24,7 +24,7 @@ const fieldContainerVariants = cva(
 )
 
 const segmentVariants = cva(
-  "flex h-full items-center gap-[var(--space-8)] bg-actions-secondary-default transition-colors duration-200",
+  "flex h-full items-center gap-[var(--space-8)] transition-colors duration-200",
   {
     variants: {
       size: {
@@ -42,17 +42,22 @@ const segmentVariants = cva(
         action: "",
         select: "",
       },
+      variant: {
+        secondary: "bg-actions-secondary-default",
+        tertiary: "bg-actions-tertiary-default",
+      },
     },
     defaultVariants: {
       size: "m",
       position: "left",
       type: "static",
+      variant: "secondary",
     },
   }
 )
 
 const mainSegmentVariants = cva(
-  "flex h-full flex-1 items-center gap-[var(--space-8)] bg-actions-secondary-default transition-colors duration-200",
+  "flex h-full flex-1 items-center gap-[var(--space-8)] transition-colors duration-200",
   {
     variants: {
       size: {
@@ -68,11 +73,16 @@ const mainSegmentVariants = cva(
         true: "",
         false: "rounded-r-[var(--radius-10)]",
       },
+      variant: {
+        secondary: "bg-actions-secondary-default",
+        tertiary: "bg-actions-tertiary-default",
+      },
     },
     defaultVariants: {
       size: "m",
       hasPrefix: false,
       hasSuffix: false,
+      variant: "secondary",
     },
   }
 )
@@ -110,10 +120,13 @@ const iconVariants = cva(
 )
 
 type InputGroupSize = "s" | "m" | "l"
+type InputGroupVariant = "secondary" | "tertiary"
 type SegmentType = "static" | "action" | "select"
 
 type InputGroupProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size" | "prefix" | "suffix"> &
   VariantProps<typeof fieldContainerVariants> & {
+    /** Visual variant */
+    variant?: InputGroupVariant
     /** Content for the prefix segment (text or select element) */
     prefix?: React.ReactNode
     /** Visual element before prefix content (icon, crypto, avatar) */
@@ -139,6 +152,7 @@ type InputGroupProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size" 
 function InputGroup({
   className,
   size,
+  variant = "secondary",
   prefix,
   prefixIcon,
   prefixType = "static",
@@ -153,6 +167,9 @@ function InputGroup({
   ...props
 }: InputGroupProps) {
   const resolvedSize: InputGroupSize = size ?? "m"
+  const resolvedVariant: InputGroupVariant = variant
+  const isSecondary = resolvedVariant === "secondary"
+  const isTertiary = resolvedVariant === "tertiary"
   const hasPrefix = Boolean(prefix) || Boolean(prefixIcon)
   const hasSuffix = Boolean(suffix) || Boolean(suffixIcon)
   const inputRef = React.useRef<HTMLInputElement>(null)
@@ -172,9 +189,11 @@ function InputGroup({
     <div
       data-slot="input-group"
       data-size={resolvedSize}
+      data-variant={resolvedVariant}
       className={cn(
         fieldContainerVariants({ size: resolvedSize }),
         "relative rounded-[var(--radius-10)]",
+        isTertiary && "backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
         className
       )}
     >
@@ -186,13 +205,15 @@ function InputGroup({
           tabIndex={!disabled && prefixType === "action" ? 0 : undefined}
           role={prefixType === "action" ? "button" : undefined}
           className={cn(
-            segmentVariants({ size: resolvedSize, position: "left", type: prefixType }),
+            segmentVariants({ size: resolvedSize, position: "left", type: prefixType, variant: resolvedVariant }),
             "group/prefix",
             !disabled && (prefixType === "action" || prefixType === "select") && "cursor-pointer",
-            !disabled && "hover:bg-actions-secondary-hover",
+            !disabled && (prefixType === "action" || prefixType === "select") && isSecondary && "hover:bg-actions-secondary-hover",
+            !disabled && (prefixType === "action" || prefixType === "select") && isTertiary && "hover:bg-actions-tertiary-hover",
             !disabled && prefixType === "action" && "focus:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
             !disabled && prefixType === "select" && "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-            disabled && "bg-actions-secondary-disabled"
+            disabled && isSecondary && "bg-actions-secondary-disabled",
+            disabled && isTertiary && "bg-actions-tertiary-disabled"
           )}
           onClick={(e) => {
             if (disabled) return
@@ -267,9 +288,13 @@ function InputGroup({
             size: resolvedSize,
             hasPrefix,
             hasSuffix,
+            variant: resolvedVariant,
           }),
-          disabled ? "cursor-not-allowed bg-actions-secondary-disabled" : "cursor-text",
-          !disabled && "hover:bg-actions-secondary-hover",
+          disabled && isSecondary && "cursor-not-allowed bg-actions-secondary-disabled",
+          disabled && isTertiary && "cursor-not-allowed bg-actions-tertiary-disabled",
+          !disabled && "cursor-text",
+          !disabled && isSecondary && "hover:bg-actions-secondary-hover",
+          !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
           "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
         )}
         onClick={() => inputRef.current?.focus()}
@@ -320,13 +345,15 @@ function InputGroup({
           tabIndex={!disabled && suffixType === "action" ? 0 : undefined}
           role={suffixType === "action" ? "button" : undefined}
           className={cn(
-            segmentVariants({ size: resolvedSize, position: "right", type: suffixType }),
+            segmentVariants({ size: resolvedSize, position: "right", type: suffixType, variant: resolvedVariant }),
             "group/suffix",
             !disabled && (suffixType === "action" || suffixType === "select") && "cursor-pointer",
-            !disabled && "hover:bg-actions-secondary-hover",
+            !disabled && (suffixType === "action" || suffixType === "select") && isSecondary && "hover:bg-actions-secondary-hover",
+            !disabled && (suffixType === "action" || suffixType === "select") && isTertiary && "hover:bg-actions-tertiary-hover",
             !disabled && suffixType === "action" && "focus:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
             !disabled && suffixType === "select" && "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-            disabled && "bg-actions-secondary-disabled"
+            disabled && isSecondary && "bg-actions-secondary-disabled",
+            disabled && isTertiary && "bg-actions-tertiary-disabled"
           )}
           onClick={(e) => {
             if (disabled) return

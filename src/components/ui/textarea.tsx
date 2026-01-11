@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const textareaFieldVariants = cva(
-  "flex w-full rounded-[var(--radius-10)] bg-actions-secondary-default transition-colors duration-200",
+  "flex w-full rounded-[var(--radius-10)] transition-colors duration-200",
   {
     variants: {
       size: {
@@ -15,9 +15,15 @@ const textareaFieldVariants = cva(
         m: "px-[var(--space-12)] py-[var(--space-10)]",
         l: "px-[var(--space-12)] py-[var(--space-12)]",
       },
+      variant: {
+        secondary: "bg-actions-secondary-default",
+        tertiary:
+          "bg-actions-tertiary-default backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
+      },
     },
     defaultVariants: {
       size: "m",
+      variant: "secondary",
     },
   }
 )
@@ -46,6 +52,7 @@ const textareaVariants = cva(
 )
 
 type TextareaSize = "s" | "m" | "l"
+type TextareaVariant = "secondary" | "tertiary"
 type TextareaResize = "none" | "vertical" | "horizontal" | "both"
 
 type TextareaProps = Omit<
@@ -62,24 +69,37 @@ type TextareaProps = Omit<
 function Textarea({
   className,
   size,
+  variant,
   rows = 3,
   resize = "vertical",
   disabled,
   ...props
 }: TextareaProps) {
   const resolvedSize: TextareaSize = size ?? "m"
+  const resolvedVariant: TextareaVariant = variant ?? "secondary"
   const containerRef = React.useRef<HTMLDivElement>(null)
+
+  const isSecondary = resolvedVariant === "secondary"
+  const isTertiary = resolvedVariant === "tertiary"
 
   return (
     <div
       ref={containerRef}
       data-slot="textarea"
       data-size={resolvedSize}
+      data-variant={resolvedVariant}
       className={cn(
-        textareaFieldVariants({ size: resolvedSize }),
+        textareaFieldVariants({ size: resolvedSize, variant: resolvedVariant }),
         "group relative",
-        disabled ? "cursor-not-allowed bg-actions-secondary-disabled" : "cursor-text",
-        !disabled && "hover:bg-actions-secondary-hover",
+        disabled
+          ? cn(
+              "cursor-not-allowed",
+              isSecondary && "bg-actions-secondary-disabled",
+              isTertiary && "bg-actions-tertiary-disabled shadow-none"
+            )
+          : "cursor-text",
+        !disabled && isSecondary && "hover:bg-actions-secondary-hover",
+        !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
         "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className
       )}

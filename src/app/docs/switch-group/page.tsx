@@ -159,16 +159,16 @@ import { SwitchGroupItem } from "@/components/ui/switch-group-item"
               <SwitchGroup style="card-small" stack="horizontal">
                 <SwitchGroupItem
                   label="Wi-Fi"
-                  prefix={<SwitchPrefix type="icon-emphasized-blue" size="s" icon={<RiWifiLine size={16} />} />}
+                  prefix={<SwitchPrefix type="icon" size="s" icon={<RiWifiLine size={16} />} containerStyle="subtle" containerColor="blue" />}
                   defaultChecked
                 />
                 <SwitchGroupItem
                   label="Bluetooth"
-                  prefix={<SwitchPrefix type="icon-emphasized-cyan" size="s" icon={<RiBluetoothLine size={16} />} />}
+                  prefix={<SwitchPrefix type="icon" size="s" icon={<RiBluetoothLine size={16} />} containerStyle="subtle" containerColor="cyan" />}
                 />
                 <SwitchGroupItem
                   label="Airplane"
-                  prefix={<SwitchPrefix type="icon-emphasized-orange" size="s" icon={<RiPlaneLine size={16} />} />}
+                  prefix={<SwitchPrefix type="icon" size="s" icon={<RiPlaneLine size={16} />} containerStyle="subtle" containerColor="orange" />}
                 />
               </SwitchGroup>
             </div>
@@ -284,24 +284,48 @@ import { SwitchGroupItem } from "@/components/ui/switch-group-item"
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon Emphasized</p>
+              <p className="text-body-m text-content-strong">Container Subtle</p>
+              <p className="text-body-m text-content-subtle">Default (neutral)</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <SwitchPrefix type="icon-emphasized" size="s" icon={<HeartIcon />} />
-              <SwitchPrefix type="icon-emphasized" size="m" icon={<HeartIcon />} />
+              <SwitchPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="subtle" />
+              <SwitchPrefix type="icon" size="m" icon={<HeartIcon />} containerStyle="subtle" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon Emphasized Colors</p>
+              <p className="text-body-m text-content-strong">Container Subtle Colors</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <SwitchPrefix type="icon-emphasized-blue" size="s" icon={<BookmarkIcon />} />
-              <SwitchPrefix type="icon-emphasized-green" size="s" icon={<StarIcon />} />
-              <SwitchPrefix type="icon-emphasized-orange" size="s" icon={<HeartIcon />} />
-              <SwitchPrefix type="icon-emphasized-purple" size="s" icon={<BookmarkIcon />} />
-              <SwitchPrefix type="icon-emphasized-red" size="s" icon={<StarIcon />} />
-              <SwitchPrefix type="icon-emphasized-cyan" size="s" icon={<HeartIcon />} />
+              <SwitchPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="subtle" containerColor="blue" />
+              <SwitchPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="subtle" containerColor="green" />
+              <SwitchPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="subtle" containerColor="orange" />
+              <SwitchPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="subtle" containerColor="purple" />
+              <SwitchPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="subtle" containerColor="red" />
+              <SwitchPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="subtle" containerColor="cyan" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Container Strong</p>
+              <p className="text-body-m text-content-subtle">Default (neutral)</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <SwitchPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="strong" />
+              <SwitchPrefix type="icon" size="m" icon={<HeartIcon />} containerStyle="strong" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Container Strong Colors</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
+              <SwitchPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="strong" containerColor="blue" />
+              <SwitchPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="strong" containerColor="green" />
+              <SwitchPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="strong" containerColor="orange" />
+              <SwitchPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="strong" containerColor="purple" />
+              <SwitchPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="strong" containerColor="red" />
+              <SwitchPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="strong" containerColor="cyan" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

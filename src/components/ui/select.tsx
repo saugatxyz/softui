@@ -14,7 +14,7 @@ import { listPopupStyles, listItemVariants } from "./list-item-styles"
 const triggerVariants = cva(
   [
     "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
-    "bg-actions-secondary-default transition-colors duration-200 outline-none cursor-pointer",
+    "transition-colors duration-200 outline-none cursor-pointer",
   ].join(" "),
   {
     variants: {
@@ -23,9 +23,15 @@ const triggerVariants = cva(
         m: "h-[var(--space-36)] px-[var(--space-12)]",
         l: "h-[var(--space-40)] px-[var(--space-12)]",
       },
+      variant: {
+        secondary: "bg-actions-secondary-default",
+        tertiary:
+          "bg-actions-tertiary-default backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
+      },
     },
     defaultVariants: {
       size: "m",
+      variant: "secondary",
     },
   }
 )
@@ -47,9 +53,11 @@ const itemTextVariants = cva(
 // ============================================================================
 
 type SelectSize = "s" | "m" | "l"
+type SelectVariant = "secondary" | "tertiary"
 
 type SelectContextValue = {
   size: SelectSize
+  variant: SelectVariant
 }
 
 const SelectContext = React.createContext<SelectContextValue | null>(null)
@@ -68,14 +76,16 @@ function useSelectContext() {
 
 type SelectRootProps<Value = unknown, Multiple extends boolean | undefined = boolean> = SelectPrimitive.Root.Props<Value, Multiple> & {
   size?: SelectSize
+  variant?: SelectVariant
 }
 
 function SelectRoot<Value = unknown, Multiple extends boolean | undefined = boolean>({
   size = "m",
+  variant = "secondary",
   ...props
 }: SelectRootProps<Value, Multiple>) {
   return (
-    <SelectContext.Provider value={{ size }}>
+    <SelectContext.Provider value={{ size, variant }}>
       <SelectPrimitive.Root
         {...props}
       />
@@ -92,16 +102,22 @@ type SelectTriggerProps = Omit<SelectPrimitive.Trigger.Props, "className"> & {
 }
 
 function SelectTrigger({ className, ...props }: SelectTriggerProps) {
-  const { size } = useSelectContext()
+  const { size, variant } = useSelectContext()
+  const isSecondary = variant === "secondary"
+  const isTertiary = variant === "tertiary"
 
   return (
     <SelectPrimitive.Trigger
       data-slot="trigger"
+      data-variant={variant}
       className={cn(
-        triggerVariants({ size }),
-        "hover:bg-actions-secondary-hover",
+        triggerVariants({ size, variant }),
+        isSecondary && "hover:bg-actions-secondary-hover",
+        isTertiary && "hover:bg-actions-tertiary-hover",
         "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-        "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:cursor-not-allowed",
+        isSecondary && "data-[disabled]:bg-actions-secondary-disabled",
+        isTertiary && "data-[disabled]:bg-actions-tertiary-disabled data-[disabled]:shadow-none",
+        "data-[disabled]:cursor-not-allowed",
         className
       )}
       {...props}

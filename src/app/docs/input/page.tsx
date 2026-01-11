@@ -50,6 +50,9 @@ import { RiMailLine } from "@remixicon/react"
 // Standalone input
 <Input placeholder="Name" />
 
+// With tertiary variant (shadow treatment)
+<Input variant="tertiary" placeholder="Search..." />
+
 // With Field wrapper for labels and validation
 <Field
   label="Email"
@@ -100,6 +103,36 @@ import { RiMailLine } from "@remixicon/react"
               <Input
                 size="l"
                 placeholder="Name"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Variants</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Secondary</p>
+              <p className="text-body-m text-content-subtle">Default variant</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+              <Input
+                variant="secondary"
+                placeholder="Secondary input"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Tertiary</p>
+              <p className="text-body-m text-content-subtle">With shadow treatment</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+              <Input
+                variant="tertiary"
+                placeholder="Tertiary input"
               />
             </div>
           </div>

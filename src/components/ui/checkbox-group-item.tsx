@@ -56,9 +56,10 @@ type CheckboxGroupItemProps = Omit<CheckboxControlProps, "className" | "prefix">
   className?: string
 }
 
-// Context for CheckboxGroup to pass down the type
+// Context for CheckboxGroup to pass down the type and stack
 type CheckboxGroupContextValue = {
   type?: CheckboxGroupItemType
+  stack?: "vertical" | "horizontal"
 }
 
 const CheckboxGroupContext = React.createContext<CheckboxGroupContextValue | null>(null)
@@ -83,12 +84,14 @@ function CheckboxGroupItem({
 }: CheckboxGroupItemProps) {
   const context = useCheckboxGroupContext()
   const type = typeProp ?? context?.type ?? "simple"
+  const stack = context?.stack ?? "vertical"
 
   const isSimple = type === "simple"
   const isList = type === "list"
   const isCardSmall = type === "card-small"
   const isCardBig = type === "card-big"
   const isCard = isCardSmall || isCardBig
+  const isInline = isSimple && stack === "horizontal"
 
   // For simple/list types: checkbox on left
   // For card types: checkbox on right with prefix on left
@@ -112,7 +115,7 @@ function CheckboxGroupItem({
       data-type={type}
       data-disabled={disabled || undefined}
       disabled={disabled}
-      className="w-full"
+      className={isInline ? undefined : "w-full"}
     >
       <FieldPrimitive.Label
         data-slot="label-container"
@@ -191,10 +194,13 @@ function CheckboxGroupItem({
       {showCheckboxOnRight && (
         <span
           data-slot="suffix-wrapper"
-          className="flex shrink-0 items-start gap-[var(--space-8)] self-stretch pr-[var(--space-2)] pt-[var(--space-2)]"
+          className={cn(
+            "flex shrink-0 gap-[var(--space-8)] self-stretch pr-[var(--space-2)]",
+            showDescription ? "items-start pt-[var(--space-2)]" : "items-center"
+          )}
         >
           {badge}
-          <span className="flex h-[20px] shrink-0 items-center">
+          <span className="flex shrink-0">
             <CheckboxControl
               checked={checked}
               defaultChecked={defaultChecked}

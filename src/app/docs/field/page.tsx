@@ -141,6 +141,34 @@ import { Select } from "@/components/ui/select"
       </section>
 
       <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Input Variants</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Secondary input</p>
+              <p className="text-body-m text-content-subtle">Default input variant</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+              <Field label="Email">
+                <Input variant="secondary" placeholder="you@example.com" />
+              </Field>
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Tertiary input</p>
+              <p className="text-body-m text-content-subtle">With shadow treatment</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+              <Field label="Email">
+                <Input variant="tertiary" placeholder="you@example.com" />
+              </Field>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">States</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

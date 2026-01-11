@@ -36,7 +36,7 @@ const switchGroupVariants = cva("", {
     {
       style: "simple",
       stack: "horizontal",
-      className: "flex flex-row flex-wrap gap-[var(--space-20)]",
+      className: "flex flex-row flex-wrap gap-[var(--space-24)]",
     },
     // List layouts
     {
@@ -92,8 +92,8 @@ function SwitchGroup({
   className,
 }: SwitchGroupProps) {
   const contextValue = React.useMemo<SwitchGroupContextValue>(
-    () => ({ type: style }),
-    [style]
+    () => ({ type: style, stack }),
+    [style, stack]
   )
 
   return (

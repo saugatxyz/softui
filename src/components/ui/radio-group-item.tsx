@@ -56,9 +56,10 @@ type RadioGroupItemProps = Omit<RadioControlProps, "className" | "prefix"> & {
   className?: string
 }
 
-// Context for RadioGroup to pass down the type
+// Context for RadioGroup to pass down the type and stack
 type RadioGroupContextValue = {
   type?: RadioGroupItemType
+  stack?: "vertical" | "horizontal"
 }
 
 const RadioGroupContext = React.createContext<RadioGroupContextValue | null>(null)
@@ -80,12 +81,14 @@ function RadioGroupItem({
 }: RadioGroupItemProps) {
   const context = useRadioGroupContext()
   const type = typeProp ?? context?.type ?? "simple"
+  const stack = context?.stack ?? "vertical"
 
   const isSimple = type === "simple"
   const isList = type === "list"
   const isCardSmall = type === "card-small"
   const isCardBig = type === "card-big"
   const isCard = isCardSmall || isCardBig
+  const isInline = isSimple && stack === "horizontal"
 
   // For simple/list types: radio on left
   // For card types: radio on right with prefix on left
@@ -109,7 +112,7 @@ function RadioGroupItem({
       data-type={type}
       data-disabled={disabled || undefined}
       disabled={disabled}
-      className="w-full"
+      className={isInline ? undefined : "w-full"}
     >
       <FieldPrimitive.Label
         data-slot="label-container"
@@ -185,10 +188,13 @@ function RadioGroupItem({
       {showRadioOnRight && (
         <span
           data-slot="suffix-wrapper"
-          className="flex shrink-0 items-start gap-[var(--space-8)] self-stretch pr-[var(--space-2)] pt-[var(--space-2)]"
+          className={cn(
+            "flex shrink-0 gap-[var(--space-8)] self-stretch pr-[var(--space-2)]",
+            showDescription ? "items-start pt-[var(--space-2)]" : "items-center"
+          )}
         >
           {badge}
-          <span className="flex h-[20px] shrink-0 items-center">
+          <span className="flex shrink-0">
             <RadioControl
               value={value}
               disabled={disabled}

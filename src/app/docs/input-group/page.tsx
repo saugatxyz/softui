@@ -82,6 +82,9 @@ export default function InputGroupDocsPage() {
 // Static prefix
 <InputGroup prefix="https://" placeholder="example.com" />
 
+// With tertiary variant (shadow treatment)
+<InputGroup variant="tertiary" prefix="https://" placeholder="example.com" />
+
 // With leading icon in field
 <InputGroup leadingIcon={<RiSearchLine />} placeholder="Search..." />
 
@@ -237,6 +240,38 @@ export default function InputGroupDocsPage() {
             <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
               <InputGroup
                 size="l"
+                prefix="https://"
+                placeholder="example.com"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Variants</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Secondary</p>
+              <p className="text-body-m text-content-subtle">Default variant</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+              <InputGroup
+                variant="secondary"
+                prefix="https://"
+                placeholder="example.com"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Tertiary</p>
+              <p className="text-body-m text-content-subtle">With shadow treatment</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col gap-[var(--space-16)]">
+              <InputGroup
+                variant="tertiary"
                 prefix="https://"
                 placeholder="example.com"
               />

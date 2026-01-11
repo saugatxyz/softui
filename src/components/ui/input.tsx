@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const inputFieldVariants = cva(
-  "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)] bg-actions-secondary-default transition-colors duration-200",
+  "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)] transition-colors duration-200",
   {
     variants: {
       size: {
@@ -15,9 +15,15 @@ const inputFieldVariants = cva(
         m: "h-[var(--space-36)] px-[var(--space-12)]",
         l: "h-[var(--space-40)] px-[var(--space-12)]",
       },
+      variant: {
+        secondary: "bg-actions-secondary-default",
+        tertiary:
+          "bg-actions-tertiary-default backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
+      },
     },
     defaultVariants: {
       size: "m",
+      variant: "secondary",
     },
   }
 )
@@ -55,6 +61,7 @@ const iconVariants = cva(
 )
 
 type InputSize = "s" | "m" | "l"
+type InputVariant = "secondary" | "tertiary"
 
 type InputProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
   VariantProps<typeof inputFieldVariants> & {
@@ -66,6 +73,7 @@ type InputProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
 function Input({
   className,
   size,
+  variant,
   leadingIcon,
   trailingIcon,
   focusVisibleOnly = true,
@@ -73,6 +81,7 @@ function Input({
   ...props
 }: InputProps) {
   const resolvedSize: InputSize = size ?? "m"
+  const resolvedVariant: InputVariant = variant ?? "secondary"
   const inputRef = React.useRef<HTMLInputElement>(null)
   const [showFocusRing, setShowFocusRing] = React.useState(false)
   const wasPointerDown = React.useRef(false)
@@ -96,15 +105,26 @@ function Input({
     wasPointerDown.current = false
   }
 
+  const isSecondary = resolvedVariant === "secondary"
+  const isTertiary = resolvedVariant === "tertiary"
+
   return (
     <div
       data-slot="input"
       data-size={resolvedSize}
+      data-variant={resolvedVariant}
       className={cn(
-        inputFieldVariants({ size: resolvedSize }),
+        inputFieldVariants({ size: resolvedSize, variant: resolvedVariant }),
         "group relative",
-        disabled ? "cursor-not-allowed bg-actions-secondary-disabled" : "cursor-text",
-        !disabled && "hover:bg-actions-secondary-hover",
+        disabled
+          ? cn(
+              "cursor-not-allowed",
+              isSecondary && "bg-actions-secondary-disabled",
+              isTertiary && "bg-actions-tertiary-disabled shadow-none"
+            )
+          : "cursor-text",
+        !disabled && isSecondary && "hover:bg-actions-secondary-hover",
+        !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
         showFocusRing &&
           "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className

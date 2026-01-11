@@ -506,7 +506,14 @@ const options = [
   { value: "orange", label: "Orange" },
 ]
 
+// Default (secondary variant)
 <Combobox.Root items={options}>
+  <Combobox.Input placeholder="Search fruits..." />
+  ...
+</Combobox.Root>
+
+// With tertiary variant (shadow treatment)
+<Combobox.Root items={options} variant="tertiary">
   <Combobox.Input placeholder="Search fruits..." />
   <Combobox.Trigger>
     <RiExpandUpDownLine />
@@ -587,6 +594,31 @@ const options = [
             </div>
             <div className="w-full max-w-sm">
               <ComboboxDemo size="l" options={fruits} placeholder="Search..." />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Variants */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Variants</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Secondary</p>
+              <p className="text-body-m text-content-subtle">Default variant</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <ComboboxDemo variant="secondary" options={fruits} placeholder="Search fruits..." />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Tertiary</p>
+              <p className="text-body-m text-content-subtle">With shadow treatment</p>
+            </div>
+            <div className="w-full max-w-sm">
+              <ComboboxDemo variant="tertiary" options={fruits} placeholder="Search fruits..." />
             </div>
           </div>
         </div>

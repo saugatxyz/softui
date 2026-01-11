@@ -36,7 +36,7 @@ const checkboxGroupVariants = cva("", {
     {
       style: "simple",
       stack: "horizontal",
-      className: "flex flex-row flex-wrap gap-[var(--space-20)]",
+      className: "flex flex-row flex-wrap gap-[var(--space-24)]",
     },
     // List layouts
     {
@@ -92,8 +92,8 @@ function CheckboxGroup({
   className,
 }: CheckboxGroupProps) {
   const contextValue = React.useMemo<CheckboxGroupContextValue>(
-    () => ({ type: style }),
-    [style]
+    () => ({ type: style, stack }),
+    [style, stack]
   )
 
   return (

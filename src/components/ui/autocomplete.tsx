@@ -28,7 +28,7 @@ function useAutocompleteContext() {
 const rootVariants = cva(
   [
     "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
-    "bg-actions-secondary-default transition-colors duration-200 outline-none",
+    "transition-colors duration-200 outline-none",
   ].join(" "),
   {
     variants: {
@@ -37,9 +37,15 @@ const rootVariants = cva(
         m: "h-[var(--space-36)] px-[var(--space-12)]",
         l: "h-[var(--space-40)] px-[var(--space-12)]",
       },
+      variant: {
+        secondary: "bg-actions-secondary-default",
+        tertiary:
+          "bg-actions-tertiary-default backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
+      },
     },
     defaultVariants: {
       size: "m",
+      variant: "secondary",
     },
   }
 )
@@ -53,6 +59,7 @@ const inputVariants = cva(
 // ============================================================================
 
 type AutocompleteSize = "s" | "m" | "l"
+type AutocompleteVariant = "secondary" | "tertiary"
 
 // ============================================================================
 // Root
@@ -65,6 +72,7 @@ type AutocompleteGroup<ItemValue> = {
 
 type AutocompleteRootBaseProps = {
   size?: AutocompleteSize
+  variant?: AutocompleteVariant
   className?: string
 }
 
@@ -93,6 +101,7 @@ const isGroupedItems = <ItemValue,>(
 
 function AutocompleteRoot<ItemValue = unknown>({
   size = "m",
+  variant = "secondary",
   className,
   children,
   items,
@@ -120,13 +129,19 @@ function AutocompleteRoot<ItemValue = unknown>({
 
   const contextValue = React.useMemo(() => ({ containerRef }), [])
 
+  const isSecondary = variant === "secondary"
+  const isTertiary = variant === "tertiary"
+
   const content = (
     <div
       ref={containerRef}
       data-slot="autocomplete"
       data-size={size}
+      data-variant={variant}
       className={cn(
-        rootVariants({ size }),
+        rootVariants({ size, variant }),
+        isSecondary && "hover:bg-actions-secondary-hover",
+        isTertiary && "hover:bg-actions-tertiary-hover",
         showFocusRing &&
           "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className

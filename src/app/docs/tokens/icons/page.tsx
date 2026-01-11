@@ -2,15 +2,15 @@
 
 import * as React from "react"
 import * as RemixIcons from "@remixicon/react"
+import { RiSearchLine, RiCloseLine } from "@remixicon/react"
 import { motion } from "motion/react"
 
+import { Input } from "@/components/ui/input"
 import {
   AppsFillIcon,
   CheckCircleIcon,
-  CloseIcon,
   CopyIcon,
   MenuSearchLineIcon,
-  SearchIcon,
 } from "@/icons"
 
 type IconEntry = {
@@ -111,32 +111,28 @@ export default function TokensIconsPage() {
               </p>
             </div>
           </div>
-          <div className="flex h-[40px] w-full items-center gap-[var(--space-8)] rounded-[var(--radius-10)] bg-actions-secondary-default px-[var(--space-12)] text-content-strong transition hover:bg-actions-secondary-hover md:ml-auto md:w-[calc((100%-var(--space-4)*5)/6*2+var(--space-4))]">
-            <span className="flex size-[16px] shrink-0 items-center justify-center text-content-muted">
-              <SearchIcon className="size-[16px]" />
-            </span>
-            <input
+          <div className="w-full md:ml-auto md:w-[calc((100%-var(--space-4)*5)/6*2+var(--space-4))]">
+            <Input
               id="icon-search"
-              type="search"
+              size="l"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search by icon name"
               aria-label="Search icons"
-              className="h-full w-full bg-transparent text-body-m text-content-strong placeholder:text-content-muted focus:outline-none"
+              leadingIcon={<RiSearchLine />}
+              trailingIcon={
+                query ? (
+                  <button
+                    type="button"
+                    onClick={() => setQuery("")}
+                    className="flex size-full items-center justify-center"
+                    aria-label="Clear search"
+                  >
+                    <RiCloseLine />
+                  </button>
+                ) : null
+              }
             />
-            <span className="flex size-[16px] shrink-0 items-center justify-center text-content-strong">
-              {query ? (
-                <button
-                  type="button"
-                  onClick={() => setQuery("")}
-                  className="flex size-[16px] items-center justify-center text-content-strong hover:text-content-strong focus:outline-none"
-                  aria-label="Clear search"
-                  title="Clear search"
-                >
-                  <CloseIcon className="size-[16px]" />
-                </button>
-              ) : null}
-            </span>
           </div>
         </div>
       </header>

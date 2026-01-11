@@ -210,15 +210,15 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
               <CheckboxGroup style="card-small" stack="horizontal">
                 <CheckboxGroupItem
                   label="Favorites"
-                  prefix={<CheckboxPrefix type="icon-emphasized-orange" size="s" icon={<StarIcon />} />}
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="subtle" containerColor="orange" />}
                 />
                 <CheckboxGroupItem
                   label="Liked"
-                  prefix={<CheckboxPrefix type="icon-emphasized-red" size="s" icon={<HeartIcon />} />}
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="subtle" containerColor="red" />}
                 />
                 <CheckboxGroupItem
                   label="Saved"
-                  prefix={<CheckboxPrefix type="icon-emphasized-blue" size="s" icon={<BookmarkIcon />} />}
+                  prefix={<CheckboxPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="subtle" containerColor="blue" />}
                 />
               </CheckboxGroup>
             </div>
@@ -352,24 +352,48 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon Emphasized</p>
+              <p className="text-body-m text-content-strong">Container Subtle</p>
+              <p className="text-body-m text-content-subtle">Default (neutral)</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
-              <CheckboxPrefix type="icon-emphasized" size="s" icon={<HeartIcon />} />
-              <CheckboxPrefix type="icon-emphasized" size="m" icon={<HeartIcon />} />
+              <CheckboxPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="subtle" />
+              <CheckboxPrefix type="icon" size="m" icon={<HeartIcon />} containerStyle="subtle" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
             <div className="md:min-w-[220px]">
-              <p className="text-body-m text-content-strong">Icon Emphasized Colors</p>
+              <p className="text-body-m text-content-strong">Container Subtle Colors</p>
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-              <CheckboxPrefix type="icon-emphasized-blue" size="s" icon={<BookmarkIcon />} />
-              <CheckboxPrefix type="icon-emphasized-green" size="s" icon={<StarIcon />} />
-              <CheckboxPrefix type="icon-emphasized-orange" size="s" icon={<HeartIcon />} />
-              <CheckboxPrefix type="icon-emphasized-purple" size="s" icon={<BookmarkIcon />} />
-              <CheckboxPrefix type="icon-emphasized-red" size="s" icon={<StarIcon />} />
-              <CheckboxPrefix type="icon-emphasized-cyan" size="s" icon={<HeartIcon />} />
+              <CheckboxPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="subtle" containerColor="blue" />
+              <CheckboxPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="subtle" containerColor="green" />
+              <CheckboxPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="subtle" containerColor="orange" />
+              <CheckboxPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="subtle" containerColor="purple" />
+              <CheckboxPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="subtle" containerColor="red" />
+              <CheckboxPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="subtle" containerColor="cyan" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Container Strong</p>
+              <p className="text-body-m text-content-subtle">Default (neutral)</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <CheckboxPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="strong" />
+              <CheckboxPrefix type="icon" size="m" icon={<HeartIcon />} containerStyle="strong" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Container Strong Colors</p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-8)]">
+              <CheckboxPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="strong" containerColor="blue" />
+              <CheckboxPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="strong" containerColor="green" />
+              <CheckboxPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="strong" containerColor="orange" />
+              <CheckboxPrefix type="icon" size="s" icon={<BookmarkIcon />} containerStyle="strong" containerColor="purple" />
+              <CheckboxPrefix type="icon" size="s" icon={<StarIcon />} containerStyle="strong" containerColor="red" />
+              <CheckboxPrefix type="icon" size="s" icon={<HeartIcon />} containerStyle="strong" containerColor="cyan" />
             </div>
           </div>
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

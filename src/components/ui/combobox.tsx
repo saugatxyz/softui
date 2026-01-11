@@ -28,7 +28,7 @@ function useComboboxContext() {
 const rootVariants = cva(
   [
     "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
-    "bg-actions-secondary-default transition-colors duration-200 outline-none",
+    "transition-colors duration-200 outline-none",
   ].join(" "),
   {
     variants: {
@@ -37,9 +37,15 @@ const rootVariants = cva(
         m: "min-h-[var(--space-36)] px-[var(--space-12)]",
         l: "min-h-[var(--space-40)] px-[var(--space-12)]",
       },
+      variant: {
+        secondary: "bg-actions-secondary-default",
+        tertiary:
+          "bg-actions-tertiary-default backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
+      },
     },
     defaultVariants: {
       size: "m",
+      variant: "secondary",
     },
   }
 )
@@ -79,6 +85,7 @@ const chipRemoveVariants = cva(
 // ============================================================================
 
 type ComboboxSize = "s" | "m" | "l"
+type ComboboxVariant = "secondary" | "tertiary"
 
 // ============================================================================
 // Root
@@ -86,11 +93,13 @@ type ComboboxSize = "s" | "m" | "l"
 
 type ComboboxRootProps<Value = unknown, Multiple extends boolean | undefined = boolean> = ComboboxPrimitive.Root.Props<Value, Multiple> & {
   size?: ComboboxSize
+  variant?: ComboboxVariant
   className?: string
 }
 
 function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = boolean>({
   size = "m",
+  variant = "secondary",
   className,
   children,
   ...props
@@ -117,6 +126,9 @@ function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = bo
 
   const contextValue = React.useMemo(() => ({ containerRef }), [])
 
+  const isSecondary = variant === "secondary"
+  const isTertiary = variant === "tertiary"
+
   return (
     <ComboboxContext.Provider value={contextValue}>
       <ComboboxPrimitive.Root
@@ -126,8 +138,11 @@ function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = bo
           ref={containerRef}
           data-slot="combobox"
           data-size={size}
+          data-variant={variant}
           className={cn(
-            rootVariants({ size }),
+            rootVariants({ size, variant }),
+            isSecondary && "hover:bg-actions-secondary-hover",
+            isTertiary && "hover:bg-actions-tertiary-hover",
             showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
             className
           )}
