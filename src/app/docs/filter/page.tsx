@@ -174,6 +174,7 @@ function DateFilterExample() {
                   type="date"
                   value={tempDate}
                   onChange={(e) => setTempDate(e.target.value)}
+                  trailingIcon={<RiCalendarLine />}
                 />
               </div>
               <div className="flex justify-end gap-[var(--space-8)] border-t border-border-muted pt-[var(--space-12)] -mx-[var(--space-16)] px-[var(--space-16)] -mb-[var(--space-16)] pb-[var(--space-12)]">

@@ -17,8 +17,8 @@ const filterChipTriggerVariants = cva(
   {
     variants: {
       size: {
-        xs: "h-[var(--space-28)] gap-[var(--space-4)] text-[length:var(--font-size-s)] leading-[var(--line-height-s)]",
-        s: "h-[var(--space-32)] gap-[var(--space-4)] text-[length:var(--font-size-s)] leading-[var(--line-height-s)]",
+        xs: "h-[var(--space-28)] gap-[var(--space-6)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
+        s: "h-[var(--space-32)] gap-[var(--space-6)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
         m: "h-[var(--space-36)] gap-[var(--space-6)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
       },
     },
@@ -43,8 +43,8 @@ const paddingVariants = cva("", {
   compoundVariants: [
     { size: "xs", hasValue: false, className: "pl-[var(--space-12)] pr-[var(--space-10)]" },
     { size: "xs", hasValue: true, className: "pl-[var(--space-12)] pr-[var(--space-6)]" },
-    { size: "s", hasValue: false, className: "pl-[var(--space-12)] pr-[var(--space-10)]" },
-    { size: "s", hasValue: true, className: "pl-[var(--space-12)] pr-[var(--space-6)]" },
+    { size: "s", hasValue: false, className: "pl-[14px] pr-[var(--space-10)]" },
+    { size: "s", hasValue: true, className: "pl-[14px] pr-[var(--space-6)]" },
     { size: "m", hasValue: false, className: "pl-[var(--space-16)] pr-[var(--space-12)]" },
     { size: "m", hasValue: true, className: "pl-[var(--space-16)] pr-[var(--space-8)]" },
   ],

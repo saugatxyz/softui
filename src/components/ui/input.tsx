@@ -23,7 +23,7 @@ const inputFieldVariants = cva(
 )
 
 const inputVariants = cva(
-  "flex-1 bg-transparent text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] outline-none placeholder:text-content-muted caret-actions-primary-default",
+  "flex-1 bg-transparent text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] outline-none placeholder:text-content-muted caret-actions-primary-default [&::-webkit-calendar-picker-indicator]:hidden",
   {
     variants: {
       size: {
