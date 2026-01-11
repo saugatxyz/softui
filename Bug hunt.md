@@ -2010,61 +2010,121 @@ All multi-select examples in the combobox docs page:
 
 ---
 
-## 37. Number Field - Focus Ring Not Visible on Keyboard Tab
+## 37. Number Field - Focus Ring Only on Keyboard (Not Mouse Click)
 **Status:** [x] Fixed
 **Review:** Ready for code review
 
 ### Problem
-When keyboard tabbing to the Number Field component, the focus ring doesn't appear around the component.
+When clicking the Number Field component, the focus ring appears. Focus ring should ONLY show when using keyboard navigation (Tab key), not on mouse click.
 
 ### Root Cause Analysis
 
-The Group component used an **attribute selector** instead of a **pseudo-class selector**:
+The original implementation used pure CSS `:focus-visible`:
 
 ```tsx
-// WRONG - looks for data-focus-visible attribute (which Base UI doesn't add)
-"[&:has([data-focus-visible])]:shadow-[...]"
-
-// CORRECT - uses :focus-visible pseudo-class (native browser behavior)
 "[&:has(:focus-visible)]:shadow-[...]"
 ```
 
-**Key difference:**
-- `[data-focus-visible]` = attribute selector (looks for `data-focus-visible="..."` attribute)
-- `:focus-visible` = pseudo-class selector (matches elements with keyboard focus)
-
-Base UI uses the native `:focus-visible` pseudo-class, not a custom data attribute.
+**The issue:** For text inputs, browsers show `:focus-visible` on click too, because the user might type. This is intentional browser behavior for editable fields, but not our desired UX.
 
 ### Solution Applied
 
 **File:** `src/components/ui/number-field.tsx`
 
-```diff
-  <NumberFieldPrimitive.Group
-    className={cn(
-      groupVariants({ size }),
-      !disabled && "hover:bg-surface-interactive-hover",
--     "[&:has([data-focus-visible])]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-+     "[&:has(:focus-visible)]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-      disabled && "opacity-50 cursor-not-allowed",
-      className
-    )}
-  />
+Implemented the same `focusVisibleOnly` pattern used by the Input component - tracking pointer events to distinguish keyboard from mouse focus:
+
+```tsx
+function Group({ className, focusVisibleOnly = true, ...props }: NumberFieldGroupProps) {
+  const { size, disabled } = useNumberFieldContext()
+  const [showFocusRing, setShowFocusRing] = React.useState(false)
+  const wasPointerDown = React.useRef(false)
+
+  const handlePointerDown = () => {
+    wasPointerDown.current = true
+  }
+
+  const handleFocus = () => {
+    if (focusVisibleOnly) {
+      setShowFocusRing(!wasPointerDown.current)  // Only show if NOT from pointer
+    } else {
+      setShowFocusRing(true)
+    }
+    wasPointerDown.current = false
+  }
+
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget as Node)) return
+    setShowFocusRing(false)
+    wasPointerDown.current = false
+  }
+
+  return (
+    <NumberFieldPrimitive.Group
+      className={cn(
+        groupVariants({ size }),
+        !disabled && "hover:bg-surface-interactive-hover",
+        showFocusRing &&
+          "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        disabled && "opacity-50 cursor-not-allowed",
+        className
+      )}
+      onPointerDownCapture={handlePointerDown}  // Capture phase - runs before Base UI
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      {...props}
+    />
+  )
+}
 ```
 
 ### How It Works
 
-1. User tabs to NumberField → focus goes to the Input element inside Group
-2. Browser applies `:focus-visible` pseudo-class to Input (keyboard focus)
-3. CSS `:has(:focus-visible)` on Group matches (has a child with focus-visible)
-4. Focus ring shadow appears around the entire Group container
+1. **Pointer down (capture phase)** → `wasPointerDown.current = true`
+2. **Focus event fires** → Check if focus came from pointer:
+   - If `wasPointerDown` is true → Don't show focus ring (mouse click)
+   - If `wasPointerDown` is false → Show focus ring (keyboard Tab)
+3. **Blur** → Hide focus ring, reset pointer flag
+
+### Critical Fix: Using Capture Phase
+
+**Initial problem:** Even with pointer tracking, clicking the +/- buttons directly (without prior focus) still showed the focus ring.
+
+**Root cause:** Event timing. When clicking the increment/decrement button:
+1. Base UI's internal `pointerdown` handler fires and focuses the input
+2. Our `onPointerDown` handler fires (too late - focus already happened)
+3. Focus event sees `wasPointerDown = false` → shows ring incorrectly
+
+**Solution:** Use `onPointerDownCapture` instead of `onPointerDown`:
+
+```tsx
+// WRONG - bubble phase (child handlers run first)
+onPointerDown={handlePointerDown}
+
+// CORRECT - capture phase (parent handlers run first)
+onPointerDownCapture={handlePointerDown}
+```
+
+**Event phases explained:**
+- **Capture phase:** Window → Document → ... → Parent → Child (top-down)
+- **Bubble phase:** Child → Parent → ... → Document → Window (bottom-up)
+
+By using capture, our handler sets `wasPointerDown = true` **before** Base UI's handlers run, so when Base UI focuses the input, the focus event correctly sees that focus originated from a pointer.
+
+### New Prop Added
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `focusVisibleOnly` | `boolean` | `true` | Only show focus ring on keyboard focus |
+
+Set `focusVisibleOnly={false}` to show focus ring on both mouse and keyboard focus.
 
 ### Why This Is NOT Breaking Base UI
 
-This is **pure CSS styling**:
-- Uses standard CSS `:has()` selector with `:focus-visible` pseudo-class
-- No JavaScript state tracking needed
-- No Base UI behavior modified
+This is **pure styling behavior**:
+- We're using standard DOM events (`onPointerDown`, `onFocus`, `onBlur`)
+- Base UI's internal state management is untouched
+- We're only controlling when our CSS shadow appears
+- No callbacks intercepted or values transformed
 - Follows "Style it. Compose it. Wrap it. Never change it."
 
 ### Note: Buttons Are Not Focusable

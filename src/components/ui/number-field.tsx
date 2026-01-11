@@ -135,10 +135,33 @@ function Root({
   )
 }
 
-type NumberFieldGroupProps = NumberFieldPrimitive.Group.Props
+type NumberFieldGroupProps = NumberFieldPrimitive.Group.Props & {
+  focusVisibleOnly?: boolean
+}
 
-function Group({ className, ...props }: NumberFieldGroupProps) {
+function Group({ className, focusVisibleOnly = true, ...props }: NumberFieldGroupProps) {
   const { size, disabled } = useNumberFieldContext()
+  const [showFocusRing, setShowFocusRing] = React.useState(false)
+  const wasPointerDown = React.useRef(false)
+
+  const handlePointerDown = () => {
+    wasPointerDown.current = true
+  }
+
+  const handleFocus = () => {
+    if (focusVisibleOnly) {
+      setShowFocusRing(!wasPointerDown.current)
+    } else {
+      setShowFocusRing(true)
+    }
+    wasPointerDown.current = false
+  }
+
+  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget as Node)) return
+    setShowFocusRing(false)
+    wasPointerDown.current = false
+  }
 
   return (
     <NumberFieldPrimitive.Group
@@ -146,10 +169,14 @@ function Group({ className, ...props }: NumberFieldGroupProps) {
       className={cn(
         groupVariants({ size }),
         !disabled && "hover:bg-surface-interactive-hover",
-        "[&:has(:focus-visible)]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        showFocusRing &&
+          "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         disabled && "opacity-50 cursor-not-allowed",
         className
       )}
+      onPointerDownCapture={handlePointerDown}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       {...props}
     />
   )
