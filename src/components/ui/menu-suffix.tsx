@@ -13,8 +13,8 @@ const menuSuffixVariants = cva(
     variants: {
       type: {
         checkmark: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
-        submenu: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
-        switch: "w-[40px] h-[24px] px-[var(--space-2)] py-[var(--space-2)]",
+        submenu: "ml-auto w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
+        switch: "ml-auto w-[40px] h-[24px] px-[var(--space-2)] py-[var(--space-2)]",
         icon: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
       },
     },

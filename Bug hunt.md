@@ -2434,3 +2434,363 @@ This is **pure CSS styling** via the standard `className` prop:
 |----------|--------|-------|
 | Icon | `RiHome5Line` (outline) | `RiHome7Fill` (filled) |
 | Gap | `--space-2` (2px) | `--space-6` (6px) |
+
+---
+
+## 41. Tabs - Padding Consistency and Cleanup
+**Status:** [x] Fixed
+**Review:** Ready for code review
+
+### Problems Fixed
+1. **Console error:** `contained` prop was being passed to DOM element
+2. **Inconsistent padding:** `pill-emphasized` had different padding than `pill` variant
+
+### Solution Applied
+
+**File:** `src/components/ui/tabs.tsx`
+
+#### 1. Removed unused `contained` prop
+The `contained` prop was being passed through to the DOM, causing a React warning. Removed it from the component since it wasn't implemented.
+
+#### 2. Matched pill-emphasized padding with pill
+
+```diff
+  // Pill-emphasized sizes - same padding as pill
+- { variant: "pill-emphasized", size: "m", className: "h-[var(--space-36)] px-[var(--space-12)]" },
++ { variant: "pill-emphasized", size: "m", className: "h-[var(--space-36)] px-[var(--space-16)]" },
+  { variant: "pill-emphasized", size: "s", className: "h-[var(--space-32)] px-[var(--space-12)]" },
+```
+
+**File:** `src/app/docs/tabs/page.tsx`
+
+Removed all `contained` prop usages from docs examples.
+
+### Summary
+
+| Variant | Size | Before | After |
+|---------|------|--------|-------|
+| pill | m | 16px | 16px |
+| pill | s | 12px | 12px |
+| pill-emphasized | m | 12px | **16px** |
+| pill-emphasized | s | 12px | 12px |
+
+### Why This Is NOT Breaking Base UI
+
+- Removed prop that was incorrectly passing to DOM (cleanup)
+- Only CSS padding values changed (pure styling)
+- No Base UI behavior modified
+
+---
+
+## 42. Menu - Minimum Width Consistency with Context Menu
+**Status:** [x] Fixed
+**Review:** Ready for code review
+
+### Problem
+Menu popup was narrower than Context Menu popup. Context Menu had `min-w-[220px]` while Menu had no minimum width constraint.
+
+### Analysis
+
+| Component | Before | After |
+|-----------|--------|-------|
+| **Menu** | `listPopupStyles.width` only (`min-w-[var(--anchor-width)]`) | + `min-w-[220px]` |
+| **Context Menu** | `min-w-[220px] max-w-[400px]` | unchanged |
+
+### Why Not Change Shared Styles?
+
+The `listPopupStyles.width` is used by:
+- Menu
+- Autocomplete
+- Combobox
+- Select
+
+Autocomplete, Combobox, and Select need to match their input field width, so adding a fixed `min-w-[220px]` to shared styles would break them.
+
+### Solution Applied
+
+**File:** `src/components/ui/menu.tsx`
+
+Added `min-w-[220px]` directly to Menu.Popup only:
+
+```diff
+  function MenuPopup({ className, ...props }: MenuPopupProps) {
+    return (
+      <MenuPrimitive.Popup
+        data-slot="menu-popup"
+        className={cn(
+          listPopupStyles.base,
++         "min-w-[220px]",
+          listPopupStyles.width,
+          "overflow-y-auto",
+          className
+        )}
+        style={{ maxHeight: LIST_MAX_HEIGHT }}
+        {...props}
+      />
+    )
+  }
+```
+
+### Why This Is NOT Breaking Base UI
+
+- Pure CSS styling via className
+- No Base UI behavior modified
+- Other components (Autocomplete, Combobox, Select) unaffected
+
+---
+
+## 43. Menu - Group Label Padding Alignment
+**Status:** [x] Fixed
+**Review:** Ready for code review
+
+### Problem
+MenuGroupLabel had different horizontal padding than MenuItem, causing misalignment.
+
+### Solution Applied
+
+**File:** `src/components/ui/menu-group.tsx`
+
+```diff
+  <Menu.GroupLabel
+    className={cn(
+-     "flex min-h-[28px] items-center px-[var(--space-12)] py-[var(--space-6)]...",
++     "flex min-h-[28px] items-center px-[var(--space-10)] py-[var(--space-6)]...",
+    )}
+  >
+```
+
+| Component | Before | After |
+|-----------|--------|-------|
+| MenuItem | 10px | 10px |
+| MenuGroupLabel | 12px | **10px** |
+
+---
+
+## 44. Menu - Submenu Chevron Alignment
+**Status:** [x] Fixed
+**Review:** Ready for code review
+
+### Problem
+The submenu chevron (arrow icon) was positioned close to the label instead of on the rightmost side of the menu item.
+
+### Solution Applied
+
+**File:** `src/components/ui/menu-suffix.tsx`
+
+Added `ml-auto` to the `submenu` variant to push the chevron to the right:
+
+```diff
+  const menuSuffixVariants = cva(
+    "flex shrink-0 items-center justify-center",
+    {
+      variants: {
+        type: {
+          checkmark: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
+-         submenu: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
++         submenu: "ml-auto w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
+          ...
+        },
+      },
+    }
+  )
+```
+
+### Why This Is NOT Breaking Base UI
+
+- Pure CSS styling (`ml-auto` for layout)
+- No Base UI behavior modified
+
+---
+
+## 45. Menu - Documentation Examples Update
+**Status:** [x] Fixed
+**Review:** Ready for code review
+
+### Changes Made
+
+**File:** `src/app/docs/menu/page.tsx`
+
+Added new documentation examples:
+
+| Section | Description |
+|---------|-------------|
+| **Trigger Variants** | Icon button trigger, Avatar trigger |
+| **With Avatars** | User selection with avatar prefixes |
+| **With Badge** | Status indicators with badge suffixes |
+| **Disabled Items** | Showing unavailable actions |
+| **With Switch** | Toggle settings with switch controls |
+
+Updated existing examples:
+- **Grouped actions**: Added icons to menu items
+- **Submenu**: Added icons to all menu items (parent and nested)
+- **Selections**: Checkbox and Radio examples already present
+
+### New Imports Added
+
+```tsx
+import { IconButton } from "@/components/ui/icon-button"
+import { Avatar } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+```
+
+### Why This Is NOT Breaking Base UI
+
+- Documentation changes only
+- No component behavior modified
+
+---
+
+## 46. Menu Documentation - Example Polish (Follow-up)
+**Status:** [x] Fixed
+**Review:** Ready for code review
+
+### Changes Made
+
+**File:** `src/app/docs/menu/page.tsx`
+
+Polished menu documentation examples based on detailed feedback:
+
+#### 1. Icon Button Trigger
+- Changed `variant="secondary"` to `variant="ghost"` for cleaner appearance
+- Increased size from `s` to `m` for better visibility
+
+```diff
+- <Menu.Trigger render={<IconButton variant="secondary" size="s"><RiMore2Line /></IconButton>} />
++ <Menu.Trigger render={<IconButton variant="ghost" size="m"><RiMore2Line /></IconButton>} />
+```
+
+#### 2. Avatar Trigger
+- Added `isEmphasized color="blue"` for decorative styling
+- Increased size from `s` to `m`
+- Added icons to all menu items (Profile, Settings, Messages, Log out)
+
+```diff
+- <Menu.Trigger render={<button className="cursor-pointer"><Avatar size="s" initials="JD" /></button>} />
++ <Menu.Trigger render={<button className="cursor-pointer"><Avatar size="m" initials="JD" isEmphasized color="blue" /></button>} />
+```
+
+#### 3. Assign to User Avatars
+- Added different decorative colors for each avatar
+
+```diff
+- <Avatar size="2xs" initials="AJ" />
++ <Avatar size="2xs" initials="AJ" isEmphasized color="blue" />
+
+- <Avatar size="2xs" initials="BS" />
++ <Avatar size="2xs" initials="BS" isEmphasized color="emerald" />
+
+- <Avatar size="2xs" initials="CW" />
++ <Avatar size="2xs" initials="CW" isEmphasized color="violet" />
+
+- <Avatar size="2xs" initials="DM" />
++ <Avatar size="2xs" initials="DM" isEmphasized color="orange" />
+```
+
+#### 4. Badge Example
+- Changed from notifications (Messages, Alerts, Updates with counts) to navigation pattern
+- New items: Dashboard, Analytics, AI Assistant (with "New" badge), Settings
+- Added icons for all items
+- Used colored badge with text (`isEmphasized variant="info"`)
+- Added `ml-auto` to push badge to right side
+
+```tsx
+<MenuItem>
+  <MenuPrefix type="icon" icon={<RiRobot2Line />} />
+  <span className={menuItemLabelClassName}>AI Assistant</span>
+  <Badge size="xs" isEmphasized variant="info" className="ml-auto">New</Badge>
+</MenuItem>
+```
+
+#### 5. Switch Example
+- Added `onClick` handler to each MenuItem to toggle switch when clicking the menu item
+- Changed sound icon from `RiInformationLine` to `RiSoundModuleLine`
+
+```diff
+- <MenuItem closeOnClick={false}>
++ <MenuItem closeOnClick={false} onClick={() => setNotifications(!notifications)}>
+```
+
+### New Icons Added
+
+```tsx
+import {
+  RiUserLine,       // Profile
+  RiLogoutBoxLine,  // Log out
+  RiDashboardLine,  // Dashboard
+  RiBarChartLine,   // Analytics
+  RiRobot2Line,     // AI Assistant
+  RiSoundModuleLine, // Sounds
+} from "@remixicon/react"
+```
+
+### Why This Is NOT Breaking Base UI
+
+- Documentation changes only
+- Uses existing component props and APIs as designed
+- No component behavior modified
+
+---
+
+## 47. Menu - Switch Alignment and Label Font Weight
+**Status:** [x] Fixed
+**Review:** Ready for code review
+
+### Problems Fixed
+1. **Switch not right-aligned:** MenuSuffix switch type was missing `ml-auto`, so switch appeared close to label instead of on rightmost side
+2. **Label font weight:** Menu item labels in docs used `font-weight-default` instead of `font-weight-medium`
+
+### Solution Applied
+
+#### 1. Switch Right Alignment
+
+**File:** `src/components/ui/menu-suffix.tsx`
+
+Added `ml-auto` to the switch variant to push it to the right edge:
+
+```diff
+  type: {
+    checkmark: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
+    submenu: "ml-auto w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
+-   switch: "w-[40px] h-[24px] px-[var(--space-2)] py-[var(--space-2)]",
++   switch: "ml-auto w-[40px] h-[24px] px-[var(--space-2)] py-[var(--space-2)]",
+    icon: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
+  },
+```
+
+#### 2. Label Font Weight (Component Level)
+
+**File:** `src/components/ui/list-item-styles.tsx`
+
+Changed `listItemVariants` font weight from default to medium:
+
+```diff
+  // Typography
+- "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
++ "text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)]",
+```
+
+This affects all components using `listItemVariants`:
+- MenuItem (Menu)
+- MenuItem (ContextMenu)
+- Select items
+- Any other list-based dropdown items
+
+**File:** `src/app/docs/menu/page.tsx`
+
+Removed explicit font-weight from docs since it now inherits from component:
+
+```diff
+  const menuItemLabelClassName =
+-   "text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)]"
++   "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]"
+```
+
+Note: Description text keeps `font-weight-default` as intended.
+
+### Why This Is NOT Breaking Base UI
+
+- Pure CSS styling changes
+- `ml-auto` is standard Tailwind for flex alignment
+- No Base UI behavior modified
+
+---

@@ -3,6 +3,9 @@
 import * as React from "react"
 import { CodeBlock } from "@/components/docs/code-block"
 import { Button } from "@/components/ui/button"
+import { IconButton } from "@/components/ui/icon-button"
+import { Avatar } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 import {
   Menu,
   MenuItem,
@@ -13,12 +16,33 @@ import {
   MenuSuffix,
   MenuSeparator,
 } from "@/components/ui/menu"
-import { RiEditLine, RiFileCopyLine, RiArchiveLine, RiFolderLine } from "@remixicon/react"
+import {
+  RiEditLine,
+  RiFileCopyLine,
+  RiArchiveLine,
+  RiFolderLine,
+  RiMore2Line,
+  RiUserAddLine,
+  RiSettings3Line,
+  RiLinksLine,
+  RiMailLine,
+  RiTwitterXLine,
+  RiSlackLine,
+  RiDownloadLine,
+  RiShareLine,
+  RiNotification3Line,
+  RiUserLine,
+  RiLogoutBoxLine,
+  RiDashboardLine,
+  RiBarChartLine,
+  RiRobot2Line,
+  RiSoundModuleLine,
+} from "@remixicon/react"
 import { TrashIcon } from "@/icons"
 
 const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
 const menuItemLabelClassName =
-  "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]"
+  "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]"
 const menuItemDescriptionClassName =
   "text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-subtle"
 
@@ -109,6 +133,51 @@ function SelectableRadioMenu() {
   )
 }
 
+function SwitchMenu() {
+  const [notifications, setNotifications] = React.useState(true)
+  const [sounds, setSounds] = React.useState(false)
+  const [autoSave, setAutoSave] = React.useState(true)
+
+  return (
+    <Menu.Root>
+      <Menu.Trigger render={<Button variant="secondary">Settings</Button>} />
+      <Menu.Portal>
+        <Menu.Positioner>
+          <Menu.Popup className={menuPopupClassName}>
+            <MenuItem closeOnClick={false} onClick={() => setNotifications(!notifications)}>
+              <MenuPrefix type="icon" icon={<RiNotification3Line />} />
+              <span className={menuItemLabelClassName}>Notifications</span>
+              <MenuSuffix
+                type="switch"
+                checked={notifications}
+                onCheckedChange={setNotifications}
+              />
+            </MenuItem>
+            <MenuItem closeOnClick={false} onClick={() => setSounds(!sounds)}>
+              <MenuPrefix type="icon" icon={<RiSoundModuleLine />} />
+              <span className={menuItemLabelClassName}>Sounds</span>
+              <MenuSuffix
+                type="switch"
+                checked={sounds}
+                onCheckedChange={setSounds}
+              />
+            </MenuItem>
+            <MenuItem closeOnClick={false} onClick={() => setAutoSave(!autoSave)}>
+              <MenuPrefix type="icon" icon={<RiDownloadLine />} />
+              <span className={menuItemLabelClassName}>Auto-save</span>
+              <MenuSuffix
+                type="switch"
+                checked={autoSave}
+                onCheckedChange={setAutoSave}
+              />
+            </MenuItem>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
+  )
+}
+
 export default function MenuDocsPage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
@@ -183,6 +252,80 @@ export default function MenuDocsPage() {
       </section>
 
       <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Trigger Variants</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Icon button trigger</p>
+              <p className="text-body-m text-content-subtle">
+                Compact trigger for overflow menus
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <Menu.Root>
+                <Menu.Trigger render={<IconButton variant="ghost" size="m"><RiMore2Line /></IconButton>} />
+                <Menu.Portal>
+                  <Menu.Positioner>
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiEditLine />} />
+                        <span className={menuItemLabelClassName}>Edit</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiFileCopyLine />} />
+                        <span className={menuItemLabelClassName}>Duplicate</span>
+                      </MenuItem>
+                      <MenuSeparator />
+                      <MenuItem variant="danger">
+                        <MenuPrefix type="danger-icon" icon={<TrashIcon />} />
+                        <span className={menuItemLabelClassName}>Delete</span>
+                      </MenuItem>
+                    </Menu.Popup>
+                  </Menu.Positioner>
+                </Menu.Portal>
+              </Menu.Root>
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Avatar trigger</p>
+              <p className="text-body-m text-content-subtle">
+                User profile menu trigger
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <Menu.Root>
+                <Menu.Trigger render={<button className="cursor-pointer"><Avatar size="m" initials="JD" isEmphasized color="blue" /></button>} />
+                <Menu.Portal>
+                  <Menu.Positioner>
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiUserLine />} />
+                        <span className={menuItemLabelClassName}>Profile</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiSettings3Line />} />
+                        <span className={menuItemLabelClassName}>Settings</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiMailLine />} />
+                        <span className={menuItemLabelClassName}>Messages</span>
+                      </MenuItem>
+                      <MenuSeparator />
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiLogoutBoxLine />} />
+                        <span className={menuItemLabelClassName}>Log out</span>
+                      </MenuItem>
+                    </Menu.Popup>
+                  </Menu.Positioner>
+                </Menu.Portal>
+              </Menu.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">With Icons</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
@@ -213,6 +356,97 @@ export default function MenuDocsPage() {
                       <MenuItem>
                         <MenuPrefix type="icon" icon={<RiFolderLine />} />
                         <span className={menuItemLabelClassName}>Move</span>
+                      </MenuItem>
+                    </Menu.Popup>
+                  </Menu.Positioner>
+                </Menu.Portal>
+              </Menu.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">With Avatars</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Assign to user</p>
+              <p className="text-body-m text-content-subtle">
+                User selection with avatars
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <Menu.Root>
+                <Menu.Trigger render={<Button variant="secondary">Assign to</Button>} />
+                <Menu.Portal>
+                  <Menu.Positioner>
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <MenuPrefix type="avatar">
+                          <Avatar size="2xs" initials="AJ" isEmphasized color="blue" />
+                        </MenuPrefix>
+                        <span className={menuItemLabelClassName}>Alice Johnson</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="avatar">
+                          <Avatar size="2xs" initials="BS" isEmphasized color="emerald" />
+                        </MenuPrefix>
+                        <span className={menuItemLabelClassName}>Bob Smith</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="avatar">
+                          <Avatar size="2xs" initials="CW" isEmphasized color="violet" />
+                        </MenuPrefix>
+                        <span className={menuItemLabelClassName}>Carol Williams</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="avatar">
+                          <Avatar size="2xs" initials="DM" isEmphasized color="orange" />
+                        </MenuPrefix>
+                        <span className={menuItemLabelClassName}>David Miller</span>
+                      </MenuItem>
+                    </Menu.Popup>
+                  </Menu.Positioner>
+                </Menu.Portal>
+              </Menu.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">With Badge</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Status indicators</p>
+              <p className="text-body-m text-content-subtle">
+                Badges for counts or status
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <Menu.Root>
+                <Menu.Trigger render={<Button variant="secondary">Navigation</Button>} />
+                <Menu.Portal>
+                  <Menu.Positioner>
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiDashboardLine />} />
+                        <span className={menuItemLabelClassName}>Dashboard</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiBarChartLine />} />
+                        <span className={menuItemLabelClassName}>Analytics</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiRobot2Line />} />
+                        <span className={menuItemLabelClassName}>AI Assistant</span>
+                        <Badge size="xs" isEmphasized variant="info" className="ml-auto">New</Badge>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiSettings3Line />} />
+                        <span className={menuItemLabelClassName}>Settings</span>
                       </MenuItem>
                     </Menu.Popup>
                   </Menu.Positioner>
@@ -285,9 +519,11 @@ export default function MenuDocsPage() {
                       <MenuGroup className="flex flex-col gap-[var(--space-2)]">
                         <MenuGroupLabel>Workspace</MenuGroupLabel>
                         <MenuItem>
+                          <MenuPrefix type="icon" icon={<RiUserAddLine />} />
                           <span className={menuItemLabelClassName}>Invite members</span>
                         </MenuItem>
                         <MenuItem>
+                          <MenuPrefix type="icon" icon={<RiSettings3Line />} />
                           <span className={menuItemLabelClassName}>Manage roles</span>
                         </MenuItem>
                       </MenuGroup>
@@ -295,6 +531,7 @@ export default function MenuDocsPage() {
                       <MenuGroup className="flex flex-col gap-[var(--space-2)]">
                         <MenuGroupLabel>Danger zone</MenuGroupLabel>
                         <MenuItem variant="danger">
+                          <MenuPrefix type="danger-icon" icon={<TrashIcon />} />
                           <span className={menuItemLabelClassName}>Delete workspace</span>
                         </MenuItem>
                       </MenuGroup>
@@ -302,6 +539,69 @@ export default function MenuDocsPage() {
                   </Menu.Positioner>
                 </Menu.Portal>
               </Menu.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Disabled Items</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Unavailable actions</p>
+              <p className="text-body-m text-content-subtle">
+                Show disabled state for restricted actions
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <Menu.Root>
+                <Menu.Trigger render={<Button variant="secondary">Document</Button>} />
+                <Menu.Portal>
+                  <Menu.Positioner>
+                    <Menu.Popup className={menuPopupClassName}>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiEditLine />} />
+                        <span className={menuItemLabelClassName}>Edit</span>
+                      </MenuItem>
+                      <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiFileCopyLine />} />
+                        <span className={menuItemLabelClassName}>Duplicate</span>
+                      </MenuItem>
+                      <MenuItem disabled>
+                        <MenuPrefix type="icon" icon={<RiShareLine />} disabled />
+                        <span className={menuItemLabelClassName}>Share</span>
+                      </MenuItem>
+                      <MenuItem disabled>
+                        <MenuPrefix type="icon" icon={<RiDownloadLine />} disabled />
+                        <span className={menuItemLabelClassName}>Download</span>
+                      </MenuItem>
+                      <MenuSeparator />
+                      <MenuItem variant="danger" disabled>
+                        <MenuPrefix type="danger-icon" icon={<TrashIcon />} disabled />
+                        <span className={menuItemLabelClassName}>Delete</span>
+                      </MenuItem>
+                    </Menu.Popup>
+                  </Menu.Positioner>
+                </Menu.Portal>
+              </Menu.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">With Switch</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Toggle settings</p>
+              <p className="text-body-m text-content-subtle">
+                Switch controls for on/off options
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-[var(--space-16)]">
+              <SwitchMenu />
             </div>
           </div>
         </div>
@@ -379,10 +679,12 @@ export default function MenuDocsPage() {
                   <Menu.Positioner>
                     <Menu.Popup className={menuPopupClassName}>
                       <MenuItem>
+                        <MenuPrefix type="icon" icon={<RiLinksLine />} />
                         <span className={menuItemLabelClassName}>Copy link</span>
                       </MenuItem>
                       <Menu.SubmenuRoot>
                         <Menu.SubmenuTrigger>
+                          <MenuPrefix type="icon" icon={<RiShareLine />} />
                           <span className={menuItemLabelClassName}>Send via</span>
                           <MenuSuffix type="submenu" />
                         </Menu.SubmenuTrigger>
@@ -390,12 +692,15 @@ export default function MenuDocsPage() {
                           <Menu.Positioner sideOffset={8} alignOffset={-4} side="right" align="start">
                             <Menu.Popup className={menuPopupClassName}>
                               <MenuItem>
+                                <MenuPrefix type="icon" icon={<RiMailLine />} />
                                 <span className={menuItemLabelClassName}>Email</span>
                               </MenuItem>
                               <MenuItem>
+                                <MenuPrefix type="icon" icon={<RiSlackLine />} />
                                 <span className={menuItemLabelClassName}>Slack</span>
                               </MenuItem>
                               <MenuItem>
+                                <MenuPrefix type="icon" icon={<RiTwitterXLine />} />
                                 <span className={menuItemLabelClassName}>Twitter</span>
                               </MenuItem>
                             </Menu.Popup>

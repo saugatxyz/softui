@@ -53,7 +53,7 @@ export const listItemVariants = cva(
     // Size
     "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
     // Typography
-    "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
+    "text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)]",
     // States - highlight color serves as focus indicator (no ring needed)
     "data-[highlighted]:bg-surface-interactive-hover",
     "data-[disabled]:cursor-not-allowed",

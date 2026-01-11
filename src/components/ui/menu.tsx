@@ -105,7 +105,7 @@ function MenuPopup({ className, ...props }: MenuPopupProps) {
       data-slot="menu-popup"
       className={cn(
         listPopupStyles.base,
-        listPopupStyles.width,
+        "min-w-[220px]",
         "overflow-y-auto",
         className
       )}
