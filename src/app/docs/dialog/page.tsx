@@ -243,8 +243,10 @@ import { Button } from "@/components/ui/button"
                               }
                               prefix={
                                 <CheckboxPrefix
-                                  type="icon-emphasized-blue"
+                                  type="icon"
                                   icon={<RiMailLine />}
+                                  containerStyle="subtle"
+                                  containerColor="blue"
                                 />
                               }
                             />
@@ -256,8 +258,10 @@ import { Button } from "@/components/ui/button"
                               }
                               prefix={
                                 <CheckboxPrefix
-                                  type="icon-emphasized-emerald"
+                                  type="icon"
                                   icon={<RiLineChartLine />}
+                                  containerStyle="subtle"
+                                  containerColor="emerald"
                                 />
                               }
                             />
@@ -269,8 +273,10 @@ import { Button } from "@/components/ui/button"
                               }
                               prefix={
                                 <CheckboxPrefix
-                                  type="icon-emphasized-orange"
+                                  type="icon"
                                   icon={<RiMegaphoneLine />}
+                                  containerStyle="subtle"
+                                  containerColor="orange"
                                 />
                               }
                             />

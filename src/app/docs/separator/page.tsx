@@ -110,7 +110,7 @@ export default function SeparatorDocsPage() {
             <div className="w-full max-w-sm">
               <div className="flex flex-col rounded-[var(--radius-12)] border border-border-muted">
                 <div className="flex items-center gap-[var(--space-12)] p-[var(--space-16)]">
-                  <Avatar name="Sarah Chen" size="l" color="violet" />
+                  <Avatar initials="SC" size="l" color="violet" isEmphasized />
                   <div className="flex flex-col">
                     <p className="text-body-m-medium text-content-strong">
                       Sarah Chen

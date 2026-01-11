@@ -59,12 +59,14 @@ function CheckboxControl({
 
   const handleFocus = (event: React.FocusEvent<HTMLSpanElement>) => {
     setShowFocusRing(!lastInteractionWasPointer)
-    onFocus?.(event)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onFocus?.(event as any)
   }
 
   const handleBlur = (event: React.FocusEvent<HTMLSpanElement>) => {
     setShowFocusRing(false)
-    onBlur?.(event)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onBlur?.(event as any)
   }
 
   return (

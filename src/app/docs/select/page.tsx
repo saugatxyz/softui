@@ -306,7 +306,9 @@ const options = [
             <div className="w-full max-w-sm">
               <Select variant="secondary" defaultValue="us">
                 <Select.Trigger>
-                  <Select.Value placeholder="Select country" />
+                  <Select.Value>
+                    {(value) => countries.find((c) => c.value === value)?.label ?? value}
+                  </Select.Value>
                   <Select.Icon><RiExpandUpDownLine /></Select.Icon>
                 </Select.Trigger>
                 <Select.Portal>
@@ -334,7 +336,9 @@ const options = [
             <div className="w-full max-w-sm">
               <Select variant="tertiary" defaultValue="us">
                 <Select.Trigger>
-                  <Select.Value placeholder="Select country" />
+                  <Select.Value>
+                    {(value) => countries.find((c) => c.value === value)?.label ?? value}
+                  </Select.Value>
                   <Select.Icon><RiExpandUpDownLine /></Select.Icon>
                 </Select.Trigger>
                 <Select.Portal>
