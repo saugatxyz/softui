@@ -26,6 +26,10 @@ const variantRows = [
     label: "Ghost",
   },
   {
+    value: "plain",
+    label: "Plain",
+  },
+  {
     value: "danger",
     label: "Danger",
   },

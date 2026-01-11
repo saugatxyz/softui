@@ -266,7 +266,7 @@ function AutocompleteList({ className, ...props }: AutocompleteListProps) {
   return (
     <AutocompletePrimitive.List
       data-slot="list"
-      className={cn("flex flex-col gap-[var(--space-2)] empty:hidden", className)}
+      className={cn("flex flex-col gap-0 empty:hidden", className)}
       {...props}
     />
   )
@@ -318,7 +318,7 @@ function AutocompleteGroup({ className, ...props }: AutocompleteGroupProps) {
   return (
     <AutocompletePrimitive.Group
       data-slot="group"
-      className={cn("flex flex-col gap-[var(--space-2)]", className)}
+      className={cn("flex flex-col gap-0", className)}
       {...props}
     />
   )

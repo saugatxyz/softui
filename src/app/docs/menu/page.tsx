@@ -40,7 +40,7 @@ import {
 } from "@remixicon/react"
 import { TrashIcon } from "@/icons"
 
-const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
+const menuPopupClassName = "flex flex-col gap-0 p-[var(--space-4)]"
 const menuItemLabelClassName =
   "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]"
 const menuItemDescriptionClassName =

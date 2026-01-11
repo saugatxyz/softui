@@ -262,7 +262,7 @@ function ComboboxList({ className, ...props }: ComboboxListProps) {
   return (
     <ComboboxPrimitive.List
       data-slot="list"
-      className={cn("flex flex-col gap-[var(--space-2)] empty:hidden", className)}
+      className={cn("flex flex-col gap-0 empty:hidden", className)}
       {...props}
     />
   )
@@ -328,7 +328,7 @@ function ComboboxGroup({ className, ...props }: ComboboxGroupProps) {
   return (
     <ComboboxPrimitive.Group
       data-slot="group"
-      className={cn("flex flex-col gap-[var(--space-2)]", className)}
+      className={cn("flex flex-col gap-0", className)}
       {...props}
     />
   )

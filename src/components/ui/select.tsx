@@ -236,7 +236,7 @@ function SelectList({ className, ...props }: SelectListProps) {
   return (
     <SelectPrimitive.List
       data-slot="list"
-      className={cn("flex flex-col gap-[var(--space-2)] p-[var(--space-4)]", className)}
+      className={cn("flex flex-col gap-0 p-[var(--space-4)]", className)}
       {...props}
     />
   )
@@ -300,7 +300,7 @@ function SelectGroup({ className, ...props }: SelectGroupProps) {
   return (
     <SelectPrimitive.Group
       data-slot="group"
-      className={cn("flex flex-col gap-[var(--space-2)]", className)}
+      className={cn("flex flex-col gap-0", className)}
       {...props}
     />
   )

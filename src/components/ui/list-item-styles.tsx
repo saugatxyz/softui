@@ -49,7 +49,7 @@ export const listPopupClassName = `${listPopupStyles.base} ${listPopupStyles.wid
 export const listItemVariants = cva(
   [
     // Base styles
-    "group flex w-full cursor-pointer items-center gap-[var(--space-8)] rounded-[var(--radius-10)] outline-none select-none",
+    "group flex w-full cursor-pointer items-center gap-[var(--space-8)] rounded-[var(--radius-8)] outline-none select-none",
     // Size
     "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
     // Typography

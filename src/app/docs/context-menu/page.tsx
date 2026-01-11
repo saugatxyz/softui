@@ -14,9 +14,9 @@ import {
 import { CopyIcon, TrashIcon } from "@/icons"
 import { RiEditLine, RiShareLine, RiDownloadLine } from "@remixicon/react"
 
-const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
+const menuPopupClassName = "flex flex-col gap-0 p-[var(--space-4)]"
 const menuItemLabelClassName =
-  "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]"
+  "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]"
 
 function SelectableCheckboxContextMenu() {
   const [selectedItems, setSelectedItems] = React.useState<string[]>([
@@ -33,9 +33,9 @@ function SelectableCheckboxContextMenu() {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+        <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
           Right click for toggles
-        </button>
+        </div>
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
         <ContextMenu.Positioner>
@@ -74,9 +74,9 @@ function SelectableRadioContextMenu() {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+        <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
           Right click for sorting
-        </button>
+        </div>
       </ContextMenu.Trigger>
       <ContextMenu.Portal>
         <ContextMenu.Positioner>
@@ -150,9 +150,9 @@ export default function ContextMenuDocsPage() {
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click me
-                  </button>
+                  </div>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
@@ -192,9 +192,9 @@ export default function ContextMenuDocsPage() {
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click me
-                  </button>
+                  </div>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
@@ -225,9 +225,9 @@ export default function ContextMenuDocsPage() {
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click for actions
-                  </button>
+                  </div>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
@@ -275,9 +275,9 @@ export default function ContextMenuDocsPage() {
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click for grouped menu
-                  </button>
+                  </div>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
@@ -344,9 +344,9 @@ export default function ContextMenuDocsPage() {
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <ContextMenu.Root>
                 <ContextMenu.Trigger>
-                  <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
+                  <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
                     Right click for submenu
-                  </button>
+                  </div>
                 </ContextMenu.Trigger>
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>

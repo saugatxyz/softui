@@ -2794,3 +2794,186 @@ Note: Description text keeps `font-weight-default` as intended.
 - No Base UI behavior modified
 
 ---
+
+## Context Menu Docs - Font Weight and Trigger Area
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+1. Context menu items using default font weight instead of medium (inconsistent with Menu component)
+2. Right-click trigger areas too small (small buttons instead of larger dedicated areas)
+
+### Solution
+
+**File:** `src/app/docs/context-menu/page.tsx`
+
+#### 1. Font Weight Fix
+Removed explicit `font-[var(--font-weight-default)]` from `menuItemLabelClassName` to allow medium weight from `listItemVariants` to apply (matching Menu docs):
+
+```diff
+  const menuItemLabelClassName =
+-   "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]"
++   "text-[length:var(--font-size-m)] leading-[var(--line-height-m)]"
+```
+
+#### 2. Trigger Area Size
+Replaced small button triggers with larger div areas (matching main branch):
+
+```diff
+  <ContextMenu.Trigger>
+-   <button className="rounded-[var(--radius-10)] border border-border-subtle px-[var(--space-12)] py-[var(--space-8)] text-body-m text-content-strong">
++   <div className="flex h-[120px] w-[200px] items-center justify-center rounded-[var(--radius-12)] border border-dashed border-border-muted bg-surface-canvas text-body-m text-content-subtle">
+      Right click me
+-   </button>
++   </div>
+  </ContextMenu.Trigger>
+```
+
+### Why This Is NOT Breaking Base UI
+
+- Pure CSS/styling changes in docs page only
+- No component behavior modified
+- Matches main branch implementation
+
+---
+
+## Menu Items - Gap and Corner Radius Standardization
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+1. Menu items had 2px gap between them - should be 0 for tighter appearance
+2. Menu item corner radius was 10px - should be 8px for consistency
+
+### Solution
+
+Changes made at component level so all menu-like components inherit the fix.
+
+#### 1. Corner Radius (10px → 8px)
+
+**File:** `src/components/ui/list-item-styles.tsx`
+
+```diff
+  export const listItemVariants = cva(
+    [
+      // Base styles
+-     "group flex w-full cursor-pointer items-center gap-[var(--space-8)] rounded-[var(--radius-10)] outline-none select-none",
++     "group flex w-full cursor-pointer items-center gap-[var(--space-8)] rounded-[var(--radius-8)] outline-none select-none",
+```
+
+**Affects:** MenuItem, Select items, Combobox items, Autocomplete items
+
+#### 2. Gap Between Items (2px → 0)
+
+**File:** `src/components/ui/select.tsx`
+
+```diff
+  // SelectList
+- className={cn("flex flex-col gap-[var(--space-2)] p-[var(--space-4)]", className)}
++ className={cn("flex flex-col gap-0 p-[var(--space-4)]", className)}
+
+  // SelectGroup
+- className={cn("flex flex-col gap-[var(--space-2)]", className)}
++ className={cn("flex flex-col gap-0", className)}
+```
+
+**File:** `src/components/ui/autocomplete.tsx`
+
+```diff
+  // AutocompleteList
+- className={cn("flex flex-col gap-[var(--space-2)] empty:hidden", className)}
++ className={cn("flex flex-col gap-0 empty:hidden", className)}
+
+  // AutocompleteGroup
+- className={cn("flex flex-col gap-[var(--space-2)]", className)}
++ className={cn("flex flex-col gap-0", className)}
+```
+
+**File:** `src/components/ui/combobox.tsx`
+
+```diff
+  // ComboboxList
+- className={cn("flex flex-col gap-[var(--space-2)] empty:hidden", className)}
++ className={cn("flex flex-col gap-0 empty:hidden", className)}
+
+  // ComboboxGroup
+- className={cn("flex flex-col gap-[var(--space-2)]", className)}
++ className={cn("flex flex-col gap-0", className)}
+```
+
+**File:** `src/app/docs/menu/page.tsx`
+
+```diff
+- const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
++ const menuPopupClassName = "flex flex-col gap-0 p-[var(--space-4)]"
+```
+
+**File:** `src/app/docs/context-menu/page.tsx`
+
+```diff
+- const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
++ const menuPopupClassName = "flex flex-col gap-0 p-[var(--space-4)]"
+```
+
+### Summary of All Files Changed
+
+| File | Change |
+|------|--------|
+| `src/components/ui/list-item-styles.tsx` | Corner radius 10px → 8px |
+| `src/components/ui/select.tsx` | Gap 2px → 0 (List + Group) |
+| `src/components/ui/autocomplete.tsx` | Gap 2px → 0 (List + Group) |
+| `src/components/ui/combobox.tsx` | Gap 2px → 0 (List + Group) |
+| `src/app/docs/menu/page.tsx` | Gap 2px → 0 |
+| `src/app/docs/context-menu/page.tsx` | Gap 2px → 0, font weight fix, larger trigger areas |
+
+### Why This Is NOT Breaking Base UI
+
+- Pure CSS styling changes
+- No Base UI behavior modified
+- Changes at component level ensure consistency across all menu-like components
+
+---
+
+## IconButton - New "plain" Variant
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+Need an IconButton variant similar to ghost but without background fill on hover - just color change.
+
+### Solution
+
+**File:** `src/components/ui/icon-button.tsx`
+
+Added new `plain` variant:
+
+```diff
+  ghost:
+    "bg-transparent text-content-subtle hover:enabled:bg-actions-secondary-hover hover:enabled:text-content-strong disabled:text-content-disabled",
++ plain:
++   "bg-transparent text-content-subtle hover:enabled:text-content-strong disabled:text-content-disabled",
+  danger:
+```
+
+### Variant Comparison
+
+| Variant | Default | Hover | Background on Hover |
+|---------|---------|-------|---------------------|
+| `ghost` | `text-content-subtle` | `text-content-strong` | Yes (`bg-actions-secondary-hover`) |
+| `plain` | `text-content-subtle` | `text-content-strong` | No |
+
+### Usage
+
+```tsx
+<IconButton variant="plain">
+  <RiCloseLine />
+</IconButton>
+```
+
+### Why This Is NOT Breaking Base UI
+
+- Pure CSS styling addition
+- New variant, no existing behavior modified
+- Uses same Base UI Button primitive
+
+---
