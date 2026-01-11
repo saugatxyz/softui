@@ -98,6 +98,64 @@ export default function TabsDocsPage() {
       </section>
 
       <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Contained</h2>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Pill</p>
+              <p className="text-body-m text-content-subtle">
+                With container background
+              </p>
+            </div>
+            <div className="flex flex-col gap-[var(--space-16)]">
+              <Tabs variant="pill" defaultValue="tab1">
+                <Tabs.List>
+                  <Tabs.Trigger value="tab1">Overview</Tabs.Trigger>
+                  <Tabs.Trigger value="tab2">Activity</Tabs.Trigger>
+                  <Tabs.Trigger value="tab3">Settings</Tabs.Trigger>
+                  <Tabs.Indicator />
+                </Tabs.List>
+              </Tabs>
+              <Tabs variant="pill" size="s" defaultValue="tab1">
+                <Tabs.List>
+                  <Tabs.Trigger value="tab1">Overview</Tabs.Trigger>
+                  <Tabs.Trigger value="tab2">Activity</Tabs.Trigger>
+                  <Tabs.Trigger value="tab3">Settings</Tabs.Trigger>
+                  <Tabs.Indicator />
+                </Tabs.List>
+              </Tabs>
+            </div>
+          </div>
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Pill emphasized</p>
+              <p className="text-body-m text-content-subtle">
+                With container background
+              </p>
+            </div>
+            <div className="flex flex-col gap-[var(--space-16)]">
+              <Tabs variant="pill-emphasized" defaultValue="tab1">
+                <Tabs.List>
+                  <Tabs.Trigger value="tab1">Overview</Tabs.Trigger>
+                  <Tabs.Trigger value="tab2">Activity</Tabs.Trigger>
+                  <Tabs.Trigger value="tab3">Settings</Tabs.Trigger>
+                  <Tabs.Indicator />
+                </Tabs.List>
+              </Tabs>
+              <Tabs variant="pill-emphasized" size="s" defaultValue="tab1">
+                <Tabs.List>
+                  <Tabs.Trigger value="tab1">Overview</Tabs.Trigger>
+                  <Tabs.Trigger value="tab2">Activity</Tabs.Trigger>
+                  <Tabs.Trigger value="tab3">Settings</Tabs.Trigger>
+                  <Tabs.Indicator />
+                </Tabs.List>
+              </Tabs>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
         <h2 className="text-body-xl-semibold">Sizes</h2>
         <div className="flex flex-col">
           <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">

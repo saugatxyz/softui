@@ -110,8 +110,8 @@ const triggerVariants = cva(
       // Pill sizes - 16px horizontal padding for m, 12px for s
       { variant: "pill", size: "m", className: "h-[var(--space-36)] px-[var(--space-16)]" },
       { variant: "pill", size: "s", className: "h-[var(--space-32)] px-[var(--space-12)]" },
-      // Pill-emphasized sizes - 12px horizontal padding, 36px/32px height
-      { variant: "pill-emphasized", size: "m", className: "h-[var(--space-36)] px-[var(--space-12)]" },
+      // Pill-emphasized sizes - same padding as pill
+      { variant: "pill-emphasized", size: "m", className: "h-[var(--space-36)] px-[var(--space-16)]" },
       { variant: "pill-emphasized", size: "s", className: "h-[var(--space-32)] px-[var(--space-12)]" },
     ],
     defaultVariants: {
