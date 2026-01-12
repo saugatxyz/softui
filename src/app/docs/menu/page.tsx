@@ -109,7 +109,7 @@ function SelectableRadioMenu() {
         <Menu.Positioner>
           <Menu.Popup className={menuPopupClassName}>
             <Menu.RadioGroup
-              className="flex flex-col gap-[var(--space-2)]"
+              className="flex flex-col gap-0"
               value={selectedSort}
               onValueChange={setSelectedSort}
             >
@@ -198,7 +198,7 @@ export default function MenuDocsPage() {
   <Menu.Trigger render={<Button>Open Menu</Button>} />
       <Menu.Portal>
         <Menu.Positioner>
-          <Menu.Popup className="flex flex-col gap-[var(--space-2)] p-[var(--space-4)]">
+          <Menu.Popup className="flex flex-col gap-0 p-[var(--space-4)]">
             <MenuItem>Edit</MenuItem>
             <MenuItem>Copy</MenuItem>
             <MenuSeparator />
@@ -516,7 +516,7 @@ export default function MenuDocsPage() {
                 <Menu.Portal>
                   <Menu.Positioner>
                     <Menu.Popup className={menuPopupClassName}>
-                      <MenuGroup className="flex flex-col gap-[var(--space-2)]">
+                      <MenuGroup className="flex flex-col gap-0">
                         <MenuGroupLabel>Workspace</MenuGroupLabel>
                         <MenuItem>
                           <MenuPrefix type="icon" icon={<RiUserAddLine />} />
@@ -528,7 +528,7 @@ export default function MenuDocsPage() {
                         </MenuItem>
                       </MenuGroup>
                       <MenuSeparator />
-                      <MenuGroup className="flex flex-col gap-[var(--space-2)]">
+                      <MenuGroup className="flex flex-col gap-0">
                         <MenuGroupLabel>Danger zone</MenuGroupLabel>
                         <MenuItem variant="danger">
                           <MenuPrefix type="danger-icon" icon={<TrashIcon />} />

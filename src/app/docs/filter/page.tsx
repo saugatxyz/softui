@@ -22,7 +22,7 @@ type FilterMenuItemProps = {
   children: React.ReactNode
 }
 
-const menuPopupClassName = "flex flex-col gap-[var(--space-2)] p-[var(--space-4)]"
+const menuPopupClassName = "flex flex-col gap-0 p-[var(--space-4)]"
 
 function FilterMenuItem({ selected, onSelect, children }: FilterMenuItemProps) {
   return (
@@ -300,7 +300,7 @@ import { Menu, MenuItem, MenuSuffix } from "@/components/ui/menu"
   />
   <Menu.Portal>
     <Menu.Positioner>
-      <Menu.Popup className="flex flex-col gap-[var(--space-2)] p-[var(--space-4)]">
+      <Menu.Popup className="flex flex-col gap-0 p-[var(--space-4)]">
         <MenuItem onClick={() => setStatus("Active")}>
           <span className="flex-1">Active</span>
           {status === "Active" ? <MenuSuffix type="checkmark" /> : null}

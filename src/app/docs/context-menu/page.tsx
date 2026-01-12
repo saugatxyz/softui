@@ -82,7 +82,7 @@ function SelectableRadioContextMenu() {
         <ContextMenu.Positioner>
           <ContextMenu.Popup className={menuPopupClassName}>
             <ContextMenu.RadioGroup
-              className="flex flex-col gap-[var(--space-2)]"
+              className="flex flex-col gap-0"
               value={selectedSort}
               onValueChange={setSelectedSort}
             >
@@ -125,7 +125,7 @@ export default function ContextMenuDocsPage() {
   </ContextMenu.Trigger>
       <ContextMenu.Portal>
         <ContextMenu.Positioner>
-          <ContextMenu.Popup className="flex flex-col gap-[var(--space-2)] p-[var(--space-4)]">
+          <ContextMenu.Popup className="flex flex-col gap-0 p-[var(--space-4)]">
             <MenuItem>Edit</MenuItem>
             <MenuItem>Copy</MenuItem>
             <MenuSeparator />
@@ -282,7 +282,7 @@ export default function ContextMenuDocsPage() {
                 <ContextMenu.Portal>
                   <ContextMenu.Positioner>
                     <ContextMenu.Popup className={menuPopupClassName}>
-                      <MenuGroup className="flex flex-col gap-[var(--space-2)]">
+                      <MenuGroup className="flex flex-col gap-0">
                         <MenuGroupLabel>View</MenuGroupLabel>
                         <MenuItem>
                           <span className={menuItemLabelClassName}>Zoom in</span>
@@ -292,7 +292,7 @@ export default function ContextMenuDocsPage() {
                         </MenuItem>
                       </MenuGroup>
                       <MenuSeparator />
-                      <MenuGroup className="flex flex-col gap-[var(--space-2)]">
+                      <MenuGroup className="flex flex-col gap-0">
                         <MenuGroupLabel>Danger zone</MenuGroupLabel>
                         <MenuItem variant="danger">
                           <span className={menuItemLabelClassName}>Delete</span>

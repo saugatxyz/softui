@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu"
-import { RiCheckFill } from "@remixicon/react"
+import { RiCheckboxCircleFill } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import {
@@ -169,7 +169,7 @@ function ContextMenuRadioItem({ className, children, ...props }: ContextMenuRadi
         data-slot="context-menu-radio-indicator"
         className="ml-auto flex size-[20px] shrink-0 items-center justify-center text-actions-primary-default data-[disabled]:text-content-disabled"
       >
-        <RiCheckFill className="size-[16px]" />
+        <RiCheckboxCircleFill className="size-[16px]" />
       </ContextMenuPrimitive.RadioItemIndicator>
     </ContextMenuPrimitive.RadioItem>
   )
@@ -196,7 +196,7 @@ function ContextMenuCheckboxItem({ className, children, ...props }: ContextMenuC
         data-slot="context-menu-checkbox-indicator"
         className="ml-auto flex size-[20px] shrink-0 items-center justify-center text-actions-primary-default data-[disabled]:text-content-disabled"
       >
-        <RiCheckFill className="size-[16px]" />
+        <RiCheckboxCircleFill className="size-[16px]" />
       </ContextMenuPrimitive.CheckboxItemIndicator>
     </ContextMenuPrimitive.CheckboxItem>
   )

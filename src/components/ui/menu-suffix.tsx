@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { RiCheckFill, RiArrowRightSLine } from "@remixicon/react"
+import { RiCheckboxCircleFill, RiArrowRightSLine } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import { SwitchControl } from "./switch-control"
@@ -66,7 +66,7 @@ function MenuSuffix({
     >
       {type === "checkmark" && (
         <span className={cn(iconVariants({ type: "checkmark" }))}>
-          <RiCheckFill />
+          <RiCheckboxCircleFill />
         </span>
       )}
       {type === "submenu" && (
