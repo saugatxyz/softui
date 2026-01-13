@@ -3292,3 +3292,120 @@ Replaced custom input with our `Input` component for consistency.
 ```
 
 ---
+
+## Selection Check Icon - Use Filled Circle Variant
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+Menu selection indicators (radio items, checkbox items, filter checkmarks) used a line-style check icon (`RiCheckFill`) which was inconsistent with the design intent. The filled circle check (`RiCheckboxCircleFill`) provides better visual feedback for selection states.
+
+### Solution
+
+Changed the selection indicator icon from `RiCheckFill` to `RiCheckboxCircleFill` across all components that show selection state in menus.
+
+### Files Changed
+
+| File | Change |
+|------|--------|
+| `src/components/ui/menu.tsx` | Updated `MenuRadioItem` and `MenuCheckboxItem` indicators |
+| `src/components/ui/context-menu.tsx` | Updated `ContextMenuRadioItem` and `ContextMenuCheckboxItem` indicators |
+| `src/components/ui/menu-suffix.tsx` | Updated `type="checkmark"` variant |
+
+### Before
+```tsx
+import { RiCheckFill } from "@remixicon/react"
+
+// In MenuRadioItem / MenuCheckboxItem
+<MenuPrimitive.RadioItemIndicator>
+  <RiCheckFill className="size-[16px]" />
+</MenuPrimitive.RadioItemIndicator>
+
+// In MenuSuffix
+{type === "checkmark" && (
+  <span className={cn(iconVariants({ type: "checkmark" }))}>
+    <RiCheckFill />
+  </span>
+)}
+```
+
+### After
+```tsx
+import { RiCheckboxCircleFill } from "@remixicon/react"
+
+// In MenuRadioItem / MenuCheckboxItem
+<MenuPrimitive.RadioItemIndicator>
+  <RiCheckboxCircleFill className="size-[16px]" />
+</MenuPrimitive.RadioItemIndicator>
+
+// In MenuSuffix
+{type === "checkmark" && (
+  <span className={cn(iconVariants({ type: "checkmark" }))}>
+    <RiCheckboxCircleFill />
+  </span>
+)}
+```
+
+### Components Affected
+
+| Component | Usage |
+|-----------|-------|
+| `Menu.RadioItem` | Built-in radio selection indicator |
+| `Menu.CheckboxItem` | Built-in checkbox selection indicator |
+| `ContextMenu.RadioItem` | Built-in radio selection indicator |
+| `ContextMenu.CheckboxItem` | Built-in checkbox selection indicator |
+| `MenuSuffix type="checkmark"` | Manual checkmark for custom selection (e.g., filters) |
+
+### Pages to QA
+
+| Page | What to Check |
+|------|---------------|
+| `/docs/menu` | Radio items and checkbox items in menu examples |
+| `/docs/context-menu` | Radio items and checkbox items (if examples exist) |
+| `/docs/filter` | Checkmark indicators on selected filter options |
+
+### Notes
+
+- The `RiCheckboxCircleFill` icon is already used for success states in Toast, InlineNotification, Banner, and FileUpload components
+- This change makes selection indicators visually distinct from the actual checkbox control (which uses `RiCheckFill` inside the checkbox box)
+- Icon size remains `16px` to maintain visual balance
+
+---
+
+## Menu Gap Fix - Missed Doc Pages
+**Status:** [x] Fixed
+**Review:** Code review pending
+
+### Problem
+The original menu gap fix (changing from `gap-[var(--space-2)]` to `gap-0`) missed several doc page examples that were using inline classNames instead of the shared `menuPopupClassName` constant.
+
+### Files Fixed
+
+| File | Line | Change |
+|------|------|--------|
+| `src/app/docs/filter/page.tsx` | 25 | `menuPopupClassName` const: `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/filter/page.tsx` | 303 | CodeBlock example: `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/context-menu/page.tsx` | 85 | `ContextMenu.RadioGroup`: `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/context-menu/page.tsx` | 128 | CodeBlock example: `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/context-menu/page.tsx` | 285 | `MenuGroup` (View): `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/context-menu/page.tsx` | 295 | `MenuGroup` (Danger zone): `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/menu/page.tsx` | 112 | `Menu.RadioGroup`: `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/menu/page.tsx` | 201 | CodeBlock example: `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/menu/page.tsx` | 519 | `MenuGroup` (Workspace): `gap-[var(--space-2)]` → `gap-0` |
+| `src/app/docs/menu/page.tsx` | 531 | `MenuGroup` (Danger zone): `gap-[var(--space-2)]` → `gap-0` |
+
+### Pages to QA
+
+| Page | What to Check |
+|------|---------------|
+| `/docs/filter` | All filter dropdown menus should have 0 gap between items |
+| `/docs/context-menu` | All context menus including radio groups and grouped menus |
+| `/docs/menu` | Radio selection menu, grouped menu sections |
+
+### Notes
+
+- The `menuPopupClassName` const at the top of each file was already correct in `menu/page.tsx` and `context-menu/page.tsx` (set to `gap-0`)
+- The issue was with inline classNames in CodeBlock examples and RadioGroup/MenuGroup components
+- This completes the gap fix that was started in the "Menu Items - Gap and Corner Radius Standardization" entry
+
+---
