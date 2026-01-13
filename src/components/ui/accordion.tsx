@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { AnimatePresence, motion } from "motion/react"
 import { Accordion } from "@base-ui/react/accordion"
 import type {
   AccordionItemProps as BaseAccordionItemProps,
@@ -14,16 +15,27 @@ import { ArrowDownIcon, QuestionIcon } from "@/icons"
 import { cn } from "@/lib/utils"
 
 type AccordionVariant = "list" | "card"
+type AccordionValue = NonNullable<BaseAccordionRootProps["value"]>
 
 // Item-level context for variant and value
 type AccordionItemContextValue = {
   variant: AccordionVariant
   withIcon: boolean
+  value: string | number
 }
 
 const AccordionItemContext = React.createContext<AccordionItemContextValue>({
   variant: "list",
   withIcon: true,
+  value: "",
+})
+
+type AccordionRootContextValue = {
+  openValues: AccordionValue
+}
+
+const AccordionRootContext = React.createContext<AccordionRootContextValue>({
+  openValues: [],
 })
 
 const itemVariants = cva(
@@ -71,7 +83,7 @@ const triggerVariants = cva(
 )
 
 const panelVariants = cva(
-  "text-body-m text-content-subtle font-[var(--font-weight-default)] overflow-hidden pt-[var(--space-6)] pb-[var(--space-16)]",
+  "text-body-m text-content-subtle font-[var(--font-weight-default)]",
   {
     variants: {
       variant: {
@@ -92,8 +104,40 @@ const panelVariants = cva(
 
 type AccordionRootProps = BaseAccordionRootProps
 
-function AccordionRoot(props: AccordionRootProps) {
-  return <Accordion.Root {...props} />
+function AccordionRoot({
+  value,
+  defaultValue,
+  onValueChange,
+  children,
+  ...props
+}: AccordionRootProps) {
+  const [uncontrolledValue, setUncontrolledValue] = React.useState<AccordionValue>(
+    defaultValue ?? []
+  )
+  const isControlled = value !== undefined
+  const openValues = isControlled ? value : uncontrolledValue
+
+  const handleValueChange = React.useCallback(
+    (nextValue: AccordionValue, eventDetails: Parameters<NonNullable<typeof onValueChange>>[1]) => {
+      if (!isControlled) {
+        setUncontrolledValue(nextValue)
+      }
+      onValueChange?.(nextValue, eventDetails)
+    },
+    [isControlled, onValueChange]
+  )
+
+  return (
+    <AccordionRootContext.Provider value={{ openValues: openValues ?? [] }}>
+      <Accordion.Root
+        {...props}
+        {...(isControlled ? { value } : { defaultValue })}
+        onValueChange={handleValueChange}
+      >
+        {children}
+      </Accordion.Root>
+    </AccordionRootContext.Provider>
+  )
 }
 
 type AccordionItemProps = BaseAccordionItemProps &
@@ -113,8 +157,8 @@ function AccordionItem({
   const resolvedWithIcon = withIcon ?? true
 
   const itemContextValue = React.useMemo(
-    () => ({ variant: resolvedVariant, withIcon: resolvedWithIcon }),
-    [resolvedVariant, resolvedWithIcon]
+    () => ({ variant: resolvedVariant, withIcon: resolvedWithIcon, value }),
+    [resolvedVariant, resolvedWithIcon, value]
   )
 
   return (
@@ -143,7 +187,9 @@ function AccordionTrigger({
   ...props
 }: AccordionTriggerProps) {
   const itemContext = React.useContext(AccordionItemContext)
+  const rootContext = React.useContext(AccordionRootContext)
   const resolvedVariant = variant ?? itemContext.variant
+  const isOpen = rootContext.openValues.includes(itemContext.value)
 
   const iconNode = icon ?? <QuestionIcon />
   const iconElement = React.isValidElement(iconNode)
@@ -173,9 +219,14 @@ function AccordionTrigger({
         <span className="min-w-0 text-body-m-medium text-content-strong">
           {children}
         </span>
-        <span className="flex size-[20px] shrink-0 items-center justify-center text-content-strong transition-transform duration-200 ease-out group-data-[panel-open]:rotate-180">
+        <motion.span
+          className="flex size-[20px] shrink-0 items-center justify-center text-content-strong"
+          initial={false}
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+        >
           <ArrowDownIcon className="size-[16px]" />
-        </span>
+        </motion.span>
       </Accordion.Trigger>
     </Accordion.Header>
   )
@@ -188,21 +239,51 @@ function AccordionContent({
   className,
   variant,
   children,
+  keepMounted = true,
   ...props
 }: AccordionContentProps) {
   const itemContext = React.useContext(AccordionItemContext)
+  const rootContext = React.useContext(AccordionRootContext)
   const resolvedVariant = variant ?? itemContext.variant
+  const isOpen = rootContext.openValues.includes(itemContext.value)
 
   return (
     <Accordion.Panel
       data-slot="accordion-panel"
+      keepMounted={keepMounted}
       className={cn(
         panelVariants({ variant: resolvedVariant, withIcon: itemContext.withIcon }),
         className
       )}
       {...props}
     >
-      {children}
+      <AnimatePresence initial={false} mode="popLayout">
+        {isOpen && (
+          <motion.div
+            key="accordion-panel"
+            className="overflow-hidden"
+            initial={{ height: 0 }}
+            animate={{
+              height: "auto",
+              transition: { type: "spring", bounce: 0, duration: 0.4 },
+            }}
+            exit={{
+              height: 0,
+              transition: { type: "spring", bounce: 0, duration: 0.4 },
+            }}
+            style={{ willChange: "height", transform: "translateZ(0)" }}
+          >
+            <motion.div
+              className="pt-[var(--space-6)] pb-[var(--space-16)]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.2, delay: 0.1 } }}
+              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+            >
+              {children}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Accordion.Panel>
   )
 }

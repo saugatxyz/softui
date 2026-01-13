@@ -417,7 +417,7 @@ function SearchableSelect({
     <Combobox.Root
       items={options}
       defaultValue={defaultValue}
-      className="bg-transparent p-0 min-h-0 rounded-none shadow-none"
+      className="bg-transparent hover:bg-transparent p-0 min-h-0 rounded-none shadow-none"
     >
       <Combobox.Trigger
         className={cn(

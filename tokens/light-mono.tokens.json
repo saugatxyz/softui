@@ -3868,6 +3868,24 @@
         }
       }
     },
+    "avatar": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.8980392217636108,
+          0.8980392217636108,
+          0.8980392217636108
+        ],
+        "alpha": 1,
+        "hex": "#E5E5E5"
+      },
+      "$extensions": {
+        "com.figma.aliasData": {
+          "targetVariableName": "neutral/200"
+        }
+      }
+    },
     "focus": {
       "outer": {
         "$type": "color",

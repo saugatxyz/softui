@@ -2,8 +2,42 @@
 
 import * as React from "react"
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog"
+import { AnimatePresence, motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
+
+// ============================================================================
+// Animation Helpers
+// ============================================================================
+
+const backdropTransition = {
+  type: "spring" as const,
+  bounce: 0,
+  duration: 0.15,
+}
+
+const popupTransition = {
+  type: "spring" as const,
+  bounce: 0,
+  duration: 0.15,
+}
+
+const getPopupTransform = (open: boolean) =>
+  `translate(-50%, -50%) translateY(${open ? 0 : 8}px) scale(${open ? 1 : 0.95})`
+
+// ============================================================================
+// Context
+// ============================================================================
+
+type AlertDialogContextValue = {
+  open: boolean
+}
+
+const AlertDialogContext = React.createContext<AlertDialogContextValue>({ open: false })
+
+function useAlertDialogContext() {
+  return React.useContext(AlertDialogContext)
+}
 
 // ============================================================================
 // AlertDialog Root
@@ -11,8 +45,38 @@ import { cn } from "@/lib/utils"
 
 type AlertDialogRootProps = AlertDialogPrimitive.Root.Props
 
-function AlertDialogRoot(props: AlertDialogRootProps) {
-  return <AlertDialogPrimitive.Root {...props} />
+function AlertDialogRoot({
+  open,
+  defaultOpen,
+  onOpenChange,
+  children,
+  ...props
+}: AlertDialogRootProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false)
+  const isControlled = open !== undefined
+  const resolvedOpen = isControlled ? open : uncontrolledOpen
+
+  const handleOpenChange = React.useCallback(
+    (nextOpen: boolean, eventDetails: Parameters<NonNullable<typeof onOpenChange>>[1]) => {
+      if (!isControlled) {
+        setUncontrolledOpen(nextOpen)
+      }
+      onOpenChange?.(nextOpen, eventDetails)
+    },
+    [isControlled, onOpenChange]
+  )
+
+  return (
+    <AlertDialogContext.Provider value={{ open: resolvedOpen }}>
+      <AlertDialogPrimitive.Root
+        {...props}
+        {...(isControlled ? { open } : { defaultOpen })}
+        onOpenChange={handleOpenChange}
+      >
+        {children}
+      </AlertDialogPrimitive.Root>
+    </AlertDialogContext.Provider>
+  )
 }
 
 // ============================================================================
@@ -41,9 +105,15 @@ type AlertDialogPortalProps = AlertDialogPrimitive.Portal.Props & {
   children?: React.ReactNode
 }
 
-function AlertDialogPortal({ children, ...props }: AlertDialogPortalProps) {
+function AlertDialogPortal({ children, keepMounted, ...props }: AlertDialogPortalProps) {
+  const { open } = useAlertDialogContext()
+
   return (
-    <AlertDialogPrimitive.Portal {...props}>{children}</AlertDialogPrimitive.Portal>
+    <AlertDialogPrimitive.Portal {...props} keepMounted={keepMounted ?? true}>
+      <AnimatePresence initial={false}>
+        {open ? children : null}
+      </AnimatePresence>
+    </AlertDialogPrimitive.Portal>
   )
 }
 
@@ -61,10 +131,33 @@ function AlertDialogBackdrop({ className, ...props }: AlertDialogBackdropProps) 
       data-slot="alert-dialog-backdrop"
       className={cn(
         "fixed inset-0 z-50 bg-utility-backdrop",
-        "transition-opacity duration-150 ease-out",
-        "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
         className
       )}
+      render={(backdropProps) => {
+        const {
+          className: backdropClassName,
+          onAnimationStart,
+          onDrag,
+          onDragStart,
+          onDragEnd,
+          onDragOver,
+          onDragEnter,
+          onDragLeave,
+          onDrop,
+          ...backdropRest
+        } = backdropProps
+
+        return (
+          <motion.div
+            {...backdropRest}
+            className={backdropClassName}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={backdropTransition}
+          />
+        )
+      }}
       {...props}
     />
   )
@@ -84,7 +177,7 @@ function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupPro
       data-slot="alert-dialog-popup"
       className={cn(
         // Positioning
-        "fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
+        "fixed top-1/2 left-1/2 z-50",
         // Sizing
         "w-[min(400px,calc(100vw-var(--space-32)))]",
         // Appearance - layered: surface-overlay base + surface-canvas on top
@@ -96,13 +189,33 @@ function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupPro
         "flex flex-col overflow-hidden",
         // Focus
         "outline-none",
-        // Nested dialog effect - scale down and push back when child dialog opens
-        "transition-[transform,opacity,filter] duration-200 ease-out",
-        "data-[nested-dialog-open]:scale-[0.94] data-[nested-dialog-open]:brightness-[0.6]",
-        // Enter/exit
-        "data-[starting-style]:scale-[0.98] data-[starting-style]:opacity-0 data-[ending-style]:scale-[0.98] data-[ending-style]:opacity-0",
         className
       )}
+      render={(popupProps) => {
+        const {
+          className: popupClassName,
+          onAnimationStart,
+          onDrag,
+          onDragStart,
+          onDragEnd,
+          onDragOver,
+          onDragEnter,
+          onDragLeave,
+          onDrop,
+          ...popupRest
+        } = popupProps
+
+        return (
+          <motion.div
+            {...popupRest}
+            className={popupClassName}
+            initial={{ opacity: 0, transform: getPopupTransform(false) }}
+            animate={{ opacity: 1, transform: getPopupTransform(true) }}
+            exit={{ opacity: 0, transform: getPopupTransform(false) }}
+            transition={popupTransition}
+          />
+        )
+      }}
       {...props}
     >
       {children}

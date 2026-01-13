@@ -158,18 +158,18 @@ export default function SeparatorDocsPage() {
                 <ToggleButton
                   variant="ghost"
                   size="s"
-                  leadingIcon={<RiBold />}
+                  icon={<RiBold />}
                   defaultPressed
                 />
                 <ToggleButton
                   variant="ghost"
                   size="s"
-                  leadingIcon={<RiItalic />}
+                  icon={<RiItalic />}
                 />
                 <ToggleButton
                   variant="ghost"
                   size="s"
-                  leadingIcon={<RiUnderline />}
+                  icon={<RiUnderline />}
                 />
                 <Separator
                   orientation="vertical"
@@ -198,12 +198,12 @@ export default function SeparatorDocsPage() {
                 <ToggleButton
                   variant="ghost"
                   size="s"
-                  leadingIcon={<RiLink />}
+                  icon={<RiLink />}
                 />
                 <ToggleButton
                   variant="ghost"
                   size="s"
-                  leadingIcon={<RiImage2Line />}
+                  icon={<RiImage2Line />}
                 />
               </div>
             </div>

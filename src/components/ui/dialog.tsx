@@ -3,8 +3,50 @@
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { RiCloseLine } from "@remixicon/react"
+import { AnimatePresence, motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
+
+type DialogPosition = "center" | "right" | "sheet"
+
+// ============================================================================
+// Animation Helpers
+// ============================================================================
+
+const backdropTransition = {
+  type: "spring" as const,
+  bounce: 0,
+  duration: 0.15,
+}
+
+const getPopupTransition = (position: DialogPosition) => ({
+  type: "spring" as const,
+  bounce: 0,
+  duration: position === "center" ? 0.15 : 0.2,
+})
+
+const getCenterTransform = (scale: number, translateY: number) =>
+  `translate(-50%, -50%) translateY(${translateY}px) scale(${scale})`
+
+const getRightTransform = (translateX: number | string) =>
+  `translateX(${translateX})`
+
+const getSheetTransform = (translateY: number | string) =>
+  `translateY(${translateY})`
+
+// ============================================================================
+// Context
+// ============================================================================
+
+type DialogContextValue = {
+  open: boolean
+}
+
+const DialogContext = React.createContext<DialogContextValue>({ open: false })
+
+function useDialogContext() {
+  return React.useContext(DialogContext)
+}
 
 // ============================================================================
 // Dialog Root
@@ -12,8 +54,38 @@ import { cn } from "@/lib/utils"
 
 type DialogRootProps = DialogPrimitive.Root.Props
 
-function DialogRoot(props: DialogRootProps) {
-  return <DialogPrimitive.Root {...props} />
+function DialogRoot({
+  open,
+  defaultOpen,
+  onOpenChange,
+  children,
+  ...props
+}: DialogRootProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false)
+  const isControlled = open !== undefined
+  const resolvedOpen = isControlled ? open : uncontrolledOpen
+
+  const handleOpenChange = React.useCallback(
+    (nextOpen: boolean, eventDetails: Parameters<NonNullable<typeof onOpenChange>>[1]) => {
+      if (!isControlled) {
+        setUncontrolledOpen(nextOpen)
+      }
+      onOpenChange?.(nextOpen, eventDetails)
+    },
+    [isControlled, onOpenChange]
+  )
+
+  return (
+    <DialogContext.Provider value={{ open: resolvedOpen }}>
+      <DialogPrimitive.Root
+        {...props}
+        {...(isControlled ? { open } : { defaultOpen })}
+        onOpenChange={handleOpenChange}
+      >
+        {children}
+      </DialogPrimitive.Root>
+    </DialogContext.Provider>
+  )
 }
 
 // ============================================================================
@@ -42,9 +114,16 @@ type DialogPortalProps = DialogPrimitive.Portal.Props & {
   children?: React.ReactNode
 }
 
-function DialogPortal({ children, ...props }: DialogPortalProps) {
+function DialogPortal({ children, keepMounted, ...props }: DialogPortalProps) {
+  const { open } = useDialogContext()
+  const resolvedChildren = React.Children.toArray(children)
+
   return (
-    <DialogPrimitive.Portal {...props}>{children}</DialogPrimitive.Portal>
+    <DialogPrimitive.Portal {...props} keepMounted={keepMounted ?? true}>
+      <AnimatePresence initial={false}>
+        {open ? resolvedChildren : null}
+      </AnimatePresence>
+    </DialogPrimitive.Portal>
   )
 }
 
@@ -62,10 +141,33 @@ function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
       data-slot="dialog-backdrop"
       className={cn(
         "fixed inset-0 z-50 bg-utility-backdrop",
-        "transition-opacity duration-150 ease-out",
-        "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0",
         className
       )}
+      render={(backdropProps) => {
+        const {
+          className: backdropClassName,
+          onAnimationStart,
+          onDrag,
+          onDragStart,
+          onDragEnd,
+          onDragOver,
+          onDragEnter,
+          onDragLeave,
+          onDrop,
+          ...backdropRest
+        } = backdropProps
+
+        return (
+          <motion.div
+            {...backdropRest}
+            className={backdropClassName}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={backdropTransition}
+          />
+        )
+      }}
       {...props}
     />
   )
@@ -75,8 +177,6 @@ function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
 // Dialog Popup
 // ============================================================================
 
-type DialogPosition = "center" | "right" | "sheet"
-
 type DialogPopupProps = Omit<DialogPrimitive.Popup.Props, "className"> & {
   className?: string
   position?: DialogPosition
@@ -84,27 +184,42 @@ type DialogPopupProps = Omit<DialogPrimitive.Popup.Props, "className"> & {
 
 const popupPositionStyles: Record<DialogPosition, string> = {
   center: cn(
-    "fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
-    "w-[min(480px,calc(100vw-var(--space-32)))]",
-    "rounded-[var(--radius-24)]",
-    "before:rounded-[var(--radius-24)]"
+    "fixed top-1/2 left-1/2 z-50",
+    "w-[min(480px,calc(100vw-var(--space-32)))]"
   ),
   right: cn(
     "fixed top-[8px] right-[8px] z-50",
     "h-[calc(100dvh-16px)]",
-    "w-full max-w-[400px]",
-    "rounded-[var(--radius-24)]",
-    "before:rounded-[var(--radius-24)]"
+    "w-full max-w-[400px]"
   ),
   sheet: cn(
     "fixed left-[8px] right-[8px] bottom-[8px] z-50",
-    "max-h-[calc(100dvh-16px)]",
-    "rounded-[var(--radius-24)]",
-    "before:rounded-[var(--radius-24)]"
+    "max-h-[calc(100dvh-16px)]"
   ),
 }
 
 function DialogPopup({ className, children, position = "center", ...props }: DialogPopupProps) {
+  const transition = getPopupTransition(position)
+
+  const getPopupTransform = (open: boolean, nestedOpen: boolean) => {
+    const nestedScale = nestedOpen ? 0.94 : 1
+
+    if (position === "center") {
+      const scale = (open ? 1 : 0.95) * nestedScale
+      const translateY = open ? 0 : 8
+      return getCenterTransform(scale, translateY)
+    }
+
+    if (position === "right") {
+      const translateX = open ? "0%" : "100%"
+      return `${getRightTransform(translateX)} scale(${nestedScale})`
+    }
+
+    const translateY = open ? "0%" : "100%"
+    const scale = nestedScale
+    return `${getSheetTransform(translateY)} scale(${scale})`
+  }
+
   return (
     <DialogPrimitive.Popup
       data-slot="dialog-popup"
@@ -117,17 +232,54 @@ function DialogPopup({ className, children, position = "center", ...props }: Dia
         "before:absolute before:inset-0 before:-z-10 before:bg-surface-canvas",
         "shadow-[var(--shadow-modal)]",
         "backdrop-blur-[6px]",
+        "rounded-[var(--radius-24)]",
+        "before:rounded-[var(--radius-24)]",
         // Layout
         "flex flex-col overflow-hidden",
         // Focus
         "outline-none",
         // Nested dialog effect - scale down and push back when child dialog opens
-        "transition-[transform,opacity,filter] duration-200 ease-out",
-        "data-[nested-dialog-open]:scale-[0.94] data-[nested-dialog-open]:brightness-[0.6]",
-        // Enter/exit
-        "data-[starting-style]:scale-[0.98] data-[starting-style]:opacity-0 data-[ending-style]:scale-[0.98] data-[ending-style]:opacity-0",
+        "transition-[filter] duration-200 ease-out",
         className
       )}
+      render={(popupProps, state) => {
+        const {
+          className: popupClassName,
+          onAnimationStart,
+          onDrag,
+          onDragStart,
+          onDragEnd,
+          onDragOver,
+          onDragEnter,
+          onDragLeave,
+          onDrop,
+          ...popupRest
+        } = popupProps
+        const filter = state.nestedDialogOpen ? "brightness(0.6)" : "brightness(1)"
+
+        return (
+          <motion.div
+            {...popupRest}
+            className={popupClassName}
+            initial={{
+              opacity: 0,
+              transform: getPopupTransform(false, state.nestedDialogOpen),
+              filter,
+            }}
+            animate={{
+              opacity: 1,
+              transform: getPopupTransform(true, state.nestedDialogOpen),
+              filter,
+            }}
+            exit={{
+              opacity: 0,
+              transform: getPopupTransform(false, state.nestedDialogOpen),
+              filter,
+            }}
+            transition={transition}
+          />
+        )
+      }}
       {...props}
     >
       {children}

@@ -2,6 +2,7 @@
 
 import { Switch } from "@base-ui/react/switch"
 import { cva, type VariantProps } from "class-variance-authority"
+import { motion, type Transition } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
@@ -24,6 +25,12 @@ type SwitchControlProps = Omit<Switch.Root.Props, "className"> &
     className?: string
   }
 
+const thumbTransition: Transition = {
+  type: "spring",
+  bounce: 0.1,
+  duration: 0.25,
+}
+
 function SwitchControl({ className, ...props }: SwitchControlProps) {
   return (
     <Switch.Root
@@ -45,12 +52,35 @@ function SwitchControl({ className, ...props }: SwitchControlProps) {
           "block size-[12px] rounded-full",
           "bg-content-inverse-strong",
           "shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
-          "transition-transform duration-200 ease-out",
-          "group-data-[checked]:translate-x-[16px]",
           "group-data-[checked]:bg-content-on-accent-strong",
           "group-data-[disabled]:bg-content-muted",
           "group-data-[disabled]:group-data-[checked]:bg-content-on-accent-disabled"
         )}
+        render={(thumbProps, state) => {
+          const {
+            className: thumbClassName,
+            onAnimationStart,
+            onDrag,
+            onDragStart,
+            onDragEnd,
+            onDragOver,
+            onDragEnter,
+            onDragLeave,
+            onDrop,
+            ...thumbRest
+          } = thumbProps
+          return (
+            <motion.span
+              {...thumbRest}
+              className={thumbClassName}
+              initial={false}
+              animate={{
+                transform: state.checked ? "translateX(16px)" : "translateX(0px)",
+              }}
+              transition={thumbTransition}
+            />
+          )
+        }}
       />
     </Switch.Root>
   )

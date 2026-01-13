@@ -11,7 +11,7 @@ This document tracks visual bugs found during the codexrefactor and provides sol
 
 ## 1. Autocomplete - Width, Gap, and Focus Ring
 **Status:** [x] Fixed
-**Review:** Code review pending (width fix)
+**Review:** Approved (width fix)
 
 ### Problem
 - Suggestion dropdown doesn't match the width of the trigger field
@@ -166,7 +166,7 @@ Add `label` and `description` props to Checkbox component with the same layout a
 
 ## 4. Combobox - Focus, Menu, and Empty State
 **Status:** [x] Fixed
-**Review:** Code review pending (width fix)
+**Review:** Approved (width fix)
 
 ### Problem
 - Same focus ring issue as Autocomplete (not showing on keyboard tab)
@@ -508,7 +508,7 @@ Add indicator components with check icon to MenuCheckboxItem and MenuRadioItem.
 
 ## 14. Select - Positioning, Width, and Gap
 **Status:** [x] Fixed
-**Review:** Code review pending (alignItemWithTrigger fix)
+**Review:** Approved (alignItemWithTrigger fix)
 
 ### Problem
 Same issues as Autocomplete - menu doesn't match trigger width, missing gap. Additionally, popup positioning seemed "random" - changing based on which item was selected.
@@ -791,7 +791,7 @@ className={cn(
 
 ## 21. Checkbox - Border Visible on Checked State
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 When a checkbox is checked or in indeterminate state, it incorrectly shows a border/shadow around it. The checked state should have a solid background color with no border.
@@ -843,7 +843,7 @@ This is purely **CSS styling** using Base UI's provided data attributes:
 
 ## 22. Select Grouped Options - Checkmark Position
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 In the grouped options example of Select, the checkmark of selected item appears right next to the label text instead of being pushed to the right edge of the item.
@@ -896,7 +896,7 @@ This fix is at the **component level** (`select.tsx`), not just in docs. Any usa
 
 ## 23. Select With Description - Checkmark Top Alignment
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 In the "With Descriptions" examples of Select, the checkmark is not top-aligned when an item has a description. It stays vertically centered while the item content grows taller due to the description text.
@@ -950,7 +950,7 @@ This fix is at the **component level** (`select.tsx`), not just in docs. Any usa
 
 ## 24. Disabled Input Components - Missing Cursor
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 When input components are disabled, they don't show `cursor-not-allowed`. The cursor remains as `cursor-text` (I-beam) which incorrectly suggests the field is editable.
@@ -1071,7 +1071,7 @@ This fix is at the **component level** in all 4 files (`input.tsx`, `textarea.ts
 
 ## 25. Separator Page - Redesign
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 The separator documentation page had poorly designed examples with:
@@ -1116,7 +1116,7 @@ This is a **docs page change only** - no component modifications. Uses existing 
 
 ## 26. MenuEmpty - Oversized Styling
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 The `MenuEmpty` component (used in Menu's "No results" state) looked oversized and disproportionate in a menu dropdown context:
@@ -1229,20 +1229,20 @@ This section documents all animations that existed in the main branch but were r
 ### Components WITH motion animations in main branch:
 | Component | Has Motion in Main | Has Motion in Refactor | Status |
 |-----------|-------------------|------------------------|--------|
-| accordion.tsx | ✅ | ❌ | **Missing** |
-| alert-dialog.tsx | ✅ | ❌ | **Missing** |
-| dialog.tsx | ✅ | ❌ | **Missing** |
+| accordion.tsx | ✅ | ✅ | OK |
+| alert-dialog.tsx | ✅ | ✅ | OK |
+| dialog.tsx | ✅ | ✅ | OK |
 | file-upload.tsx | ✅ | ✅ | OK |
 | slider.tsx | ✅ | ✅ | OK |
-| switch-control.tsx | ✅ | ❌ | **Missing** |
-| toggle-button.tsx | ✅ | ❌ | **Missing** |
-| toggle-group.tsx | ✅ | ❌ | **Missing** |
+| switch-control.tsx | ✅ | ✅ | OK |
+| toggle-button.tsx | ✅ | ✅ | OK |
+| toggle-group.tsx | ✅ | ✅ | OK |
 | tooltip.tsx | ✅ | ✅ | OK |
 
 ---
 
 ## 27. Accordion - Expand/Collapse Animation
-**Status:** [ ] Not started
+**Status:** [x] Fixed
 
 ### Missing Animations
 1. **Chevron rotation** - Arrow icon rotates 180° when item opens
@@ -1316,7 +1316,7 @@ import { AnimatePresence, motion } from "motion/react"
 ---
 
 ## 28. Alert Dialog - Enter/Exit Animation
-**Status:** [ ] Not started
+**Status:** [x] Fixed
 
 ### Missing Animations
 1. **Backdrop fade** - Opacity fade in/out
@@ -1379,7 +1379,7 @@ const AlertDialogContext = React.createContext<{ open: boolean }>({ open: false 
 ---
 
 ## 29. Dialog - Enter/Exit Animation
-**Status:** [ ] Not started
+**Status:** [x] Fixed
 
 ### Missing Animations
 1. **Backdrop fade** - Opacity fade in/out
@@ -1460,7 +1460,7 @@ const animations = {
 ---
 
 ## 30. Switch Control - Thumb Slide Animation
-**Status:** [ ] Not started
+**Status:** [x] Fixed
 
 ### Missing Animations
 1. **Thumb slide** - Spring animation when toggling
@@ -1524,7 +1524,8 @@ Keep CSS `transition-transform duration-200 ease-out` if spring feel is not crit
 ---
 
 ## 31. Toggle Button - Icon Morphing Animation
-**Status:** [ ] Not started
+**Status:** [x] Fixed
+**Review:** Approved
 
 ### Missing Animations
 1. **Icon fade** - Smooth crossfade between icons
@@ -1619,7 +1620,7 @@ function MorphingIcon({ pressed, icon, pressedIcon, morph }) {
 ---
 
 ## 32. Toggle Group - Icon Morphing Animation
-**Status:** [ ] Not started
+**Status:** [x] Fixed
 
 ### Missing Animations
 Same as Toggle Button:
@@ -1696,7 +1697,7 @@ Always use `transform: translateZ(0)` or `willChange: "height"` for animated hei
 
 ## 33. Menu Submenu - Missing Arrow Indicator
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 In the Menu page's "Nested actions" (Submenu) example, the submenu trigger item didn't show an arrow indicator to signal that it opens a submenu.
@@ -1736,7 +1737,7 @@ The `MenuSuffix` component in `src/components/ui/menu.tsx` was already correctly
 
 ## 34. Menu Danger Item - Custom Hover Background
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 Danger menu items (e.g., "Delete" actions) used the same neutral gray hover background as regular items. This didn't provide enough visual distinction for destructive actions.
@@ -1778,7 +1779,7 @@ All components using `listItemVariants` with `variant="danger"` automatically ge
 
 ## 35. InlineNotification - Filled Variant with Colored Backgrounds
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Feature Request
 Add a new `variant` prop for inline notifications to support colored backgrounds that match the notification tone.
@@ -1838,7 +1839,7 @@ This is a **pure addition** - no breaking changes:
 
 ## 36. Combobox Multi-Select - Structure Issues (Placeholder, Chevron, Arrow Key, Spacing)
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problems
 Multiple issues found in multi-select combobox:
@@ -2012,7 +2013,7 @@ All multi-select examples in the combobox docs page:
 
 ## 37. Number Field - Focus Ring Only on Keyboard (Not Mouse Click)
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Problem
 When clicking the Number Field component, the focus ring appears. Focus ring should ONLY show when using keyboard navigation (Tab key), not on mouse click.
@@ -2135,7 +2136,7 @@ The increment/decrement buttons have `tabIndex={-1}`, so they don't receive keyb
 
 ## 38. Avatar Group - Border Instead of Real Gap
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Problem
 Avatar Group uses a `shadow-[0_0_0_2px_var(--color-surface-page)]` border to visually separate avatars. This only works on page background color and doesn't adapt to different backgrounds.
@@ -2331,7 +2332,7 @@ return {
 
 ## 39. Combobox Searchable Select - Two Visible Input Fields
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Problem
 In the "Input Inside Popup" section of combobox docs, the SearchableSelect component showed two visible input fields stacked on top of each other. Both had the same background color (`bg-actions-secondary-default`), causing a visual overlap issue.
@@ -2398,7 +2399,7 @@ This is **pure CSS styling** via the standard `className` prop:
 
 ## 40. Breadcrumbs - Home Icon and Gap Update
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Changes Requested
 1. Change home icon from `RiHome5Line` to `RiHome7Fill`
@@ -2439,7 +2440,7 @@ This is **pure CSS styling** via the standard `className` prop:
 
 ## 41. Tabs - Padding Consistency and Cleanup
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Problems Fixed
 1. **Console error:** `contained` prop was being passed to DOM element
@@ -2484,7 +2485,7 @@ Removed all `contained` prop usages from docs examples.
 
 ## 42. Menu - Minimum Width Consistency with Context Menu
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Problem
 Menu popup was narrower than Context Menu popup. Context Menu had `min-w-[220px]` while Menu had no minimum width constraint.
@@ -2541,7 +2542,7 @@ Added `min-w-[220px]` directly to Menu.Popup only:
 
 ## 43. Menu - Group Label Padding Alignment
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Problem
 MenuGroupLabel had different horizontal padding than MenuItem, causing misalignment.
@@ -2568,7 +2569,7 @@ MenuGroupLabel had different horizontal padding than MenuItem, causing misalignm
 
 ## 44. Menu - Submenu Chevron Alignment
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Problem
 The submenu chevron (arrow icon) was positioned close to the label instead of on the rightmost side of the menu item.
@@ -2604,7 +2605,7 @@ Added `ml-auto` to the `submenu` variant to push the chevron to the right:
 
 ## 45. Menu - Documentation Examples Update
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Changes Made
 
@@ -2642,7 +2643,7 @@ import { Badge } from "@/components/ui/badge"
 
 ## 46. Menu Documentation - Example Polish (Follow-up)
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Changes Made
 
@@ -2733,7 +2734,7 @@ import {
 
 ## 47. Menu - Switch Alignment and Label Font Weight
 **Status:** [x] Fixed
-**Review:** Ready for code review
+**Review:** Approved
 
 ### Problems Fixed
 1. **Switch not right-aligned:** MenuSuffix switch type was missing `ml-auto`, so switch appeared close to label instead of on rightmost side
@@ -2797,7 +2798,7 @@ Note: Description text keeps `font-weight-default` as intended.
 
 ## Context Menu Docs - Font Weight and Trigger Area
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 1. Context menu items using default font weight instead of medium (inconsistent with Menu component)
@@ -2839,7 +2840,7 @@ Replaced small button triggers with larger div areas (matching main branch):
 
 ## Menu Items - Gap and Corner Radius Standardization
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 1. Menu items had 2px gap between them - should be 0 for tighter appearance
@@ -2936,7 +2937,7 @@ Changes made at component level so all menu-like components inherit the fix.
 
 ## IconButton - New "plain" Variant
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 Need an IconButton variant similar to ghost but without background fill on hover - just color change.
@@ -2980,7 +2981,7 @@ Added new `plain` variant:
 
 ## Input Components - Tertiary Variant
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 All input components only had secondary fill styling. Need a tertiary variant with the same shadow treatment as tertiary buttons.
@@ -3042,7 +3043,7 @@ disabled:bg-actions-tertiary-disabled disabled:shadow-none
 
 ## InputGroup - Tertiary Variant
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 InputGroup component only had secondary fill styling. Need a tertiary variant matching other input components.
@@ -3110,7 +3111,7 @@ disabled && isTertiary && "bg-actions-tertiary-disabled"
 
 ## Input Variants - Documentation Updates
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 New tertiary variant for inputs was not documented in code examples or shown in Field/Fieldset/Form docs.
@@ -3169,7 +3170,7 @@ This helps users understand how to use different input variants within form cont
 
 ## InputGroup - Static Segments No Hover
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 Static prefix/suffix segments (like "https://" or "$") show hover background change even though they're not interactive. This is misleading UX.
@@ -3217,7 +3218,7 @@ Applied to both prefix and suffix segments.
 
 ## Icon Search Page - Use Input Component
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 Icon search page used a custom inline input implementation instead of the design system's Input component.
@@ -3295,7 +3296,7 @@ Replaced custom input with our `Input` component for consistency.
 
 ## Selection Check Icon - Use Filled Circle Variant
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 Menu selection indicators (radio items, checkbox items, filter checkmarks) used a line-style check icon (`RiCheckFill`) which was inconsistent with the design intent. The filled circle check (`RiCheckboxCircleFill`) provides better visual feedback for selection states.
@@ -3374,7 +3375,7 @@ import { RiCheckboxCircleFill } from "@remixicon/react"
 
 ## Menu Gap Fix - Missed Doc Pages
 **Status:** [x] Fixed
-**Review:** Code review pending
+**Review:** Approved
 
 ### Problem
 The original menu gap fix (changing from `gap-[var(--space-2)]` to `gap-0`) missed several doc page examples that were using inline classNames instead of the shared `menuPopupClassName` constant.

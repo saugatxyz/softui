@@ -263,7 +263,13 @@ export default function MenuDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
-                <Menu.Trigger render={<IconButton variant="ghost" size="m"><RiMore2Line /></IconButton>} />
+                <Menu.Trigger
+                  render={
+                    <IconButton variant="ghost" size="m" aria-label="Open menu">
+                      <RiMore2Line />
+                    </IconButton>
+                  }
+                />
                 <Menu.Portal>
                   <Menu.Positioner>
                     <Menu.Popup className={menuPopupClassName}>
@@ -295,7 +301,17 @@ export default function MenuDocsPage() {
             </div>
             <div className="flex flex-wrap items-center gap-[var(--space-16)]">
               <Menu.Root>
-                <Menu.Trigger render={<button className="cursor-pointer"><Avatar size="m" initials="JD" isEmphasized color="blue" /></button>} />
+                <Menu.Trigger
+                  render={
+                    <button
+                      type="button"
+                      aria-label="Open user menu"
+                      className="cursor-pointer"
+                    >
+                      <Avatar size="m" initials="JD" isEmphasized color="blue" />
+                    </button>
+                  }
+                />
                 <Menu.Portal>
                   <Menu.Positioner>
                     <Menu.Popup className={menuPopupClassName}>

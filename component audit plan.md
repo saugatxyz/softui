@@ -10,8 +10,8 @@ Evidence format: ui: <path>; primitive: <primitive/custom>; docs: <path or note>
 
 | Component | Status | Evidence | Notes |
 | --- | --- | --- | --- |
-| Accordion | Done | ui: src/components/ui/accordion.tsx; primitive: @base-ui/react/accordion; docs: /docs/accordion; audit: passed | Strict passthrough; no internal state. |
-| Alert Dialog | Done | ui: src/components/ui/alert-dialog.tsx; primitive: @base-ui/react/alert-dialog; docs: /docs/alert-dialog; audit: passed | Strict passthrough; no internal state. |
+| Accordion | Done | ui: src/components/ui/accordion.tsx; primitive: @base-ui/react/accordion; docs: /docs/accordion; audit: passed | Tracks open values to drive animations; Base UI still controls state. |
+| Alert Dialog | Done | ui: src/components/ui/alert-dialog.tsx; primitive: @base-ui/react/alert-dialog; docs: /docs/alert-dialog; audit: passed | Tracks open state for animation mount/unmount; Base UI still controls state. |
 | Autocomplete | Done | ui: src/components/ui/autocomplete.tsx; primitive: @base-ui/react/autocomplete; docs: /docs/autocomplete; audit: passed | Strict passthrough; styling-only props. |
 | Avatar | Done | ui: src/components/ui/avatar.tsx; primitive: @base-ui/react/avatar; docs: /docs/avatar; audit: passed | Skinned Base UI wrapper with design variants. |
 | Button | Done | ui: src/components/ui/button.tsx; primitive: @base-ui/react/button; docs: /docs/button; audit: passed | Strict passthrough; styling-only props. |
@@ -19,7 +19,7 @@ Evidence format: ui: <path>; primitive: <primitive/custom>; docs: <path or note>
 | Checkbox Control | Done | ui: src/components/ui/checkbox-control.tsx; primitive: @base-ui/react/checkbox; docs: /docs/checkbox (control); audit: passed | Strict passthrough; data attrs only. |
 | Combobox | Done | ui: src/components/ui/combobox.tsx; primitive: @base-ui/react/combobox; docs: /docs/combobox; audit: passed | Strict passthrough; styling-only props. |
 | Context Menu | Done | ui: src/components/ui/context-menu.tsx; primitive: @base-ui/react/context-menu; docs: /docs/context-menu; audit: passed | Strict passthrough; no convenience props. |
-| Dialog | Done | ui: src/components/ui/dialog.tsx; primitive: @base-ui/react/dialog; docs: /docs/dialog; audit: passed | Strict passthrough; no internal state. |
+| Dialog | Done | ui: src/components/ui/dialog.tsx; primitive: @base-ui/react/dialog; docs: /docs/dialog; audit: passed | Tracks open state for animation mount/unmount; Base UI still controls state. |
 | Field | Done | ui: src/components/ui/field.tsx; primitive: @base-ui/react/field; docs: /docs/field; audit: passed | Convenience wrapper for label/description. |
 | Fieldset | Done | ui: src/components/ui/fieldset.tsx; primitive: @base-ui/react/fieldset; docs: /docs/fieldset; audit: passed | Strict passthrough; styling-only props. |
 | Form | Done | ui: src/components/ui/form.tsx; primitive: @base-ui/react/form; docs: /docs/form; audit: passed | Strict passthrough; styling-only props. |
@@ -38,8 +38,8 @@ Evidence format: ui: <path>; primitive: <primitive/custom>; docs: <path or note>
 | Switch Control | Done | ui: src/components/ui/switch-control.tsx; primitive: @base-ui/react/switch; docs: /docs/switch (control); audit: passed | Strict passthrough; thumb tokens set. |
 | Tabs | Done | ui: src/components/ui/tabs.tsx; primitive: @base-ui/react/tabs; docs: /docs/tabs; audit: passed | Strict passthrough; styling-only props. |
 | Toast | Done | ui: src/components/ui/toast.tsx; primitive: @base-ui/react/toast; docs: /docs/toast; audit: passed | Strict passthrough; styling-only props. |
-| Toggle Button | Done | ui: src/components/ui/toggle-button.tsx; primitive: @base-ui/react/toggle; docs: /docs/toggle-button; audit: passed | Strict passthrough; styling-only props. |
-| Toggle Group | Done | ui: src/components/ui/toggle-group.tsx; primitive: @base-ui/react/toggle-group; docs: /docs/toggle-group; audit: passed | Strict passthrough; styling-only props. |
+| Toggle Button | Done | ui: src/components/ui/toggle-button.tsx; primitive: @base-ui/react/toggle; docs: /docs/toggle-button; audit: passed | Animation state synced to pressed; Base UI still controls state. |
+| Toggle Group | Done | ui: src/components/ui/toggle-group.tsx; primitive: @base-ui/react/toggle-group; docs: /docs/toggle-group; audit: passed | Tracks current value for animation; Base UI still controls state. |
 | Tooltip | Done | ui: src/components/ui/tooltip.tsx; primitive: @base-ui/react/tooltip; docs: /docs/tooltip; audit: passed | Strict passthrough; styling-only props. |
 
 ## Custom components (non-Base UI)

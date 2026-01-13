@@ -15,8 +15,7 @@ const sizeConfig = {
   l: { overlap: 12, px: 40 },
 } as const
 
-const GAP = 2 // gap between avatars in pixels
-
+const AVATAR_GAP = 2 // matches --space-2
 
 const avatarGroupVariants = cva("flex items-center", {
   variants: {
@@ -68,7 +67,7 @@ function AvatarGroup({
 }: AvatarGroupProps) {
   const resolvedSize = size ?? "m"
   const config = sizeConfig[resolvedSize]
-
+  const [useWebkitGap, setUseWebkitGap] = React.useState(false)
   const avatars = React.Children.toArray(children).filter(
     (child): child is React.ReactElement<AvatarProps> =>
       React.isValidElement(child)
@@ -78,13 +77,17 @@ function AvatarGroup({
   const overflowCount = avatars.length - visibleAvatars.length
   const hasOverflow = overflowCount > 0
 
-  // Generate CSS mask on RIGHT side (where the next item overlaps from above)
+  React.useEffect(() => {
+    const ua = navigator.userAgent
+    const isWebKit = /AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg/.test(ua)
+    setUseWebkitGap(isWebKit)
+  }, [])
+
   const getMaskStyle = (isLast: boolean): React.CSSProperties | undefined => {
-    if (isLast) return undefined
+    if (isLast || useWebkitGap) return undefined
 
     const avatarRadius = config.px / 2
-    const maskRadius = avatarRadius + GAP
-    // Mask on RIGHT side - center is where the next avatar's center would be
+    const maskRadius = avatarRadius + AVATAR_GAP
     const maskCenterX = config.px - config.overlap + avatarRadius
 
     return {
@@ -96,39 +99,46 @@ function AvatarGroup({
     <div
       data-slot="avatar-group"
       data-size={resolvedSize}
-      className={cn(avatarGroupVariants({ size: resolvedSize }), className)}
+      className={cn(
+        avatarGroupVariants({ size: resolvedSize }),
+        useWebkitGap && "gap-[var(--space-2)]",
+        className
+      )}
       {...props}
     >
-      {/* Avatars first, z-index increases left to right */}
       {visibleAvatars.map((avatar, index) => {
-        // Last avatar only has no mask if there's no overflow
         const isLastItem = !hasOverflow && index === visibleAvatars.length - 1
         return React.cloneElement(avatar, {
           key: avatar.key ?? index,
           size: resolvedSize,
           shape: "circular",
-          className: avatar.props.className,
-          style: {
-            width: config.px,
-            height: config.px,
-            borderRadius: "var(--radius-max)",
-            zIndex: index + 1,
-            position: "relative" as const,
-            marginLeft: index > 0 ? -config.overlap : undefined,
-            ...getMaskStyle(isLastItem),
-          },
+          style: useWebkitGap
+            ? avatar.props.style
+            : {
+                width: config.px,
+                height: config.px,
+                borderRadius: "var(--radius-max)",
+                zIndex: index + 1,
+                position: "relative" as const,
+                marginLeft: index > 0 ? -config.overlap : undefined,
+                ...getMaskStyle(isLastItem),
+                ...avatar.props.style,
+              },
         })
       })}
-      {/* Overflow last (rightmost) with highest z-index (on top, no mask) */}
       {hasOverflow && (
         <div
           data-slot="avatar-overflow"
           className={cn(overflowVariants({ size: resolvedSize }))}
-          style={{
-            zIndex: 100,
-            position: "relative",
-            marginLeft: -config.overlap,
-          }}
+          style={
+            useWebkitGap
+              ? undefined
+              : {
+                  zIndex: 100,
+                  position: "relative",
+                  marginLeft: -config.overlap,
+                }
+          }
         >
           +{overflowCount}
         </div>

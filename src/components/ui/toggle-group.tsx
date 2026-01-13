@@ -4,6 +4,7 @@ import * as React from "react"
 import { Toggle } from "@base-ui/react/toggle"
 import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group"
 import { cva, type VariantProps } from "class-variance-authority"
+import { motion, type Transition } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
@@ -18,6 +19,7 @@ type ToggleGroupContextValue = {
   size: ToggleGroupSize
   variant: ToggleGroupVariant
   hideSeparator: boolean
+  currentValue: readonly unknown[]
 }
 
 const ToggleGroupContext = React.createContext<ToggleGroupContextValue | null>(null)
@@ -119,6 +121,93 @@ const iconVariants = cva("flex shrink-0 items-center justify-center text-current
   },
 })
 
+const iconFadeTransition: Transition = {
+  duration: 0.15,
+  ease: [0.19, 1, 0.22, 1],
+}
+
+const iconMorphTransition = {
+  type: "spring" as const,
+  bounce: 0.2,
+  duration: 0.25,
+}
+
+const labelTransition = {
+  type: "spring" as const,
+  bounce: 0.15,
+  duration: 0.25,
+}
+
+const getMorphTransform = (translateY: number, scale: number) =>
+  `translateY(${translateY}px) scale(${scale})`
+
+type MorphingIconProps = {
+  pressed: boolean
+  icon: React.ReactNode
+  pressedIcon?: React.ReactNode
+  size: ToggleGroupSize
+  morph?: boolean
+}
+
+function MorphingIcon({
+  pressed,
+  icon,
+  pressedIcon,
+  size,
+  morph = false,
+}: MorphingIconProps) {
+  const iconWrapperClassName = cn(iconVariants({ size }), "relative")
+  const pressedNode = pressedIcon ?? icon
+
+  if (!morph) {
+    return (
+      <span data-slot="icon" className={iconWrapperClassName}>
+        <motion.span
+          className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
+          animate={{ opacity: pressed ? 0 : 1 }}
+          transition={iconFadeTransition}
+        >
+          {icon}
+        </motion.span>
+        <motion.span
+          className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
+          animate={{ opacity: pressed ? 1 : 0 }}
+          transition={iconFadeTransition}
+        >
+          {pressedNode}
+        </motion.span>
+      </span>
+    )
+  }
+
+  return (
+    <span data-slot="icon" className={iconWrapperClassName}>
+      <motion.span
+        className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
+        animate={{
+          opacity: pressed ? 0 : 1,
+          filter: pressed ? "blur(8px)" : "blur(0px)",
+          transform: getMorphTransform(pressed ? -8 : 0, pressed ? 0.5 : 1),
+        }}
+        transition={iconMorphTransition}
+      >
+        {icon}
+      </motion.span>
+      <motion.span
+        className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
+        animate={{
+          opacity: pressed ? 1 : 0,
+          filter: pressed ? "blur(0px)" : "blur(8px)",
+          transform: getMorphTransform(pressed ? 0 : 8, pressed ? 1 : 0.5),
+        }}
+        transition={iconMorphTransition}
+      >
+        {pressedNode}
+      </motion.span>
+    </span>
+  )
+}
+
 // ============================================================================
 // ToggleGroup Component
 // ==========================================================================
@@ -138,18 +227,45 @@ function ToggleGroup({
   variant = "ghost",
   hideSeparator = false,
   children,
+  value,
+  defaultValue,
+  onValueChange,
   ...props
 }: ToggleGroupProps) {
   const childArray = React.Children.toArray(children)
   const count = childArray.length
+  const [internalValue, setInternalValue] = React.useState<readonly unknown[]>(
+    defaultValue ?? []
+  )
+  const isControlled = value !== undefined
+  const currentValue = isControlled ? value : internalValue
+
+  const handleValueChange = React.useCallback(
+    (nextValue: unknown[], eventDetails: Parameters<NonNullable<typeof onValueChange>>[1]) => {
+      if (!isControlled) {
+        setInternalValue(nextValue)
+      }
+      onValueChange?.(nextValue, eventDetails)
+    },
+    [isControlled, onValueChange]
+  )
 
   return (
-    <ToggleGroupContext.Provider value={{ size: size ?? "m", variant, hideSeparator }}>
+    <ToggleGroupContext.Provider
+      value={{
+        size: size ?? "m",
+        variant,
+        hideSeparator,
+        currentValue: currentValue ?? [],
+      }}
+    >
       <ToggleGroupPrimitive
         data-slot="toggle-group"
         data-size={size}
         data-variant={variant}
         className={cn(toggleGroupVariants({ size, className }))}
+        {...(isControlled ? { value } : { defaultValue })}
+        onValueChange={handleValueChange}
         {...props}
       >
         {React.Children.map(children, (child, index) => {
@@ -181,12 +297,16 @@ function ToggleGroup({
 type ToggleGroupItemProps = Omit<Toggle.Props, "className"> & {
   /** Required: Unique value to identify this toggle in the group */
   value: string
+  /** Optional leading icon (alias: icon) */
+  icon?: React.ReactNode
   /** Optional leading icon */
   leadingIcon?: React.ReactNode
   /** Optional pressed icon */
   pressedIcon?: React.ReactNode
   /** Optional trailing icon */
   trailingIcon?: React.ReactNode
+  /** Enable morph animation between icons */
+  morph?: boolean
   className?: string
   children?: React.ReactNode
 }
@@ -194,15 +314,19 @@ type ToggleGroupItemProps = Omit<Toggle.Props, "className"> & {
 function ToggleGroupItem({
   className,
   value,
+  icon,
   leadingIcon,
   pressedIcon,
   trailingIcon,
+  morph = false,
   children,
   ...props
 }: ToggleGroupItemProps) {
-  const { size, variant } = useToggleGroup()
+  const { size, variant, currentValue } = useToggleGroup()
   const hasLabel = React.Children.count(children) > 0
   const iconOnly = !hasLabel
+  const iconNode = leadingIcon ?? icon
+  const isPressed = currentValue.includes(value)
   const hasPressedIcon = Boolean(pressedIcon)
 
   return (
@@ -214,33 +338,30 @@ function ToggleGroupItem({
       className={cn(itemVariants({ variant, size, iconOnly, className }))}
       {...props}
     >
-      {leadingIcon && (
-        <span
-          data-slot="icon"
-          className={cn(
-            iconVariants({ size }),
-            "transition-colors duration-200",
-            hasPressedIcon && "group-data-[pressed]:hidden"
-          )}
-        >
-          {leadingIcon}
-        </span>
-      )}
-      {pressedIcon && (
-        <span
-          data-slot="icon"
-          className={cn(
-            iconVariants({ size }),
-            "hidden group-data-[pressed]:flex text-content-strong transition-colors duration-200"
-          )}
-        >
-          {pressedIcon}
-        </span>
-      )}
+      {iconNode ? (
+        hasPressedIcon ? (
+          <MorphingIcon
+            pressed={isPressed}
+            icon={iconNode}
+            pressedIcon={pressedIcon}
+            size={size}
+            morph={morph}
+          />
+        ) : (
+          <span data-slot="icon" className={cn(iconVariants({ size }), "transition-colors duration-200")}>
+            {iconNode}
+          </span>
+        )
+      ) : null}
       {hasLabel && (
-        <span data-slot="label" className={cn(labelVariants({ size }))}>
+        <motion.span
+          layout
+          transition={labelTransition}
+          data-slot="label"
+          className={cn(labelVariants({ size }), "overflow-hidden whitespace-nowrap")}
+        >
           {children}
-        </span>
+        </motion.span>
       )}
       {trailingIcon && (
         <span data-slot="icon" className={cn(iconVariants({ size }), "transition-colors duration-200")}>
