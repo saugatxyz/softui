@@ -118,8 +118,6 @@ const entryTransition = {
 const exitTransition = {
   opacity: { type: "spring" as const, bounce: 0, duration: 0.4 },
   filter: { type: "spring" as const, bounce: 0, duration: 0.2 },
-  x: { type: "tween" as const, duration: 0.25, ease: "easeOut" },
-  y: { type: "tween" as const, duration: 0.25, ease: "easeOut" },
 }
 
 function ToastRoot({ className, variant = "card", ...props }: ToastRootProps) {
