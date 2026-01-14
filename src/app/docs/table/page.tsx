@@ -311,7 +311,7 @@ function CellTypesDemo() {
         <Table.Row>
           <Table.Cell>ActionsCell</Table.Cell>
           <Table.ActionsCell>
-            <IconButton variant="ghost" size="2xs"><RiMoreLine /></IconButton>
+            <IconButton variant="ghost" size="2xs" aria-label="More actions"><RiMoreLine /></IconButton>
           </Table.ActionsCell>
         </Table.Row>
       </Table.Body>
@@ -433,7 +433,6 @@ function SortingDemo() {
           <Table.Head>Name</Table.Head>
           <Table.Head
             align="right"
-            sortable
             sortDirection={sortDir}
             onSort={() => setSortDir(prev => prev === "asc" ? "desc" : prev === "desc" ? null : "asc")}
           >
@@ -707,10 +706,10 @@ function TeamDirectoryTable() {
                   {status.label}
                 </Table.BadgeCell>
                 <Table.ActionsCell>
-                  <IconButton variant="ghost" size="2xs">
+                  <IconButton variant="ghost" size="2xs" aria-label="Send email">
                     <RiMailLine />
                   </IconButton>
-                  <IconButton variant="ghost" size="2xs">
+                  <IconButton variant="ghost" size="2xs" aria-label="More actions">
                     <RiMoreLine />
                   </IconButton>
                 </Table.ActionsCell>
@@ -765,7 +764,6 @@ function CustomerAccountsTable() {
             <Table.Head>Company</Table.Head>
             <Table.Head>Plan</Table.Head>
             <Table.Head
-              sortable
               sortDirection={sortColumn === "mrr" ? sortDirection : null}
               onSort={() => handleSort("mrr")}
               align="right"
@@ -773,7 +771,6 @@ function CustomerAccountsTable() {
               MRR
             </Table.Head>
             <Table.Head
-              sortable
               sortDirection={sortColumn === "seats" ? sortDirection : null}
               onSort={() => handleSort("seats")}
               align="right"
@@ -1032,11 +1029,11 @@ function DeploymentsTable() {
                 <Table.NumberCell>{deploy.time}</Table.NumberCell>
                 <Table.ActionsCell>
                   {deploy.url && (
-                    <IconButton variant="ghost" size="2xs">
+                    <IconButton variant="ghost" size="2xs" aria-label="Open deployment">
                       <RiExternalLinkLine />
                     </IconButton>
                   )}
-                  <IconButton variant="ghost" size="2xs">
+                  <IconButton variant="ghost" size="2xs" aria-label="More actions">
                     <RiMoreLine />
                   </IconButton>
                 </Table.ActionsCell>

@@ -237,6 +237,7 @@ function BannerClose({ className, onClose, onClick, ...props }: BannerCloseProps
       data-slot="banner-close"
       variant="ghost"
       size="2xs"
+      aria-label="Dismiss banner"
       className={cn("shrink-0", className)}
       onClick={(e) => {
         onClose?.()

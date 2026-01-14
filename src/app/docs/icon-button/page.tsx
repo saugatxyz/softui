@@ -8,6 +8,8 @@ import {
   StickyNoteFillIcon,
 } from "@/icons"
 
+// Accessibility note: All icon-only buttons require aria-label for screen readers
+
 const variantRows = [
   {
     value: "primary",
@@ -75,7 +77,7 @@ export default function IconButtonDocsPage() {
           code={`import { IconButton } from "@/components/ui/icon-button"
 import { SearchIcon } from "@/icons"
 
-<IconButton variant="secondary" size="3xs">
+<IconButton variant="secondary" size="3xs" aria-label="Search">
   <SearchIcon />
 </IconButton>`}
         />
@@ -93,10 +95,10 @@ import { SearchIcon } from "@/icons"
                 <p className="text-body-m text-content-strong">{variant.label}</p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-                <IconButton variant={variant.value}>
+                <IconButton variant={variant.value} aria-label="Search">
                   <SearchIcon />
                 </IconButton>
-                <IconButton variant={variant.value} disabled>
+                <IconButton variant={variant.value} disabled aria-label="Search (disabled)">
                   <SearchIcon />
                 </IconButton>
               </div>
@@ -120,7 +122,7 @@ import { SearchIcon } from "@/icons"
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-                <IconButton size={size.value}>
+                <IconButton size={size.value} aria-label="Search">
                   <SearchIcon />
                 </IconButton>
               </div>
@@ -148,7 +150,7 @@ import { SearchIcon } from "@/icons"
                   <p className="text-body-m text-content-strong">{tone.label}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-[var(--space-8)]">
-                  <IconButton variant="tertiary" tone={tone.value}>
+                  <IconButton variant="tertiary" tone={tone.value} aria-label={tone.label}>
                     <ToneIcon />
                   </IconButton>
                 </div>

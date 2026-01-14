@@ -167,7 +167,7 @@ function DateFilterExample() {
             <div className="flex flex-col gap-[var(--space-16)]">
               <div className="flex items-center justify-between">
                 <Popover.Title>Select date</Popover.Title>
-                <Popover.Close render={<IconButton variant="ghost" size="2xs"><RiCloseLine /></IconButton>} />
+                <Popover.Close render={<IconButton variant="ghost" size="2xs" aria-label="Close"><RiCloseLine /></IconButton>} />
               </div>
               <div className="flex flex-col gap-[var(--space-6)]">
                 <label className="text-[length:var(--font-size-s)] font-[var(--font-weight-medium)] leading-[var(--line-height-s)] text-content-strong">

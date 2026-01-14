@@ -175,6 +175,7 @@ function FileItem({
         variant="ghost"
         size="s"
         onClick={onRemove}
+        aria-label={state === "uploading" ? `Cancel upload of ${file.name}` : `Remove ${file.name}`}
         className="relative z-10"
       >
         {state === "uploaded" ? (

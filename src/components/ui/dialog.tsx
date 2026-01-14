@@ -635,6 +635,7 @@ function DialogClose({ className, children, ...props }: DialogCloseProps) {
   return (
     <DialogPrimitive.Close
       data-slot="dialog-close"
+      aria-label={isIconButton ? "Close dialog" : undefined}
       className={cn(
         // Only apply icon button styles when using default X icon
         isIconButton && [

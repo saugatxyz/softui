@@ -362,6 +362,7 @@ function InlineNotificationClose({ className, onClose, onClick, ...props }: Inli
       data-slot="inline-notification-close"
       variant="ghost"
       size={hasDescription ? "3xs" : "2xs"}
+      aria-label="Dismiss notification"
       className={cn("shrink-0", className)}
       onClick={(e) => {
         onClose?.()

@@ -85,7 +85,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
-                <Popover.Trigger render={<IconButton variant="secondary"><RiSettings3Line /></IconButton>} />
+                <Popover.Trigger render={<IconButton variant="secondary" aria-label="Settings"><RiSettings3Line /></IconButton>} />
                 <Popover.Portal>
                   <Popover.Positioner>
                     <Popover.Popup className="w-[280px] p-[var(--space-16)]">
@@ -96,7 +96,7 @@ import { Button } from "@/components/ui/button"
                             Configure your preferences here.
                           </Popover.Description>
                         </div>
-                        <Popover.Close render={<IconButton variant="ghost" size="2xs"><RiCloseLine /></IconButton>} />
+                        <Popover.Close render={<IconButton variant="ghost" size="2xs" aria-label="Close"><RiCloseLine /></IconButton>} />
                       </div>
                     </Popover.Popup>
                   </Popover.Positioner>
@@ -123,7 +123,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Popover.Root>
-                <Popover.Trigger render={<IconButton variant="ghost"><RiInformationLine /></IconButton>} />
+                <Popover.Trigger render={<IconButton variant="ghost" aria-label="More information"><RiInformationLine /></IconButton>} />
                 <Popover.Portal>
                   <Popover.Positioner>
                     <Popover.Popup className="w-[240px] p-[var(--space-16)]">
@@ -163,7 +163,7 @@ import { Button } from "@/components/ui/button"
                       <div className="flex flex-col gap-[var(--space-16)]">
                         <div className="flex items-center justify-between">
                           <Popover.Title>Filters</Popover.Title>
-                          <Popover.Close render={<IconButton variant="ghost" size="2xs"><RiCloseLine /></IconButton>} />
+                          <Popover.Close render={<IconButton variant="ghost" size="2xs" aria-label="Close"><RiCloseLine /></IconButton>} />
                         </div>
                         <div className="flex flex-col gap-[var(--space-12)]">
                           <div className="flex flex-col gap-[var(--space-6)]">
@@ -305,7 +305,7 @@ import { Button } from "@/components/ui/button"
                             This popover requires your attention.
                           </Popover.Description>
                         </div>
-                        <Popover.Close render={<IconButton variant="ghost" size="2xs"><RiCloseLine /></IconButton>} />
+                        <Popover.Close render={<IconButton variant="ghost" size="2xs" aria-label="Close"><RiCloseLine /></IconButton>} />
                       </div>
                     </Popover.Popup>
                   </Popover.Positioner>

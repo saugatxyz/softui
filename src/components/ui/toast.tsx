@@ -391,7 +391,7 @@ function ToastClose({ className, ...props }: ToastCloseProps) {
   return (
     <ToastPrimitive.Close
       data-slot="toast-close"
-      render={<IconButton variant="ghost" size="3xs" className={cn("shrink-0", className)} />}
+      render={<IconButton variant="ghost" size="3xs" aria-label="Dismiss notification" className={cn("shrink-0", className)} />}
       {...props}
     >
       <RiCloseLine />

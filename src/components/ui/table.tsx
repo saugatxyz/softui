@@ -170,14 +170,12 @@ function TableRow({ selected, isHeader, className, ...props }: TableRowProps) {
 // ============================================================================
 
 type TableHeadProps = React.ThHTMLAttributes<HTMLTableCellElement> & {
-  sortable?: boolean
   sortDirection?: SortDirection
   onSort?: () => void
   align?: "left" | "right"
 }
 
 function TableHead({
-  sortable,
   sortDirection,
   onSort,
   align = "left",
@@ -187,60 +185,68 @@ function TableHead({
 }: TableHeadProps) {
   const { size } = React.useContext(TableContext)
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!sortable || !onSort) return
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault()
-      onSort()
-    }
-  }
+  const isSortable = Boolean(onSort)
+  const ariaSort = isSortable
+    ? sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : "none"
+    : undefined
 
-  // Map sortDirection to aria-sort values (use "none" when sortable but unsorted)
-  const ariaSort = sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : sortable ? "none" : undefined
+  const content = (
+    <span className="inline-flex items-center gap-[var(--space-6)]">
+      {children}
+      {isSortable && (
+        <span
+          className={cn(
+            "flex size-[var(--space-16)] shrink-0 items-center justify-center",
+            sortDirection ? "text-content-strong" : "text-content-muted"
+          )}
+          aria-hidden="true"
+        >
+          {sortDirection === "asc" ? (
+            <RiArrowUpSLine className="size-[var(--space-16)]" />
+          ) : sortDirection === "desc" ? (
+            <RiArrowDownSLine className="size-[var(--space-16)]" />
+          ) : (
+            <RiArrowUpSLine className="size-[var(--space-16)] opacity-50" />
+          )}
+        </span>
+      )}
+    </span>
+  )
 
   return (
     <th
       data-slot="table-head"
-      data-sortable={sortable || undefined}
-      data-sort={sortDirection || undefined}
-      tabIndex={sortable ? 0 : undefined}
+      data-sort={isSortable ? (sortDirection || undefined) : undefined}
       aria-sort={ariaSort}
-      onKeyDown={sortable ? handleKeyDown : undefined}
       className={cn(
         "align-middle",
         "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
         "text-content-subtle",
         align === "right" ? "text-right" : "text-left",
         headerCellPadding[size],
-        sortable && "cursor-pointer select-none hover:text-content-strong",
-        sortable && "focus-visible:outline-none focus-visible:shadow-[inset_0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className
       )}
-      onClick={sortable ? onSort : undefined}
       {...props}
     >
-      <div className={cn(
-        "flex items-center gap-[var(--space-6)]",
-        align === "right" && "justify-end"
-      )}>
-        {children}
-        {sortable && (
-          <span
-            className={cn(
-              "flex size-[var(--space-16)] shrink-0 items-center justify-center",
-              sortDirection ? "text-content-strong" : "text-content-muted"
-            )}
-          >
-            {sortDirection === "asc" ? (
-              <RiArrowUpSLine className="size-[var(--space-16)]" />
-            ) : sortDirection === "desc" ? (
-              <RiArrowDownSLine className="size-[var(--space-16)]" />
-            ) : (
-              <RiArrowUpSLine className="size-[var(--space-16)] opacity-50" />
-            )}
-          </span>
-        )}
-      </div>
+      {isSortable ? (
+        <button
+          type="button"
+          onClick={onSort}
+          className={cn(
+            "inline-flex items-center",
+            "px-[var(--space-6)] py-[var(--space-4)] -mx-[var(--space-6)] -my-[var(--space-4)]",
+            "cursor-pointer select-none",
+            "text-content-subtle hover:text-content-strong",
+            "rounded-[var(--radius-4)]",
+            "outline-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+            "transition-colors duration-150"
+          )}
+        >
+          {content}
+        </button>
+      ) : (
+        content
+      )}
     </th>
   )
 }
@@ -531,7 +537,7 @@ function TableActionsCell({ children, className }: TableActionsCellProps) {
             <Button variant="link-neutral" size="xs">
               View
             </Button>
-            <IconButton variant="ghost" size="2xs">
+            <IconButton variant="ghost" size="2xs" aria-label="More actions">
               <RiMoreLine />
             </IconButton>
           </>

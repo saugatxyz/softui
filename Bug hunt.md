@@ -63,9 +63,9 @@ Notes:
 - Affects sizing config + overlap mask logic.
 
 ## [BH-002] Icon Button missing accessible labels in docs/examples
-Status: [ ]
-Owner: Unassigned
-Review: Review: Code review pending
+Status: [x]
+Owner: Claude
+Review: Review: Needs QA
 
 Problem:
 - Icon-only IconButton examples lack accessible names (no `aria-label` or visible text).
@@ -82,9 +82,14 @@ Acceptance criteria:
 Notes:
 - Screen readers announce unlabeled buttons in current docs examples.
 
+Fix applied:
+- Added aria-label to all IconButton examples in icon-button docs page
+- Updated code example in CodeBlock to show aria-label usage
+- Added accessibility comment at top of file
+
 ## [BH-003] File Upload remove action a11y + motion guideline drift
-Status: [ ]
-Owner: Unassigned
+Status: [~]
+Owner: Claude
 Review: Review: Needs QA
 
 Problem:
@@ -103,9 +108,13 @@ Acceptance criteria:
 Notes:
 - Applies to FileItem icon transitions and progress bar.
 
+Fix applied (a11y portion - Phase 1):
+- Added dynamic aria-label to remove/cancel button: "Cancel upload of {filename}" or "Remove {filename}"
+- Motion portion to be addressed in Phase 2
+
 ## [BH-004] Icon-only close/actions missing accessible labels (components)
-Status: [ ]
-Owner: Unassigned
+Status: [x]
+Owner: Claude
 Review: Review: Needs QA
 
 Problem:
@@ -125,10 +134,17 @@ Acceptance criteria:
 Notes:
 - Affects DialogClose, ToastClose, BannerClose, InlineNotificationClose, and TableActionsCell default overflow action.
 
+Fix applied:
+- DialogClose: Added aria-label="Close dialog" for icon-only usage
+- ToastClose: Added aria-label="Dismiss notification"
+- BannerClose: Added aria-label="Dismiss banner"
+- InlineNotificationClose: Added aria-label="Dismiss notification"
+- TableActionsCell: Added aria-label="More actions" to default overflow button
+
 ## [BH-005] IconButton docs/examples lack accessible names
-Status: [ ]
-Owner: Unassigned
-Review: Review: Code review pending
+Status: [x]
+Owner: Claude
+Review: Review: Needs QA
 
 Problem:
 - Multiple docs pages render icon-only IconButton instances with no accessible name.
@@ -145,6 +161,12 @@ Acceptance criteria:
 
 Notes:
 - Use a consistent label pattern across docs.
+
+Fix applied:
+- Popover docs: Added aria-labels to Settings, Close, and Information icon buttons
+- Tooltip docs: Added aria-labels to all icon buttons (Info, Copy, Delete, Share, Help, Download, Chart)
+- Table docs: Added aria-labels to Mail, More actions, and Open deployment buttons
+- Filter docs: Added aria-label="Close" to filter popover close button
 
 ## [BH-006] Tabs + Segmented Control indicator animates layout properties
 Status: [ ]
@@ -205,8 +227,8 @@ Notes:
 - Examples include `size-[20px]`, `size-[16px]`, `size-[6px]`, `p-[2px]`.
 
 ## [BH-009] Sortable table headers lack button semantics
-Status: [ ]
-Owner: Unassigned
+Status: [x]
+Owner: Claude
 Review: Review: Needs QA
 
 Problem:
@@ -214,6 +236,7 @@ Problem:
 
 Files:
 - src/components/ui/table.tsx
+- src/app/docs/table/page.tsx
 
 Acceptance criteria:
 - Use a `<button>` inside the `th` (or apply `role="button"` + `aria-pressed`/`aria-label` where appropriate).
@@ -221,6 +244,16 @@ Acceptance criteria:
 
 Notes:
 - Ensure focus ring applies to the interactive element.
+
+Fix applied:
+- **API change:** `sortable` prop removed entirely from `TableHeadProps`
+- `onSort` is the sole trigger for sortability: `isSortable = Boolean(onSort)`
+- When `onSort` provided: renders `<button>` with sort icon, `aria-sort`, focus ring
+- When no `onSort`: renders plain header content (no icon, no button, no `aria-sort`)
+- Consistent layout: both states use same `<span>` flex wrapper to prevent spacing drift
+- Focus ring on button only (not entire header): `inline-flex` with small padding/negative margin
+- Sort indicator icon marked `aria-hidden="true"`
+- Updated table docs to remove `sortable` prop usage (3 instances)
 
 -------------------------------------------------------------------------------
 

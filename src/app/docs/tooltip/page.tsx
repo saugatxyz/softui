@@ -64,7 +64,7 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
                 <Tooltip.Root>
-                  <Tooltip.Trigger render={<IconButton variant="ghost" size="m"><RiInformationLine /></IconButton>} />
+                  <Tooltip.Trigger render={<IconButton variant="ghost" size="m" aria-label="More information"><RiInformationLine /></IconButton>} />
                   <Tooltip.Portal>
                     <Tooltip.Positioner sideOffset={8}>
                       <Tooltip.Popup>
@@ -85,7 +85,7 @@ import { Button } from "@/components/ui/button"
               <Tooltip.Provider>
                 <div className="flex items-center gap-[var(--space-8)]">
                   <Tooltip.Root>
-                    <Tooltip.Trigger render={<IconButton variant="secondary" size="m"><RiFileCopyLine /></IconButton>} />
+                    <Tooltip.Trigger render={<IconButton variant="secondary" size="m" aria-label="Copy"><RiFileCopyLine /></IconButton>} />
                     <Tooltip.Portal>
                       <Tooltip.Positioner sideOffset={8}>
                         <Tooltip.Popup>
@@ -95,7 +95,7 @@ import { Button } from "@/components/ui/button"
                     </Tooltip.Portal>
                   </Tooltip.Root>
                   <Tooltip.Root>
-                    <Tooltip.Trigger render={<IconButton variant="secondary" size="m"><RiDeleteBinLine /></IconButton>} />
+                    <Tooltip.Trigger render={<IconButton variant="secondary" size="m" aria-label="Delete"><RiDeleteBinLine /></IconButton>} />
                     <Tooltip.Portal>
                       <Tooltip.Positioner sideOffset={8}>
                         <Tooltip.Popup>
@@ -105,7 +105,7 @@ import { Button } from "@/components/ui/button"
                     </Tooltip.Portal>
                   </Tooltip.Root>
                   <Tooltip.Root>
-                    <Tooltip.Trigger render={<IconButton variant="secondary" size="m"><RiShareLine /></IconButton>} />
+                    <Tooltip.Trigger render={<IconButton variant="secondary" size="m" aria-label="Share"><RiShareLine /></IconButton>} />
                     <Tooltip.Portal>
                       <Tooltip.Positioner sideOffset={8}>
                         <Tooltip.Popup>
@@ -138,7 +138,7 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
                 <Tooltip.Root>
-                  <Tooltip.Trigger render={<IconButton variant="ghost" size="m"><RiQuestionLine /></IconButton>} />
+                  <Tooltip.Trigger render={<IconButton variant="ghost" size="m" aria-label="Help"><RiQuestionLine /></IconButton>} />
                   <Tooltip.Portal>
                     <Tooltip.Positioner sideOffset={8}>
                       <Tooltip.Popup>
@@ -160,7 +160,7 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
                 <Tooltip.Root>
-                  <Tooltip.Trigger render={<IconButton variant="secondary" size="m"><RiDownloadLine /></IconButton>} />
+                  <Tooltip.Trigger render={<IconButton variant="secondary" size="m" aria-label="Download"><RiDownloadLine /></IconButton>} />
                   <Tooltip.Portal>
                     <Tooltip.Positioner sideOffset={8}>
                       <Tooltip.Popup>
@@ -194,7 +194,7 @@ import { Button } from "@/components/ui/button"
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Tooltip.Provider>
                 <Tooltip.Root>
-                  <Tooltip.Trigger render={<IconButton variant="secondary" size="m"><RiPieChartLine /></IconButton>} />
+                  <Tooltip.Trigger render={<IconButton variant="secondary" size="m" aria-label="View chart"><RiPieChartLine /></IconButton>} />
                   <Tooltip.Portal>
                     <Tooltip.Positioner sideOffset={8}>
                       <Tooltip.Popup>
