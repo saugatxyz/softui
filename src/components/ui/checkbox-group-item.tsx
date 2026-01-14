@@ -138,7 +138,7 @@ function CheckboxGroupItem({
 
       {/* Checkbox on left (simple/list types) */}
       {showCheckboxOnLeft && (
-        <span className="flex h-[20px] shrink-0 items-center">
+        <span className="flex h-[var(--space-20)] shrink-0 items-center">
           <CheckboxControl
             checked={checked}
             defaultChecked={defaultChecked}

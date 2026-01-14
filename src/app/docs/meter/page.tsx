@@ -6,8 +6,8 @@ import { Meter, type MeterTone } from "@/components/ui/meter"
 import { Slider } from "@/components/ui/slider"
 
 const toneRows = [
-  { value: "neutral", label: "Neutral", description: "Default state for general measurement", sampleValue: 45 },
-  { value: "positive", label: "Positive", description: "Safe or optimal range", sampleValue: 25 },
+  { value: "default", label: "Default", description: "Default state for general measurement", sampleValue: 45 },
+  { value: "success", label: "Success", description: "Safe or optimal range", sampleValue: 25 },
   { value: "warning", label: "Warning", description: "Approaching limits or caution", sampleValue: 75 },
   { value: "danger", label: "Danger", description: "Critical threshold reached", sampleValue: 95 },
 ] as const
@@ -152,8 +152,8 @@ function StatusMeterDemo() {
   const getTone = (value: number): MeterTone => {
     if (value >= 90) return "danger"
     if (value >= 75) return "warning"
-    if (value >= 50) return "neutral"
-    return "positive"
+    if (value >= 50) return "default"
+    return "success"
   }
 
   return (

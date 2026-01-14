@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 // Types
 // ============================================================================
 
-type ProgressTone = "neutral" | "positive" | "warning" | "danger"
+type ProgressTone = "default" | "success" | "warning" | "danger"
 type ProgressSize = "s" | "m"
 
 // ============================================================================
@@ -17,8 +17,8 @@ type ProgressSize = "s" | "m"
 // ============================================================================
 
 const toneIndicatorColors: Record<ProgressTone, string> = {
-  neutral: "bg-content-strong",
-  positive: "bg-content-feedback-success-strong",
+  default: "bg-content-strong",
+  success: "bg-content-feedback-success-strong",
   warning: "bg-content-feedback-warning-strong",
   danger: "bg-content-feedback-danger-strong",
 }
@@ -28,8 +28,8 @@ const toneIndicatorColors: Record<ProgressTone, string> = {
 // ============================================================================
 
 const sizeClasses: Record<ProgressSize, string> = {
-  s: "h-[4px]",
-  m: "h-[6px]",
+  s: "h-[var(--space-4)]",
+  m: "h-[var(--space-6)]",
 }
 
 // ============================================================================
@@ -40,7 +40,7 @@ const ProgressContext = React.createContext<{
   tone: ProgressTone
   size: ProgressSize
 }>({
-  tone: "neutral",
+  tone: "default",
   size: "s",
 })
 
@@ -54,7 +54,7 @@ type ProgressRootProps = ProgressPrimitive.Root.Props & {
 }
 
 function ProgressRoot({
-  tone = "neutral",
+  tone = "default",
   size = "s",
   className,
   children,

@@ -65,7 +65,7 @@ function Switch({
   )
 
   const control = (
-    <span className="flex h-[20px] shrink-0 items-center">
+    <span className="flex h-[var(--space-20)] shrink-0 items-center">
       <SwitchControl className={className} disabled={disabled} {...props} />
     </span>
   )

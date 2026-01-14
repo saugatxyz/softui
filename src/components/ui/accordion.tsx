@@ -196,7 +196,7 @@ function AccordionTrigger({
     ? React.cloneElement(iconNode as React.ReactElement<{ className?: string }>, {
         className: cn(
           (iconNode as React.ReactElement<{ className?: string }>).props?.className,
-          "size-[16px]"
+          "size-[var(--space-16)]"
         ),
       })
     : iconNode
@@ -212,7 +212,7 @@ function AccordionTrigger({
         {...props}
       >
         {itemContext.withIcon ? (
-          <span className="flex size-[20px] shrink-0 items-center justify-center text-content-strong">
+          <span className="flex size-[var(--space-20)] shrink-0 items-center justify-center text-content-strong">
             {iconElement}
           </span>
         ) : null}
@@ -220,12 +220,12 @@ function AccordionTrigger({
           {children}
         </span>
         <motion.span
-          className="flex size-[20px] shrink-0 items-center justify-center text-content-strong"
+          className="flex size-[var(--space-20)] shrink-0 items-center justify-center text-content-strong"
           initial={false}
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.25 }}
         >
-          <ArrowDownIcon className="size-[16px]" />
+          <ArrowDownIcon className="size-[var(--space-16)]" />
         </motion.span>
       </Accordion.Trigger>
     </Accordion.Header>
@@ -265,13 +265,12 @@ function AccordionContent({
             initial={{ height: 0 }}
             animate={{
               height: "auto",
-              transition: { type: "spring", bounce: 0, duration: 0.3 },
+              transition: { type: "spring", bounce: 0, duration: 0.25 },
             }}
             exit={{
               height: 0,
-              transition: { type: "spring", bounce: 0, duration: 0.3 },
+              transition: { type: "spring", bounce: 0, duration: 0.2 },
             }}
-            style={{ willChange: "height", transform: "translateZ(0)" }}
           >
             <motion.div
               className="pt-[var(--space-6)] pb-[var(--space-16)]"

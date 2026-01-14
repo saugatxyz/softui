@@ -14,7 +14,7 @@ function MenuSeparator({ className, ...props }: MenuSeparatorProps) {
     <Menu.Separator
       data-slot="menu-separator"
       className={cn(
-        "flex h-[4px] w-full items-center px-[var(--space-8)]",
+        "flex h-[var(--space-4)] w-full items-center px-[var(--space-8)]",
         className
       )}
       {...props}

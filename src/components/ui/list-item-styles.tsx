@@ -51,7 +51,7 @@ export const listItemVariants = cva(
     // Base styles
     "group flex w-full cursor-pointer items-center gap-[var(--space-8)] rounded-[var(--radius-8)] outline-none select-none",
     // Size
-    "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
+    "min-h-[var(--space-36)] px-[var(--space-10)] py-[var(--space-6)]",
     // Typography
     "text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)]",
     // States - highlight color serves as focus indicator (no ring needed)

@@ -51,7 +51,7 @@ const rootVariants = cva(
 )
 
 const inputVariants = cva(
-  "min-w-[60px] flex-1 truncate bg-transparent outline-none text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] placeholder:text-content-muted caret-actions-primary-default"
+  "min-w-[var(--space-64)] flex-1 truncate bg-transparent outline-none text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] placeholder:text-content-muted caret-actions-primary-default"
 )
 
 // ============================================================================
@@ -315,7 +315,7 @@ function AutocompleteEmpty({ className, ...props }: AutocompleteEmptyProps) {
       data-slot="empty"
       className={cn(
         "flex w-full items-center justify-center empty:hidden rounded-[var(--radius-10)]",
-        "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
+        "min-h-[var(--space-36)] px-[var(--space-10)] py-[var(--space-6)]",
         "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
         "text-content-muted",
         className
@@ -348,7 +348,7 @@ function AutocompleteGroupLabel({ className, ...props }: AutocompleteGroupLabelP
     <AutocompletePrimitive.GroupLabel
       data-slot="group-label"
       className={cn(
-        "flex min-h-[28px] items-center px-[var(--space-12)] py-[var(--space-6)]",
+        "flex min-h-[var(--space-28)] items-center px-[var(--space-12)] py-[var(--space-6)]",
         "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
         "text-content-subtle",
         className

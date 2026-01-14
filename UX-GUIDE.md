@@ -2,6 +2,16 @@
 
 This guide helps AI assistants produce consistent, Stripe-quality UIs. It defines invariants, canonical patterns, and component recommendations.
 
+## Documentation Resources
+
+| Document | Purpose | When to Use |
+|----------|---------|-------------|
+| `CLAUDE.md` | Claude Code implementation guidelines | When using Claude Code specifically |
+| `AGENTS.md` | General AI agent guidelines | For Codex or other AI tools |
+| `ANIMATION.md` | Animation best practices | When adding motion to components |
+| `COMPONENTS.md` | Component API reference | When implementing with Base UI primitives |
+| `UX-GUIDE.md` | Design patterns & component selection | When deciding which component to use |
+
 ---
 
 ## Visual Design Rules
@@ -593,6 +603,8 @@ What type of filter interaction?
 | `secondary` | Default for standalone icon buttons. Good contrast and visibility. |
 | `tertiary` | Floating actions, toolbar buttons with glass effect. |
 | `ghost` | Dense UIs, table row actions, header icons. Minimal visual noise. |
+| `icon` | Accent-colored icon style. Links and navigational elements. |
+| `plain` | Minimal style with no background. Subtle icons that appear on hover. |
 | `danger` | Destructive icon actions (trash, X for delete). |
 
 | Size | When to Use |
@@ -603,6 +615,8 @@ What type of filter interaction?
 | `s` | Standard toolbar buttons |
 | `m` | Default, standalone icon buttons |
 | `l` | Hero/prominent icon actions |
+
+**Accessibility:** All IconButtons require `aria-label` for screen readers.
 
 ---
 
@@ -689,7 +703,7 @@ What type of filter interaction?
 - Filter controls with label + value → use **Filter** component
 
 **Prefixes:**
-- `icon` prop: Leading icon
+- `leadingIcon` prop: Leading icon
 - `prefix` prop: Custom prefix (Avatar, Logo, etc.)
 
 ---
@@ -1216,8 +1230,8 @@ Each group type has its own prefix component. The card style automatically deter
 
 | Tone | When to Use |
 |------|-------------|
-| `neutral` | Default, general progress |
-| `positive` | Success-oriented progress |
+| `default` | Default, general progress |
+| `success` | Success-oriented progress |
 | `warning` | Approaching limit |
 | `danger` | Critical/error state |
 
@@ -1807,7 +1821,7 @@ Use smaller values (4-8) for subtle rounding, medium values (10-16) for standard
 ```tsx
 <Menu>
   <Menu.Trigger>
-    <IconButton variant="ghost" size="xs">
+    <IconButton variant="ghost" size="xs" aria-label="More actions">
       <RiMoreLine />
     </IconButton>
   </Menu.Trigger>

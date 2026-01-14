@@ -42,7 +42,7 @@ function Checkbox({
           disabled && "cursor-not-allowed"
         )}
       >
-        <span className="flex h-[20px] shrink-0 items-center">
+        <span className="flex h-[var(--space-20)] shrink-0 items-center">
           <CheckboxControl className={className} disabled={disabled} {...props} />
         </span>
         <span

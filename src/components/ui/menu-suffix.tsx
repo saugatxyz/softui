@@ -12,10 +12,10 @@ const menuSuffixVariants = cva(
   {
     variants: {
       type: {
-        checkmark: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
-        submenu: "ml-auto w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
-        switch: "ml-auto w-[40px] h-[24px] px-[var(--space-2)] py-[var(--space-2)]",
-        icon: "w-[20px] h-[24px] px-[var(--space-2)] py-[var(--space-4)]",
+        checkmark: "w-[var(--space-20)] h-[var(--space-24)] px-[var(--space-2)] py-[var(--space-4)]",
+        submenu: "ml-auto w-[var(--space-20)] h-[var(--space-24)] px-[var(--space-2)] py-[var(--space-4)]",
+        switch: "ml-auto w-[var(--space-40)] h-[var(--space-24)] px-[var(--space-2)] py-[var(--space-2)]",
+        icon: "w-[var(--space-20)] h-[var(--space-24)] px-[var(--space-2)] py-[var(--space-4)]",
       },
     },
     defaultVariants: {
@@ -29,9 +29,9 @@ const iconVariants = cva(
   {
     variants: {
       type: {
-        checkmark: "size-[16px] text-actions-primary-default",
-        submenu: "size-[16px] text-content-subtle",
-        icon: "size-[16px] text-content-subtle",
+        checkmark: "size-[var(--space-16)] text-actions-primary-default",
+        submenu: "size-[var(--space-16)] text-content-subtle",
+        icon: "size-[var(--space-16)] text-content-subtle",
       },
     },
     defaultVariants: {

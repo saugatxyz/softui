@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
+import { motion } from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -136,9 +137,9 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        xs: "size-[14px]",
-        s: "size-[16px]",
-        m: "size-[16px]",
+        xs: "size-[var(--space-14)]",
+        s: "size-[var(--space-16)]",
+        m: "size-[var(--space-16)]",
       },
     },
     defaultVariants: {
@@ -185,7 +186,7 @@ function SegmentedControlItem({
 // -----------------------------------------------------------------------------
 
 const indicatorVariants = cva(
-  "absolute rounded-[var(--radius-max)] transition-all duration-200 ease-out",
+  "absolute rounded-[var(--radius-max)]",
   {
     variants: {
       variant: {
@@ -225,6 +226,12 @@ function SegmentedControlIndicator({
         top: "var(--active-tab-top)",
       }}
       {...props}
+      render={
+        <motion.span
+          layout
+          transition={{ type: "spring", bounce: 0, duration: 0.2 }}
+        />
+      }
     />
   )
 }

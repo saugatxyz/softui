@@ -90,7 +90,7 @@ function BannerIcon({ tone: toneProp, className, ...props }: BannerIconProps) {
     <span
       data-slot="banner-icon"
       className={cn(
-        "flex size-[20px] shrink-0 items-center justify-center [&_svg]:size-full",
+        "flex size-[var(--space-20)] shrink-0 items-center justify-center [&_svg]:size-full",
         toneIconColors[tone],
         className
       )}

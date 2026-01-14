@@ -183,8 +183,8 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[16px]",
-        m: "size-[16px]",
+        s: "size-[var(--space-16)]",
+        m: "size-[var(--space-16)]",
       },
     },
     defaultVariants: {
@@ -210,8 +210,8 @@ const closeButtonVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[20px] p-[2px]",
-        m: "size-[20px] p-[2px]",
+        s: "size-[var(--space-20)] p-[var(--space-2)]",
+        m: "size-[var(--space-20)] p-[var(--space-2)]",
       },
       disabled: {
         true: "text-content-disabled",
@@ -227,7 +227,9 @@ const closeButtonVariants = cva(
 
 type ChipProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "prefix"> &
   VariantProps<typeof chipVariants> & {
-    icon?: React.ReactNode
+    /** Leading icon displayed before the label */
+    leadingIcon?: React.ReactNode
+    /** Custom prefix content (e.g., ChipPrefix for avatar, token, logo) */
     prefix?: React.ReactNode
     selected?: boolean
     onRemove?: () => void
@@ -239,7 +241,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
     size: sizeProp,
     selected = false,
     disabled = false,
-    icon,
+    leadingIcon,
     prefix,
     onRemove,
     children,
@@ -250,7 +252,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
 ) {
   const context = useChipContext()
   const size = sizeProp ?? context?.size ?? "s"
-  const hasIcon = Boolean(icon)
+  const hasIcon = Boolean(leadingIcon)
   const hasPrefix = Boolean(prefix)
   const hasCustomPrefix = hasPrefix && !hasIcon
 
@@ -304,7 +306,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
       )}
       {...props}
     >
-      {/* Icon prefix */}
+      {/* Leading icon */}
       {hasIcon && (
         <span
           data-slot="icon"
@@ -313,7 +315,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
             disabled ? "text-content-disabled" : "text-content-strong"
           )}
         >
-          {icon}
+          {leadingIcon}
         </span>
       )}
 

@@ -40,8 +40,8 @@ const prefixSizeVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[20px]",
-        m: "size-[24px]",
+        s: "size-[var(--space-20)]",
+        m: "size-[var(--space-24)]",
       },
     },
     defaultVariants: {
@@ -55,8 +55,8 @@ const iconWrapperVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[20px] px-[var(--space-4)]",
-        m: "size-[24px] px-[var(--space-4)]",
+        s: "size-[var(--space-20)] px-[var(--space-4)]",
+        m: "size-[var(--space-24)] px-[var(--space-4)]",
       },
     },
     defaultVariants: {

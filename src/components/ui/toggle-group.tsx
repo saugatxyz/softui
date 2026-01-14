@@ -110,10 +110,10 @@ const labelVariants = cva("flex shrink-0 items-center justify-center", {
 const iconVariants = cva("flex shrink-0 items-center justify-center text-current [&_svg]:size-full", {
   variants: {
     size: {
-      xs: "size-[16px]",
-      s: "size-[16px]",
-      m: "size-[16px]",
-      l: "size-[18px]",
+      xs: "size-[var(--space-16)]",
+      s: "size-[var(--space-16)]",
+      m: "size-[var(--space-16)]",
+      l: "size-[var(--space-18)]",
     },
   },
   defaultVariants: {
@@ -279,7 +279,7 @@ function ToggleGroup({
               {!isLast && !hideSeparator && (
                 <div
                   aria-hidden="true"
-                  className="h-[16px] w-px bg-[var(--color-border-interactive-default)]"
+                  className="h-[var(--space-16)] w-px bg-[var(--color-border-interactive-default)]"
                 />
               )}
             </React.Fragment>
@@ -297,13 +297,11 @@ function ToggleGroup({
 type ToggleGroupItemProps = Omit<Toggle.Props, "className"> & {
   /** Required: Unique value to identify this toggle in the group */
   value: string
-  /** Optional leading icon (alias: icon) */
-  icon?: React.ReactNode
-  /** Optional leading icon */
+  /** Leading icon displayed before the label */
   leadingIcon?: React.ReactNode
-  /** Optional pressed icon */
+  /** Icon displayed when toggle is pressed (for icon morphing) */
   pressedIcon?: React.ReactNode
-  /** Optional trailing icon */
+  /** Trailing icon displayed after the label */
   trailingIcon?: React.ReactNode
   /** Enable morph animation between icons */
   morph?: boolean
@@ -314,7 +312,6 @@ type ToggleGroupItemProps = Omit<Toggle.Props, "className"> & {
 function ToggleGroupItem({
   className,
   value,
-  icon,
   leadingIcon,
   pressedIcon,
   trailingIcon,
@@ -325,7 +322,6 @@ function ToggleGroupItem({
   const { size, variant, currentValue } = useToggleGroup()
   const hasLabel = React.Children.count(children) > 0
   const iconOnly = !hasLabel
-  const iconNode = leadingIcon ?? icon
   const isPressed = currentValue.includes(value)
   const hasPressedIcon = Boolean(pressedIcon)
 
@@ -338,18 +334,18 @@ function ToggleGroupItem({
       className={cn(itemVariants({ variant, size, iconOnly, className }))}
       {...props}
     >
-      {iconNode ? (
+      {leadingIcon ? (
         hasPressedIcon ? (
           <MorphingIcon
             pressed={isPressed}
-            icon={iconNode}
+            icon={leadingIcon}
             pressedIcon={pressedIcon}
             size={size}
             morph={morph}
           />
         ) : (
           <span data-slot="icon" className={cn(iconVariants({ size }), "transition-colors duration-200")}>
-            {iconNode}
+            {leadingIcon}
           </span>
         )
       ) : null}

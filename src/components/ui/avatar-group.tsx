@@ -38,12 +38,12 @@ const overflowVariants = cva(
   {
     variants: {
       size: {
-        "3xs": "size-[20px] text-[length:var(--font-size-2xs)] leading-[var(--line-height-2xs)]",
-        "2xs": "size-[24px] text-[length:var(--font-size-2xs)] leading-[var(--line-height-2xs)]",
-        xs: "size-[28px] text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
-        s: "size-[32px] text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
-        m: "size-[36px] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
-        l: "size-[40px] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
+        "3xs": "size-[var(--space-20)] text-[length:var(--font-size-2xs)] leading-[var(--line-height-2xs)]",
+        "2xs": "size-[var(--space-24)] text-[length:var(--font-size-2xs)] leading-[var(--line-height-2xs)]",
+        xs: "size-[var(--space-28)] text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
+        s: "size-[var(--space-32)] text-[length:var(--font-size-xs)] leading-[var(--line-height-xs)]",
+        m: "size-[var(--space-36)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
+        l: "size-[var(--space-40)] text-[length:var(--font-size-m)] leading-[var(--line-height-m)]",
       },
     },
     defaultVariants: {

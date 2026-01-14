@@ -6,8 +6,8 @@ import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 
 const toneRows = [
-  { value: "neutral", label: "Neutral", description: "Default state for general progress", sampleValue: 45 },
-  { value: "positive", label: "Positive", description: "Success or completion state", sampleValue: 100 },
+  { value: "default", label: "Default", description: "Default state for general progress", sampleValue: 45 },
+  { value: "success", label: "Success", description: "Success or completion state", sampleValue: 100 },
   { value: "warning", label: "Warning", description: "Approaching limits or caution", sampleValue: 75 },
   { value: "danger", label: "Danger", description: "Critical or error state", sampleValue: 90 },
 ] as const
@@ -172,7 +172,7 @@ function InteractiveProgressDemo() {
     setIsRunning(true)
   }
 
-  const tone = progress === 100 ? "positive" : "neutral"
+  const tone = progress === 100 ? "success" : "default"
 
   return (
     <div className="flex flex-1 items-end gap-[var(--space-12)] md:max-w-[400px]">

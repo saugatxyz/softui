@@ -299,7 +299,7 @@ function TooltipContentBreakdown({
               className="flex items-center gap-[var(--space-8)] py-[var(--space-6)]"
             >
               <span
-                className={cn("size-[6px] rounded-full shrink-0", dotColorClass)}
+                className={cn("size-[var(--space-6)] rounded-full shrink-0", dotColorClass)}
                 style={
                   item.color && !breakdownColorMap[item.color]
                     ? { backgroundColor: item.color }

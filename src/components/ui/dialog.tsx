@@ -276,8 +276,8 @@ const popupPositionStyles: Record<DialogPosition, string> = {
   center: cn(
     "fixed z-50",
     // Mobile: bottom sheet
-    "bottom-[8px] left-[8px] right-[8px]",
-    "max-h-[calc(100dvh-16px)]",
+    "bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)]",
+    "max-h-[calc(100dvh-var(--space-16))]",
     // Desktop: centered
     "sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-1/2",
     "sm:w-[min(480px,calc(100vw-var(--space-32)))] sm:max-h-none"
@@ -285,20 +285,20 @@ const popupPositionStyles: Record<DialogPosition, string> = {
   right: cn(
     "fixed z-50",
     // Mobile: bottom sheet
-    "bottom-[8px] left-[8px] right-[8px]",
-    "max-h-[calc(100dvh-16px)]",
+    "bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)]",
+    "max-h-[calc(100dvh-var(--space-16))]",
     // Desktop: right panel
-    "sm:bottom-auto sm:left-auto sm:top-[8px] sm:right-[8px]",
-    "sm:h-[calc(100dvh-16px)] sm:max-h-none",
+    "sm:bottom-auto sm:left-auto sm:top-[var(--space-8)] sm:right-[var(--space-8)]",
+    "sm:h-[calc(100dvh-var(--space-16))] sm:max-h-none",
     "sm:w-full sm:max-w-[400px]"
   ),
   sheet: cn(
     "fixed z-50",
     // Mobile: full width bottom sheet
-    "bottom-[8px] left-[8px] right-[8px]",
-    "max-h-[calc(100dvh-16px)]",
+    "bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)]",
+    "max-h-[calc(100dvh-var(--space-16))]",
     // Desktop: centered with max-width, bottom anchored (translateX handled in animation)
-    "sm:bottom-[8px] sm:left-1/2 sm:right-auto",
+    "sm:bottom-[var(--space-8)] sm:left-1/2 sm:right-auto",
     "sm:w-[min(480px,calc(100vw-var(--space-32)))]"
   ),
 }
@@ -516,7 +516,7 @@ function DialogDragIndicator({ className, ...props }: DialogDragIndicatorProps) 
       style={{ touchAction: "none" }}
       {...props}
     >
-      <div className="h-[4px] w-[40px] rounded-full bg-actions-secondary-default" />
+      <div className="h-[var(--space-4)] w-[var(--space-40)] rounded-full bg-actions-secondary-default" />
     </div>
   )
 }
@@ -556,7 +556,7 @@ function DialogHeader({ className, children, ...props }: DialogHeaderProps) {
     >
       {showDragIndicator && (
         <div className="flex items-center justify-center pt-[var(--space-8)]">
-          <div className="h-[4px] w-[40px] rounded-full bg-actions-secondary-default" />
+          <div className="h-[var(--space-4)] w-[var(--space-40)] rounded-full bg-actions-secondary-default" />
         </div>
       )}
       <div
@@ -564,7 +564,7 @@ function DialogHeader({ className, children, ...props }: DialogHeaderProps) {
           // Layout
           "flex items-center gap-[var(--space-20)]",
           // Sizing - 52px height, padding: 12px top/bottom, 24px left, 16px right
-          "h-[52px] py-[var(--space-12)] pl-[var(--space-24)] pr-[var(--space-16)]",
+          "h-[var(--space-52)] py-[var(--space-12)] pl-[var(--space-24)] pr-[var(--space-16)]",
           // Border
           "border-b border-border-subtle"
         )}
@@ -640,7 +640,7 @@ function DialogClose({ className, children, ...props }: DialogCloseProps) {
         // Only apply icon button styles when using default X icon
         isIconButton && [
           // Size
-          "size-[24px] shrink-0",
+          "size-[var(--space-24)] shrink-0",
           // Layout
           "flex items-center justify-center",
           // Appearance
@@ -657,7 +657,7 @@ function DialogClose({ className, children, ...props }: DialogCloseProps) {
       )}
       {...props}
     >
-      {isIconButton ? <RiCloseLine className="size-[16px]" /> : children}
+      {isIconButton ? <RiCloseLine className="size-[var(--space-16)]" /> : children}
     </DialogPrimitive.Close>
   )
 }

@@ -29,7 +29,7 @@ const checkboxControlVariants = cva(
   {
     variants: {
       size: {
-        default: "size-[16px]",
+        default: "size-[var(--space-16)]",
       },
     },
     defaultVariants: {
@@ -99,8 +99,8 @@ function CheckboxControl({
           "group-data-[disabled]:text-content-on-accent-disabled"
         )}
       >
-        <RiCheckFill className="size-[12px] group-data-[indeterminate]:hidden" />
-        <RiSubtractFill className="hidden size-[12px] group-data-[indeterminate]:block" />
+        <RiCheckFill className="size-[var(--space-12)] group-data-[indeterminate]:hidden" />
+        <RiSubtractFill className="hidden size-[var(--space-12)] group-data-[indeterminate]:block" />
       </Checkbox.Indicator>
     </Checkbox.Root>
   )

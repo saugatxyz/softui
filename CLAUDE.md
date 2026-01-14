@@ -21,8 +21,10 @@ No test suite is currently configured.
 | Document | Purpose | When to Use |
 |----------|---------|-------------|
 | `CLAUDE.md` | Technical implementation guidelines | When building or modifying components |
-| `COMPONENTS.md` | Component implementation reference | When implementing with Base UI primitives |
-| `UX-GUIDE.md` | Component selection & variant recommendations | When deciding which component to use |
+| `AGENTS.md` | General AI agent guidelines | For Codex or other AI tools |
+| `ANIMATION.md` | Animation best practices | When adding motion to components |
+| `COMPONENTS.md` | Component API reference | When implementing with Base UI primitives |
+| `UX-GUIDE.md` | Design patterns & component selection | When deciding which component to use |
 
 **Before building UI, always consult `UX-GUIDE.md`** to select the right component and variant for the use case. It contains:
 - Decision trees for component selection
@@ -129,6 +131,28 @@ Components follow this structure:
 
 ---
 
+### MCP + Figma Workflow
+
+When a component has a Figma source:
+
+1. **Fetch design context** using MCP tools:
+   - `mcp__figma__get_design_context` for the target node
+   - `mcp__figma__get_screenshot` for visual confirmation
+   - `mcp__figma__get_variable_defs` if tokens are tied to variables
+
+2. **Record exact specifications:**
+   - Sizes, padding, border radius
+   - Colors and states
+   - Spacing and layout
+
+3. **Map to tokens** in `src/design-system/tokens.css`
+
+4. **Implement component** based on Base UI + design system conventions
+
+5. **Add/update docs page** for usage, variants, and sizes
+
+---
+
 ### Component Audit Checklist
 
 **After creating or modifying ANY Base UI component, you MUST:**
@@ -154,65 +178,18 @@ Components follow this structure:
 
 3. **Provide a summary table** (see Component Summary section below)
 
-### Base UI Data Attributes Reference
+### Base UI Reference
 
-**CRITICAL:** Always use the correct data attributes for each primitive. Do NOT guess - refer to this table.
-
-| Primitive | Active/Selected State | Other States |
-|-----------|----------------------|--------------|
-| `Tabs.Tab` | `data-[active]` | `data-[disabled]` |
-| `Menu.Item` | `data-[highlighted]` | `data-[disabled]` |
-| `Select.Option` | `data-[highlighted]`, `data-[selected]` | `data-[disabled]` |
-| `Combobox.Option` | `data-[highlighted]`, `data-[selected]` | `data-[disabled]` |
-| `Radio.Item` | `data-[checked]` | `data-[disabled]` |
-| `Checkbox.Root` | `data-[checked]`, `data-[indeterminate]` | `data-[disabled]` |
-| `Switch.Root` | `data-[checked]` | `data-[disabled]` |
-| `Toggle.Root` | `data-[pressed]` | `data-[disabled]` |
-| `Accordion.Item` | `data-[open]` | `data-[disabled]` |
-| `Dialog.Root` | `data-[open]` | - |
-| `Popover.Root` | `data-[open]` | - |
-| `Collapsible.Root` | `data-[open]` | `data-[disabled]` |
+**CRITICAL:** Always use the correct data attributes and sub-component names. See `COMPONENTS.md` for the complete reference tables including:
+- Data attributes for each primitive (`data-active`, `data-checked`, `data-open`, etc.)
+- Compound component API (sub-components for Dialog, Menu, Toast, etc.)
+- Props and usage examples for all components
 
 **Common patterns:**
 - Selection in lists: `data-[highlighted]` (keyboard/hover focus) + `data-[selected]` (chosen value)
 - Toggle states: `data-[checked]` or `data-[pressed]`
 - Expandable: `data-[open]`
 - Navigation tabs: `data-[active]` (NOT `data-[selected]`)
-
-**Before styling a Base UI component**, check the primitive's source or existing components in this codebase to confirm the correct data attribute.
-
-### Compound Component API Reference
-
-**CRITICAL:** Use the correct sub-component names. Do NOT guess - refer to this table.
-
-| Component | Sub-components |
-|-----------|----------------|
-| `Tabs` | `.List`, `.Trigger`, `.Content`, `.Indicator` |
-| `Dialog` | `.Root`, `.Trigger`, `.Portal`, `.Backdrop`, `.Popup`, `.Content`, `.Header`, `.Title`, `.Description`, `.Body`, `.Footer`, `.Close` |
-| `AlertDialog` | `.Root`, `.Trigger`, `.Portal`, `.Backdrop`, `.Popup`, `.Content`, `.Title`, `.Description`, `.Footer`, `.Close` |
-| `Popover` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.Title`, `.Description`, `.Close`, `.Backdrop` |
-| `Tooltip` | `.Provider`, `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.Simple`, `.Explainer`, `.Breakdown` |
-| `Menu` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Search`, `.Arrow`, `.Item`, `.Group`, `.GroupLabel`, `.Separator`, `.Prefix`, `.Suffix`, `.Empty`, `.RadioGroup`, `.RadioItem`, `.CheckboxItem`, `.SubmenuRoot`, `.SubmenuTrigger` |
-| `ContextMenu` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.RadioGroup`, `.RadioItem`, `.CheckboxItem`, `.SubmenuRoot`, `.SubmenuTrigger` (also uses `MenuItem`, `MenuPrefix`, `MenuSuffix`, `MenuSeparator`, `MenuGroup`, `MenuGroupLabel`, `MenuEmpty` as separate imports) |
-| `Toast` | `.Provider`, `.Portal`, `.Viewport`, `.Root`, `.Content`, `.CompactContent`, `.TextWrapper`, `.CompactTextWrapper`, `.Title`, `.Description`, `.Actions`, `.CompactActions`, `.Action`, `.CompactAction`, `.Close`, `.Icon` |
-| `Fieldset` | `.Legend` (also works as root directly) |
-| `SegmentedControl` | `.List`, `.Item`, `.Indicator`, `.Content` |
-
-**Separate component imports (not compound):**
-
-| Component | Related Components |
-|-----------|-------------------|
-| `Accordion` | `AccordionRoot`, `AccordionItem`, `AccordionTrigger`, `AccordionContent` |
-| `RadioGroup` | `RadioGroupItem` |
-| `CheckboxGroup` | `CheckboxGroupItem` |
-| `SwitchGroup` | `SwitchGroupItem` |
-| `ButtonGroup` | `ButtonGroupItem` |
-| `ToggleGroup` | `ToggleGroupItem` |
-| `ChipGroup` | `Chip` |
-| `AvatarGroup` | `Avatar` |
-
-**Single components (no sub-components):**
-`Select`, `Combobox`, `Autocomplete`, `Input`, `Button`, `IconButton`, `Switch`, `Checkbox`, `Field`, `Form`, `Badge`, `Chip`, `Avatar`, `Separator`
 
 ### Documentation Examples
 
@@ -268,19 +245,11 @@ These exceptions exist because:
 
 ### Animation
 
+See `ANIMATION.md` for detailed animation guidelines. Key rules:
 - UI animations must not exceed 300ms
-- Prefer spring animations: `{ type: "spring", bounce: 0-0.2, duration: 0.15-0.3 }`
+- Prefer spring animations with `bounce` and `duration` params
 - Hover transitions: `transition: property 200ms ease`
 - Use `transform` instead of `x`/`y` for hardware acceleration
-- Avoid `ease-in`; prefer `ease-out` for enter/exit
-
-**Spring configs:**
-| Name | Config |
-|------|--------|
-| Instant/Snappy | `bounce: 0, duration: 0.15` |
-| Fast/Responsive | `bounce: 0, duration: 0.2` |
-| Smooth/Subtle | `bounce: 0.1, duration: 0.25` |
-| Expressive | `bounce: 0.2, duration: 0.3` |
 
 ---
 

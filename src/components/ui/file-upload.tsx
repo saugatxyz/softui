@@ -99,15 +99,15 @@ function FileItem({
       {state === "uploading" && (
         <div
           data-slot="progress"
-          className="absolute bottom-0 left-0 top-0 bg-actions-secondary-default transition-all duration-300"
-          style={{ width: `${progress}%` }}
+          className="absolute inset-0 origin-left bg-actions-secondary-default transition-transform duration-200"
+          style={{ transform: `scaleX(${progress / 100})` }}
         />
       )}
 
       <FileIcon fileType={fileType} size="m" src={imageUrl} className="relative z-10" />
 
       <div className="relative z-10 flex min-w-0 flex-1 flex-col gap-[var(--space-4)]">
-        <div className="flex items-center gap-[var(--space-2)]">
+        <div className="flex items-center gap-[var(--space-6)]">
           <p className="truncate text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)] text-content-strong">{file.name}</p>
           <span className="relative flex size-[var(--space-16)] shrink-0 items-center justify-center">
             <AnimatePresence mode="popLayout" initial={false}>
@@ -115,9 +115,9 @@ function FileItem({
                 <motion.span
                   key="spinner"
                   className="absolute inset-0 flex items-center justify-center text-content-strong"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.5, y: -8, filter: "blur(4px)" }}
+                  initial={{ opacity: 0, transform: "scale(0.5)" }}
+                  animate={{ opacity: 1, transform: "scale(1)" }}
+                  exit={{ opacity: 0, transform: "translateY(-8px) scale(0.5)", filter: "blur(4px)" }}
                   transition={{
                     type: "spring",
                     bounce: 0.2,
@@ -131,9 +131,9 @@ function FileItem({
                 <motion.span
                   key="check"
                   className="absolute inset-0 flex items-center justify-center text-content-feedback-success-strong"
-                  initial={{ opacity: 0, scale: 0.5, y: 8, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ type: "spring", bounce: 0.3, duration: 0.35 }}
+                  initial={{ opacity: 0, transform: "translateY(8px) scale(0.5)", filter: "blur(4px)" }}
+                  animate={{ opacity: 1, transform: "translateY(0) scale(1)", filter: "blur(0px)" }}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
                 >
                   <RiCheckboxCircleFill className="size-[var(--space-16)]" />
                 </motion.span>

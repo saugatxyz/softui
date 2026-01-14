@@ -122,7 +122,7 @@ function Field({
           data-slot="error"
           className="flex w-full items-center gap-[var(--space-4)]"
         >
-          <RiErrorWarningFill className="size-[16px] shrink-0 text-content-feedback-danger-strong" />
+          <RiErrorWarningFill className="size-[var(--space-16)] shrink-0 text-content-feedback-danger-strong" />
           <span className="flex-1 text-[length:var(--font-size-xs)] font-[var(--font-weight-default)] leading-[var(--line-height-xs)] text-content-feedback-danger-strong">
             {error}
           </span>
@@ -138,7 +138,7 @@ function Field({
                 errorProps.className
               )}
             >
-              <RiErrorWarningFill className="mt-[2px] size-[16px] shrink-0 text-content-feedback-danger-strong" />
+              <RiErrorWarningFill className="mt-[var(--space-2)] size-[var(--space-16)] shrink-0 text-content-feedback-danger-strong" />
               <div className="flex-1">{errorProps.children}</div>
             </div>
           )}

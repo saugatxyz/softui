@@ -82,7 +82,7 @@ function BreadcrumbsItem({
       {showHomeIcon && (
         <span
           data-slot="breadcrumbs-icon"
-          className="flex size-[16px] shrink-0 items-center justify-center text-current"
+          className="flex size-[var(--space-16)] shrink-0 items-center justify-center text-current"
           aria-hidden="true"
         >
           <RiHome7Fill className="size-full" />
@@ -130,7 +130,7 @@ function BreadcrumbsSeparator({ className }: { className?: string }) {
           /
         </span>
       ) : (
-        <RiArrowRightSLine className="size-[16px]" />
+        <RiArrowRightSLine className="size-[var(--space-16)]" />
       )}
     </li>
   )

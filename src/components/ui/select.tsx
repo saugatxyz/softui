@@ -41,7 +41,7 @@ const valueVariants = cva(
 )
 
 const iconVariants = cva(
-  "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full"
+  "flex size-[var(--space-16)] shrink-0 items-center justify-center [&_svg]:size-full"
 )
 
 const itemTextVariants = cva(
@@ -295,7 +295,7 @@ function SelectItemIndicator({ className, ...props }: SelectItemIndicatorProps) 
     <SelectPrimitive.ItemIndicator
       data-slot="indicator"
       className={cn(
-        "flex size-[20px] shrink-0 items-center justify-center",
+        "flex size-[var(--space-20)] shrink-0 items-center justify-center",
         "group-has-[[data-slot=item-description]]:self-start group-has-[[data-slot=item-description]]:mt-[var(--space-2)]",
         className
       )}
@@ -331,7 +331,7 @@ function SelectGroupLabel({ className, ...props }: SelectGroupLabelProps) {
     <SelectPrimitive.GroupLabel
       data-slot="group-label"
       className={cn(
-        "flex min-h-[28px] items-center px-[var(--space-12)] py-[var(--space-6)]",
+        "flex min-h-[var(--space-28)] items-center px-[var(--space-12)] py-[var(--space-6)]",
         "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
         "text-content-subtle",
         className
@@ -367,7 +367,7 @@ function SelectScrollUpArrow({ className, ...props }: SelectScrollUpArrowProps) 
   return (
     <SelectPrimitive.ScrollUpArrow
       data-slot="scroll-up-arrow"
-      className={cn("flex h-[20px] items-center justify-center text-content-muted", className)}
+      className={cn("flex h-[var(--space-20)] items-center justify-center text-content-muted", className)}
       {...props}
     />
   )
@@ -381,7 +381,7 @@ function SelectScrollDownArrow({ className, ...props }: SelectScrollDownArrowPro
   return (
     <SelectPrimitive.ScrollDownArrow
       data-slot="scroll-down-arrow"
-      className={cn("flex h-[20px] items-center justify-center text-content-muted", className)}
+      className={cn("flex h-[var(--space-20)] items-center justify-center text-content-muted", className)}
       {...props}
     />
   )

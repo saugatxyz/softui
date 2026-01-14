@@ -2,6 +2,78 @@
 
 This document details when to use each component and how to implement them correctly with Base UI.
 
+## Documentation Resources
+
+| Document | Purpose | When to Use |
+|----------|---------|-------------|
+| `CLAUDE.md` | Claude Code implementation guidelines | When using Claude Code specifically |
+| `AGENTS.md` | General AI agent guidelines | For Codex or other AI tools |
+| `ANIMATION.md` | Animation best practices | When adding motion to components |
+| `COMPONENTS.md` | Component API reference | When implementing with Base UI primitives |
+| `UX-GUIDE.md` | Design patterns & component selection | When deciding which component to use |
+
+---
+
+## Base UI Data Attributes Reference
+
+**CRITICAL:** Always use the correct data attributes for each primitive. Do NOT guess - refer to this table.
+
+| Primitive | Active/Selected State | Other States |
+|-----------|----------------------|--------------|
+| `Tabs.Tab` | `data-[active]` | `data-[disabled]` |
+| `Menu.Item` | `data-[highlighted]` | `data-[disabled]` |
+| `Select.Option` | `data-[highlighted]`, `data-[selected]` | `data-[disabled]` |
+| `Combobox.Option` | `data-[highlighted]`, `data-[selected]` | `data-[disabled]` |
+| `Radio.Item` | `data-[checked]` | `data-[disabled]` |
+| `Checkbox.Root` | `data-[checked]`, `data-[indeterminate]` | `data-[disabled]` |
+| `Switch.Root` | `data-[checked]` | `data-[disabled]` |
+| `Toggle.Root` | `data-[pressed]` | `data-[disabled]` |
+| `Accordion.Item` | `data-[open]` | `data-[disabled]` |
+| `Dialog.Root` | `data-[open]` | - |
+| `Popover.Root` | `data-[open]` | - |
+| `Collapsible.Root` | `data-[open]` | `data-[disabled]` |
+
+**Common patterns:**
+- Selection in lists: `data-[highlighted]` (keyboard/hover focus) + `data-[selected]` (chosen value)
+- Toggle states: `data-[checked]` or `data-[pressed]`
+- Expandable: `data-[open]`
+- Navigation tabs: `data-[active]` (NOT `data-[selected]`)
+
+---
+
+## Compound Component API Reference
+
+**CRITICAL:** Use the correct sub-component names. Do NOT guess - refer to this table.
+
+| Component | Sub-components |
+|-----------|----------------|
+| `Tabs` | `.List`, `.Trigger`, `.Content`, `.Indicator` |
+| `Dialog` | `.Root`, `.Trigger`, `.Portal`, `.Backdrop`, `.Popup`, `.Content`, `.Header`, `.Title`, `.Description`, `.Body`, `.Footer`, `.Close` |
+| `AlertDialog` | `.Root`, `.Trigger`, `.Portal`, `.Backdrop`, `.Popup`, `.Content`, `.Title`, `.Description`, `.Footer`, `.Close` |
+| `Popover` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.Title`, `.Description`, `.Close`, `.Backdrop` |
+| `Tooltip` | `.Provider`, `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.Simple`, `.Explainer`, `.Breakdown` |
+| `Menu` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Search`, `.Arrow`, `.Item`, `.Group`, `.GroupLabel`, `.Separator`, `.Prefix`, `.Suffix`, `.Empty`, `.RadioGroup`, `.RadioItem`, `.CheckboxItem`, `.SubmenuRoot`, `.SubmenuTrigger` |
+| `ContextMenu` | `.Root`, `.Trigger`, `.Portal`, `.Positioner`, `.Popup`, `.Arrow`, `.RadioGroup`, `.RadioItem`, `.CheckboxItem`, `.SubmenuRoot`, `.SubmenuTrigger` (also uses `MenuItem`, `MenuPrefix`, `MenuSuffix`, `MenuSeparator`, `MenuGroup`, `MenuGroupLabel`, `MenuEmpty` as separate imports) |
+| `Toast` | `.Provider`, `.Portal`, `.Viewport`, `.Root`, `.Content`, `.CompactContent`, `.TextWrapper`, `.CompactTextWrapper`, `.Title`, `.Description`, `.Actions`, `.CompactActions`, `.Action`, `.CompactAction`, `.Close`, `.Icon` |
+| `Fieldset` | `.Legend` (also works as root directly) |
+| `SegmentedControl` | `.List`, `.Item`, `.Indicator`, `.Content` |
+
+**Separate component imports (not compound):**
+
+| Component | Related Components |
+|-----------|-------------------|
+| `Accordion` | `AccordionRoot`, `AccordionItem`, `AccordionTrigger`, `AccordionContent` |
+| `RadioGroup` | `RadioGroupItem` |
+| `CheckboxGroup` | `CheckboxGroupItem` |
+| `SwitchGroup` | `SwitchGroupItem` |
+| `ButtonGroup` | `ButtonGroupItem` |
+| `ToggleGroup` | `ToggleGroupItem` |
+| `ChipGroup` | `Chip` |
+| `AvatarGroup` | `Avatar` |
+
+**Single components (no sub-components):**
+`Select`, `Combobox`, `Autocomplete`, `Input`, `Button`, `IconButton`, `Switch`, `Checkbox`, `Field`, `Form`, `Badge`, `Chip`, `Avatar`, `Separator`
+
 ---
 
 ## Navigation Components
@@ -602,14 +674,16 @@ import { Button } from "@/components/ui/button"
 **Props:**
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `"primary"` \| `"secondary"` \| `"tertiary"` \| `"ghost"` \| `"danger"` | `"secondary"` | Visual style |
+| `variant` | `"primary"` \| `"secondary"` \| `"tertiary"` \| `"ghost"` \| `"icon"` \| `"plain"` \| `"danger"` | `"secondary"` | Visual style |
 | `size` | `"3xs"` \| `"2xs"` \| `"xs"` \| `"s"` \| `"m"` \| `"l"` | `"m"` | Button size |
 | `tone` | Semantic or decorative color | - | Color override |
+
+**Accessibility:** Icon-only buttons require `aria-label` for screen readers.
 
 ```tsx
 import { IconButton } from "@/components/ui/icon-button"
 
-<IconButton variant="ghost" size="xs">
+<IconButton variant="ghost" size="xs" aria-label="More options">
   <RiMoreLine />
 </IconButton>
 ```
@@ -678,7 +752,7 @@ import { Badge } from "@/components/ui/badge"
 | `size` | `"s"` \| `"m"` | `"s"` | Chip size |
 | `selected` | `boolean` | `false` | Shows X button for removal |
 | `disabled` | `boolean` | `false` | Disable chip |
-| `icon` | `ReactNode` | - | Leading icon |
+| `leadingIcon` | `ReactNode` | - | Leading icon |
 | `prefix` | `ReactNode` | - | Custom prefix (Avatar, Logo, etc.) |
 | `onRemove` | `() => void` | - | Callback when X is clicked |
 
@@ -686,7 +760,7 @@ import { Badge } from "@/components/ui/badge"
 import { Chip } from "@/components/ui/chip"
 
 <Chip selected onRemove={() => {}}>Active Filter</Chip>
-<Chip icon={<RiFilterLine />}>Type</Chip>
+<Chip leadingIcon={<RiFilterLine />}>Type</Chip>
 ```
 
 ---
@@ -913,13 +987,13 @@ import { Crypto } from "@/components/ui/crypto"
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `value` | `number` | - | Current progress (0-100) |
-| `tone` | `"neutral"` \| `"positive"` \| `"warning"` \| `"danger"` | `"neutral"` | Color theme |
+| `tone` | `"default"` \| `"success"` \| `"warning"` \| `"danger"` | `"default"` | Color theme |
 | `size` | `"s"` \| `"m"` | `"s"` | Track height |
 
 ```tsx
 import { Progress } from "@/components/ui/progress"
 
-<Progress.Root value={65} tone="positive" size="m">
+<Progress.Root value={65} tone="success" size="m">
   <Progress.Label>Uploading</Progress.Label>
   <Progress.Track>
     <Progress.Indicator />
@@ -943,7 +1017,7 @@ import { Progress } from "@/components/ui/progress"
 | `value` | `number` | - | Current value |
 | `min` | `number` | `0` | Minimum value |
 | `max` | `number` | `100` | Maximum value |
-| `tone` | `"neutral"` \| `"positive"` \| `"warning"` \| `"danger"` | `"neutral"` | Color theme |
+| `tone` | `"default"` \| `"success"` \| `"warning"` \| `"danger"` | `"default"` | Color theme |
 | `size` | `"s"` \| `"m"` | `"s"` | Track height |
 
 ```tsx

@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 // Types
 // ============================================================================
 
-type MeterTone = "neutral" | "positive" | "warning" | "danger"
+type MeterTone = "default" | "success" | "warning" | "danger"
 type MeterSize = "s" | "m"
 
 // ============================================================================
@@ -17,8 +17,8 @@ type MeterSize = "s" | "m"
 // ============================================================================
 
 const toneIndicatorColors: Record<MeterTone, string> = {
-  neutral: "bg-content-strong",
-  positive: "bg-content-feedback-success-strong",
+  default: "bg-content-strong",
+  success: "bg-content-feedback-success-strong",
   warning: "bg-content-feedback-warning-strong",
   danger: "bg-content-feedback-danger-strong",
 }
@@ -28,8 +28,8 @@ const toneIndicatorColors: Record<MeterTone, string> = {
 // ============================================================================
 
 const sizeClasses: Record<MeterSize, string> = {
-  s: "h-[4px]",
-  m: "h-[6px]",
+  s: "h-[var(--space-4)]",
+  m: "h-[var(--space-6)]",
 }
 
 // ============================================================================
@@ -40,7 +40,7 @@ const MeterContext = React.createContext<{
   tone: MeterTone
   size: MeterSize
 }>({
-  tone: "neutral",
+  tone: "default",
   size: "s",
 })
 
@@ -54,7 +54,7 @@ type MeterRootProps = MeterPrimitive.Root.Props & {
 }
 
 function MeterRoot({
-  tone = "neutral",
+  tone = "default",
   size = "s",
   className,
   children,

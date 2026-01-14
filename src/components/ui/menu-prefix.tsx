@@ -24,7 +24,7 @@ const menuPrefixVariants = cva(
 )
 
 const iconVariants = cva(
-  "flex shrink-0 items-center justify-center [&_svg]:size-full [&_svg]:shrink-0 size-[16px]",
+  "flex shrink-0 items-center justify-center [&_svg]:size-full [&_svg]:shrink-0 size-[var(--space-16)]",
   {
     variants: {
       type: {

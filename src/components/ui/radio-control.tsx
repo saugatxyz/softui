@@ -11,7 +11,7 @@ const radioControlVariants = cva(
   {
     variants: {
       size: {
-        default: "size-[16px]",
+        default: "size-[var(--space-16)]",
       },
     },
     defaultVariants: {
@@ -63,8 +63,8 @@ function RadioControl({
           disabled ? "text-content-on-accent-disabled" : "text-content-on-accent-strong"
         )}
       >
-        {/* 5x5px circle dot */}
-        <span className="size-[5px] rounded-full bg-current" />
+        {/* 6x6px circle dot */}
+        <span className="size-[var(--space-6)] rounded-full bg-current" />
       </Radio.Indicator>
     </Radio.Root>
   )

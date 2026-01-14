@@ -138,7 +138,7 @@ function SwitchGroupItem({
 
       {/* Switch on left (simple/list types) */}
       {showSwitchOnLeft && (
-        <span className="flex h-[20px] shrink-0 items-center">
+        <span className="flex h-[var(--space-20)] shrink-0 items-center">
           <SwitchControl
             checked={checked}
             defaultChecked={defaultChecked}

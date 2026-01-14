@@ -165,9 +165,9 @@ function MenuRadioItem({ className, children, ...props }: MenuRadioItemProps) {
       {children}
       <MenuPrimitive.RadioItemIndicator
         data-slot="menu-radio-indicator"
-        className="ml-auto flex size-[20px] shrink-0 items-center justify-center text-actions-primary-default data-[disabled]:text-content-disabled"
+        className="ml-auto flex size-[var(--space-20)] shrink-0 items-center justify-center text-actions-primary-default data-[disabled]:text-content-disabled"
       >
-        <RiCheckboxCircleFill className="size-[16px]" />
+        <RiCheckboxCircleFill className="size-[var(--space-16)]" />
       </MenuPrimitive.RadioItemIndicator>
     </MenuPrimitive.RadioItem>
   )
@@ -192,9 +192,9 @@ function MenuCheckboxItem({ className, children, ...props }: MenuCheckboxItemPro
       {children}
       <MenuPrimitive.CheckboxItemIndicator
         data-slot="menu-checkbox-indicator"
-        className="ml-auto flex size-[20px] shrink-0 items-center justify-center text-actions-primary-default data-[disabled]:text-content-disabled"
+        className="ml-auto flex size-[var(--space-20)] shrink-0 items-center justify-center text-actions-primary-default data-[disabled]:text-content-disabled"
       >
-        <RiCheckboxCircleFill className="size-[16px]" />
+        <RiCheckboxCircleFill className="size-[var(--space-16)]" />
       </MenuPrimitive.CheckboxItemIndicator>
     </MenuPrimitive.CheckboxItem>
   )

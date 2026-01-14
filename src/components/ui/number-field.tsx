@@ -97,9 +97,9 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[14px]",
-        m: "size-[16px]",
-        l: "size-[18px]",
+        s: "size-[var(--space-14)]",
+        m: "size-[var(--space-16)]",
+        l: "size-[var(--space-18)]",
       },
     },
     defaultVariants: {

@@ -48,7 +48,12 @@
       "Bash(for file in accordion alert-dialog dialog switch-control toggle-button toggle-group tooltip file-upload slider)",
       "Bash(do git show main:src/components/ui/$file.tsx)",
       "Bash(echo:*)",
-      "Bash(ipconfig getifaddr:*)"
+      "Bash(ipconfig getifaddr:*)",
+      "WebFetch(domain:examples.motion.dev)",
+      "Bash(./scripts/dev.sh:*)",
+      "Bash(node:*)",
+      "Bash(for port in 3000 3001 3002 3003 3004 3005)",
+      "Bash(do lsof -ti:$port)"
     ]
   }
 }

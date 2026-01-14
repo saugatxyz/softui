@@ -66,13 +66,16 @@ const iconButtonVariants = cva(
           "bg-actions-tertiary-default text-content-strong shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)] hover:enabled:bg-actions-tertiary-hover disabled:bg-actions-tertiary-disabled disabled:text-content-disabled disabled:shadow-none overflow-hidden",
         ghost:
           "bg-transparent text-content-subtle hover:enabled:bg-actions-secondary-hover hover:enabled:text-content-strong disabled:text-content-disabled",
+        /** Accent-colored icon style */
+        icon: "bg-transparent text-content-link-default hover:enabled:text-content-link-hover disabled:text-content-disabled",
+        /** Minimal style with no background, subtle→strong on hover */
         plain:
           "bg-transparent text-content-subtle hover:enabled:text-content-strong disabled:text-content-disabled",
         danger:
           "bg-actions-danger-default text-[color:rgb(var(--content-inverse-strong))] hover:enabled:bg-actions-danger-hover hover:enabled:text-[color:rgb(var(--content-inverse-strong))] disabled:bg-actions-danger-disabled disabled:text-[color:rgb(var(--content-inverse-disabled))]",
       },
       size: {
-        "3xs": "size-[20px]",
+        "3xs": "size-[var(--space-20)]",
         "2xs": "size-[var(--space-24)]",
         xs: "size-[var(--space-28)]",
         s: "size-[var(--space-32)]",
@@ -92,12 +95,12 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        "3xs": "size-[16px]",
-        "2xs": "size-[16px]",
-        xs: "size-[16px]",
-        s: "size-[16px]",
-        m: "size-[16px]",
-        l: "size-[18px]",
+        "3xs": "size-[var(--space-16)]",
+        "2xs": "size-[var(--space-16)]",
+        xs: "size-[var(--space-16)]",
+        s: "size-[var(--space-16)]",
+        m: "size-[var(--space-16)]",
+        l: "size-[var(--space-18)]",
       },
     },
     defaultVariants: {

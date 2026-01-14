@@ -229,8 +229,8 @@ function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupPro
         // Positioning - Mobile: bottom sheet, Desktop: centered
         "fixed z-50",
         // Mobile: bottom sheet with 8px padding
-        "bottom-[8px] left-[8px] right-[8px]",
-        "max-h-[calc(100dvh-16px)]",
+        "bottom-[var(--space-8)] left-[var(--space-8)] right-[var(--space-8)]",
+        "max-h-[calc(100dvh-var(--space-16))]",
         // Desktop: centered
         "sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-1/2",
         "sm:w-[min(400px,calc(100vw-var(--space-32)))] sm:max-h-none",
@@ -321,7 +321,7 @@ function AlertDialogContent({
         <span
           data-slot="alert-dialog-icon"
           className={cn(
-            "flex size-[28px] items-center justify-center [&_svg]:size-full",
+            "flex size-[var(--space-28)] items-center justify-center [&_svg]:size-full",
             iconToneStyles[iconTone]
           )}
         >

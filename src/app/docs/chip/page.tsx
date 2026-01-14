@@ -89,7 +89,7 @@ import { StarFillIcon } from "@/icons"
 
 <ChipGroup label="Categories">
   <Chip>Design</Chip>
-  <Chip icon={<StarFillIcon />}>Featured</Chip>
+  <Chip leadingIcon={<StarFillIcon />}>Featured</Chip>
   <Chip selected onRemove={() => {}}>Marketing</Chip>
 </ChipGroup>`}
         />
@@ -153,7 +153,7 @@ import { StarFillIcon } from "@/icons"
                     <Chip
                       key={id}
                       size={size.value}
-                      icon={item.icon}
+                      leadingIcon={item.icon}
                       selected={isSelected(id)}
                       onClick={() => toggle(id)}
                       onRemove={() => remove(id)}
@@ -356,7 +356,7 @@ import { StarFillIcon } from "@/icons"
                 return (
                   <Chip
                     key={id}
-                    icon={item.icon}
+                    leadingIcon={item.icon}
                     selected={isSelected(id)}
                     onClick={() => toggle(id)}
                     onRemove={() => remove(id)}

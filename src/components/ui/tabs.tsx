@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
+import { motion } from "motion/react"
 import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
@@ -143,7 +144,7 @@ const labelContainerVariants = cva(
 )
 
 const iconVariants =
-  "flex size-[16px] shrink-0 items-center justify-center text-current [&_svg]:size-full"
+  "flex size-[var(--space-16)] shrink-0 items-center justify-center text-current [&_svg]:size-full"
 
 type TabsTriggerProps = TabsPrimitive.Tab.Props & {
   leadingIcon?: React.ReactNode
@@ -198,11 +199,11 @@ function TabsTrigger({
 // -----------------------------------------------------------------------------
 
 const indicatorVariants = cva(
-  "absolute transition-all duration-200 ease-out",
+  "absolute",
   {
     variants: {
       variant: {
-        stroke: "bottom-0 h-[2px] bg-border-interactive-active",
+        stroke: "bottom-0 h-[var(--space-2)] bg-border-interactive-active",
         pill: "rounded-[var(--radius-max)] bg-actions-secondary-default",
         "pill-emphasized": "rounded-[var(--radius-max)] bg-actions-primary-default",
       },
@@ -239,6 +240,12 @@ function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
         top: variant !== "stroke" ? "var(--active-tab-top)" : undefined,
       }}
       {...props}
+      render={
+        <motion.span
+          layout
+          transition={{ type: "spring", bounce: 0, duration: 0.2 }}
+        />
+      }
     />
   )
 }

@@ -51,11 +51,11 @@ const rootVariants = cva(
 )
 
 const inputVariants = cva(
-  "min-w-[60px] flex-1 truncate bg-transparent outline-none text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] placeholder:text-content-muted caret-actions-primary-default"
+  "min-w-[var(--space-64)] flex-1 truncate bg-transparent outline-none text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)] placeholder:text-content-muted caret-actions-primary-default"
 )
 
 const iconVariants = cva(
-  "flex size-[16px] shrink-0 items-center justify-center [&_svg]:size-full"
+  "flex size-[var(--space-16)] shrink-0 items-center justify-center [&_svg]:size-full"
 )
 
 const chipVariants = cva(
@@ -73,7 +73,7 @@ const chipVariants = cva(
 
 const chipRemoveVariants = cva(
   [
-    "flex size-[20px] shrink-0 items-center justify-center rounded-[var(--radius-max)] p-[2px]",
+    "flex size-[var(--space-20)] shrink-0 items-center justify-center rounded-[var(--radius-max)] p-[var(--space-2)]",
     "transition-[background-color] duration-200 ease-out [&_svg]:size-full",
     "text-content-subtle hover:bg-actions-secondary-hover hover:text-content-strong",
     "data-[disabled]:text-content-disabled data-[disabled]:hover:bg-transparent data-[disabled]:hover:text-content-disabled",
@@ -202,7 +202,7 @@ function ComboboxClear({ className, ...props }: ComboboxClearProps) {
     <ComboboxPrimitive.Clear
       data-slot="clear"
       className={cn(
-        "flex size-[16px] shrink-0 items-center justify-center rounded-[var(--radius-4)] [&_svg]:size-full cursor-pointer",
+        "flex size-[var(--space-16)] shrink-0 items-center justify-center rounded-[var(--radius-4)] [&_svg]:size-full cursor-pointer",
         "text-content-muted hover:text-content-strong transition-colors duration-200",
         className
       )}
@@ -305,7 +305,7 @@ function ComboboxItemIndicator({ className, ...props }: ComboboxItemIndicatorPro
   return (
     <ComboboxPrimitive.ItemIndicator
       data-slot="indicator"
-      className={cn("flex size-[20px] shrink-0 items-center justify-center", className)}
+      className={cn("flex size-[var(--space-20)] shrink-0 items-center justify-center", className)}
       {...props}
     />
   )
@@ -325,7 +325,7 @@ function ComboboxEmpty({ className, ...props }: ComboboxEmptyProps) {
       data-slot="empty"
       className={cn(
         "flex w-full items-center justify-center empty:hidden rounded-[var(--radius-10)]",
-        "min-h-[36px] px-[var(--space-10)] py-[var(--space-6)]",
+        "min-h-[var(--space-36)] px-[var(--space-10)] py-[var(--space-6)]",
         "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",
         "text-content-muted",
         className
@@ -358,7 +358,7 @@ function ComboboxGroupLabel({ className, ...props }: ComboboxGroupLabelProps) {
     <ComboboxPrimitive.GroupLabel
       data-slot="group-label"
       className={cn(
-        "flex min-h-[28px] items-center px-[var(--space-12)] py-[var(--space-6)]",
+        "flex min-h-[var(--space-28)] items-center px-[var(--space-12)] py-[var(--space-6)]",
         "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
         "text-content-subtle",
         className

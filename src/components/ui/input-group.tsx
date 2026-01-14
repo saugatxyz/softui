@@ -108,9 +108,9 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[16px]",
-        m: "size-[16px]",
-        l: "size-[16px]",
+        s: "size-[var(--space-16)]",
+        m: "size-[var(--space-16)]",
+        l: "size-[var(--space-16)]",
       },
     },
     defaultVariants: {
@@ -271,7 +271,7 @@ function InputGroup({
           {prefixIcon && (
             <span
               className={cn(
-                "flex shrink-0 items-center justify-center [&>svg]:size-[16px] transition-colors duration-200",
+                "flex shrink-0 items-center justify-center [&>svg]:size-[var(--space-16)] transition-colors duration-200",
                 disabled ? "text-content-disabled" : "text-content-subtle",
                 !disabled && prefixType === "action" && "group-hover/prefix:text-content-strong"
               )}
@@ -298,7 +298,7 @@ function InputGroup({
                 disabled ? "text-content-disabled" : "text-content-muted"
               )}
             >
-              <RiExpandUpDownLine className="size-[16px]" />
+              <RiExpandUpDownLine className="size-[var(--space-16)]" />
             </span>
           )}
         </div>
@@ -414,7 +414,7 @@ function InputGroup({
           {suffixIcon && (
             <span
               className={cn(
-                "flex shrink-0 items-center justify-center [&>svg]:size-[16px] transition-colors duration-200",
+                "flex shrink-0 items-center justify-center [&>svg]:size-[var(--space-16)] transition-colors duration-200",
                 disabled ? "text-content-disabled" : "text-content-subtle",
                 !disabled && suffixType === "action" && "group-hover/suffix:text-content-strong"
               )}
@@ -441,7 +441,7 @@ function InputGroup({
                 disabled ? "text-content-disabled" : "text-content-muted"
               )}
             >
-              <RiExpandUpDownLine className="size-[16px]" />
+              <RiExpandUpDownLine className="size-[var(--space-16)]" />
             </span>
           )}
         </div>

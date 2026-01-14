@@ -496,11 +496,11 @@ function TableAvatarGroupCell({ avatars, max = 3, className }: TableAvatarGroupC
 // Progress Cell
 type TableProgressCellProps = {
   value: number
-  tone?: "neutral" | "positive" | "warning" | "danger"
+  tone?: "default" | "success" | "warning" | "danger"
   className?: string
 }
 
-function TableProgressCell({ value, tone = "neutral", className }: TableProgressCellProps) {
+function TableProgressCell({ value, tone = "default", className }: TableProgressCellProps) {
   const { size } = React.useContext(TableContext)
 
   return (

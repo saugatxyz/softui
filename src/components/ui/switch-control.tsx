@@ -11,7 +11,7 @@ const switchControlVariants = cva(
   {
     variants: {
       size: {
-        default: "h-[20px] w-[36px]",
+        default: "h-[var(--space-20)] w-[var(--space-36)]",
       },
     },
     defaultVariants: {
@@ -49,7 +49,7 @@ function SwitchControl({ className, ...props }: SwitchControlProps) {
     >
       <Switch.Thumb
         className={cn(
-          "block size-[12px] rounded-full",
+          "block size-[var(--space-12)] rounded-full",
           "bg-content-inverse-strong",
           "shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
           "group-data-[checked]:bg-content-on-accent-strong",

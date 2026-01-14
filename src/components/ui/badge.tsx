@@ -46,8 +46,8 @@ const iconVariants = cva(
   {
     variants: {
       size: {
-        s: "size-[16px]",
-        m: "size-[16px]",
+        s: "size-[var(--space-16)]",
+        m: "size-[var(--space-16)]",
       },
     },
     defaultVariants: {
@@ -59,9 +59,9 @@ const iconVariants = cva(
 const dotVariants = cva("shrink-0 rounded-full bg-current", {
   variants: {
     size: {
-      xs: "size-[6px]",
-      s: "size-[6px]",
-      m: "size-[6px]",
+      xs: "size-[var(--space-6)]",
+      s: "size-[var(--space-6)]",
+      m: "size-[var(--space-6)]",
     },
   },
   defaultVariants: {

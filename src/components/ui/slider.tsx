@@ -47,7 +47,7 @@ function SliderControl({ className, ...props }: SliderControlProps) {
     <SliderPrimitive.Control
       data-slot="slider-control"
       className={cn(
-        "flex h-[20px] w-full touch-none items-center cursor-pointer data-[disabled]:cursor-not-allowed",
+        "flex h-[var(--space-20)] w-full touch-none items-center cursor-pointer data-[disabled]:cursor-not-allowed",
         className
       )}
       {...props}
@@ -68,7 +68,7 @@ function SliderTrack({ className, ...props }: SliderTrackProps) {
     <SliderPrimitive.Track
       data-slot="slider-track"
       className={cn(
-        "relative h-[4px] w-full rounded-[var(--radius-max)] transition-colors duration-200 ease-out",
+        "relative h-[var(--space-4)] w-full rounded-[var(--radius-max)] transition-colors duration-200 ease-out",
         "bg-actions-secondary-default data-[disabled]:bg-actions-secondary-disabled data-[disabled]:backdrop-blur-sm",
         className
       )}
@@ -112,7 +112,7 @@ function SliderThumb({ className, ...props }: SliderThumbProps) {
     <SliderPrimitive.Thumb
       data-slot="slider-thumb"
       className={cn(
-        "block size-[16px] rounded-full",
+        "block size-[var(--space-16)] rounded-full",
         "bg-content-inverse-strong",
         "shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
         "focus-visible:shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1),0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",

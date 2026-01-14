@@ -135,7 +135,7 @@ function RadioGroupItem({
 
       {/* Radio on left (simple/list types) */}
       {showRadioOnLeft && (
-        <span className="flex h-[20px] shrink-0 items-center">
+        <span className="flex h-[var(--space-20)] shrink-0 items-center">
           <RadioControl
             value={value}
             disabled={disabled}

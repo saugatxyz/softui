@@ -30,7 +30,7 @@ function MenuGroupLabel({ className, children, ...props }: MenuGroupLabelProps) 
     <Menu.GroupLabel
       data-slot="menu-group-label"
       className={cn(
-        "flex min-h-[28px] items-center px-[var(--space-10)] py-[var(--space-6)] text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)] text-content-subtle",
+        "flex min-h-[var(--space-28)] items-center px-[var(--space-10)] py-[var(--space-6)] text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)] text-content-subtle",
         className
       )}
       {...props}
