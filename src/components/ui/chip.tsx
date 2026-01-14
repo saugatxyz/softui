@@ -275,6 +275,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
     onRemove?.()
   }
 
+  // Delete/Backspace on the chip removes it (keyboard accessible alternative to clicking X)
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === "Backspace" || e.key === "Delete") {
       if (selected && onRemove) {
@@ -324,12 +325,10 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
         {children}
       </span>
 
-      {/* Close button (only when selected) */}
+      {/* Close button (only when selected) - click for pointer, Delete/Backspace for keyboard */}
       {selected && (
         <span
-          role="button"
-          tabIndex={-1}
-          aria-label="Remove"
+          aria-hidden="true"
           data-slot="remove-button"
           onClick={handleRemoveClick}
           className={closeButtonVariants({ size, disabled })}

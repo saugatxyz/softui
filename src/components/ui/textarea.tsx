@@ -66,60 +66,66 @@ type TextareaProps = Omit<
     resize?: TextareaResize
   }
 
-function Textarea({
-  className,
-  size,
-  variant,
-  rows = 3,
-  resize = "vertical",
-  disabled,
-  ...props
-}: TextareaProps) {
-  const resolvedSize: TextareaSize = size ?? "m"
-  const resolvedVariant: TextareaVariant = variant ?? "secondary"
-  const containerRef = React.useRef<HTMLDivElement>(null)
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  function Textarea(
+    {
+      className,
+      size,
+      variant,
+      rows = 3,
+      resize = "vertical",
+      disabled,
+      ...props
+    },
+    ref
+  ) {
+    const resolvedSize: TextareaSize = size ?? "m"
+    const resolvedVariant: TextareaVariant = variant ?? "secondary"
+    const containerRef = React.useRef<HTMLDivElement>(null)
 
-  const isSecondary = resolvedVariant === "secondary"
-  const isTertiary = resolvedVariant === "tertiary"
+    const isSecondary = resolvedVariant === "secondary"
+    const isTertiary = resolvedVariant === "tertiary"
 
-  return (
-    <div
-      ref={containerRef}
-      data-slot="textarea"
-      data-size={resolvedSize}
-      data-variant={resolvedVariant}
-      className={cn(
-        textareaFieldVariants({ size: resolvedSize, variant: resolvedVariant }),
-        "group relative",
-        disabled
-          ? cn(
-              "cursor-not-allowed",
-              isSecondary && "bg-actions-secondary-disabled",
-              isTertiary && "bg-actions-tertiary-disabled shadow-none"
-            )
-          : "cursor-text",
-        !disabled && isSecondary && "hover:bg-actions-secondary-hover",
-        !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
-        "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-        className
-      )}
-      onClick={() => containerRef.current?.querySelector("textarea")?.focus()}
-    >
-      <InputPrimitive
-        data-slot="control"
-        disabled={disabled}
-        render={<textarea rows={rows} />}
+    return (
+      <div
+        ref={containerRef}
+        data-slot="textarea"
+        data-size={resolvedSize}
+        data-variant={resolvedVariant}
         className={cn(
-          textareaVariants({ size: resolvedSize, resize }),
+          textareaFieldVariants({ size: resolvedSize, variant: resolvedVariant }),
+          "group relative",
           disabled
-            ? "cursor-not-allowed text-content-disabled placeholder:text-content-disabled"
-            : "text-content-strong"
+            ? cn(
+                "cursor-not-allowed",
+                isSecondary && "bg-actions-secondary-disabled",
+                isTertiary && "bg-actions-tertiary-disabled shadow-none"
+              )
+            : "cursor-text",
+          !disabled && isSecondary && "hover:bg-actions-secondary-hover",
+          !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
+          "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          className
         )}
-        {...props}
-      />
-    </div>
-  )
-}
+        onClick={() => containerRef.current?.querySelector("textarea")?.focus()}
+      >
+        <InputPrimitive
+          ref={ref}
+          data-slot="control"
+          disabled={disabled}
+          render={<textarea rows={rows} />}
+          className={cn(
+            textareaVariants({ size: resolvedSize, resize }),
+            disabled
+              ? "cursor-not-allowed text-content-disabled placeholder:text-content-disabled"
+              : "text-content-strong"
+          )}
+          {...props}
+        />
+      </div>
+    )
+  }
+)
 
 export { Textarea }
 export type { TextareaProps }

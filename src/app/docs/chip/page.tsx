@@ -395,6 +395,21 @@ import { StarFillIcon } from "@/icons"
           </div>
         </div>
       </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Accessibility</h2>
+        <div className="flex flex-col gap-[var(--space-12)]">
+          <p className="text-body-m text-content-subtle">
+            Chips with remove functionality are fully keyboard accessible:
+          </p>
+          <ul className="list-inside list-disc text-body-m text-content-subtle">
+            <li>Tab to focus the chip</li>
+            <li>Enter or Space to toggle selection</li>
+            <li>Backspace or Delete while focused on a selected chip removes it</li>
+            <li>Click the X button to remove (pointer users)</li>
+          </ul>
+        </div>
+      </section>
     </div>
   )
 }

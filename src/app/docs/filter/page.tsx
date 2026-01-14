@@ -40,6 +40,7 @@ function StatusFilterExample() {
   return (
     <Menu.Root>
       <Menu.Trigger
+        id="filter-status-menu-trigger"
         render={
           <Filter
             size="s"
@@ -70,6 +71,7 @@ function CategoryFilterExample() {
   return (
     <Menu.Root>
       <Menu.Trigger
+        id="filter-category-menu-trigger"
         render={
           <Filter
             size="s"
@@ -101,6 +103,7 @@ function AssigneeFilterExample() {
   return (
     <Menu.Root>
       <Menu.Trigger
+        id="filter-assignee-menu-trigger"
         render={
           <Filter
             size="s"
@@ -147,6 +150,7 @@ function DateFilterExample() {
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger
+        id="filter-date-popover-trigger"
         render={
           <Filter
             size="s"
@@ -203,6 +207,7 @@ function FilterBarExample() {
     <div className="flex flex-wrap items-center gap-[var(--space-8)]">
       <Menu.Root>
         <Menu.Trigger
+          id="filter-bar-status-trigger"
           render={
             <Filter
               size="s"
@@ -225,6 +230,7 @@ function FilterBarExample() {
 
       <Menu.Root>
         <Menu.Trigger
+          id="filter-bar-priority-trigger"
           render={
             <Filter
               size="s"
@@ -247,6 +253,7 @@ function FilterBarExample() {
 
       <Menu.Root>
         <Menu.Trigger
+          id="filter-bar-assignee-trigger"
           render={
             <Filter
               size="s"
@@ -475,6 +482,22 @@ import { Menu, MenuItem, MenuSuffix } from "@/components/ui/menu"
             </div>
             <FilterBarExample />
           </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Accessibility</h2>
+        <div className="flex flex-col gap-[var(--space-12)]">
+          <p className="text-body-m text-content-subtle">
+            Filter chips with clear functionality are fully keyboard accessible:
+          </p>
+          <ul className="list-inside list-disc text-body-m text-content-subtle">
+            <li>Tab to focus the filter trigger or clear button</li>
+            <li>Enter or Space to activate/open the filter</li>
+            <li>Enter or Space on the clear button clears the filter</li>
+            <li>Backspace or Delete while focused on an active filter clears it</li>
+            <li>Click the X button to clear (pointer users)</li>
+          </ul>
         </div>
       </section>
     </div>

@@ -144,7 +144,7 @@ function ToastRoot({ className, variant = "card", children, ...props }: ToastRoo
         "data-[ending-style]:opacity-0 data-[ending-style]:translate-y-2 data-[ending-style]:scale-95",
         // Variant-specific styles
         variant === "card"
-          ? "w-[min(400px,calc(100vw-var(--space-32)))] rounded-[17px] before:rounded-[17px] flex-col"
+          ? "w-[min(400px,calc(100vw-var(--space-32)))] rounded-[var(--radius-16)] before:rounded-[var(--radius-16)] flex-col"
           : "w-fit rounded-[var(--radius-max)] before:rounded-[var(--radius-max)] items-center",
         className
       )}

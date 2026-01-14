@@ -283,7 +283,7 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
             </span>
           </IconButton>
           <Dialog.Root open={drawerOpen} onOpenChange={setDrawerOpen}>
-            <Dialog.Trigger render={
+            <Dialog.Trigger id="theme-settings-desktop-trigger" render={
               <IconButton
                 type="button"
                 aria-label="Theme settings"
@@ -414,7 +414,7 @@ export function ThemeSwitcher({ onMenuOpen, menuOpen }: ThemeSwitcherProps) {
               </span>
             </IconButton>
             <Dialog.Root open={mobileExpanded} onOpenChange={setMobileExpanded}>
-              <Dialog.Trigger render={
+              <Dialog.Trigger id="theme-settings-mobile-trigger" render={
                 <IconButton
                   type="button"
                   aria-label="Theme settings"

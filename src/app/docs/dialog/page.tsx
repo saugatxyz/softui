@@ -86,7 +86,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={basicOpen} onOpenChange={setBasicOpen}>
-                <Dialog.Trigger render={<Button variant="secondary">Open dialog</Button>} />
+                <Dialog.Trigger id="dialog-basic-trigger" render={<Button variant="secondary">Open dialog</Button>} />
                 <Dialog.Portal>
                   <Dialog.Backdrop />
                   <Dialog.Popup>
@@ -128,7 +128,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={rightOpen} onOpenChange={setRightOpen}>
-                <Dialog.Trigger render={<Button variant="secondary">Open panel</Button>} />
+                <Dialog.Trigger id="dialog-right-trigger" render={<Button variant="secondary">Open panel</Button>} />
                 <Dialog.Portal>
                   <Dialog.Backdrop />
                   <Dialog.Popup position="right">
@@ -162,7 +162,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={sheetOpen} onOpenChange={setSheetOpen}>
-                <Dialog.Trigger render={<Button variant="secondary">Open sheet</Button>} />
+                <Dialog.Trigger id="dialog-sheet-trigger" render={<Button variant="secondary">Open sheet</Button>} />
                 <Dialog.Portal>
                   <Dialog.Backdrop />
                   <Dialog.Popup position="sheet">
@@ -204,7 +204,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={swipeableOpen} onOpenChange={setSwipeableOpen}>
-                <Dialog.Trigger render={<Button variant="secondary">Open swipeable sheet</Button>} />
+                <Dialog.Trigger id="dialog-swipeable-trigger" render={<Button variant="secondary">Open swipeable sheet</Button>} />
                 <Dialog.Portal>
                   <Dialog.Backdrop />
                   <Dialog.Popup position="sheet" swipeable>
@@ -246,7 +246,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={accountOpen} onOpenChange={setAccountOpen}>
-                <Dialog.Trigger render={<Button variant="secondary">Account settings</Button>} />
+                <Dialog.Trigger id="dialog-account-trigger" render={<Button variant="secondary">Account settings</Button>} />
                 <Dialog.Portal>
                   <Dialog.Backdrop />
                   <Dialog.Popup>
@@ -291,7 +291,7 @@ import { Button } from "@/components/ui/button"
                                 <CheckboxPrefix
                                   type="icon"
                                   icon={<RiMailLine />}
-                                  containerStyle="subtle"
+                                  containerStyle="strong"
                                   containerColor="blue"
                                 />
                               }
@@ -306,7 +306,7 @@ import { Button } from "@/components/ui/button"
                                 <CheckboxPrefix
                                   type="icon"
                                   icon={<RiLineChartLine />}
-                                  containerStyle="subtle"
+                                  containerStyle="strong"
                                   containerColor="emerald"
                                 />
                               }
@@ -321,7 +321,7 @@ import { Button } from "@/components/ui/button"
                                 <CheckboxPrefix
                                   type="icon"
                                   icon={<RiMegaphoneLine />}
-                                  containerStyle="subtle"
+                                  containerStyle="strong"
                                   containerColor="orange"
                                 />
                               }
@@ -370,7 +370,7 @@ import { Button } from "@/components/ui/button"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <Dialog.Root open={nestedOpen} onOpenChange={setNestedOpen}>
-                <Dialog.Trigger render={<Button variant="secondary">Open dialog</Button>} />
+                <Dialog.Trigger id="dialog-nested-trigger" render={<Button variant="secondary">Open dialog</Button>} />
                 <Dialog.Portal>
                   <Dialog.Backdrop />
                   <Dialog.Popup className="w-[min(400px,calc(100vw-var(--space-32)))]">
@@ -392,7 +392,7 @@ import { Button } from "@/components/ui/button"
                     <Dialog.Footer>
                       {/* Nested dialog */}
                       <Dialog.Root open={nestedInnerOpen} onOpenChange={setNestedInnerOpen}>
-                        <Dialog.Trigger render={<Button variant="ghost" className="mr-auto">Advanced</Button>} />
+                        <Dialog.Trigger id="dialog-nested-advanced-trigger" render={<Button variant="ghost" className="mr-auto">Advanced</Button>} />
                         <Dialog.Portal>
                           <Dialog.Popup className="w-[min(400px,calc(100vw-var(--space-32)))]">
                             <Dialog.Content>
@@ -456,6 +456,23 @@ import { Button } from "@/components/ui/button"
               </Dialog.Root>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Accessibility</h2>
+        <div className="flex flex-col gap-[var(--space-12)]">
+          <p className="text-body-m text-content-subtle">
+            Dialogs are fully accessible and follow WAI-ARIA best practices:
+          </p>
+          <ul className="list-inside list-disc text-body-m text-content-subtle">
+            <li>Focus is trapped within the dialog when open</li>
+            <li>Escape key closes the dialog</li>
+            <li>Click on backdrop closes the dialog (use AlertDialog for required acknowledgment)</li>
+            <li>Focus returns to the trigger element after closing</li>
+            <li>Title and description are announced to screen readers</li>
+            <li>Tab navigates between focusable elements within the dialog</li>
+          </ul>
         </div>
       </section>
     </div>

@@ -251,6 +251,21 @@ Theme switching via `data-theme-color` and `data-base-color` attributes.
 
 **Token changes require user confirmation** with a summary table before implementation.
 
+### Intentional Token Exceptions
+
+The following components use hardcoded colors by design. **Do not replace these with design tokens.**
+
+| File | Reason |
+|------|--------|
+| `src/components/ui/logo.tsx` | Third-party brand logos (Claude, Airbnb, Discord, Linear, etc.) must use official brand colors |
+| `src/components/ui/crypto.tsx` | Cryptocurrency brand colors (BTC, ETH, USDT, etc.) must match official coin colors |
+| `src/components/ui/file-icon.tsx` | File type icons use standardized colors (matching Google Workspace conventions) |
+
+These exceptions exist because:
+- Brand colors are legally mandated and cannot be theme-adapted
+- Users expect cryptocurrency icons to match official branding
+- File type colors follow industry conventions for recognition
+
 ### Animation
 
 - UI animations must not exceed 300ms

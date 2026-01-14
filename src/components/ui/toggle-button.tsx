@@ -252,95 +252,101 @@ function MorphingIcon({
 // ToggleButton Component
 // ============================================================================
 
-function ToggleButton({
-  className,
-  variant = "tertiary",
-  size = "m",
-  icon,
-  pressedIcon,
-  children,
-  pressedChildren,
-  pressedTone,
-  labelWidth,
-  pressedLabelWidth,
-  pressed,
-  defaultPressed,
-  onPressedChange,
-  morph,
-  ...props
-}: ToggleButtonProps) {
-  // Track animation state - synced with Base UI's state via onPressedChange
-  // This is separate from control logic which Base UI handles
-  const isControlled = pressed !== undefined
-  const [animationPressed, setAnimationPressed] = React.useState(
-    pressed ?? defaultPressed ?? false
-  )
-
-  // Sync animation state with controlled value when it changes
-  React.useEffect(() => {
-    if (isControlled) {
-      setAnimationPressed(pressed ?? false)
-    }
-  }, [isControlled, pressed])
-
-  // Handle pressed change - sync animation state and forward callback
-  const handlePressedChange = React.useCallback<NonNullable<TogglePrimitive.Props["onPressedChange"]>>(
-    (newPressed, eventDetails) => {
-      if (!isControlled) {
-        setAnimationPressed(newPressed)
-      }
-      onPressedChange?.(newPressed, eventDetails)
+const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
+  function ToggleButton(
+    {
+      className,
+      variant = "tertiary",
+      size = "m",
+      icon,
+      pressedIcon,
+      children,
+      pressedChildren,
+      pressedTone,
+      labelWidth,
+      pressedLabelWidth,
+      pressed,
+      defaultPressed,
+      onPressedChange,
+      morph,
+      ...props
     },
-    [isControlled, onPressedChange]
-  )
+    ref
+  ) {
+    // Track animation state - synced with Base UI's state via onPressedChange
+    // This is separate from control logic which Base UI handles
+    const isControlled = pressed !== undefined
+    const [animationPressed, setAnimationPressed] = React.useState(
+      pressed ?? defaultPressed ?? false
+    )
 
-  const resolvedSize: ToggleButtonSize = size ?? "m"
-  const iconSize = iconSizeMap[resolvedSize]
-  const toneClass = getToneClass(pressedTone)
-  const shouldMorph = morph ?? false
+    // Sync animation state with controlled value when it changes
+    React.useEffect(() => {
+      if (isControlled) {
+        setAnimationPressed(pressed ?? false)
+      }
+    }, [isControlled, pressed])
 
-  const hasLabel = children !== undefined || pressedChildren !== undefined
-  const currentLabel = animationPressed ? (pressedChildren ?? children) : children
-  const currentWidth = animationPressed ? (pressedLabelWidth ?? labelWidth) : labelWidth
+    // Handle pressed change - sync animation state and forward callback
+    const handlePressedChange = React.useCallback<NonNullable<TogglePrimitive.Props["onPressedChange"]>>(
+      (newPressed, eventDetails) => {
+        if (!isControlled) {
+          setAnimationPressed(newPressed)
+        }
+        onPressedChange?.(newPressed, eventDetails)
+      },
+      [isControlled, onPressedChange]
+    )
 
-  return (
-    <TogglePrimitive
-      data-slot="toggle-button"
-      data-variant={variant}
-      data-size={resolvedSize}
-      pressed={pressed}
-      defaultPressed={defaultPressed}
-      onPressedChange={handlePressedChange}
-      className={cn(toggleButtonVariants({ variant, size: resolvedSize, iconOnly: !hasLabel, className }))}
-      {...props}
-    >
-      <MorphingIcon
-        pressed={animationPressed}
-        icon={icon}
-        pressedIcon={pressedIcon}
-        size={iconSize}
-        toneClass={toneClass}
-        morph={shouldMorph}
-      />
-      {hasLabel && (
-        <span data-slot="label" className={cn(labelVariants({ size: resolvedSize }))}>
-          {currentWidth !== undefined ? (
-            <motion.span
-              className="inline-block overflow-hidden whitespace-nowrap"
-              initial={false}
-              animate={{ width: currentWidth }}
-              transition={{ type: "spring", bounce: 0.15, duration: 0.25 }}
-            >
-              {currentLabel}
-            </motion.span>
-          ) : (
-            currentLabel
-          )}
-        </span>
-      )}
-    </TogglePrimitive>
-  )
-}
+    const resolvedSize: ToggleButtonSize = size ?? "m"
+    const iconSize = iconSizeMap[resolvedSize]
+    const toneClass = getToneClass(pressedTone)
+    const shouldMorph = morph ?? false
+
+    const hasLabel = children !== undefined || pressedChildren !== undefined
+    const currentLabel = animationPressed ? (pressedChildren ?? children) : children
+    const currentWidth = animationPressed ? (pressedLabelWidth ?? labelWidth) : labelWidth
+
+    return (
+      <TogglePrimitive
+        ref={ref}
+        data-slot="toggle-button"
+        data-variant={variant}
+        data-size={resolvedSize}
+        pressed={pressed}
+        defaultPressed={defaultPressed}
+        onPressedChange={handlePressedChange}
+        className={cn(toggleButtonVariants({ variant, size: resolvedSize, iconOnly: !hasLabel, className }))}
+        {...props}
+      >
+        <MorphingIcon
+          pressed={animationPressed}
+          icon={icon}
+          pressedIcon={pressedIcon}
+          size={iconSize}
+          toneClass={toneClass}
+          morph={shouldMorph}
+        />
+        {hasLabel && (
+          <span data-slot="label" className={cn(labelVariants({ size: resolvedSize }))}>
+            {currentWidth !== undefined ? (
+              <motion.span
+                className="inline-block overflow-hidden whitespace-nowrap"
+                initial={false}
+                animate={{ width: currentWidth }}
+                transition={{ type: "spring", bounce: 0.15, duration: 0.25 }}
+              >
+                {currentLabel}
+              </motion.span>
+            ) : (
+              currentLabel
+            )}
+          </span>
+        )}
+      </TogglePrimitive>
+    )
+  }
+)
 
 export { ToggleButton }
 export type { ToggleButtonProps, ToggleButtonSize, ToggleButtonVariant, ToggleButtonTone }

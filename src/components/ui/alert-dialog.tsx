@@ -132,14 +132,31 @@ type AlertDialogPortalProps = AlertDialogPrimitive.Portal.Props & {
   children?: React.ReactNode
 }
 
-function AlertDialogPortal({ children, keepMounted, ...props }: AlertDialogPortalProps) {
+function AlertDialogPortal({ children, keepMounted = false, ...props }: AlertDialogPortalProps) {
   const { open } = useAlertDialogContext()
-  const resolvedChildren = React.Children.toArray(children)
 
+  if (keepMounted) {
+    // When keepMounted, always render children
+    // Children (Backdrop, Popup) animate based on open state from context
+    return (
+      <AlertDialogPrimitive.Portal {...props} keepMounted>
+        {children}
+      </AlertDialogPrimitive.Portal>
+    )
+  }
+
+  // Ensure AnimatePresence children have stable keys.
+  const presenceChildren = React.Children.map(children, (child, index) => {
+    if (!React.isValidElement(child)) return child
+    if (child.key != null) return child
+    return React.cloneElement(child, { key: `alert-dialog-${index}` })
+  })
+
+  // When not keepMounted, use AnimatePresence for mount/unmount animations
   return (
-    <AlertDialogPrimitive.Portal {...props} keepMounted={keepMounted ?? true}>
-      <AnimatePresence initial={false}>
-        {open ? resolvedChildren : null}
+    <AlertDialogPrimitive.Portal {...props} keepMounted={false}>
+      <AnimatePresence>
+        {open ? presenceChildren : null}
       </AnimatePresence>
     </AlertDialogPrimitive.Portal>
   )
@@ -154,6 +171,8 @@ type AlertDialogBackdropProps = Omit<AlertDialogPrimitive.Backdrop.Props, "class
 }
 
 function AlertDialogBackdrop({ className, ...props }: AlertDialogBackdropProps) {
+  const { open } = useAlertDialogContext()
+
   return (
     <AlertDialogPrimitive.Backdrop
       data-slot="alert-dialog-backdrop"
@@ -180,9 +199,10 @@ function AlertDialogBackdrop({ className, ...props }: AlertDialogBackdropProps) 
             {...backdropRest}
             className={backdropClassName}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ opacity: open ? 1 : 0 }}
             exit={{ opacity: 0 }}
             transition={backdropTransition}
+            style={{ pointerEvents: open ? "auto" : "none" }}
           />
         )
       }}
@@ -200,7 +220,7 @@ type AlertDialogPopupProps = Omit<AlertDialogPrimitive.Popup.Props, "className">
 }
 
 function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupProps) {
-  const { isMobile } = useAlertDialogContext()
+  const { open, isMobile } = useAlertDialogContext()
 
   return (
     <AlertDialogPrimitive.Popup
@@ -244,9 +264,10 @@ function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupPro
             {...popupRest}
             className={popupClassName}
             initial={{ opacity: 0, transform: getPopupTransform(false, isMobile) }}
-            animate={{ opacity: 1, transform: getPopupTransform(true, isMobile) }}
+            animate={{ opacity: open ? 1 : 0, transform: getPopupTransform(open, isMobile) }}
             exit={{ opacity: 0, transform: getPopupTransform(false, isMobile) }}
             transition={getPopupTransition(isMobile)}
+            style={{ pointerEvents: open ? "auto" : "none" }}
           />
         )
       }}
@@ -389,8 +410,8 @@ function AlertDialogFooter({ className, children, ...props }: AlertDialogFooterP
       className={cn(
         // 16px vertical padding, 24px horizontal padding
         "flex items-center gap-[var(--space-12)] px-[var(--space-24)] py-[var(--space-16)]",
-        // All children and buttons fill container
-        "[&>*]:flex-1 [&_button]:w-full",
+        // Mobile: buttons fill container, desktop stays auto width
+        "max-sm:[&>*]:flex-1 max-sm:[&_button]:w-full",
         className
       )}
       {...props}

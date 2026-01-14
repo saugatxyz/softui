@@ -358,6 +358,7 @@ function FileUpload({
       data-slot="file-upload"
       className={cn("flex flex-col gap-[var(--space-2)]", className)}
     >
+      {/* Dropzone is a drop target + click area, keyboard access via the file input */}
       <div
         data-slot="dropzone"
         data-drag-active={isDragActive || undefined}
@@ -370,6 +371,7 @@ function FileUpload({
         className={cn(
           "flex items-center gap-[var(--space-12)] rounded-[var(--radius-16)] border border-dashed border-border-interactive-default p-[var(--space-12)] transition-colors duration-200",
           !disabled && "cursor-pointer hover:border-border-interactive-hover",
+          !disabled && "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           isDragActive && !isDragReject && "border-border-interactive-strong bg-surface-interactive-selected",
           isDragReject && "border-border-feedback-danger bg-surface-feedback-danger-subtle",
           disabled && "cursor-not-allowed opacity-50"

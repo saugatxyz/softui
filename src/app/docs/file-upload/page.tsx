@@ -331,6 +331,21 @@ import { Field } from "@/components/ui/field"
           </div>
         </div>
       </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Accessibility</h2>
+        <div className="flex flex-col gap-[var(--space-12)]">
+          <p className="text-body-m text-content-subtle">
+            The file upload component is fully keyboard accessible:
+          </p>
+          <ul className="list-inside list-disc text-body-m text-content-subtle">
+            <li>Tab to focus the file input or Browse button</li>
+            <li>Enter or Space to open the file picker</li>
+            <li>Focus ring is visible on the dropzone when input is focused</li>
+            <li>Drag and drop works for pointer users</li>
+          </ul>
+        </div>
+      </section>
     </div>
   )
 }

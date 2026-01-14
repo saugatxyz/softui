@@ -70,109 +70,131 @@ type InputProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
     focusVisibleOnly?: boolean
   }
 
-function Input({
-  className,
-  size,
-  variant,
-  leadingIcon,
-  trailingIcon,
-  focusVisibleOnly = true,
-  disabled,
-  ...props
-}: InputProps) {
-  const resolvedSize: InputSize = size ?? "m"
-  const resolvedVariant: InputVariant = variant ?? "secondary"
-  const inputRef = React.useRef<HTMLInputElement>(null)
-  const [showFocusRing, setShowFocusRing] = React.useState(false)
-  const wasPointerDown = React.useRef(false)
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  function Input(
+    {
+      className,
+      size,
+      variant,
+      leadingIcon,
+      trailingIcon,
+      focusVisibleOnly = true,
+      disabled,
+      ...props
+    },
+    ref
+  ) {
+    const resolvedSize: InputSize = size ?? "m"
+    const resolvedVariant: InputVariant = variant ?? "secondary"
+    const internalRef = React.useRef<HTMLInputElement>(null)
+    const [showFocusRing, setShowFocusRing] = React.useState(false)
+    const wasPointerDown = React.useRef(false)
 
-  const handlePointerDown = () => {
-    wasPointerDown.current = true
-  }
+    // Merge refs to handle both RefObject and callback refs
+    const mergedRef = React.useCallback(
+      (node: HTMLInputElement | null) => {
+        internalRef.current = node
+        if (typeof ref === "function") {
+          ref(node)
+        } else if (ref) {
+          ref.current = node
+        }
+      },
+      [ref]
+    )
 
-  const handleFocus = () => {
-    if (focusVisibleOnly) {
-      setShowFocusRing(!wasPointerDown.current)
-    } else {
-      setShowFocusRing(true)
+    const handlePointerDown = () => {
+      wasPointerDown.current = true
     }
-    wasPointerDown.current = false
-  }
 
-  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
-    if (event.currentTarget.contains(event.relatedTarget as Node)) return
-    setShowFocusRing(false)
-    wasPointerDown.current = false
-  }
+    const handleFocus = () => {
+      if (focusVisibleOnly) {
+        setShowFocusRing(!wasPointerDown.current)
+      } else {
+        setShowFocusRing(true)
+      }
+      wasPointerDown.current = false
+    }
 
-  const isSecondary = resolvedVariant === "secondary"
-  const isTertiary = resolvedVariant === "tertiary"
+    const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+      if (event.currentTarget.contains(event.relatedTarget as Node)) return
+      setShowFocusRing(false)
+      wasPointerDown.current = false
+    }
 
-  return (
-    <div
-      data-slot="input"
-      data-size={resolvedSize}
-      data-variant={resolvedVariant}
-      className={cn(
-        inputFieldVariants({ size: resolvedSize, variant: resolvedVariant }),
-        "group relative",
-        disabled
-          ? cn(
-              "cursor-not-allowed",
-              isSecondary && "bg-actions-secondary-disabled",
-              isTertiary && "bg-actions-tertiary-disabled shadow-none"
-            )
-          : "cursor-text",
-        !disabled && isSecondary && "hover:bg-actions-secondary-hover",
-        !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
-        showFocusRing &&
-          "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-        className
-      )}
-      onPointerDown={handlePointerDown}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onClick={() => inputRef.current?.focus()}
-    >
-      {leadingIcon && (
-        <span
-          data-slot="icon"
-          className={cn(
-            iconVariants({ size: resolvedSize }),
-            disabled && "text-content-disabled"
-          )}
-        >
-          {leadingIcon}
-        </span>
-      )}
+    const isSecondary = resolvedVariant === "secondary"
+    const isTertiary = resolvedVariant === "tertiary"
 
-      <InputPrimitive
-        ref={inputRef}
-        data-slot="control"
-        disabled={disabled}
+    const handleClick = () => {
+      internalRef.current?.focus()
+    }
+
+    return (
+      <div
+        data-slot="input"
+        data-size={resolvedSize}
+        data-variant={resolvedVariant}
         className={cn(
-          inputVariants({ size: resolvedSize }),
+          inputFieldVariants({ size: resolvedSize, variant: resolvedVariant }),
+          "group relative",
           disabled
-            ? "cursor-not-allowed text-content-disabled placeholder:text-content-disabled"
-            : "text-content-strong"
+            ? cn(
+                "cursor-not-allowed",
+                isSecondary && "bg-actions-secondary-disabled",
+                isTertiary && "bg-actions-tertiary-disabled shadow-none"
+              )
+            : "cursor-text",
+          !disabled && isSecondary && "hover:bg-actions-secondary-hover",
+          !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
+          showFocusRing &&
+            "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          className
         )}
-        {...props}
-      />
+        onPointerDown={handlePointerDown}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onClick={handleClick}
+      >
+        {leadingIcon && (
+          <span
+            data-slot="icon"
+            className={cn(
+              iconVariants({ size: resolvedSize }),
+              disabled && "text-content-disabled"
+            )}
+          >
+            {leadingIcon}
+          </span>
+        )}
 
-      {trailingIcon && (
-        <span
-          data-slot="icon"
+        <InputPrimitive
+          ref={mergedRef}
+          data-slot="control"
+          disabled={disabled}
           className={cn(
-            iconVariants({ size: resolvedSize }),
-            disabled && "text-content-disabled"
+            inputVariants({ size: resolvedSize }),
+            disabled
+              ? "cursor-not-allowed text-content-disabled placeholder:text-content-disabled"
+              : "text-content-strong"
           )}
-        >
-          {trailingIcon}
-        </span>
-      )}
-    </div>
-  )
-}
+          {...props}
+        />
+
+        {trailingIcon && (
+          <span
+            data-slot="icon"
+            className={cn(
+              iconVariants({ size: resolvedSize }),
+              disabled && "text-content-disabled"
+            )}
+          >
+            {trailingIcon}
+          </span>
+        )}
+      </div>
+    )
+  }
+)
 
 export { Input }
 export type { InputProps }

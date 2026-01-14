@@ -137,59 +137,65 @@ type ButtonProps = ButtonPrimitive.Props &
 const defaultVariant = "primary"
 const defaultSize = "m"
 
-function Button({
-  className,
-  variant,
-  size,
-  tone,
-  leadingIcon,
-  trailingIcon,
-  children,
-  ...props
-}: ButtonProps) {
-  const resolvedVariant = variant ?? defaultVariant
-  const resolvedSize = size ?? defaultSize
-  const hasLabel = React.Children.count(children) > 0
-  const hideIconFromAT = hasLabel ? true : undefined
-  const toneClass = getToneClass(tone)
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      className,
+      variant,
+      size,
+      tone,
+      leadingIcon,
+      trailingIcon,
+      children,
+      ...props
+    },
+    ref
+  ) {
+    const resolvedVariant = variant ?? defaultVariant
+    const resolvedSize = size ?? defaultSize
+    const hasLabel = React.Children.count(children) > 0
+    const hideIconFromAT = hasLabel ? true : undefined
+    const toneClass = getToneClass(tone)
 
-  return (
-    <ButtonPrimitive
-      data-slot="button"
-      data-variant={resolvedVariant}
-      data-size={resolvedSize}
-      data-tone={tone}
-      className={cn(
-        buttonVariants({ variant: resolvedVariant, size: resolvedSize, className }),
-        toneClass
-      )}
-      {...props}
-    >
-      {leadingIcon ? (
-        <span
-          aria-hidden={hideIconFromAT}
-          data-slot="icon"
-          className={cn(iconVariants({ size: resolvedSize }))}
-        >
-          {leadingIcon}
-        </span>
-      ) : null}
-      {hasLabel ? (
-        <span data-slot="label" className={cn(labelVariants({ size: resolvedSize }))}>
-          {children}
-        </span>
-      ) : null}
-      {trailingIcon ? (
-        <span
-          aria-hidden={hideIconFromAT}
-          data-slot="icon"
-          className={cn(iconVariants({ size: resolvedSize }))}
-        >
-          {trailingIcon}
-        </span>
-      ) : null}
-    </ButtonPrimitive>
-  )
-}
+    return (
+      <ButtonPrimitive
+        ref={ref}
+        data-slot="button"
+        data-variant={resolvedVariant}
+        data-size={resolvedSize}
+        data-tone={tone}
+        className={cn(
+          buttonVariants({ variant: resolvedVariant, size: resolvedSize, className }),
+          toneClass
+        )}
+        {...props}
+      >
+        {leadingIcon ? (
+          <span
+            aria-hidden={hideIconFromAT}
+            data-slot="icon"
+            className={cn(iconVariants({ size: resolvedSize }))}
+          >
+            {leadingIcon}
+          </span>
+        ) : null}
+        {hasLabel ? (
+          <span data-slot="label" className={cn(labelVariants({ size: resolvedSize }))}>
+            {children}
+          </span>
+        ) : null}
+        {trailingIcon ? (
+          <span
+            aria-hidden={hideIconFromAT}
+            data-slot="icon"
+            className={cn(iconVariants({ size: resolvedSize }))}
+          >
+            {trailingIcon}
+          </span>
+        ) : null}
+      </ButtonPrimitive>
+    )
+  }
+)
 
 export { Button, buttonVariants }

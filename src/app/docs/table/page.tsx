@@ -620,6 +620,22 @@ export default function TableDocsPage() {
         </div>
         <DeploymentsTable />
       </section>
+
+      {/* Accessibility */}
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Accessibility</h2>
+        <div className="flex flex-col gap-[var(--space-12)]">
+          <p className="text-body-m text-content-subtle">
+            Sortable headers are fully keyboard accessible:
+          </p>
+          <ul className="list-inside list-disc text-body-m text-content-subtle">
+            <li>Tab to focus sortable column headers</li>
+            <li>Focus ring uses the standard inner + outer focus tokens</li>
+            <li>Enter or Space to toggle sort direction</li>
+            <li><code className="text-body-s bg-surface-canvas px-[var(--space-4)] py-[var(--space-2)] rounded-[var(--radius-4)]">aria-sort</code> attribute indicates current sort state</li>
+          </ul>
+        </div>
+      </section>
     </div>
   )
 }

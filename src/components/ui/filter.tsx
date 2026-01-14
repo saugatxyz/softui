@@ -43,8 +43,8 @@ const paddingVariants = cva("", {
   compoundVariants: [
     { size: "xs", hasValue: false, className: "pl-[var(--space-12)] pr-[var(--space-10)]" },
     { size: "xs", hasValue: true, className: "pl-[var(--space-12)] pr-[var(--space-6)]" },
-    { size: "s", hasValue: false, className: "pl-[14px] pr-[var(--space-10)]" },
-    { size: "s", hasValue: true, className: "pl-[14px] pr-[var(--space-6)]" },
+    { size: "s", hasValue: false, className: "pl-[var(--space-12)] pr-[var(--space-10)]" },
+    { size: "s", hasValue: true, className: "pl-[var(--space-12)] pr-[var(--space-6)]" },
     { size: "m", hasValue: false, className: "pl-[var(--space-16)] pr-[var(--space-12)]" },
     { size: "m", hasValue: true, className: "pl-[var(--space-16)] pr-[var(--space-8)]" },
   ],
@@ -71,13 +71,13 @@ const iconVariants = cva(
 )
 
 const clearButtonVariants = cva(
-  "flex shrink-0 items-center justify-center rounded-[var(--radius-max)] transition-[background-color] duration-200 ease-out",
+  "flex shrink-0 items-center justify-center rounded-[var(--radius-max)] transition-[background-color,box-shadow] duration-200 ease-out size-[var(--space-20)] [&_svg]:size-[var(--space-16)] focus-visible:outline-none focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
   {
     variants: {
       size: {
-        xs: "size-[var(--space-20)] [&_svg]:size-[var(--space-12)]",
-        s: "size-[var(--space-20)] [&_svg]:size-[var(--space-12)]",
-        m: "size-[var(--space-20)] [&_svg]:size-[var(--space-16)]",
+        xs: "",
+        s: "",
+        m: "",
       },
     },
     defaultVariants: {
@@ -127,6 +127,25 @@ const Filter = React.forwardRef<
     }
   }
 
+  const handleClearKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (e.key !== "Enter" && e.key !== " ") return
+    e.preventDefault()
+    e.stopPropagation()
+    if (!disabled) {
+      onClear?.()
+    }
+  }
+
+  // Delete/Backspace on the filter clears it (keyboard accessible alternative to clicking X)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "Backspace" || e.key === "Delete") {
+      if (hasValue && onClear && !disabled) {
+        e.preventDefault()
+        onClear()
+      }
+    }
+  }
+
   return (
     <button
       ref={ref}
@@ -136,6 +155,7 @@ const Filter = React.forwardRef<
       data-active={hasValue || undefined}
       data-disabled={disabled || undefined}
       disabled={disabled}
+      onKeyDown={handleKeyDown}
       className={cn(
         filterChipTriggerVariants({ size }),
         paddingVariants({ size, hasValue }),
@@ -187,14 +207,16 @@ const Filter = React.forwardRef<
             {value}
           </span>
 
-          {/* Clear button */}
+          {/* Clear button - click or Enter/Space; Delete/Backspace also clears on the trigger */}
           {onClear && (
             <span
-              role="button"
-              tabIndex={-1}
-              aria-label="Clear filter"
               data-slot="clear-button"
+              role="button"
+              tabIndex={disabled ? -1 : 0}
+              aria-label={`Clear ${label}`}
+              aria-disabled={disabled || undefined}
               onClick={handleClearClick}
+              onKeyDown={handleClearKeyDown}
               className={cn(
                 clearButtonVariants({ size }),
                 disabled

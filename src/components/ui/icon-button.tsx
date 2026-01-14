@@ -114,37 +114,43 @@ type IconButtonProps = ButtonPrimitive.Props &
 const defaultVariant = "secondary"
 const defaultSize = "m"
 
-function IconButton({
-  className,
-  variant,
-  size,
-  tone,
-  children,
-  ...props
-}: IconButtonProps) {
-  const resolvedVariant = variant ?? defaultVariant
-  const resolvedSize = size ?? defaultSize
-  const toneClass = getToneClass(tone)
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+  function IconButton(
+    {
+      className,
+      variant,
+      size,
+      tone,
+      children,
+      ...props
+    },
+    ref
+  ) {
+    const resolvedVariant = variant ?? defaultVariant
+    const resolvedSize = size ?? defaultSize
+    const toneClass = getToneClass(tone)
 
-  return (
-    <ButtonPrimitive
-      data-slot="icon-button"
-      data-variant={resolvedVariant}
-      data-size={resolvedSize}
-      data-tone={tone}
-      className={cn(
-        iconButtonVariants({
-          variant: resolvedVariant,
-          size: resolvedSize,
-          className,
-        }),
-        toneClass
-      )}
-      {...props}
-    >
-      <span className={cn(iconVariants({ size: resolvedSize }))}>{children}</span>
-    </ButtonPrimitive>
-  )
-}
+    return (
+      <ButtonPrimitive
+        ref={ref}
+        data-slot="icon-button"
+        data-variant={resolvedVariant}
+        data-size={resolvedSize}
+        data-tone={tone}
+        className={cn(
+          iconButtonVariants({
+            variant: resolvedVariant,
+            size: resolvedSize,
+            className,
+          }),
+          toneClass
+        )}
+        {...props}
+      >
+        <span className={cn(iconVariants({ size: resolvedSize }))}>{children}</span>
+      </ButtonPrimitive>
+    )
+  }
+)
 
 export { IconButton, iconButtonVariants }

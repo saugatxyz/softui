@@ -180,14 +180,31 @@ type DialogPortalProps = DialogPrimitive.Portal.Props & {
   children?: React.ReactNode
 }
 
-function DialogPortal({ children, keepMounted, ...props }: DialogPortalProps) {
+function DialogPortal({ children, keepMounted = false, ...props }: DialogPortalProps) {
   const { open } = useDialogContext()
-  const resolvedChildren = React.Children.toArray(children)
 
+  if (keepMounted) {
+    // When keepMounted, always render children
+    // Children (Backdrop, Popup) animate based on open state from context
+    return (
+      <DialogPrimitive.Portal {...props} keepMounted>
+        {children}
+      </DialogPrimitive.Portal>
+    )
+  }
+
+  // Ensure AnimatePresence children have stable keys.
+  const presenceChildren = React.Children.map(children, (child, index) => {
+    if (!React.isValidElement(child)) return child
+    if (child.key != null) return child
+    return React.cloneElement(child, { key: `dialog-${index}` })
+  })
+
+  // When not keepMounted, use AnimatePresence for mount/unmount animations
   return (
-    <DialogPrimitive.Portal {...props} keepMounted={keepMounted ?? true}>
-      <AnimatePresence initial={false}>
-        {open ? resolvedChildren : null}
+    <DialogPrimitive.Portal {...props} keepMounted={false}>
+      <AnimatePresence>
+        {open ? presenceChildren : null}
       </AnimatePresence>
     </DialogPrimitive.Portal>
   )
@@ -202,6 +219,8 @@ type DialogBackdropProps = Omit<DialogPrimitive.Backdrop.Props, "className"> & {
 }
 
 function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
+  const { open } = useDialogContext()
+
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-backdrop"
@@ -228,9 +247,10 @@ function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
             {...backdropRest}
             className={backdropClassName}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ opacity: open ? 1 : 0 }}
             exit={{ opacity: 0 }}
             transition={backdropTransition}
+            style={{ pointerEvents: open ? "auto" : "none" }}
           />
         )
       }}
@@ -290,7 +310,7 @@ function DialogPopup({
   swipeable = false,
   ...props
 }: DialogPopupProps) {
-  const { isMobile, onOpenChange } = useDialogContext()
+  const { open, isMobile, onOpenChange } = useDialogContext()
   const dragControls = useDragControls()
 
   // Determine if we're in sheet mode (mobile or sheet position)
@@ -298,6 +318,7 @@ function DialogPopup({
   const isDraggable = swipeable && isSheetMode
 
   const transition = getPopupTransition(position, isMobile)
+  const shouldCenterSheet = isDraggable && position === "sheet" && !isMobile
 
   const handleDragEnd = React.useCallback(
     (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -388,7 +409,7 @@ function DialogPopup({
           const animationProps = isDraggable
             ? {
                 initial: { opacity: 0, y: "100%" as const, scale: nestedScale, filter },
-                animate: { opacity: 1, y: 0, scale: nestedScale, filter },
+                animate: { opacity: open ? 1 : 0, y: open ? 0 : "100%", scale: nestedScale, filter },
                 exit: { opacity: 0, y: "100%" as const, scale: nestedScale, filter },
               }
             : {
@@ -398,8 +419,8 @@ function DialogPopup({
                   filter,
                 },
                 animate: {
-                  opacity: 1,
-                  transform: getPopupTransform(true, state.nestedDialogOpen),
+                  opacity: open ? 1 : 0,
+                  transform: getPopupTransform(open, state.nestedDialogOpen),
                   filter,
                 },
                 exit: {
@@ -415,6 +436,10 @@ function DialogPopup({
               className={popupClassName}
               {...animationProps}
               transition={transition}
+              style={{
+                pointerEvents: open ? "auto" : "none",
+                ...(shouldCenterSheet ? { x: "-50%" } : null),
+              }}
               // Drag handling - dragListener={false} so only header can initiate drag
               drag={isDraggable ? "y" : false}
               dragControls={isDraggable ? dragControls : undefined}
@@ -522,7 +547,7 @@ function DialogHeader({ className, children, ...props }: DialogHeaderProps) {
         // Layout
         "flex flex-col",
         // Cursor hint for draggable
-        showDragIndicator && "cursor-grab active:cursor-grabbing",
+        showDragIndicator && "cursor-grab active:cursor-grabbing select-none",
         className
       )}
       onPointerDown={showDragIndicator ? handlePointerDown : undefined}

@@ -187,11 +187,25 @@ function TableHead({
 }: TableHeadProps) {
   const { size } = React.useContext(TableContext)
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!sortable || !onSort) return
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      onSort()
+    }
+  }
+
+  // Map sortDirection to aria-sort values (use "none" when sortable but unsorted)
+  const ariaSort = sortDirection === "asc" ? "ascending" : sortDirection === "desc" ? "descending" : sortable ? "none" : undefined
+
   return (
     <th
       data-slot="table-head"
       data-sortable={sortable || undefined}
       data-sort={sortDirection || undefined}
+      tabIndex={sortable ? 0 : undefined}
+      aria-sort={ariaSort}
+      onKeyDown={sortable ? handleKeyDown : undefined}
       className={cn(
         "align-middle",
         "text-[length:var(--font-size-xs)] font-[var(--font-weight-medium)] leading-[var(--line-height-xs)]",
@@ -199,6 +213,7 @@ function TableHead({
         align === "right" ? "text-right" : "text-left",
         headerCellPadding[size],
         sortable && "cursor-pointer select-none hover:text-content-strong",
+        sortable && "focus-visible:outline-none focus-visible:shadow-[inset_0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className
       )}
       onClick={sortable ? onSort : undefined}

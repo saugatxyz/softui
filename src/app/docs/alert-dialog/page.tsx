@@ -66,7 +66,7 @@ import { Spam2FillIcon } from "@/icons"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <AlertDialog.Root open={simpleOpen} onOpenChange={setSimpleOpen}>
-                <AlertDialog.Trigger render={<Button variant="secondary">Confirm action</Button>} />
+                <AlertDialog.Trigger id="alert-dialog-simple-trigger" render={<Button variant="secondary">Confirm action</Button>} />
                 <AlertDialog.Portal>
                   <AlertDialog.Backdrop />
                   <AlertDialog.Popup>
@@ -100,7 +100,7 @@ import { Spam2FillIcon } from "@/icons"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <AlertDialog.Root open={deleteOpen} onOpenChange={setDeleteOpen}>
-                <AlertDialog.Trigger render={<Button variant="danger" leadingIcon={<Spam2FillIcon />}>Delete account</Button>} />
+                <AlertDialog.Trigger id="alert-dialog-delete-trigger" render={<Button variant="danger" leadingIcon={<Spam2FillIcon />}>Delete account</Button>} />
                 <AlertDialog.Portal>
                   <AlertDialog.Backdrop />
                   <AlertDialog.Popup>
@@ -128,7 +128,7 @@ import { Spam2FillIcon } from "@/icons"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <AlertDialog.Root open={warningOpen} onOpenChange={setWarningOpen}>
-                <AlertDialog.Trigger render={<Button variant="secondary" leadingIcon={<Spam2FillIcon />}>Reset settings</Button>} />
+                <AlertDialog.Trigger id="alert-dialog-warning-trigger" render={<Button variant="secondary" leadingIcon={<Spam2FillIcon />}>Reset settings</Button>} />
                 <AlertDialog.Portal>
                   <AlertDialog.Backdrop />
                   <AlertDialog.Popup>
@@ -156,7 +156,7 @@ import { Spam2FillIcon } from "@/icons"
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
               <AlertDialog.Root open={logoutOpen} onOpenChange={setLogoutOpen}>
-                <AlertDialog.Trigger render={<Button variant="ghost">Sign out</Button>} />
+                <AlertDialog.Trigger id="alert-dialog-logout-trigger" render={<Button variant="ghost">Sign out</Button>} />
                 <AlertDialog.Portal>
                   <AlertDialog.Backdrop />
                   <AlertDialog.Popup>
@@ -202,6 +202,23 @@ import { Spam2FillIcon } from "@/icons"
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Accessibility</h2>
+        <div className="flex flex-col gap-[var(--space-12)]">
+          <p className="text-body-m text-content-subtle">
+            Alert dialogs require explicit user acknowledgment and follow WAI-ARIA best practices:
+          </p>
+          <ul className="list-inside list-disc text-body-m text-content-subtle">
+            <li>Focus is trapped within the dialog when open</li>
+            <li>Cannot be dismissed by clicking outside (requires explicit action)</li>
+            <li>Escape key closes the dialog</li>
+            <li>Focus returns to the trigger element after closing</li>
+            <li>Content is announced as an alert dialog to screen readers</li>
+            <li>Title and description provide context for the required decision</li>
+          </ul>
         </div>
       </section>
     </div>
