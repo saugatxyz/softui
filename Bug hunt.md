@@ -221,3 +221,160 @@ Acceptance criteria:
 
 Notes:
 - Ensure focus ring applies to the interactive element.
+
+-------------------------------------------------------------------------------
+
+## Quality milestones (10/10 scorecard)
+
+## [QM-01] API consistency across components
+Status: [ ]
+Owner: Unassigned
+Review: Review: Needs QA
+
+Problem:
+- API surface is not yet audited for consistent prop naming, passthrough behavior, and polymorphism patterns.
+
+Files:
+- src/components/ui/*
+- src/app/docs/*
+
+Acceptance criteria:
+- Standardize `size`, `variant`, `tone`, `leadingIcon/trailingIcon` naming and semantics across all applicable components.
+- Consistent polymorphic patterns (`render`/`asChild`) and passthrough behavior documented in docs.
+- Deprecations or exceptions documented where divergence is required.
+
+Notes:
+- Baseline requirement for “shadcn‑level” DX.
+
+## [QM-02] Accessibility baseline (icon-only + semantics)
+Status: [ ]
+Owner: Unassigned
+Review: Review: Needs QA
+
+Problem:
+- System-wide accessible naming and interaction semantics are not guaranteed by default.
+
+Files:
+- src/components/ui/*
+- src/app/docs/*
+
+Acceptance criteria:
+- All icon-only actions have accessible names (`aria-label` or visible text).
+- Interactive elements expose appropriate semantics (button roles, `aria-sort`, focus order).
+- Focus rings are consistent and meet the utility-focus-inner/outer rule.
+- Docs examples are copy-safe for a11y.
+
+Notes:
+- Manual keyboard + screen reader pass required for sign-off.
+
+## [QM-03] Token purity (no hardcoded sizes/colors)
+Status: [ ]
+Owner: Unassigned
+Review: Review: Code review pending
+
+Problem:
+- Not all sizing, spacing, and visual styles are tokenized.
+
+Files:
+- src/components/ui/*
+- src/design-system/tokens.css
+
+Acceptance criteria:
+- Remove hardcoded px values in components; use existing tokens or approved new tokens.
+- Any new tokens are documented and added to theme blocks and token helpers.
+- Exceptions (brand assets) are explicitly documented.
+
+Notes:
+- Requires approval before adding tokens.
+
+## [QM-04] Motion system consistency
+Status: [ ]
+Owner: Unassigned
+Review: Review: Needs QA
+
+Problem:
+- Motion guidelines (transform-only, <= 300ms, no transition-all) are not enforced system-wide.
+
+Files:
+- src/components/ui/*
+
+Acceptance criteria:
+- Animations use transform/opacity only; no height/width/left transitions.
+- Durations <= 300ms unless explicitly justified.
+- No `transition-all` in interactive components.
+- Motion easing uses documented custom easings.
+
+Notes:
+- Must feel consistent across all components.
+
+## [QM-05] Docs parity and completeness
+Status: [ ]
+Owner: Unassigned
+Review: Review: Needs QA
+
+Problem:
+- Docs are not validated for parity, accessibility notes, and full API coverage.
+
+Files:
+- src/app/docs/*
+- src/components/docs/*
+
+Acceptance criteria:
+- Every component page documents variants, sizes, states, and a11y requirements.
+- Examples match actual API and are safe to copy/paste.
+- Visual parity between docs and production components is verified.
+
+Notes:
+- Use `src/app/docs/button/page.tsx` as reference layout.
+
+## [QM-06] Runtime stability + SSR hygiene
+Status: [ ]
+Owner: Unassigned
+Review: Review: Code review pending
+
+Problem:
+- Client-only logic and UA sniffing can create hydration or parity risks.
+
+Files:
+- src/components/ui/*
+
+Acceptance criteria:
+- No UA sniffing for layout decisions; use feature detection or CSS.
+- No hydration/layout shifts from client-only measurement.
+- Controlled/uncontrolled patterns behave consistently with Base UI.
+- Minimal `any` usage and no runtime type gaps.
+
+Notes:
+- Focus on Base UI passthrough behavior.
+
+-------------------------------------------------------------------------------
+
+## 10/10 roadmap (proposed)
+
+### Phase 1 — A11y baseline + docs safety
+- BH-002 Icon Button missing accessible labels in docs/examples
+- BH-004 Icon-only close/actions missing accessible labels (components)
+- BH-005 IconButton docs/examples lack accessible names
+- BH-009 Sortable table headers lack button semantics
+- BH-003 File Upload remove action a11y (a11y portion)
+- QM-02 Accessibility baseline (icon-only + semantics)
+- QM-05 Docs parity and completeness (a11y callouts)
+
+### Phase 2 — Motion + interaction consistency
+- BH-006 Tabs + Segmented Control indicator animates layout properties
+- BH-007 Accordion motion exceeds duration guidance and animates height
+- BH-003 File Upload motion guideline drift (motion portion)
+- QM-04 Motion system consistency
+
+### Phase 3 — Token purity + sizing parity
+- BH-001 Avatar Group sizing + Safari overlap parity
+- BH-008 Hardcoded pixel sizes instead of spacing tokens
+- QM-03 Token purity (no hardcoded sizes/colors)
+
+### Phase 4 — API consistency + SSR hygiene
+- QM-01 API consistency across components
+- QM-06 Runtime stability + SSR hygiene
+
+Notes:
+- Phases are ordered to deliver the fastest quality lift: a11y → motion → tokens → API/SSR hygiene.
+- Token changes require approval per guardrails.
