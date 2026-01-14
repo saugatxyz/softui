@@ -110,7 +110,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         onClick={() => containerRef.current?.querySelector("textarea")?.focus()}
       >
         <InputPrimitive
-          ref={ref}
+          ref={ref as React.Ref<HTMLInputElement>}
           data-slot="control"
           disabled={disabled}
           render={<textarea rows={rows} />}
