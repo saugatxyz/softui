@@ -51,15 +51,15 @@ const backdropTransition = {
 const getPopupTransition = (position: DialogPosition, isMobile: boolean) => ({
   type: "spring" as const,
   bounce: 0,
-  duration: isMobile ? 0.2 : position === "center" ? 0.15 : 0.2,
+  duration: isMobile ? 0.2 : position === "center" ? 0.15 : 0.3,
 })
 
 // Snappy inertia for drag snap-back (dragTransition only accepts InertiaOptions)
 const dragSnapTransition = {
   power: 0.1,
   timeConstant: 100,
-  bounceDamping: 30,
-  bounceStiffness: 500,
+  bounceDamping: 18,
+  bounceStiffness: 400,
 }
 
 const getCenterTransform = (scale: number, translateY: number) =>

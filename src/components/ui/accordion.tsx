@@ -265,18 +265,18 @@ function AccordionContent({
             initial={{ height: 0 }}
             animate={{
               height: "auto",
-              transition: { type: "spring", bounce: 0, duration: 0.4 },
+              transition: { type: "spring", bounce: 0, duration: 0.3 },
             }}
             exit={{
               height: 0,
-              transition: { type: "spring", bounce: 0, duration: 0.4 },
+              transition: { type: "spring", bounce: 0, duration: 0.3 },
             }}
             style={{ willChange: "height", transform: "translateZ(0)" }}
           >
             <motion.div
               className="pt-[var(--space-6)] pb-[var(--space-16)]"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.2, delay: 0.1 } }}
+              animate={{ opacity: 1, transition: { duration: 0.15, delay: 0.05 } }}
               exit={{ opacity: 0, transition: { duration: 0.1 } }}
             >
               {children}
