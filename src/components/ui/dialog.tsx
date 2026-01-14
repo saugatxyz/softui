@@ -6,6 +6,8 @@ import { RiCloseLine } from "@remixicon/react"
 import {
   AnimatePresence,
   motion,
+  useDragControls,
+  type DragControls,
   type PanInfo,
 } from "motion/react"
 
@@ -92,11 +94,13 @@ function useDialogContext() {
 type DialogPopupContextValue = {
   swipeable: boolean
   isSheetMode: boolean
+  dragControls: DragControls | null
 }
 
 const DialogPopupContext = React.createContext<DialogPopupContextValue>({
   swipeable: false,
   isSheetMode: false,
+  dragControls: null,
 })
 
 function useDialogPopupContext() {
@@ -272,8 +276,8 @@ const popupPositionStyles: Record<DialogPosition, string> = {
     // Mobile: full width bottom sheet
     "bottom-[8px] left-[8px] right-[8px]",
     "max-h-[calc(100dvh-16px)]",
-    // Desktop: centered with max-width (translateX handled in animation)
-    "sm:left-1/2 sm:right-auto",
+    // Desktop: centered with max-width, bottom anchored (translateX handled in animation)
+    "sm:bottom-[8px] sm:left-1/2 sm:right-auto",
     "sm:w-[min(480px,calc(100vw-var(--space-32)))]"
   ),
 }
@@ -286,6 +290,7 @@ function DialogPopup({
   ...props
 }: DialogPopupProps) {
   const { isMobile, onOpenChange } = useDialogContext()
+  const dragControls = useDragControls()
 
   // Determine if we're in sheet mode (mobile or sheet position)
   const isSheetMode = isMobile || position === "sheet"
@@ -332,10 +337,10 @@ function DialogPopup({
     return `translateX(-50%) ${getSheetTransform(translateY)} scale(${nestedScale})`
   }
 
-  // Context value for children (drag indicator)
+  // Context value for children (drag indicator, header drag handle)
   const popupContextValue = React.useMemo(
-    () => ({ swipeable, isSheetMode }),
-    [swipeable, isSheetMode]
+    () => ({ swipeable, isSheetMode, dragControls: isDraggable ? dragControls : null }),
+    [swipeable, isSheetMode, isDraggable, dragControls]
   )
 
   return (
@@ -360,8 +365,6 @@ function DialogPopup({
           "outline-none",
           // Nested dialog effect - scale down and push back when child dialog opens
           "transition-[filter] duration-200 ease-out",
-          // Touch action for drag
-          isDraggable && "touch-none",
           className
         )}
         render={(popupProps, state) => {
@@ -380,11 +383,12 @@ function DialogPopup({
           const filter = state.nestedDialogOpen ? "brightness(0.6)" : "brightness(1)"
 
           // For draggable sheets, use y for animation to avoid transform conflicts
+          const nestedScale = state.nestedDialogOpen ? 0.94 : 1
           const animationProps = isDraggable
             ? {
-                initial: { opacity: 0, y: "100%" as const, filter },
-                animate: { opacity: 1, y: 0, filter },
-                exit: { opacity: 0, y: "100%" as const, filter },
+                initial: { opacity: 0, y: "100%" as const, scale: nestedScale, filter },
+                animate: { opacity: 1, y: 0, scale: nestedScale, filter },
+                exit: { opacity: 0, y: "100%" as const, scale: nestedScale, filter },
               }
             : {
                 initial: {
@@ -410,8 +414,10 @@ function DialogPopup({
               className={popupClassName}
               {...animationProps}
               transition={transition}
-              // Drag handling
+              // Drag handling - dragListener={false} so only header can initiate drag
               drag={isDraggable ? "y" : false}
+              dragControls={isDraggable ? dragControls : undefined}
+              dragListener={false}
               dragConstraints={{ top: 0, bottom: 0 }}
               dragElastic={{ top: 0.1, bottom: 0.5 }}
               dragTransition={dragSnapTransition}
@@ -459,11 +465,17 @@ function DialogContent({ className, children, ...props }: DialogContentProps) {
 type DialogDragIndicatorProps = React.HTMLAttributes<HTMLDivElement>
 
 function DialogDragIndicator({ className, ...props }: DialogDragIndicatorProps) {
-  const { swipeable, isSheetMode } = useDialogPopupContext()
+  const { swipeable, isSheetMode, dragControls } = useDialogPopupContext()
 
   // Only show when swipeable and in sheet mode
   if (!swipeable || !isSheetMode) {
     return null
+  }
+
+  const handlePointerDown = (event: React.PointerEvent) => {
+    if (dragControls) {
+      dragControls.start(event)
+    }
   }
 
   return (
@@ -471,8 +483,11 @@ function DialogDragIndicator({ className, ...props }: DialogDragIndicatorProps) 
       data-slot="dialog-drag-indicator"
       className={cn(
         "flex items-center justify-center py-[var(--space-8)]",
+        "cursor-grab active:cursor-grabbing",
         className
       )}
+      onPointerDown={handlePointerDown}
+      style={{ touchAction: "none" }}
       {...props}
     >
       <div className="h-[4px] w-[40px] rounded-full bg-actions-secondary-default" />
@@ -487,8 +502,17 @@ function DialogDragIndicator({ className, ...props }: DialogDragIndicatorProps) 
 type DialogHeaderProps = React.HTMLAttributes<HTMLDivElement>
 
 function DialogHeader({ className, children, ...props }: DialogHeaderProps) {
-  const { swipeable, isSheetMode } = useDialogPopupContext()
+  const { swipeable, isSheetMode, dragControls } = useDialogPopupContext()
   const showDragIndicator = swipeable && isSheetMode
+
+  const handlePointerDown = React.useCallback(
+    (event: React.PointerEvent) => {
+      if (dragControls) {
+        dragControls.start(event)
+      }
+    },
+    [dragControls]
+  )
 
   return (
     <div
@@ -496,8 +520,12 @@ function DialogHeader({ className, children, ...props }: DialogHeaderProps) {
       className={cn(
         // Layout
         "flex flex-col",
+        // Cursor hint for draggable
+        showDragIndicator && "cursor-grab active:cursor-grabbing",
         className
       )}
+      onPointerDown={showDragIndicator ? handlePointerDown : undefined}
+      style={showDragIndicator ? { touchAction: "none" } : undefined}
       {...props}
     >
       {showDragIndicator && (
