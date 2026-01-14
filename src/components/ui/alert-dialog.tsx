@@ -7,6 +7,25 @@ import { AnimatePresence, motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
 // ============================================================================
+// Mobile Detection Hook
+// ============================================================================
+
+const MOBILE_BREAKPOINT = 640
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  return isMobile
+}
+
+// ============================================================================
 // Animation Helpers
 // ============================================================================
 
@@ -16,14 +35,20 @@ const backdropTransition = {
   duration: 0.15,
 }
 
-const popupTransition = {
+const getPopupTransition = (isMobile: boolean) => ({
   type: "spring" as const,
   bounce: 0,
-  duration: 0.15,
-}
+  duration: isMobile ? 0.2 : 0.15,
+})
 
-const getPopupTransform = (open: boolean) =>
-  `translate(-50%, -50%) translateY(${open ? 0 : 8}px) scale(${open ? 1 : 0.95})`
+const getPopupTransform = (open: boolean, isMobile: boolean) => {
+  // Mobile: slide up from bottom
+  if (isMobile) {
+    return `translateY(${open ? "0%" : "100%"})`
+  }
+  // Desktop: scale + translate centered
+  return `translate(-50%, -50%) translateY(${open ? 0 : 8}px) scale(${open ? 1 : 0.95})`
+}
 
 // ============================================================================
 // Context
@@ -31,9 +56,10 @@ const getPopupTransform = (open: boolean) =>
 
 type AlertDialogContextValue = {
   open: boolean
+  isMobile: boolean
 }
 
-const AlertDialogContext = React.createContext<AlertDialogContextValue>({ open: false })
+const AlertDialogContext = React.createContext<AlertDialogContextValue>({ open: false, isMobile: false })
 
 function useAlertDialogContext() {
   return React.useContext(AlertDialogContext)
@@ -55,6 +81,7 @@ function AlertDialogRoot({
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false)
   const isControlled = open !== undefined
   const resolvedOpen = isControlled ? open : uncontrolledOpen
+  const isMobile = useIsMobile()
 
   const handleOpenChange = React.useCallback(
     (nextOpen: boolean, eventDetails: Parameters<NonNullable<typeof onOpenChange>>[1]) => {
@@ -67,7 +94,7 @@ function AlertDialogRoot({
   )
 
   return (
-    <AlertDialogContext.Provider value={{ open: resolvedOpen }}>
+    <AlertDialogContext.Provider value={{ open: resolvedOpen, isMobile }}>
       <AlertDialogPrimitive.Root
         {...props}
         {...(isControlled ? { open } : { defaultOpen })}
@@ -107,11 +134,12 @@ type AlertDialogPortalProps = AlertDialogPrimitive.Portal.Props & {
 
 function AlertDialogPortal({ children, keepMounted, ...props }: AlertDialogPortalProps) {
   const { open } = useAlertDialogContext()
+  const resolvedChildren = React.Children.toArray(children)
 
   return (
     <AlertDialogPrimitive.Portal {...props} keepMounted={keepMounted ?? true}>
       <AnimatePresence initial={false}>
-        {open ? children : null}
+        {open ? resolvedChildren : null}
       </AnimatePresence>
     </AlertDialogPrimitive.Portal>
   )
@@ -172,14 +200,20 @@ type AlertDialogPopupProps = Omit<AlertDialogPrimitive.Popup.Props, "className">
 }
 
 function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupProps) {
+  const { isMobile } = useAlertDialogContext()
+
   return (
     <AlertDialogPrimitive.Popup
       data-slot="alert-dialog-popup"
       className={cn(
-        // Positioning
-        "fixed top-1/2 left-1/2 z-50",
-        // Sizing
-        "w-[min(400px,calc(100vw-var(--space-32)))]",
+        // Positioning - Mobile: bottom sheet, Desktop: centered
+        "fixed z-50",
+        // Mobile: bottom sheet with 8px padding
+        "bottom-[8px] left-[8px] right-[8px]",
+        "max-h-[calc(100dvh-16px)]",
+        // Desktop: centered
+        "sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-1/2",
+        "sm:w-[min(400px,calc(100vw-var(--space-32)))] sm:max-h-none",
         // Appearance - layered: surface-overlay base + surface-canvas on top
         "rounded-[var(--radius-24)] bg-surface-overlay",
         "before:absolute before:inset-0 before:-z-10 before:rounded-[var(--radius-24)] before:bg-surface-canvas",
@@ -209,10 +243,10 @@ function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupPro
           <motion.div
             {...popupRest}
             className={popupClassName}
-            initial={{ opacity: 0, transform: getPopupTransform(false) }}
-            animate={{ opacity: 1, transform: getPopupTransform(true) }}
-            exit={{ opacity: 0, transform: getPopupTransform(false) }}
-            transition={popupTransition}
+            initial={{ opacity: 0, transform: getPopupTransform(false, isMobile) }}
+            animate={{ opacity: 1, transform: getPopupTransform(true, isMobile) }}
+            exit={{ opacity: 0, transform: getPopupTransform(false, isMobile) }}
+            transition={getPopupTransition(isMobile)}
           />
         )
       }}

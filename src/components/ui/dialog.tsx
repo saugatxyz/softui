@@ -3,11 +3,38 @@
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { RiCloseLine } from "@remixicon/react"
-import { AnimatePresence, motion } from "motion/react"
+import {
+  AnimatePresence,
+  motion,
+  type PanInfo,
+} from "motion/react"
 
 import { cn } from "@/lib/utils"
 
 type DialogPosition = "center" | "right" | "sheet"
+
+// Drag-to-dismiss thresholds
+const DRAG_DISMISS_THRESHOLD = 200 // pixels
+const DRAG_VELOCITY_THRESHOLD = 800 // pixels per second
+
+// ============================================================================
+// Mobile Detection Hook
+// ============================================================================
+
+const MOBILE_BREAKPOINT = 640
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  return isMobile
+}
 
 // ============================================================================
 // Animation Helpers
@@ -19,11 +46,18 @@ const backdropTransition = {
   duration: 0.15,
 }
 
-const getPopupTransition = (position: DialogPosition) => ({
+const getPopupTransition = (position: DialogPosition, isMobile: boolean) => ({
   type: "spring" as const,
   bounce: 0,
-  duration: position === "center" ? 0.15 : 0.2,
+  duration: isMobile ? 0.2 : position === "center" ? 0.15 : 0.2,
 })
+
+// Snappy spring for drag snap-back
+const dragSnapTransition = {
+  type: "spring" as const,
+  bounce: 0.15,
+  duration: 0.15,
+}
 
 const getCenterTransform = (scale: number, translateY: number) =>
   `translate(-50%, -50%) translateY(${translateY}px) scale(${scale})`
@@ -40,12 +74,33 @@ const getSheetTransform = (translateY: number | string) =>
 
 type DialogContextValue = {
   open: boolean
+  isMobile: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-const DialogContext = React.createContext<DialogContextValue>({ open: false })
+const DialogContext = React.createContext<DialogContextValue>({
+  open: false,
+  isMobile: false,
+  onOpenChange: () => {},
+})
 
 function useDialogContext() {
   return React.useContext(DialogContext)
+}
+
+// Popup-specific context for swipeable state
+type DialogPopupContextValue = {
+  swipeable: boolean
+  isSheetMode: boolean
+}
+
+const DialogPopupContext = React.createContext<DialogPopupContextValue>({
+  swipeable: false,
+  isSheetMode: false,
+})
+
+function useDialogPopupContext() {
+  return React.useContext(DialogPopupContext)
 }
 
 // ============================================================================
@@ -64,19 +119,25 @@ function DialogRoot({
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false)
   const isControlled = open !== undefined
   const resolvedOpen = isControlled ? open : uncontrolledOpen
+  const isMobile = useIsMobile()
 
   const handleOpenChange = React.useCallback(
-    (nextOpen: boolean, eventDetails: Parameters<NonNullable<typeof onOpenChange>>[1]) => {
+    (nextOpen: boolean, eventDetails?: Parameters<NonNullable<typeof onOpenChange>>[1]) => {
       if (!isControlled) {
         setUncontrolledOpen(nextOpen)
       }
-      onOpenChange?.(nextOpen, eventDetails)
+      onOpenChange?.(nextOpen, eventDetails as Parameters<NonNullable<typeof onOpenChange>>[1])
     },
     [isControlled, onOpenChange]
   )
 
+  const contextValue = React.useMemo(
+    () => ({ open: resolvedOpen, isMobile, onOpenChange: handleOpenChange }),
+    [resolvedOpen, isMobile, handleOpenChange]
+  )
+
   return (
-    <DialogContext.Provider value={{ open: resolvedOpen }}>
+    <DialogContext.Provider value={contextValue}>
       <DialogPrimitive.Root
         {...props}
         {...(isControlled ? { open } : { defaultOpen })}
@@ -180,30 +241,81 @@ function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
 type DialogPopupProps = Omit<DialogPrimitive.Popup.Props, "className"> & {
   className?: string
   position?: DialogPosition
+  /** Enable drag-to-dismiss for sheet mode */
+  swipeable?: boolean
 }
 
+// Mobile: all positions become bottom sheet with 8px padding all sides
+// Desktop (sm+): each position has its specific behavior
 const popupPositionStyles: Record<DialogPosition, string> = {
   center: cn(
-    "fixed top-1/2 left-1/2 z-50",
-    "w-[min(480px,calc(100vw-var(--space-32)))]"
+    "fixed z-50",
+    // Mobile: bottom sheet
+    "bottom-[8px] left-[8px] right-[8px]",
+    "max-h-[calc(100dvh-16px)]",
+    // Desktop: centered
+    "sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-1/2",
+    "sm:w-[min(480px,calc(100vw-var(--space-32)))] sm:max-h-none"
   ),
   right: cn(
-    "fixed top-[8px] right-[8px] z-50",
-    "h-[calc(100dvh-16px)]",
-    "w-full max-w-[400px]"
+    "fixed z-50",
+    // Mobile: bottom sheet
+    "bottom-[8px] left-[8px] right-[8px]",
+    "max-h-[calc(100dvh-16px)]",
+    // Desktop: right panel
+    "sm:bottom-auto sm:left-auto sm:top-[8px] sm:right-[8px]",
+    "sm:h-[calc(100dvh-16px)] sm:max-h-none",
+    "sm:w-full sm:max-w-[400px]"
   ),
   sheet: cn(
-    "fixed left-[8px] right-[8px] bottom-[8px] z-50",
-    "max-h-[calc(100dvh-16px)]"
+    "fixed z-50",
+    // Mobile: full width bottom sheet
+    "bottom-[8px] left-[8px] right-[8px]",
+    "max-h-[calc(100dvh-16px)]",
+    // Desktop: centered with max-width (translateX handled in animation)
+    "sm:left-1/2 sm:right-auto",
+    "sm:w-[min(480px,calc(100vw-var(--space-32)))]"
   ),
 }
 
-function DialogPopup({ className, children, position = "center", ...props }: DialogPopupProps) {
-  const transition = getPopupTransition(position)
+function DialogPopup({
+  className,
+  children,
+  position = "center",
+  swipeable = false,
+  ...props
+}: DialogPopupProps) {
+  const { isMobile, onOpenChange } = useDialogContext()
+
+  // Determine if we're in sheet mode (mobile or sheet position)
+  const isSheetMode = isMobile || position === "sheet"
+  const isDraggable = swipeable && isSheetMode
+
+  const transition = getPopupTransition(position, isMobile)
+
+  const handleDragEnd = React.useCallback(
+    (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      const shouldDismiss =
+        info.offset.y > DRAG_DISMISS_THRESHOLD ||
+        info.velocity.y > DRAG_VELOCITY_THRESHOLD
+
+      if (shouldDismiss) {
+        onOpenChange(false)
+      }
+    },
+    [onOpenChange]
+  )
 
   const getPopupTransform = (open: boolean, nestedOpen: boolean) => {
     const nestedScale = nestedOpen ? 0.94 : 1
 
+    // On mobile, all positions use sheet animation (slide up from bottom)
+    if (isMobile) {
+      const translateY = open ? "0%" : "100%"
+      return `${getSheetTransform(translateY)} scale(${nestedScale})`
+    }
+
+    // Desktop: position-specific animations
     if (position === "center") {
       const scale = (open ? 1 : 0.95) * nestedScale
       const translateY = open ? 0 : 8
@@ -215,75 +327,103 @@ function DialogPopup({ className, children, position = "center", ...props }: Dia
       return `${getRightTransform(translateX)} scale(${nestedScale})`
     }
 
+    // Sheet position - centered on desktop
     const translateY = open ? "0%" : "100%"
-    const scale = nestedScale
-    return `${getSheetTransform(translateY)} scale(${scale})`
+    return `translateX(-50%) ${getSheetTransform(translateY)} scale(${nestedScale})`
   }
 
-  return (
-    <DialogPrimitive.Popup
-      data-slot="dialog-popup"
-      data-position={position}
-      className={cn(
-        // Position-specific styles (includes positioning and rounding)
-        popupPositionStyles[position],
-        // Appearance - layered: surface-overlay base + surface-canvas on top
-        "bg-surface-overlay",
-        "before:absolute before:inset-0 before:-z-10 before:bg-surface-canvas",
-        "shadow-[var(--shadow-modal)]",
-        "backdrop-blur-[6px]",
-        "rounded-[var(--radius-24)]",
-        "before:rounded-[var(--radius-24)]",
-        // Layout
-        "flex flex-col overflow-hidden",
-        // Focus
-        "outline-none",
-        // Nested dialog effect - scale down and push back when child dialog opens
-        "transition-[filter] duration-200 ease-out",
-        className
-      )}
-      render={(popupProps, state) => {
-        const {
-          className: popupClassName,
-          onAnimationStart,
-          onDrag,
-          onDragStart,
-          onDragEnd,
-          onDragOver,
-          onDragEnter,
-          onDragLeave,
-          onDrop,
-          ...popupRest
-        } = popupProps
-        const filter = state.nestedDialogOpen ? "brightness(0.6)" : "brightness(1)"
+  // Context value for children (drag indicator)
+  const popupContextValue = React.useMemo(
+    () => ({ swipeable, isSheetMode }),
+    [swipeable, isSheetMode]
+  )
 
-        return (
-          <motion.div
-            {...popupRest}
-            className={popupClassName}
-            initial={{
-              opacity: 0,
-              transform: getPopupTransform(false, state.nestedDialogOpen),
-              filter,
-            }}
-            animate={{
-              opacity: 1,
-              transform: getPopupTransform(true, state.nestedDialogOpen),
-              filter,
-            }}
-            exit={{
-              opacity: 0,
-              transform: getPopupTransform(false, state.nestedDialogOpen),
-              filter,
-            }}
-            transition={transition}
-          />
-        )
-      }}
-      {...props}
-    >
-      {children}
-    </DialogPrimitive.Popup>
+  return (
+    <DialogPopupContext.Provider value={popupContextValue}>
+      <DialogPrimitive.Popup
+        data-slot="dialog-popup"
+        data-position={position}
+        data-swipeable={swipeable || undefined}
+        className={cn(
+          // Position-specific styles (includes positioning and rounding)
+          popupPositionStyles[position],
+          // Appearance - layered: surface-overlay base + surface-canvas on top
+          "bg-surface-overlay",
+          "before:absolute before:inset-0 before:-z-10 before:bg-surface-canvas",
+          "shadow-[var(--shadow-modal)]",
+          "backdrop-blur-[6px]",
+          "rounded-[var(--radius-24)]",
+          "before:rounded-[var(--radius-24)]",
+          // Layout
+          "flex flex-col overflow-hidden",
+          // Focus
+          "outline-none",
+          // Nested dialog effect - scale down and push back when child dialog opens
+          "transition-[filter] duration-200 ease-out",
+          // Touch action for drag
+          isDraggable && "touch-none",
+          className
+        )}
+        render={(popupProps, state) => {
+          const {
+            className: popupClassName,
+            onAnimationStart,
+            onDrag,
+            onDragStart,
+            onDragEnd,
+            onDragOver,
+            onDragEnter,
+            onDragLeave,
+            onDrop,
+            ...popupRest
+          } = popupProps
+          const filter = state.nestedDialogOpen ? "brightness(0.6)" : "brightness(1)"
+
+          // For draggable sheets, use y for animation to avoid transform conflicts
+          const animationProps = isDraggable
+            ? {
+                initial: { opacity: 0, y: "100%" as const, filter },
+                animate: { opacity: 1, y: 0, filter },
+                exit: { opacity: 0, y: "100%" as const, filter },
+              }
+            : {
+                initial: {
+                  opacity: 0,
+                  transform: getPopupTransform(false, state.nestedDialogOpen),
+                  filter,
+                },
+                animate: {
+                  opacity: 1,
+                  transform: getPopupTransform(true, state.nestedDialogOpen),
+                  filter,
+                },
+                exit: {
+                  opacity: 0,
+                  transform: getPopupTransform(false, state.nestedDialogOpen),
+                  filter,
+                },
+              }
+
+          return (
+            <motion.div
+              {...popupRest}
+              className={popupClassName}
+              {...animationProps}
+              transition={transition}
+              // Drag handling
+              drag={isDraggable ? "y" : false}
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0.1, bottom: 0.5 }}
+              dragTransition={dragSnapTransition}
+              onDragEnd={isDraggable ? handleDragEnd : undefined}
+            />
+          )
+        }}
+        {...props}
+      >
+        {children}
+      </DialogPrimitive.Popup>
+    </DialogPopupContext.Provider>
   )
 }
 
@@ -313,27 +453,70 @@ function DialogContent({ className, children, ...props }: DialogContentProps) {
 }
 
 // ============================================================================
+// Dialog Drag Indicator
+// ============================================================================
+
+type DialogDragIndicatorProps = React.HTMLAttributes<HTMLDivElement>
+
+function DialogDragIndicator({ className, ...props }: DialogDragIndicatorProps) {
+  const { swipeable, isSheetMode } = useDialogPopupContext()
+
+  // Only show when swipeable and in sheet mode
+  if (!swipeable || !isSheetMode) {
+    return null
+  }
+
+  return (
+    <div
+      data-slot="dialog-drag-indicator"
+      className={cn(
+        "flex items-center justify-center py-[var(--space-8)]",
+        className
+      )}
+      {...props}
+    >
+      <div className="h-[4px] w-[40px] rounded-full bg-actions-secondary-default" />
+    </div>
+  )
+}
+
+// ============================================================================
 // Dialog Header
 // ============================================================================
 
 type DialogHeaderProps = React.HTMLAttributes<HTMLDivElement>
 
 function DialogHeader({ className, children, ...props }: DialogHeaderProps) {
+  const { swipeable, isSheetMode } = useDialogPopupContext()
+  const showDragIndicator = swipeable && isSheetMode
+
   return (
     <div
       data-slot="dialog-header"
       className={cn(
         // Layout
-        "flex items-center gap-[var(--space-20)]",
-        // Sizing - 52px height, padding: 12px top/bottom, 24px left, 16px right
-        "h-[52px] py-[var(--space-12)] pl-[var(--space-24)] pr-[var(--space-16)]",
-        // Border
-        "border-b border-border-subtle",
+        "flex flex-col",
         className
       )}
       {...props}
     >
-      {children}
+      {showDragIndicator && (
+        <div className="flex items-center justify-center pt-[var(--space-8)]">
+          <div className="h-[4px] w-[40px] rounded-full bg-actions-secondary-default" />
+        </div>
+      )}
+      <div
+        className={cn(
+          // Layout
+          "flex items-center gap-[var(--space-20)]",
+          // Sizing - 52px height, padding: 12px top/bottom, 24px left, 16px right
+          "h-[52px] py-[var(--space-12)] pl-[var(--space-24)] pr-[var(--space-16)]",
+          // Border
+          "border-b border-border-subtle"
+        )}
+      >
+        {children}
+      </div>
     </div>
   )
 }
@@ -461,6 +644,8 @@ function DialogFooter({ className, children, ...props }: DialogFooterProps) {
       className={cn(
         // 16px vertical padding, 24px horizontal padding
         "flex items-center justify-end gap-[var(--space-8)] px-[var(--space-24)] py-[var(--space-16)]",
+        // Mobile: buttons fill width side by side
+        "[&>*]:max-sm:flex-1",
         className
       )}
       {...props}
@@ -481,6 +666,7 @@ const Dialog = {
   Backdrop: DialogBackdrop,
   Popup: DialogPopup,
   Content: DialogContent,
+  DragIndicator: DialogDragIndicator,
   Header: DialogHeader,
   Title: DialogTitle,
   Description: DialogDescription,
@@ -498,6 +684,7 @@ export type {
   DialogBackdropProps,
   DialogPopupProps,
   DialogContentProps,
+  DialogDragIndicatorProps,
   DialogHeaderProps,
   DialogTitleProps,
   DialogDescriptionProps,

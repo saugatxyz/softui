@@ -58,7 +58,7 @@ const switchGroupVariants = cva("", {
     {
       style: "card-small",
       stack: "horizontal",
-      className: "grid grid-cols-2 gap-[var(--space-2)]",
+      className: "flex flex-col gap-[var(--space-2)] md:grid md:grid-cols-2",
     },
     // Card-big layouts
     {
@@ -69,7 +69,7 @@ const switchGroupVariants = cva("", {
     {
       style: "card-big",
       stack: "horizontal",
-      className: "grid grid-cols-2 gap-[var(--space-2)]",
+      className: "flex flex-col gap-[var(--space-2)] md:grid md:grid-cols-2",
     },
   ],
   defaultVariants: {

@@ -21,6 +21,7 @@ export default function DialogDocsPage() {
   const [basicOpen, setBasicOpen] = React.useState(false)
   const [rightOpen, setRightOpen] = React.useState(false)
   const [sheetOpen, setSheetOpen] = React.useState(false)
+  const [swipeableOpen, setSwipeableOpen] = React.useState(false)
   const [accountOpen, setAccountOpen] = React.useState(false)
   const [nestedOpen, setNestedOpen] = React.useState(false)
   const [nestedInnerOpen, setNestedInnerOpen] = React.useState(false)
@@ -179,6 +180,51 @@ import { Button } from "@/components/ui/button"
                     <Dialog.Footer>
                       <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
                       <Button variant="primary" onClick={() => setSheetOpen(false)}>
+                        Done
+                      </Button>
+                    </Dialog.Footer>
+                  </Dialog.Popup>
+                </Dialog.Portal>
+              </Dialog.Root>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-[var(--space-20)]">
+        <h2 className="text-body-xl-semibold">Swipeable</h2>
+        <p className="text-body-m text-content-subtle">
+          Use the <code className="rounded bg-surface-muted px-[var(--space-4)] py-[var(--space-2)] text-body-s">swipeable</code> prop to enable drag-to-dismiss on bottom sheets. A drag indicator appears in the header automatically.
+        </p>
+        <div className="flex flex-col">
+          <div className="flex flex-col gap-[var(--space-10)] border-b border-border-muted py-[var(--space-24)] last:border-b-0 md:flex-row md:items-start md:justify-between">
+            <div className="md:min-w-[220px]">
+              <p className="text-body-m text-content-strong">Swipe to dismiss</p>
+              <p className="text-body-m text-content-subtle">Drag down to close</p>
+            </div>
+            <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
+              <Dialog.Root open={swipeableOpen} onOpenChange={setSwipeableOpen}>
+                <Dialog.Trigger render={<Button variant="secondary">Open swipeable sheet</Button>} />
+                <Dialog.Portal>
+                  <Dialog.Backdrop />
+                  <Dialog.Popup position="sheet" swipeable>
+                    <Dialog.Content>
+                      <Dialog.Header>
+                        <Dialog.Title>Swipeable Sheet</Dialog.Title>
+                        <Dialog.Close />
+                      </Dialog.Header>
+                      <Dialog.Body>
+                        <p className="text-body-m text-content-default">
+                          Drag this sheet down to dismiss it. Works on both mobile and desktop when using the sheet position.
+                        </p>
+                        <p className="text-body-m text-content-subtle">
+                          The drag indicator at the top signals that the sheet is swipeable. You can also swipe quickly (high velocity) to dismiss.
+                        </p>
+                      </Dialog.Body>
+                    </Dialog.Content>
+                    <Dialog.Footer>
+                      <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
+                      <Button variant="primary" onClick={() => setSwipeableOpen(false)}>
                         Done
                       </Button>
                     </Dialog.Footer>
