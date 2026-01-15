@@ -53,7 +53,8 @@
       "Bash(./scripts/dev.sh:*)",
       "Bash(node:*)",
       "Bash(for port in 3000 3001 3002 3003 3004 3005)",
-      "Bash(do lsof -ti:$port)"
+      "Bash(do lsof -ti:$port)",
+      "Bash(npx add-skill:*)"
     ]
   }
 }

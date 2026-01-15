@@ -69,10 +69,10 @@ type ToastViewportProps = ToastPrimitive.Viewport.Props & {
 }
 
 const positionStyles: Record<NonNullable<ToastViewportProps["position"]>, string> = {
-  "top-right": "top-[var(--space-16)] right-[var(--space-16)]",
-  "top-left": "top-[var(--space-16)] left-[var(--space-16)]",
-  "bottom-right": "bottom-[var(--space-16)] right-[var(--space-16)]",
-  "bottom-left": "bottom-[var(--space-16)] left-[var(--space-16)]",
+  "top-right": "top-[var(--space-16)] left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-[var(--space-16)]",
+  "top-left": "top-[var(--space-16)] left-1/2 -translate-x-1/2 md:left-[var(--space-16)] md:translate-x-0",
+  "bottom-right": "bottom-[var(--space-16)] left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-[var(--space-16)]",
+  "bottom-left": "bottom-[var(--space-16)] left-1/2 -translate-x-1/2 md:left-[var(--space-16)] md:translate-x-0",
   "top-center": "top-[var(--space-16)] left-1/2 -translate-x-1/2",
   "bottom-center": "bottom-[var(--space-16)] left-1/2 -translate-x-1/2",
 }
@@ -86,7 +86,7 @@ function ToastViewport({ className, position = "bottom-right", children, ...prop
       className={cn(
         "fixed z-50 outline-none",
         "w-[min(400px,calc(100vw-var(--space-32)))]",
-        "flex flex-col-reverse items-end gap-[var(--space-12)]",
+        "flex flex-col-reverse items-center md:items-end gap-[var(--space-12)]",
         positionStyles[position],
         className
       )}
@@ -134,7 +134,6 @@ function ToastRoot({ className, variant = "card", ...props }: ToastRootProps) {
         "bg-surface-overlay",
         "before:absolute before:inset-0 before:-z-10 before:bg-surface-canvas",
         "shadow-[var(--shadow-modal)]",
-        "backdrop-blur-[6px]",
         // Layout
         "flex overflow-hidden",
         "outline-none",
@@ -181,10 +180,10 @@ function ToastRoot({ className, variant = "card", ...props }: ToastRootProps) {
             // Disable layout animation when exiting to prevent FLIP miscalculation
             layout={isExiting ? false : "position"}
             style={{ transformOrigin: "center center", zIndex: isExiting ? -1 : undefined }}
-            initial={{ opacity: 0, scale: 0.96, y: 4, filter: "blur(0px)" }}
+            initial={{ opacity: 0, scale: 0.96, y: 4 }}
             animate={isExiting
               ? { opacity: 0, filter: "blur(4px)" }
-              : { opacity: 1, scale: 1, x: 0, y: 0, filter: "blur(0px)" }
+              : { opacity: 1, scale: 1, x: 0, y: 0 }
             }
             transition={isExiting ? exitTransition : entryTransition}
           />
