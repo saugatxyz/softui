@@ -9,9 +9,10 @@ import {
   RiErrorWarningFill,
   RiCloseCircleFill,
 } from "@remixicon/react"
-import { motion, LayoutGroup } from "motion/react"
+import { motion, LayoutGroup, useAnimationControls } from "motion/react"
 
 import { cn } from "@/lib/utils"
+
 
 // ============================================================================
 // Types
@@ -86,7 +87,7 @@ function ToastViewport({ className, position = "bottom-right", children, ...prop
       className={cn(
         "fixed z-50 outline-none",
         "w-[min(400px,calc(100vw-var(--space-32)))]",
-        "flex flex-col-reverse items-center md:items-end gap-[var(--space-12)]",
+        "flex flex-col-reverse items-center md:items-end gap-[var(--space-6)]",
         positionStyles[position],
         className
       )}
@@ -107,17 +108,221 @@ type ToastRootProps = ToastPrimitive.Root.Props & {
   variant?: ToastVariant
 }
 
-// Animation configs
-const entryTransition = {
-  opacity: { type: "spring" as const, bounce: 0.1, duration: 0.2 },
-  scale: { type: "spring" as const, bounce: 0.1, duration: 0.2 },
-  y: { type: "spring" as const, bounce: 0.1, duration: 0.2 },
-  layout: { type: "spring" as const, bounce: 0.25, duration: 0.35 },
+
+// Animation configuration type
+type ToastAnimationConfig = {
+  entry: {
+    initialOpacity: number
+    initialScale: number
+    initialY: number
+    initialX: number
+    initialBlur: number
+    transformOrigin: string
+    springBounce: number
+    springDuration: number
+  }
+  exit: {
+    opacity: number
+    scale: number
+    y: number
+    x: number
+    blur: number
+    transformOrigin: string
+    springBounce: number
+    springDuration: number
+  }
+  layout: {
+    enabled: boolean
+    springBounce: number
+    springDuration: number
+  }
 }
 
-const exitTransition = {
-  opacity: { type: "spring" as const, bounce: 0, duration: 0.4 },
-  filter: { type: "spring" as const, bounce: 0, duration: 0.2 },
+// Declare global type for playground config
+declare global {
+  interface Window {
+    __toastAnimConfig?: ToastAnimationConfig
+  }
+}
+
+// Default animation configuration
+const defaultAnimConfig: ToastAnimationConfig = {
+  entry: {
+    initialOpacity: 0,
+    initialScale: 0.90,
+    initialY: 10,
+    initialX: 0,
+    initialBlur: 0,
+    transformOrigin: "center center",
+    springBounce: 0.35,
+    springDuration: 0.35,
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.96,
+    y: 0,
+    x: 10,
+    blur: 0,
+    transformOrigin: "right center",
+    springBounce: 0.35,
+    springDuration: 0.35,
+  },
+  layout: {
+    enabled: true,
+    springBounce: 0.08,
+    springDuration: 0.2,
+  },
+}
+
+// Helper to get animation config - merges playground values with defaults
+function getAnimConfig(): ToastAnimationConfig {
+  if (typeof window === "undefined" || !window.__toastAnimConfig) {
+    return defaultAnimConfig
+  }
+
+  const custom = window.__toastAnimConfig
+
+  // Deep merge to ensure all values are present
+  return {
+    entry: {
+      initialOpacity: custom.entry?.initialOpacity ?? defaultAnimConfig.entry.initialOpacity,
+      initialScale: custom.entry?.initialScale ?? defaultAnimConfig.entry.initialScale,
+      initialY: custom.entry?.initialY ?? defaultAnimConfig.entry.initialY,
+      initialX: custom.entry?.initialX ?? defaultAnimConfig.entry.initialX,
+      initialBlur: custom.entry?.initialBlur ?? defaultAnimConfig.entry.initialBlur,
+      transformOrigin: custom.entry?.transformOrigin ?? defaultAnimConfig.entry.transformOrigin,
+      springBounce: custom.entry?.springBounce ?? defaultAnimConfig.entry.springBounce,
+      springDuration: custom.entry?.springDuration ?? defaultAnimConfig.entry.springDuration,
+    },
+    exit: {
+      opacity: custom.exit?.opacity ?? defaultAnimConfig.exit.opacity,
+      scale: custom.exit?.scale ?? defaultAnimConfig.exit.scale,
+      y: custom.exit?.y ?? defaultAnimConfig.exit.y,
+      x: custom.exit?.x ?? defaultAnimConfig.exit.x,
+      blur: custom.exit?.blur ?? defaultAnimConfig.exit.blur,
+      transformOrigin: custom.exit?.transformOrigin ?? defaultAnimConfig.exit.transformOrigin,
+      springBounce: custom.exit?.springBounce ?? defaultAnimConfig.exit.springBounce,
+      springDuration: custom.exit?.springDuration ?? defaultAnimConfig.exit.springDuration,
+    },
+    layout: {
+      enabled: custom.layout?.enabled ?? defaultAnimConfig.layout.enabled,
+      springBounce: custom.layout?.springBounce ?? defaultAnimConfig.layout.springBounce,
+      springDuration: custom.layout?.springDuration ?? defaultAnimConfig.layout.springDuration,
+    },
+  }
+}
+
+// Inner component that can use hooks for animation control
+function ToastMotionWrapper({
+  renderProps,
+  isExiting,
+}: {
+  renderProps: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }
+  isExiting: boolean
+}) {
+  const controls = useAnimationControls()
+
+  // Filter out event handlers that conflict with Framer Motion's types
+  const {
+    onDrag: _onDrag,
+    onDragStart: _onDragStart,
+    onDragEnd: _onDragEnd,
+    onDragOver: _onDragOver,
+    onDragEnter: _onDragEnter,
+    onDragLeave: _onDragLeave,
+    onDrop: _onDrop,
+    onAnimationStart: _onAnimationStart,
+    ...filteredProps
+  } = renderProps
+
+  // Get animation config (reads from playground if available)
+  const animConfig = getAnimConfig()
+
+  // Animation config mapped from the config structure
+  const entryConfig = {
+    opacity: animConfig.entry.initialOpacity,
+    scale: animConfig.entry.initialScale,
+    y: animConfig.entry.initialY,
+    x: animConfig.entry.initialX,
+    blur: animConfig.entry.initialBlur,
+    origin: animConfig.entry.transformOrigin,
+    bounce: animConfig.entry.springBounce,
+    duration: animConfig.entry.springDuration,
+  }
+
+  const exitConfig = {
+    opacity: animConfig.exit.opacity,
+    scale: animConfig.exit.scale,
+    y: animConfig.exit.y,
+    x: animConfig.exit.x,
+    blur: animConfig.exit.blur,
+    origin: animConfig.exit.transformOrigin,
+    bounce: animConfig.exit.springBounce,
+    duration: animConfig.exit.springDuration,
+  }
+
+  const layoutConfig = {
+    enabled: animConfig.layout.enabled,
+    bounce: animConfig.layout.springBounce,
+    duration: animConfig.layout.springDuration,
+  }
+
+  // Trigger animations via useEffect for reliable behavior
+  React.useEffect(() => {
+    if (isExiting) {
+      controls.start({
+        opacity: exitConfig.opacity,
+        scale: exitConfig.scale,
+        x: exitConfig.x,
+        y: exitConfig.y,
+        filter: `blur(${exitConfig.blur}px)`,
+        transition: {
+          type: "spring",
+          bounce: exitConfig.bounce,
+          duration: exitConfig.duration,
+        },
+      })
+    } else {
+      controls.start({
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        x: 0,
+        filter: "blur(0px)",
+        transition: {
+          opacity: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
+          scale: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
+          y: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
+          x: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
+        },
+      })
+    }
+  }, [isExiting, controls])
+
+  return (
+    <motion.div
+      {...filteredProps}
+      layout={isExiting ? false : (layoutConfig.enabled ? "position" : false)}
+      style={{
+        transformOrigin: isExiting ? exitConfig.origin : entryConfig.origin,
+        zIndex: isExiting ? -1 : undefined,
+        // For entry only: set initial values and disable CSS transition to prevent FOUC
+        ...(!isExiting && {
+          opacity: entryConfig.opacity,
+          scale: entryConfig.scale,
+          y: entryConfig.y,
+          x: entryConfig.x,
+          filter: `blur(${entryConfig.blur}px)`,
+          transition: 'none', // Prevent CSS transition from causing flash on mobile
+        }),
+      }}
+      initial={false}
+      animate={controls}
+      transition={{
+        layout: { type: "spring", bounce: layoutConfig.bounce, duration: layoutConfig.duration },
+      }}
+    />
+  )
 }
 
 function ToastRoot({ className, variant = "card", ...props }: ToastRootProps) {
@@ -137,18 +342,20 @@ function ToastRoot({ className, variant = "card", ...props }: ToastRootProps) {
         // Layout
         "flex overflow-hidden",
         "outline-none",
+        // GPU compositing hints for mobile
+        "will-change-[transform,opacity] [backface-visibility:hidden]",
         // Swipe support
         "translate-x-[var(--toast-swipe-movement-x,0)]",
         "translate-y-[var(--toast-swipe-movement-y,0)]",
-        // Exit - position absolute so it doesn't affect layout of siblings (Framer Motion handles animation)
-        "data-[ending-style]:absolute",
+        // Exit - keep in flow but make non-interactive (absolute breaks positioning)
+        "data-[ending-style]:pointer-events-none",
         // Swipe exit overrides
         "data-[ending-style]:data-[swipe-direction=up]:-translate-y-full",
         "data-[ending-style]:data-[swipe-direction=down]:translate-y-full",
         "data-[ending-style]:data-[swipe-direction=left]:-translate-x-full",
         "data-[ending-style]:data-[swipe-direction=right]:translate-x-full",
-        // CSS transition for exit - Base UI listens for transitionend on opacity
-        "[transition:opacity_0.4s_cubic-bezier(0.0,0,0.2,1)]",
+        // CSS transition for Base UI's transitionend detection
+        "[transition:opacity_0.4s_ease]",
         // Hidden when beyond limit
         "data-[limited]:hidden",
         // Variant styles
@@ -158,36 +365,8 @@ function ToastRoot({ className, variant = "card", ...props }: ToastRootProps) {
         className
       )}
       render={(renderProps) => {
-        // Filter out event handlers that conflict with Framer Motion's types
-        const {
-          onDrag: _onDrag,
-          onDragStart: _onDragStart,
-          onDragEnd: _onDragEnd,
-          onDragOver: _onDragOver,
-          onDragEnter: _onDragEnter,
-          onDragLeave: _onDragLeave,
-          onDrop: _onDrop,
-          onAnimationStart: _onAnimationStart,
-          ...filteredProps
-        } = renderProps
-
-        // Check if toast is exiting via data attribute
         const isExiting = "data-ending-style" in renderProps
-
-        return (
-          <motion.div
-            {...filteredProps}
-            // Disable layout animation when exiting to prevent FLIP miscalculation
-            layout={isExiting ? false : "position"}
-            style={{ transformOrigin: "center center", zIndex: isExiting ? -1 : undefined }}
-            initial={{ opacity: 0, scale: 0.96, y: 4 }}
-            animate={isExiting
-              ? { opacity: 0, filter: "blur(4px)" }
-              : { opacity: 1, scale: 1, x: 0, y: 0 }
-            }
-            transition={isExiting ? exitTransition : entryTransition}
-          />
-        )
+        return <ToastMotionWrapper renderProps={renderProps} isExiting={isExiting} />
       }}
       {...props}
     />
@@ -479,10 +658,11 @@ const Toast = {
   CompactActions: ToastCompactActions,
 }
 
-export { Toast, useToastManager }
+export { Toast, useToastManager, defaultAnimConfig }
 export type {
   ToastTone,
   ToastVariant,
+  ToastAnimationConfig,
   ToastProviderProps,
   ToastPortalProps,
   ToastViewportProps,

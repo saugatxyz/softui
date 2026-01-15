@@ -233,6 +233,8 @@ type ChipProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "prefix"> &
     prefix?: React.ReactNode
     selected?: boolean
     onRemove?: () => void
+    /** Hide the remove button when selected */
+    hideRemove?: boolean
   }
 
 const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
@@ -244,6 +246,7 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
     leadingIcon,
     prefix,
     onRemove,
+    hideRemove = false,
     children,
     onClick,
     ...props
@@ -255,13 +258,15 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
   const hasIcon = Boolean(leadingIcon)
   const hasPrefix = Boolean(prefix)
   const hasCustomPrefix = hasPrefix && !hasIcon
+  // When hideRemove is true, use unselected padding even when selected
+  const effectiveSelected = selected && !hideRemove
 
   const getPaddingClass = () => {
     if (hasIcon) {
-      return chipWithIconVariants({ size, selected })
+      return chipWithIconVariants({ size, selected: effectiveSelected })
     }
     if (hasCustomPrefix) {
-      return chipWithCustomPrefixVariants({ size, selected })
+      return chipWithCustomPrefixVariants({ size, selected: effectiveSelected })
     }
     return ""
   }
@@ -301,6 +306,8 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
       className={cn(
         chipVariants({ size, selected, disabled }),
         getPaddingClass(),
+        // Override padding when hideRemove is true (use unselected padding)
+        selected && hideRemove && !hasIcon && !hasCustomPrefix && (size === "s" ? "px-[var(--space-10)]" : "px-[var(--space-12)]"),
         "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className
       )}
@@ -327,8 +334,8 @@ const Chip = React.forwardRef<HTMLButtonElement, ChipProps>(function Chip(
         {children}
       </span>
 
-      {/* Close button (only when selected) - click for pointer, Delete/Backspace for keyboard */}
-      {selected && (
+      {/* Close button (only when selected and not hidden) - click for pointer, Delete/Backspace for keyboard */}
+      {selected && !hideRemove && (
         <span
           aria-hidden="true"
           data-slot="remove-button"

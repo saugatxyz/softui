@@ -133,23 +133,50 @@ Components follow this structure:
 
 ### MCP + Figma Workflow
 
-When a component has a Figma source:
+When implementing a design from Figma:
 
-1. **Fetch design context** using MCP tools:
-   - `mcp__figma__get_design_context` for the target node
-   - `mcp__figma__get_screenshot` for visual confirmation
-   - `mcp__figma__get_variable_defs` if tokens are tied to variables
+#### Step 1: Study the Design
+Pull the design using Figma MCP and study it thoroughly before writing any code:
+- `mcp__figma__get_design_context` for the target node
+- `mcp__figma__get_screenshot` for visual confirmation
+- `mcp__figma__get_variable_defs` if tokens are tied to variables
 
-2. **Record exact specifications:**
-   - Sizes, padding, border radius
-   - Colors and states
-   - Spacing and layout
+Understand the layout, components, spacing, and visual details. Record exact specifications:
+- Sizes, padding, border radius
+- Colors and states
+- Typography (font, size, weight, line-height)
+- Shadows, borders, alignment
 
-3. **Map to tokens** in `src/design-system/tokens.css`
+#### Step 2: Map to Tokens
+Map Figma values to existing tokens in `src/design-system/tokens.css`. Only propose new tokens if no existing token matches.
 
-4. **Implement component** based on Base UI + design system conventions
+#### Step 3: Build First Pass
+Implement the component based on Base UI + design system conventions. **It will be wrong. That's expected.**
 
-5. **Add/update docs page** for usage, variants, and sizes
+#### Step 4: Refinement Loop
+Run this loop until pixel-perfect:
+
+1. **Screenshot your implementation** using Chrome DevTools MCP (`mcp__browser__screenshot`) and inspect element properties directly
+2. **Compare side-by-side** with the Figma source
+3. **List every difference** you spot:
+   - Spacing (margins, padding, gaps)
+   - Colors (backgrounds, text, borders)
+   - Typography (size, weight, line-height)
+   - Border radius
+   - Shadows
+   - Borders
+   - Alignment
+   - Responsive behavior
+4. **Fix differences one by one**, verifying each fix in the browser
+5. **Repeat** until you cannot find any differences
+
+Be obsessive about the details—the gap between "close enough" and "correct" is where polish lives.
+
+#### Step 5: Handle Ambiguity
+If something in the design is ambiguous or impossible to implement as spec'd, **ask the user rather than guessing**.
+
+#### Step 6: Documentation
+Add/update docs page for usage, variants, and sizes
 
 ---
 

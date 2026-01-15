@@ -42,16 +42,52 @@ Files: `src/app/docs/*`
 - Preserve the existing documentation page structure; do not reformat sections unless explicitly requested (use `src/app/docs/button/page.tsx` as the layout reference).
 - After changing component styles, recheck docs/examples to avoid unintended visual regressions.
 
-## MCP + Figma Workflow (for components)
-When a component has a Figma source:
-1. Use MCP to fetch design context:
-   - `mcp__figma__get_design_context` for the target node.
-   - `mcp__figma__get_screenshot` for visual confirmation.
-   - `mcp__figma__get_variable_defs` if tokens are tied to variables.
-2. Record exact sizes, padding, border radius, colors, and states.
-3. Map to tokens in `src/design-system/tokens.css`.
-4. Implement component based on Base UI + shadcn conventions.
-5. Add or update docs page for usage + variants + sizes based on buttons page.
+## MCP + Figma Workflow
+
+When implementing a design from Figma:
+
+### Step 1: Study the Design
+Pull the design using Figma MCP and study it thoroughly before writing any code:
+- `mcp__figma__get_design_context` for the target node
+- `mcp__figma__get_screenshot` for visual confirmation
+- `mcp__figma__get_variable_defs` if tokens are tied to variables
+
+Understand the layout, components, spacing, and visual details. Record exact specifications:
+- Sizes, padding, border radius
+- Colors and states
+- Typography (font, size, weight, line-height)
+- Shadows, borders, alignment
+
+### Step 2: Map to Tokens
+Map Figma values to existing tokens in `src/design-system/tokens.css`. Only propose new tokens if no existing token matches.
+
+### Step 3: Build First Pass
+Implement the component based on Base UI + design system conventions. **It will be wrong. That's expected.**
+
+### Step 4: Refinement Loop
+Run this loop until pixel-perfect:
+
+1. **Screenshot your implementation** using Chrome DevTools MCP (`mcp__browser__screenshot`) and inspect element properties directly
+2. **Compare side-by-side** with the Figma source
+3. **List every difference** you spot:
+   - Spacing (margins, padding, gaps)
+   - Colors (backgrounds, text, borders)
+   - Typography (size, weight, line-height)
+   - Border radius
+   - Shadows
+   - Borders
+   - Alignment
+   - Responsive behavior
+4. **Fix differences one by one**, verifying each fix in the browser
+5. **Repeat** until you cannot find any differences
+
+Be obsessive about the details—the gap between "close enough" and "correct" is where polish lives.
+
+### Step 5: Handle Ambiguity
+If something in the design is ambiguous or impossible to implement as spec'd, **ask the user rather than guessing**.
+
+### Step 6: Documentation
+Add/update docs page for usage, variants, and sizes.
 
 ## Token Changes
 - Tokens are sourced from `tokens/*.json` and compiled into `src/design-system/tokens.css`.
