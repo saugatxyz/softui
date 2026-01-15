@@ -223,6 +223,7 @@ function ToastMotionWrapper({
   const controls = useAnimationControls()
 
   // Filter out event handlers that conflict with Framer Motion's types
+  // Extract style separately to merge with our custom styles
   const {
     onDrag: _onDrag,
     onDragStart: _onDragStart,
@@ -232,6 +233,7 @@ function ToastMotionWrapper({
     onDragLeave: _onDragLeave,
     onDrop: _onDrop,
     onAnimationStart: _onAnimationStart,
+    style: baseUiStyle,
     ...filteredProps
   } = renderProps
 
@@ -304,8 +306,12 @@ function ToastMotionWrapper({
       {...filteredProps}
       layout={isExiting ? false : (layoutConfig.enabled ? "position" : false)}
       style={{
+        // Merge Base UI's style (includes CSS variables for swipe tracking)
+        ...baseUiStyle,
         transformOrigin: isExiting ? exitConfig.origin : entryConfig.origin,
         zIndex: isExiting ? -1 : undefined,
+        // CSS translate property for swipe movement (stacks with Framer Motion's transform)
+        translate: 'var(--toast-swipe-movement-x, 0) var(--toast-swipe-movement-y, 0)',
         // For entry only: set initial values and disable CSS transition to prevent FOUC
         ...(!isExiting && {
           opacity: entryConfig.opacity,
@@ -344,9 +350,6 @@ function ToastRoot({ className, variant = "card", ...props }: ToastRootProps) {
         "outline-none",
         // GPU compositing hints for mobile
         "will-change-[transform,opacity] [backface-visibility:hidden]",
-        // Swipe support
-        "translate-x-[var(--toast-swipe-movement-x,0)]",
-        "translate-y-[var(--toast-swipe-movement-y,0)]",
         // Exit - keep in flow but make non-interactive (absolute breaks positioning)
         "data-[ending-style]:pointer-events-none",
         // Swipe exit overrides

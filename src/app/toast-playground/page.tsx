@@ -174,7 +174,7 @@ function ToastList() {
 
     if (isCompact) {
       return (
-        <Toast.Root key={toast.id} toast={toast} variant="compact">
+        <Toast.Root key={toast.id} toast={toast} variant="compact" swipeDirection="right">
           <Toast.CompactContent>
             <Toast.Icon tone={tone} />
             <Toast.CompactTextWrapper>
@@ -192,7 +192,7 @@ function ToastList() {
     }
 
     return (
-      <Toast.Root key={toast.id} toast={toast} variant="card">
+      <Toast.Root key={toast.id} toast={toast} variant="card" swipeDirection="right">
         <Toast.Content>
           <Toast.Icon tone={tone} />
           <Toast.TextWrapper>
