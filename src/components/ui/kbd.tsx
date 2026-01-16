@@ -56,14 +56,14 @@ function Kbd({ className, variant, children, ...props }: KbdProps) {
 // KbdGroup - renders multiple keyboard keys with proper spacing
 // ============================================================================
 
-type KbdGroupProps = React.HTMLAttributes<HTMLDivElement> &
+type KbdGroupProps = React.HTMLAttributes<HTMLSpanElement> &
   VariantProps<typeof kbdVariants> & {
     keys: string[]
   }
 
 function KbdGroup({ className, variant, keys, ...props }: KbdGroupProps) {
   return (
-    <div
+    <span
       data-slot="kbd-group"
       className={cn("inline-flex items-center gap-[var(--space-4)]", className)}
       {...props}
@@ -73,7 +73,7 @@ function KbdGroup({ className, variant, keys, ...props }: KbdGroupProps) {
           {key}
         </Kbd>
       ))}
-    </div>
+    </span>
   )
 }
 

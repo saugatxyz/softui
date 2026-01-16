@@ -54,7 +54,16 @@
       "Bash(node:*)",
       "Bash(for port in 3000 3001 3002 3003 3004 3005)",
       "Bash(do lsof -ti:$port)",
-      "Bash(npx add-skill:*)"
+      "Bash(npx add-skill:*)",
+      "mcp__chrome-devtools__performance_start_trace",
+      "mcp__chrome-devtools__performance_analyze_insight",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__press_key",
+      "mcp__chrome-devtools__list_console_messages"
     ]
   }
 }

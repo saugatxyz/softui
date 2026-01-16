@@ -50,6 +50,7 @@ export const navSections = [
       { label: "Checkbox Group", href: "/docs/checkbox-group" },
       { label: "Chip", href: "/docs/chip" },
       { label: "Combobox", href: "/docs/combobox" },
+      { label: "Command Palette", href: "/docs/command-palette" },
       { label: "Context Menu", href: "/docs/context-menu" },
       { label: "Crypto", href: "/docs/crypto" },
       { label: "Dialog", href: "/docs/dialog" },

@@ -133,6 +133,17 @@ Components follow this structure:
 
 ### MCP + Figma Workflow
 
+> **🚨 MANDATORY:** When implementing ANY design from Figma, you MUST complete ALL steps below, especially the Refinement Loop. Do NOT skip to documentation or mark the task complete until visual parity is verified. This is non-negotiable.
+
+#### Required MCP Servers
+
+| MCP Server | Tools Used | Purpose |
+|------------|------------|---------|
+| **Figma MCP** | `mcp__figma__get_design_context`, `mcp__figma__get_screenshot`, `mcp__figma__get_variable_defs` | Extract design specs, screenshots, and token definitions from Figma |
+| **Chrome DevTools MCP** | `mcp__chrome-devtools__take_screenshot`, `mcp__chrome-devtools__take_snapshot`, `mcp__chrome-devtools__navigate_page` | Screenshot implementations, inspect DOM structure, navigate browser |
+
+Both MCPs must be configured for the full Figma-to-code workflow. Chrome DevTools MCP requires a Chrome browser with DevTools open.
+
 When implementing a design from Figma:
 
 #### Step 1: Study the Design
@@ -153,12 +164,19 @@ Map Figma values to existing tokens in `src/design-system/tokens.css`. Only prop
 #### Step 3: Build First Pass
 Implement the component based on Base UI + design system conventions. **It will be wrong. That's expected.**
 
-#### Step 4: Refinement Loop
+#### Step 4: Refinement Loop (MANDATORY - DO NOT SKIP)
+
+> **⚠️ CRITICAL:** This step is REQUIRED. You must visually verify your implementation against the Figma design. Never assume the first pass is correct. Never skip this step to "save time."
+
 Run this loop until pixel-perfect:
 
-1. **Screenshot your implementation** using Chrome DevTools MCP (`mcp__browser__screenshot`) and inspect element properties directly
-2. **Compare side-by-side** with the Figma source
-3. **List every difference** you spot:
+1. **Start the dev server** (`pnpm dev`) if not already running
+2. **Screenshot your implementation** using Chrome DevTools MCP:
+   - `mcp__chrome-devtools__take_screenshot` - captures the visible viewport or a specific element
+   - `mcp__chrome-devtools__take_snapshot` - gets accessibility tree (useful for structure verification)
+   - Navigate to the page first with `mcp__chrome-devtools__navigate_page` if needed
+3. **Get the Figma screenshot** using `mcp__figma__get_screenshot` for the same component/state
+4. **Compare side-by-side** - List EVERY difference you spot:
    - Spacing (margins, padding, gaps)
    - Colors (backgrounds, text, borders)
    - Typography (size, weight, line-height)
@@ -166,9 +184,16 @@ Run this loop until pixel-perfect:
    - Shadows
    - Borders
    - Alignment
-   - Responsive behavior
-4. **Fix differences one by one**, verifying each fix in the browser
-5. **Repeat** until you cannot find any differences
+   - Icon sizes
+   - Hover/focus states
+5. **Fix differences one by one**, verifying each fix in the browser
+6. **Repeat steps 2-5** until you cannot find any differences
+
+**The task is NOT complete until:**
+- [ ] You have taken a screenshot of your implementation
+- [ ] You have compared it against the Figma source
+- [ ] You have listed all differences (or confirmed there are none)
+- [ ] Visual parity is achieved
 
 Be obsessive about the details—the gap between "close enough" and "correct" is where polish lives.
 
@@ -177,6 +202,12 @@ If something in the design is ambiguous or impossible to implement as spec'd, **
 
 #### Step 6: Documentation
 Add/update docs page for usage, variants, and sizes
+
+#### Step 7: Final Verification
+Before marking complete, confirm:
+- [ ] Refinement loop was executed (not skipped)
+- [ ] Implementation matches Figma design
+- [ ] All states (hover, focus, disabled) were checked
 
 ---
 

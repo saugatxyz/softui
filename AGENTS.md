@@ -44,6 +44,15 @@ Files: `src/app/docs/*`
 
 ## MCP + Figma Workflow
 
+### Required MCP Servers
+
+| MCP Server | Tools Used | Purpose |
+|------------|------------|---------|
+| **Figma MCP** | `mcp__figma__get_design_context`, `mcp__figma__get_screenshot`, `mcp__figma__get_variable_defs` | Extract design specs, screenshots, and token definitions from Figma |
+| **Chrome DevTools MCP** | `mcp__chrome-devtools__take_screenshot`, `mcp__chrome-devtools__take_snapshot`, `mcp__chrome-devtools__navigate_page` | Screenshot implementations, inspect DOM structure, navigate browser |
+
+Both MCPs must be configured for the full Figma-to-code workflow. Chrome DevTools MCP requires a Chrome browser with DevTools open.
+
 When implementing a design from Figma:
 
 ### Step 1: Study the Design
@@ -64,12 +73,15 @@ Map Figma values to existing tokens in `src/design-system/tokens.css`. Only prop
 ### Step 3: Build First Pass
 Implement the component based on Base UI + design system conventions. **It will be wrong. That's expected.**
 
-### Step 4: Refinement Loop
+### Step 4: Refinement Loop (MANDATORY)
 Run this loop until pixel-perfect:
 
-1. **Screenshot your implementation** using Chrome DevTools MCP (`mcp__browser__screenshot`) and inspect element properties directly
-2. **Compare side-by-side** with the Figma source
-3. **List every difference** you spot:
+1. **Screenshot your implementation** using Chrome DevTools MCP:
+   - `mcp__chrome-devtools__take_screenshot` - captures the visible viewport or a specific element
+   - `mcp__chrome-devtools__take_snapshot` - gets accessibility tree for structure verification
+   - `mcp__chrome-devtools__navigate_page` - navigate to the target page first if needed
+2. **Get the Figma screenshot** using `mcp__figma__get_screenshot` for the same component/state
+3. **Compare side-by-side** - List every difference you spot:
    - Spacing (margins, padding, gaps)
    - Colors (backgrounds, text, borders)
    - Typography (size, weight, line-height)
