@@ -5,7 +5,7 @@ import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
 import { motion } from "motion/react"
 import { cva } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 type SegmentedControlSize = "xs" | "s" | "m"
 type SegmentedControlVariant = "default" | "filled" | "outline"
@@ -215,6 +215,9 @@ function SegmentedControlIndicator({
   ...props
 }: SegmentedControlIndicatorProps) {
   const { size, variant } = useSegmentedControlContext()
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const instantTransition = { duration: 0 }
+  const springTransition = { type: "spring" as const, bounce: 0, duration: 0.2 }
 
   return (
     <TabsPrimitive.Indicator
@@ -228,8 +231,8 @@ function SegmentedControlIndicator({
       {...props}
       render={
         <motion.span
-          layout
-          transition={{ type: "spring", bounce: 0, duration: 0.2 }}
+          layout={!prefersReducedMotion}
+          transition={prefersReducedMotion ? instantTransition : springTransition}
         />
       }
     />

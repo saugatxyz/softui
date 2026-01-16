@@ -133,7 +133,7 @@ export default function CommandPaletteDocsPage() {
               <p className="text-body-m text-content-subtle">Organized by category</p>
             </div>
             <div className="flex w-full max-w-sm flex-col items-end gap-[var(--space-16)]">
-              <CommandPalette.Root open={groupedOpen} onOpenChange={setGroupedOpen}>
+              <CommandPalette.Root open={groupedOpen} onOpenChange={setGroupedOpen} enableKeyboardShortcut>
                 <CommandPalette.Trigger render={<Button variant="secondary">Open grouped palette</Button>} />
                 <CommandPalette.Content>
                   <CommandPalette.Input placeholder="Type a command or search..." />

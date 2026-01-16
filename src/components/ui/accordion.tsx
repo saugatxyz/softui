@@ -12,7 +12,7 @@ import type {
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { ArrowDownIcon, QuestionIcon } from "@/icons"
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 type AccordionVariant = "list" | "card"
 type AccordionValue = NonNullable<BaseAccordionRootProps["value"]>
@@ -190,6 +190,9 @@ function AccordionTrigger({
   const rootContext = React.useContext(AccordionRootContext)
   const resolvedVariant = variant ?? itemContext.variant
   const isOpen = rootContext.openValues.includes(itemContext.value)
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const instantTransition = { duration: 0 }
+  const springTransition = { type: "spring" as const, bounce: 0, duration: 0.25 }
 
   const iconNode = icon ?? <QuestionIcon />
   const iconElement = React.isValidElement(iconNode)
@@ -223,7 +226,7 @@ function AccordionTrigger({
           className="flex size-[var(--space-20)] shrink-0 items-center justify-center text-content-strong"
           initial={false}
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ type: "spring", bounce: 0, duration: 0.25 }}
+          transition={prefersReducedMotion ? instantTransition : springTransition}
         >
           <ArrowDownIcon className="size-[var(--space-16)]" />
         </motion.span>
@@ -246,6 +249,8 @@ function AccordionContent({
   const rootContext = React.useContext(AccordionRootContext)
   const resolvedVariant = variant ?? itemContext.variant
   const isOpen = rootContext.openValues.includes(itemContext.value)
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const instantTransition = { duration: 0 }
 
   return (
     <Accordion.Panel
@@ -262,21 +267,21 @@ function AccordionContent({
           <motion.div
             key="accordion-panel"
             className="overflow-hidden"
-            initial={{ height: 0 }}
+            initial={{ height: prefersReducedMotion ? "auto" : 0 }}
             animate={{
               height: "auto",
-              transition: { type: "spring", bounce: 0, duration: 0.25 },
+              transition: prefersReducedMotion ? instantTransition : { type: "spring", bounce: 0, duration: 0.25 },
             }}
             exit={{
-              height: 0,
-              transition: { type: "spring", bounce: 0, duration: 0.2 },
+              height: prefersReducedMotion ? "auto" : 0,
+              transition: prefersReducedMotion ? instantTransition : { type: "spring", bounce: 0, duration: 0.2 },
             }}
           >
             <motion.div
               className="pt-[var(--space-6)] pb-[var(--space-16)]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.15, delay: 0.05 } }}
-              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+              initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
+              animate={{ opacity: 1, transition: prefersReducedMotion ? instantTransition : { duration: 0.15, delay: 0.05 } }}
+              exit={{ opacity: 0, transition: prefersReducedMotion ? instantTransition : { duration: 0.1 } }}
             >
               {children}
             </motion.div>

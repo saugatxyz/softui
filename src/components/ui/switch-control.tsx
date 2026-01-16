@@ -4,7 +4,7 @@ import { Switch } from "@base-ui/react/switch"
 import { cva, type VariantProps } from "class-variance-authority"
 import { motion, type Transition } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 const switchControlVariants = cva(
   "relative inline-flex shrink-0 cursor-pointer items-center rounded-[var(--radius-max)] p-[var(--space-4)] outline-none transition-[background-color] duration-200 ease-out disabled:cursor-not-allowed",
@@ -32,6 +32,9 @@ const thumbTransition: Transition = {
 }
 
 function SwitchControl({ className, ...props }: SwitchControlProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const instantTransition = { duration: 0 }
+
   return (
     <Switch.Root
       data-slot="switch-control"
@@ -77,7 +80,7 @@ function SwitchControl({ className, ...props }: SwitchControlProps) {
               animate={{
                 transform: state.checked ? "translateX(16px)" : "translateX(0px)",
               }}
-              transition={thumbTransition}
+              transition={prefersReducedMotion ? instantTransition : thumbTransition}
             />
           )
         }}

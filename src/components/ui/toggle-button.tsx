@@ -5,7 +5,7 @@ import { Toggle as TogglePrimitive } from "@base-ui/react/toggle"
 import { motion } from "motion/react"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 // ============================================================================
 // Tone System
@@ -167,6 +167,7 @@ function MorphingIcon({
   size,
   toneClass,
   morph,
+  prefersReducedMotion,
 }: {
   pressed: boolean
   icon: React.ReactNode
@@ -174,7 +175,12 @@ function MorphingIcon({
   size: number
   toneClass: string
   morph: boolean
+  prefersReducedMotion: boolean
 }) {
+  const instantTransition = { duration: 0 }
+  const fadeTransition = { duration: 0.15, ease: "easeOut" as const }
+  const springTransition = { type: "spring" as const, bounce: 0.2, duration: 0.25 }
+
   // No morphing - smooth fade transition
   if (!morph) {
     return (
@@ -188,7 +194,7 @@ function MorphingIcon({
           animate={{
             opacity: pressed ? 0 : 1,
           }}
-          transition={{ duration: 0.15, ease: "easeOut" }}
+          transition={prefersReducedMotion ? instantTransition : fadeTransition}
         >
           {icon}
         </motion.span>
@@ -201,7 +207,7 @@ function MorphingIcon({
           animate={{
             opacity: pressed ? 1 : 0,
           }}
-          transition={{ duration: 0.15, ease: "easeOut" }}
+          transition={prefersReducedMotion ? instantTransition : fadeTransition}
         >
           {pressedIcon ?? icon}
         </motion.span>
@@ -219,12 +225,12 @@ function MorphingIcon({
         className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
         initial={false}
         animate={{
-          y: pressed ? -8 : 0,
-          scale: pressed ? 0.5 : 1,
+          y: prefersReducedMotion ? 0 : (pressed ? -8 : 0),
+          scale: prefersReducedMotion ? 1 : (pressed ? 0.5 : 1),
           opacity: pressed ? 0 : 1,
-          filter: pressed ? "blur(8px)" : "blur(0px)",
+          filter: prefersReducedMotion ? "blur(0px)" : (pressed ? "blur(8px)" : "blur(0px)"),
         }}
-        transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
+        transition={prefersReducedMotion ? instantTransition : springTransition}
       >
         {icon}
       </motion.span>
@@ -235,12 +241,12 @@ function MorphingIcon({
         )}
         initial={false}
         animate={{
-          y: pressed ? 0 : 8,
-          scale: pressed ? 1 : 0.5,
+          y: prefersReducedMotion ? 0 : (pressed ? 0 : 8),
+          scale: prefersReducedMotion ? 1 : (pressed ? 1 : 0.5),
           opacity: pressed ? 1 : 0,
-          filter: pressed ? "blur(0px)" : "blur(8px)",
+          filter: prefersReducedMotion ? "blur(0px)" : (pressed ? "blur(0px)" : "blur(8px)"),
         }}
-        transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
+        transition={prefersReducedMotion ? instantTransition : springTransition}
       >
         {pressedIcon ?? icon}
       </motion.span>
@@ -302,6 +308,9 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
     const iconSize = iconSizeMap[resolvedSize]
     const toneClass = getToneClass(pressedTone)
     const shouldMorph = morph ?? false
+    const prefersReducedMotion = usePrefersReducedMotion()
+    const instantTransition = { duration: 0 }
+    const labelSpringTransition = { type: "spring" as const, bounce: 0.15, duration: 0.25 }
 
     const hasLabel = children !== undefined || pressedChildren !== undefined
     const currentLabel = animationPressed ? (pressedChildren ?? children) : children
@@ -326,6 +335,7 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
           size={iconSize}
           toneClass={toneClass}
           morph={shouldMorph}
+          prefersReducedMotion={prefersReducedMotion}
         />
         {hasLabel && (
           <span data-slot="label" className={cn(labelVariants({ size: resolvedSize }))}>
@@ -334,7 +344,7 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
                 className="inline-block overflow-hidden whitespace-nowrap"
                 initial={false}
                 animate={{ width: currentWidth }}
-                transition={{ type: "spring", bounce: 0.15, duration: 0.25 }}
+                transition={prefersReducedMotion ? instantTransition : labelSpringTransition}
               >
                 {currentLabel}
               </motion.span>

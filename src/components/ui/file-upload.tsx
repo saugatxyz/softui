@@ -10,7 +10,7 @@ import {
 } from "@remixicon/react"
 import { motion, AnimatePresence } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { IconButton } from "@/components/ui/icon-button"
 import { FileIcon, UploadIcon, getFileTypeFromExtension } from "@/components/ui/file-icon"
@@ -76,6 +76,10 @@ function FileItem({
 }: FileItemProps) {
   const fileType = getFileTypeFromExtension(file.name)
   const size = displaySize ?? file.size
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const instantTransition = { duration: 0 }
+  const springTransition = { type: "spring" as const, bounce: 0.2, duration: 0.25 }
+  const springTransitionBouncy = { type: "spring" as const, bounce: 0.3, duration: 0.25 }
 
   const [imageUrl, setImageUrl] = React.useState<string | undefined>()
 
@@ -115,14 +119,10 @@ function FileItem({
                 <motion.span
                   key="spinner"
                   className="absolute inset-0 flex items-center justify-center text-content-strong"
-                  initial={{ opacity: 0, transform: "scale(0.5)" }}
-                  animate={{ opacity: 1, transform: "scale(1)" }}
-                  exit={{ opacity: 0, transform: "translateY(-8px) scale(0.5)", filter: "blur(4px)" }}
-                  transition={{
-                    type: "spring",
-                    bounce: 0.2,
-                    duration: 0.25,
-                  }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, transform: "scale(0.5)" }}
+                  animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, transform: "scale(1)" }}
+                  exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, transform: "translateY(-8px) scale(0.5)", filter: "blur(4px)" }}
+                  transition={prefersReducedMotion ? instantTransition : springTransition}
                 >
                   <RiLoader2Line className="size-[var(--space-16)] animate-spin" style={{ animationDuration: "0.8s" }} />
                 </motion.span>
@@ -131,9 +131,9 @@ function FileItem({
                 <motion.span
                   key="check"
                   className="absolute inset-0 flex items-center justify-center text-content-feedback-success-strong"
-                  initial={{ opacity: 0, transform: "translateY(8px) scale(0.5)", filter: "blur(4px)" }}
-                  animate={{ opacity: 1, transform: "translateY(0) scale(1)", filter: "blur(0px)" }}
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.25 }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, transform: "translateY(8px) scale(0.5)", filter: "blur(4px)" }}
+                  animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, transform: "translateY(0) scale(1)", filter: "blur(0px)" }}
+                  transition={prefersReducedMotion ? instantTransition : springTransition}
                 >
                   <RiCheckboxCircleFill className="size-[var(--space-16)]" />
                 </motion.span>
@@ -142,9 +142,9 @@ function FileItem({
                 <motion.span
                   key="error"
                   className="absolute inset-0 flex items-center justify-center text-content-feedback-danger-strong"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", bounce: 0.3, duration: 0.25 }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.5 }}
+                  animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+                  transition={prefersReducedMotion ? instantTransition : springTransitionBouncy}
                 >
                   <RiErrorWarningFill className="size-[var(--space-16)]" />
                 </motion.span>
@@ -153,9 +153,9 @@ function FileItem({
                 <motion.span
                   key="warning"
                   className="absolute inset-0 flex items-center justify-center text-content-feedback-warning-strong"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", bounce: 0.3, duration: 0.25 }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.5 }}
+                  animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+                  transition={prefersReducedMotion ? instantTransition : springTransitionBouncy}
                 >
                   <RiErrorWarningFill className="size-[var(--space-16)]" />
                 </motion.span>

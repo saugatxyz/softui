@@ -4,7 +4,7 @@ import * as React from "react"
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog"
 import { AnimatePresence, motion } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 // ============================================================================
 // Mobile Detection Hook
@@ -57,9 +57,10 @@ const getPopupTransform = (open: boolean, isMobile: boolean) => {
 type AlertDialogContextValue = {
   open: boolean
   isMobile: boolean
+  prefersReducedMotion: boolean
 }
 
-const AlertDialogContext = React.createContext<AlertDialogContextValue>({ open: false, isMobile: false })
+const AlertDialogContext = React.createContext<AlertDialogContextValue>({ open: false, isMobile: false, prefersReducedMotion: false })
 
 function useAlertDialogContext() {
   return React.useContext(AlertDialogContext)
@@ -82,6 +83,7 @@ function AlertDialogRoot({
   const isControlled = open !== undefined
   const resolvedOpen = isControlled ? open : uncontrolledOpen
   const isMobile = useIsMobile()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   const handleOpenChange = React.useCallback(
     (nextOpen: boolean, eventDetails: Parameters<NonNullable<typeof onOpenChange>>[1]) => {
@@ -94,7 +96,7 @@ function AlertDialogRoot({
   )
 
   return (
-    <AlertDialogContext.Provider value={{ open: resolvedOpen, isMobile }}>
+    <AlertDialogContext.Provider value={{ open: resolvedOpen, isMobile, prefersReducedMotion }}>
       <AlertDialogPrimitive.Root
         {...props}
         {...(isControlled ? { open } : { defaultOpen })}
@@ -171,7 +173,8 @@ type AlertDialogBackdropProps = Omit<AlertDialogPrimitive.Backdrop.Props, "class
 }
 
 function AlertDialogBackdrop({ className, ...props }: AlertDialogBackdropProps) {
-  const { open } = useAlertDialogContext()
+  const { open, prefersReducedMotion } = useAlertDialogContext()
+  const instantTransition = { duration: 0 }
 
   return (
     <AlertDialogPrimitive.Backdrop
@@ -198,10 +201,10 @@ function AlertDialogBackdrop({ className, ...props }: AlertDialogBackdropProps) 
           <motion.div
             {...backdropRest}
             className={backdropClassName}
-            initial={{ opacity: 0 }}
+            initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
             animate={{ opacity: open ? 1 : 0 }}
             exit={{ opacity: 0 }}
-            transition={backdropTransition}
+            transition={prefersReducedMotion ? instantTransition : backdropTransition}
             style={{ pointerEvents: open ? "auto" : "none" }}
           />
         )
@@ -220,7 +223,14 @@ type AlertDialogPopupProps = Omit<AlertDialogPrimitive.Popup.Props, "className">
 }
 
 function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupProps) {
-  const { open, isMobile } = useAlertDialogContext()
+  const { open, isMobile, prefersReducedMotion } = useAlertDialogContext()
+  const instantTransition = { duration: 0 }
+
+  // For reduced motion, use the final position immediately
+  const getInitialTransform = () => {
+    if (prefersReducedMotion) return getPopupTransform(true, isMobile)
+    return getPopupTransform(false, isMobile)
+  }
 
   return (
     <AlertDialogPrimitive.Popup
@@ -263,10 +273,10 @@ function AlertDialogPopup({ className, children, ...props }: AlertDialogPopupPro
           <motion.div
             {...popupRest}
             className={popupClassName}
-            initial={{ opacity: 0, transform: getPopupTransform(false, isMobile) }}
+            initial={{ opacity: prefersReducedMotion ? 1 : 0, transform: getInitialTransform() }}
             animate={{ opacity: open ? 1 : 0, transform: getPopupTransform(open, isMobile) }}
-            exit={{ opacity: 0, transform: getPopupTransform(false, isMobile) }}
-            transition={getPopupTransition(isMobile)}
+            exit={{ opacity: 0, transform: prefersReducedMotion ? getPopupTransform(true, isMobile) : getPopupTransform(false, isMobile) }}
+            transition={prefersReducedMotion ? instantTransition : getPopupTransition(isMobile)}
             style={{ pointerEvents: open ? "auto" : "none" }}
           />
         )
@@ -410,8 +420,8 @@ function AlertDialogFooter({ className, children, ...props }: AlertDialogFooterP
       className={cn(
         // 16px vertical padding, 24px horizontal padding
         "flex items-center gap-[var(--space-12)] px-[var(--space-24)] py-[var(--space-16)]",
-        // Mobile: buttons fill container, desktop stays auto width
-        "max-sm:[&>*]:flex-1 max-sm:[&_button]:w-full",
+        // Buttons always fill container width in AlertDialog
+        "[&>*]:flex-1 [&_button]:w-full",
         className
       )}
       {...props}

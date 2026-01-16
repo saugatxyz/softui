@@ -6,7 +6,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { RiSearchLine, RiCloseLine, RiLoader4Line } from "@remixicon/react"
 import { AnimatePresence, motion } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 import { Kbd, KbdGroup } from "./kbd"
 
 // ============================================================================
@@ -51,6 +51,7 @@ type CommandPaletteRootProps = {
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
+  enableKeyboardShortcut?: boolean
   children?: React.ReactNode
 }
 
@@ -58,6 +59,7 @@ function CommandPaletteRoot({
   open,
   defaultOpen,
   onOpenChange,
+  enableKeyboardShortcut = false,
   children,
 }: CommandPaletteRootProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen ?? false)
@@ -84,6 +86,8 @@ function CommandPaletteRoot({
   }, [resolvedOpen])
 
   React.useEffect(() => {
+    if (!enableKeyboardShortcut) return
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
@@ -92,7 +96,7 @@ function CommandPaletteRoot({
     }
     document.addEventListener("keydown", handleKeyDown)
     return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [handleOpenChange])
+  }, [enableKeyboardShortcut, handleOpenChange])
 
   const contextValue = React.useMemo(
     () => ({ open: resolvedOpen, onOpenChange: handleOpenChange }),
@@ -146,6 +150,8 @@ function CommandPaletteContent({
   ...props
 }: CommandPaletteContentProps) {
   const { open, onOpenChange } = useCommandPaletteContext()
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const instantTransition = { duration: 0 }
 
   return (
     <DialogPrimitive.Portal keepMounted={false}>
@@ -175,10 +181,10 @@ function CommandPaletteContent({
                     key="command-palette-backdrop"
                     {...backdropRest}
                     className={backdropClassName}
-                    initial={{ opacity: 0 }}
+                    initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={backdropTransition}
+                    transition={prefersReducedMotion ? instantTransition : backdropTransition}
                   />
                 )
               }}
@@ -221,10 +227,10 @@ function CommandPaletteContent({
                     key="command-palette-popup"
                     {...popupRest}
                     className={popupClassName}
-                    initial={{ opacity: 0, scale: 0.95, x: "-50%", y: 8 }}
+                    initial={{ opacity: prefersReducedMotion ? 1 : 0, scale: prefersReducedMotion ? 1 : 0.95, x: "-50%", y: prefersReducedMotion ? 0 : 8 }}
                     animate={{ opacity: 1, scale: 1, x: "-50%", y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, x: "-50%", y: 8 }}
-                    transition={popupTransition}
+                    exit={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.95, x: "-50%", y: prefersReducedMotion ? 0 : 8 }}
+                    transition={prefersReducedMotion ? instantTransition : popupTransition}
                   >
                     <CommandPrimitive
                       data-slot="command-palette"

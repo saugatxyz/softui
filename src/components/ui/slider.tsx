@@ -4,7 +4,7 @@ import * as React from "react"
 import { Slider as SliderPrimitive } from "@base-ui/react/slider"
 import { motion, type Transition } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 // ============================================================================
 // Animation Config
@@ -108,6 +108,9 @@ type SliderThumbProps = Omit<SliderPrimitive.Thumb.Props, "className" | "render"
 }
 
 function SliderThumb({ className, ...props }: SliderThumbProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const instantTransition = { duration: 0 }
+
   return (
     <SliderPrimitive.Thumb
       data-slot="slider-thumb"
@@ -120,9 +123,9 @@ function SliderThumb({ className, ...props }: SliderThumbProps) {
       )}
       render={
         <motion.span
-          whileHover={{ scale: 1.25 }}
-          whileFocus={{ scale: 1.25 }}
-          transition={thumbTransition}
+          whileHover={prefersReducedMotion ? undefined : { scale: 1.25 }}
+          whileFocus={prefersReducedMotion ? undefined : { scale: 1.25 }}
+          transition={prefersReducedMotion ? instantTransition : thumbTransition}
         />
       }
       {...props}

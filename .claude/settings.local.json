@@ -67,7 +67,8 @@
       "mcp__chrome-devtools__new_page",
       "Bash(swift build:*)",
       "mcp__chrome-devtools__select_page",
-      "mcp__chrome-devtools__hover"
+      "mcp__chrome-devtools__hover",
+      "mcp__chrome-devtools__evaluate_script"
     ]
   }
 }

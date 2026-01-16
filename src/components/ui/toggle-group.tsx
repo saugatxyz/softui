@@ -6,7 +6,7 @@ import { ToggleGroup as ToggleGroupPrimitive } from "@base-ui/react/toggle-group
 import { cva, type VariantProps } from "class-variance-authority"
 import { motion, type Transition } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 // ============================================================================
 // Types
@@ -147,7 +147,10 @@ type MorphingIconProps = {
   pressedIcon?: React.ReactNode
   size: ToggleGroupSize
   morph?: boolean
+  prefersReducedMotion: boolean
 }
+
+const instantTransition = { duration: 0 }
 
 function MorphingIcon({
   pressed,
@@ -155,6 +158,7 @@ function MorphingIcon({
   pressedIcon,
   size,
   morph = false,
+  prefersReducedMotion,
 }: MorphingIconProps) {
   const iconWrapperClassName = cn(iconVariants({ size }), "relative")
   const pressedNode = pressedIcon ?? icon
@@ -165,14 +169,14 @@ function MorphingIcon({
         <motion.span
           className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
           animate={{ opacity: pressed ? 0 : 1 }}
-          transition={iconFadeTransition}
+          transition={prefersReducedMotion ? instantTransition : iconFadeTransition}
         >
           {icon}
         </motion.span>
         <motion.span
           className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
           animate={{ opacity: pressed ? 1 : 0 }}
-          transition={iconFadeTransition}
+          transition={prefersReducedMotion ? instantTransition : iconFadeTransition}
         >
           {pressedNode}
         </motion.span>
@@ -186,10 +190,10 @@ function MorphingIcon({
         className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
         animate={{
           opacity: pressed ? 0 : 1,
-          filter: pressed ? "blur(8px)" : "blur(0px)",
-          transform: getMorphTransform(pressed ? -8 : 0, pressed ? 0.5 : 1),
+          filter: prefersReducedMotion ? "blur(0px)" : (pressed ? "blur(8px)" : "blur(0px)"),
+          transform: prefersReducedMotion ? getMorphTransform(0, 1) : getMorphTransform(pressed ? -8 : 0, pressed ? 0.5 : 1),
         }}
-        transition={iconMorphTransition}
+        transition={prefersReducedMotion ? instantTransition : iconMorphTransition}
       >
         {icon}
       </motion.span>
@@ -197,10 +201,10 @@ function MorphingIcon({
         className="absolute inset-0 flex items-center justify-center [&_svg]:size-full"
         animate={{
           opacity: pressed ? 1 : 0,
-          filter: pressed ? "blur(0px)" : "blur(8px)",
-          transform: getMorphTransform(pressed ? 0 : 8, pressed ? 1 : 0.5),
+          filter: prefersReducedMotion ? "blur(0px)" : (pressed ? "blur(0px)" : "blur(8px)"),
+          transform: prefersReducedMotion ? getMorphTransform(0, 1) : getMorphTransform(pressed ? 0 : 8, pressed ? 1 : 0.5),
         }}
-        transition={iconMorphTransition}
+        transition={prefersReducedMotion ? instantTransition : iconMorphTransition}
       >
         {pressedNode}
       </motion.span>
@@ -324,6 +328,7 @@ function ToggleGroupItem({
   const iconOnly = !hasLabel
   const isPressed = currentValue.includes(value)
   const hasPressedIcon = Boolean(pressedIcon)
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
     <Toggle
@@ -342,6 +347,7 @@ function ToggleGroupItem({
             pressedIcon={pressedIcon}
             size={size}
             morph={morph}
+            prefersReducedMotion={prefersReducedMotion}
           />
         ) : (
           <span data-slot="icon" className={cn(iconVariants({ size }), "transition-colors duration-200")}>
@@ -351,8 +357,8 @@ function ToggleGroupItem({
       ) : null}
       {hasLabel && (
         <motion.span
-          layout
-          transition={labelTransition}
+          layout={!prefersReducedMotion}
+          transition={prefersReducedMotion ? instantTransition : labelTransition}
           data-slot="label"
           className={cn(labelVariants({ size }), "overflow-hidden whitespace-nowrap")}
         >
