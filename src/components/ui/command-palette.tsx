@@ -75,16 +75,24 @@ function CommandPaletteRoot({
   )
 
   // Global keyboard shortcut to open (⌘K)
+  // Stabilized handler - uses ref to avoid recreating listener on every open state change
+  const resolvedOpenRef = React.useRef(resolvedOpen)
+
+  // Update ref in useEffect to avoid updating during render
+  React.useEffect(() => {
+    resolvedOpenRef.current = resolvedOpen
+  }, [resolvedOpen])
+
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
-        handleOpenChange(!resolvedOpen)
+        handleOpenChange(!resolvedOpenRef.current)
       }
     }
     document.addEventListener("keydown", handleKeyDown)
     return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [handleOpenChange, resolvedOpen])
+  }, [handleOpenChange])
 
   const contextValue = React.useMemo(
     () => ({ open: resolvedOpen, onOpenChange: handleOpenChange }),
@@ -259,6 +267,7 @@ function CommandPaletteInput({
   return (
     <div
       data-slot="command-palette-input-wrapper"
+      aria-busy={loading || undefined}
       className={cn(
         "flex items-center gap-[var(--space-12)] h-[var(--space-48)] pl-[22px] pr-[var(--space-12)]",
         "border-b border-border-subtle",
@@ -267,14 +276,18 @@ function CommandPaletteInput({
     >
       {/* Search icon */}
       {loading ? (
-        <RiLoader4Line className="size-[var(--space-16)] shrink-0 text-content-subtle animate-spin" />
+        <RiLoader4Line
+          className="size-[var(--space-16)] shrink-0 text-content-subtle animate-spin"
+          aria-hidden="true"
+        />
       ) : (
-        <RiSearchLine className="size-[var(--space-16)] shrink-0 text-content-subtle" />
+        <RiSearchLine className="size-[var(--space-16)] shrink-0 text-content-subtle" aria-hidden="true" />
       )}
 
       {/* Input */}
       <CommandPrimitive.Input
         data-slot="command-palette-input"
+        autoComplete="off"
         className={cn(
           "flex-1 bg-transparent outline-none",
           "text-[length:var(--font-size-m)] font-[var(--font-weight-default)] leading-[var(--line-height-m)]",

@@ -11,7 +11,7 @@ import {
 } from "@remixicon/react"
 import { motion, LayoutGroup, useAnimationControls } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 
 // ============================================================================
@@ -221,6 +221,7 @@ function ToastMotionWrapper({
   isExiting: boolean
 }) {
   const controls = useAnimationControls()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   // Filter out event handlers that conflict with Framer Motion's types
   // Extract style separately to merge with our custom styles
@@ -237,11 +238,11 @@ function ToastMotionWrapper({
     ...filteredProps
   } = renderProps
 
-  // Get animation config (reads from playground if available)
-  const animConfig = getAnimConfig()
+  // Memoize animation config to avoid recalculating on every render
+  const animConfig = React.useMemo(() => getAnimConfig(), [])
 
-  // Animation config mapped from the config structure
-  const entryConfig = {
+  // Memoize derived config objects to maintain stable references
+  const entryConfig = React.useMemo(() => ({
     opacity: animConfig.entry.initialOpacity,
     scale: animConfig.entry.initialScale,
     y: animConfig.entry.initialY,
@@ -250,9 +251,9 @@ function ToastMotionWrapper({
     origin: animConfig.entry.transformOrigin,
     bounce: animConfig.entry.springBounce,
     duration: animConfig.entry.springDuration,
-  }
+  }), [animConfig])
 
-  const exitConfig = {
+  const exitConfig = React.useMemo(() => ({
     opacity: animConfig.exit.opacity,
     scale: animConfig.exit.scale,
     y: animConfig.exit.y,
@@ -261,28 +262,34 @@ function ToastMotionWrapper({
     origin: animConfig.exit.transformOrigin,
     bounce: animConfig.exit.springBounce,
     duration: animConfig.exit.springDuration,
-  }
+  }), [animConfig])
 
-  const layoutConfig = {
+  const layoutConfig = React.useMemo(() => ({
     enabled: animConfig.layout.enabled,
     bounce: animConfig.layout.springBounce,
     duration: animConfig.layout.springDuration,
-  }
+  }), [animConfig])
 
   // Trigger animations via useEffect for reliable behavior
-  React.useEffect(() => {
+  // Using useCallback-wrapped animation trigger to avoid lint warnings
+  const triggerAnimation = React.useCallback(() => {
+    // Use instant transition when user prefers reduced motion
+    const instantTransition = { duration: 0 }
+
     if (isExiting) {
       controls.start({
         opacity: exitConfig.opacity,
-        scale: exitConfig.scale,
-        x: exitConfig.x,
-        y: exitConfig.y,
-        filter: `blur(${exitConfig.blur}px)`,
-        transition: {
-          type: "spring",
-          bounce: exitConfig.bounce,
-          duration: exitConfig.duration,
-        },
+        scale: prefersReducedMotion ? 1 : exitConfig.scale,
+        x: prefersReducedMotion ? 0 : exitConfig.x,
+        y: prefersReducedMotion ? 0 : exitConfig.y,
+        filter: prefersReducedMotion ? "blur(0px)" : `blur(${exitConfig.blur}px)`,
+        transition: prefersReducedMotion
+          ? instantTransition
+          : {
+              type: "spring",
+              bounce: exitConfig.bounce,
+              duration: exitConfig.duration,
+            },
       })
     } else {
       controls.start({
@@ -291,20 +298,26 @@ function ToastMotionWrapper({
         y: 0,
         x: 0,
         filter: "blur(0px)",
-        transition: {
-          opacity: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
-          scale: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
-          y: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
-          x: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
-        },
+        transition: prefersReducedMotion
+          ? instantTransition
+          : {
+              opacity: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
+              scale: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
+              y: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
+              x: { type: "spring", bounce: entryConfig.bounce, duration: entryConfig.duration },
+            },
       })
     }
-  }, [isExiting, controls])
+  }, [isExiting, controls, entryConfig, exitConfig, prefersReducedMotion])
+
+  React.useEffect(() => {
+    triggerAnimation()
+  }, [triggerAnimation])
 
   return (
     <motion.div
       {...filteredProps}
-      layout={isExiting ? false : (layoutConfig.enabled ? "position" : false)}
+      layout={isExiting || prefersReducedMotion ? false : (layoutConfig.enabled ? "position" : false)}
       style={{
         // Merge Base UI's style (includes CSS variables for swipe tracking)
         ...baseUiStyle,
@@ -314,17 +327,17 @@ function ToastMotionWrapper({
         translate: 'var(--toast-swipe-movement-x, 0) var(--toast-swipe-movement-y, 0)',
         // For entry only: set initial values and disable CSS transition to prevent FOUC
         ...(!isExiting && {
-          opacity: entryConfig.opacity,
-          scale: entryConfig.scale,
-          y: entryConfig.y,
-          x: entryConfig.x,
-          filter: `blur(${entryConfig.blur}px)`,
+          opacity: prefersReducedMotion ? 1 : entryConfig.opacity,
+          scale: prefersReducedMotion ? 1 : entryConfig.scale,
+          y: prefersReducedMotion ? 0 : entryConfig.y,
+          x: prefersReducedMotion ? 0 : entryConfig.x,
+          filter: prefersReducedMotion ? "blur(0px)" : `blur(${entryConfig.blur}px)`,
           transition: 'none', // Prevent CSS transition from causing flash on mobile
         }),
       }}
       initial={false}
       animate={controls}
-      transition={{
+      transition={prefersReducedMotion ? { duration: 0 } : {
         layout: { type: "spring", bounce: layoutConfig.bounce, duration: layoutConfig.duration },
       }}
     />

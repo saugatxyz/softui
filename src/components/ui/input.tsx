@@ -90,18 +90,23 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const [showFocusRing, setShowFocusRing] = React.useState(false)
     const wasPointerDown = React.useRef(false)
 
-    // Merge refs to handle both RefObject and callback refs
-    const mergedRef = React.useCallback(
-      (node: HTMLInputElement | null) => {
-        internalRef.current = node
-        if (typeof ref === "function") {
-          ref(node)
-        } else if (ref) {
-          ref.current = node
-        }
-      },
-      [ref]
-    )
+    // Stable ref merging - store forwarded ref in a ref to avoid callback recreation
+    const forwardedRef = React.useRef(ref)
+
+    // Update forwardedRef in useEffect to avoid updating during render
+    React.useEffect(() => {
+      forwardedRef.current = ref
+    }, [ref])
+
+    const mergedRef = React.useCallback((node: HTMLInputElement | null) => {
+      internalRef.current = node
+      const fwdRef = forwardedRef.current
+      if (typeof fwdRef === "function") {
+        fwdRef(node)
+      } else if (fwdRef) {
+        fwdRef.current = node
+      }
+    }, [])
 
     const handlePointerDown = () => {
       wasPointerDown.current = true

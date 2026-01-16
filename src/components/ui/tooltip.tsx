@@ -4,7 +4,7 @@ import * as React from "react"
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
 import { motion } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 import { KbdGroup } from "./kbd"
 
 const springTransition = {
@@ -78,6 +78,9 @@ type TooltipPopupProps = Omit<TooltipPrimitive.Popup.Props, "className"> & {
 }
 
 function TooltipPopup({ className, children, ...props }: TooltipPopupProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const instantTransition = { duration: 0 }
+
   return (
     <TooltipPrimitive.Popup
       data-slot="tooltip-popup"
@@ -95,10 +98,10 @@ function TooltipPopup({ className, children, ...props }: TooltipPopupProps) {
       )}
       render={
         <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
+          initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.96 }}
-          transition={springTransition}
+          exit={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.96 }}
+          transition={prefersReducedMotion ? instantTransition : springTransition}
         />
       }
       {...props}

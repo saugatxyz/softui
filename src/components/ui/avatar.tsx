@@ -118,6 +118,16 @@ const decorativeSubtleClass = {
 
 const imageVariants = cva("absolute inset-0 size-full object-cover")
 
+// Size to pixel value mapping for explicit image dimensions (prevents layout shift)
+const sizeToPixels: Record<string, number> = {
+  "3xs": 20,
+  "2xs": 24,
+  xs: 28,
+  s: 32,
+  m: 36,
+  l: 40,
+}
+
 const fallbackVariants = cva(
   "flex items-center justify-center font-[var(--font-weight-medium)] text-content-subtle select-none",
   {
@@ -214,6 +224,8 @@ function Avatar({
         <AvatarPrimitive.Image
           src={src}
           alt={alt}
+          width={sizeToPixels[resolvedSize]}
+          height={sizeToPixels[resolvedSize]}
           className={imageVariants()}
         />
       )}

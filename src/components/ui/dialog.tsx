@@ -11,7 +11,7 @@ import {
   type PanInfo,
 } from "motion/react"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 type DialogPosition = "center" | "right" | "sheet"
 
@@ -29,10 +29,13 @@ function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState(false)
 
   React.useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
+    // Use matchMedia for better performance - only fires when crossing the breakpoint
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+    setIsMobile(mql.matches)
+
+    const handleChange = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mql.addEventListener("change", handleChange)
+    return () => mql.removeEventListener("change", handleChange)
   }, [])
 
   return isMobile
@@ -220,6 +223,7 @@ type DialogBackdropProps = Omit<DialogPrimitive.Backdrop.Props, "className"> & {
 
 function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
   const { open } = useDialogContext()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
     <DialogPrimitive.Backdrop
@@ -249,7 +253,7 @@ function DialogBackdrop({ className, ...props }: DialogBackdropProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: open ? 1 : 0 }}
             exit={{ opacity: 0 }}
-            transition={backdropTransition}
+            transition={prefersReducedMotion ? { duration: 0 } : backdropTransition}
             style={{ pointerEvents: open ? "auto" : "none" }}
           />
         )
@@ -312,12 +316,13 @@ function DialogPopup({
 }: DialogPopupProps) {
   const { open, isMobile, onOpenChange } = useDialogContext()
   const dragControls = useDragControls()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   // Determine if we're in sheet mode (mobile or sheet position)
   const isSheetMode = isMobile || position === "sheet"
   const isDraggable = swipeable && isSheetMode
 
-  const transition = getPopupTransition(position, isMobile)
+  const transition = prefersReducedMotion ? { duration: 0 } : getPopupTransition(position, isMobile)
   const shouldCenterSheet = isDraggable && position === "sheet" && !isMobile
 
   const handleDragEnd = React.useCallback(

@@ -150,7 +150,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         )}
         {...props}
       >
-        <span className={cn(iconVariants({ size: resolvedSize }))}>{children}</span>
+        <span aria-hidden="true" className={cn(iconVariants({ size: resolvedSize }))}>{children}</span>
       </ButtonPrimitive>
     )
   }

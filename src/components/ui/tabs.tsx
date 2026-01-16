@@ -5,7 +5,7 @@ import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
 import { motion } from "motion/react"
 import { cva } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
 type TabsVariant = "stroke" | "pill" | "pill-emphasized"
 type TabsSize = "s" | "m"
@@ -229,6 +229,7 @@ type TabsIndicatorProps = TabsPrimitive.Indicator.Props
 
 function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
   const { variant, size } = useTabsContext()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
     <TabsPrimitive.Indicator
@@ -242,8 +243,8 @@ function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
       {...props}
       render={
         <motion.span
-          layout
-          transition={{ type: "spring", bounce: 0, duration: 0.2 }}
+          layout={!prefersReducedMotion}
+          transition={prefersReducedMotion ? { duration: 0 } : { type: "spring", bounce: 0, duration: 0.2 }}
         />
       }
     />
