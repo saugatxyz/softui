@@ -4,6 +4,7 @@ import * as React from "react"
 import { Slider as SliderPrimitive } from "@base-ui/react/slider"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { motion, type Transition } from "motion/react"
+import NumberFlow from "@number-flow/react"
 
 import { cn, usePrefersReducedMotion } from "@/lib/utils"
 
@@ -15,6 +16,56 @@ const thumbTransition: Transition = {
   type: "spring",
   bounce: 0.1,
   duration: 0.2,
+}
+
+const instantTransition: Transition = {
+  duration: 0,
+}
+
+const adjustmentThumbDragTransition: Transition = {
+  type: "spring",
+  bounce: 0.1,
+  duration: 0.12,
+}
+
+const adjustmentEdgeSnapTransition: Transition = {
+  type: "spring",
+  bounce: 0.2,
+  duration: 0.18,
+}
+
+const adjustmentThumbSizeTransition: Transition = {
+  type: "spring",
+  bounce: 0.25,
+  duration: 0.2,
+}
+
+const adjustmentValueTransition: Transition = {
+  type: "spring",
+  bounce: 0.15,
+  duration: 0.18,
+}
+
+const adjustmentIndicatorTransition: Transition = {
+  type: "spring",
+  bounce: 0.1,
+  duration: 0.18,
+}
+
+const adjustmentIndicatorDragTransition: Transition = {
+  type: "spring",
+  bounce: 0,
+  duration: 0.1,
+}
+
+const adjustmentThumbFadeTransition: Transition = {
+  duration: 0.12,
+  ease: [0.23, 1, 0.32, 1],
+}
+const adjustmentThumbFadeOutTransition: Transition = {
+  duration: 0.12,
+  ease: [0.23, 1, 0.32, 1],
+  delay: 0.04,
 }
 
 // Segmented variant animation configs
@@ -30,6 +81,19 @@ const segmentTransition: Transition = {
   duration: 0.05,
 }
 
+const adjustmentEdgeThreshold = 12
+const adjustmentThumbHideThreshold = 93
+const adjustmentThumbHeights = {
+  s: 20,
+  m: 24,
+  l: 24,
+}
+const adjustmentValueMaxShift = 4
+const numberFlowTiming = {
+  transform: { duration: 200, easing: "ease-out" },
+  spin: { duration: 200, easing: "ease-out" },
+  opacity: { duration: 120, easing: "ease-out" },
+}
 // Height values for thumb animation (in pixels)
 const thumbHeightValues = {
   s: { normal: 20, full: 32 },
@@ -43,6 +107,7 @@ const thumbHeightValues = {
 
 type SliderVariant = "default" | "adjustment" | "segmented"
 type SliderSize = "s" | "m" | "l"
+type SliderChangeReason = "input-change" | "track-press" | "drag" | "keyboard" | "none"
 
 type SliderContextValue = {
   variant: SliderVariant
@@ -50,6 +115,7 @@ type SliderContextValue = {
   percentage: number
   disabled: boolean
   dragging: boolean
+  changeReason: SliderChangeReason
 }
 
 const SliderContext = React.createContext<SliderContextValue>({
@@ -58,6 +124,7 @@ const SliderContext = React.createContext<SliderContextValue>({
   percentage: 0,
   disabled: false,
   dragging: false,
+  changeReason: "none",
 })
 
 function useSliderContext() {
@@ -109,8 +176,21 @@ function SliderRoot({
   variant = "default",
   size = "m",
   render,
+  onValueChange,
   ...props
 }: SliderRootProps) {
+  const lastChangeReasonRef = React.useRef<SliderChangeReason>("none")
+  const handleValueChange = React.useCallback(
+    (
+      value: number | readonly number[],
+      details: SliderPrimitive.Root.ChangeEventDetails
+    ) => {
+      lastChangeReasonRef.current = details.reason
+      onValueChange?.(value as never, details)
+    },
+    [onValueChange]
+  )
+
   return (
     <SliderPrimitive.Root
       data-slot="slider"
@@ -132,11 +212,21 @@ function SliderRoot({
           : <div {...rootProps} />
 
         return (
-          <SliderContext.Provider value={{ variant, size, percentage, disabled: state.disabled, dragging: state.dragging }}>
+          <SliderContext.Provider
+            value={{
+              variant,
+              size,
+              percentage,
+              disabled: state.disabled,
+              dragging: state.dragging,
+              changeReason: lastChangeReasonRef.current,
+            }}
+          >
             {element}
           </SliderContext.Provider>
         )
       }}
+      onValueChange={handleValueChange}
       {...props}
     />
   )
@@ -233,7 +323,7 @@ function SliderAdjustmentTrack({ className, children }: SliderAdjustmentTrackPro
       data-size={size}
       data-disabled={disabled || undefined}
       className={cn(
-        "relative w-full",
+        "group/adjustment relative w-full",
         sizeConfig[size].track,
         // Visual styling: background, rounded corners
         "bg-actions-secondary-default",
@@ -263,8 +353,9 @@ const adjustmentRadiusConfig = {
   l: { full: "rounded-[var(--radius-12)]", left: "rounded-l-[var(--radius-12)]" },
 }
 
-function SliderIndicator({ className, ...props }: SliderIndicatorProps) {
-  const { variant, size, percentage } = useSliderContext()
+function SliderIndicator({ className, render, ...props }: SliderIndicatorProps) {
+  const { variant, size, percentage, disabled, dragging } = useSliderContext()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   // For segmented variant, we don't use the Base UI indicator
   // Use SliderSelectedSegment and SliderUnselectedSegment instead
@@ -275,11 +366,43 @@ function SliderIndicator({ className, ...props }: SliderIndicatorProps) {
   // At 100%, indicator should have rounded corners on both sides
   const isAtMax = percentage >= 100
 
+  if (variant === "adjustment") {
+    const indicatorScale = Math.min(1, Math.max(0, percentage / 100))
+
+    return (
+      <motion.div
+        data-slot="slider-indicator"
+        data-variant={variant}
+        data-size={size}
+        data-disabled={disabled || undefined}
+        className={cn(
+          "absolute left-0 top-0 h-full w-full origin-left",
+          // Indicator fills edge to edge, hardcode radius to match container
+          isAtMax
+            ? adjustmentRadiusConfig[size].full
+            : [adjustmentRadiusConfig[size].left, "rounded-r-[var(--radius-4)]"],
+          "bg-actions-secondary-default group-hover/adjustment:bg-actions-secondary-hover",
+          "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:group-hover/adjustment:bg-actions-secondary-disabled",
+          className
+        )}
+        initial={false}
+        animate={{ scaleX: indicatorScale }}
+        transition={prefersReducedMotion
+          ? instantTransition
+          : dragging
+            ? adjustmentIndicatorDragTransition
+            : adjustmentIndicatorTransition}
+        {...props}
+      />
+    )
+  }
+
   return (
     <SliderPrimitive.Indicator
       data-slot="slider-indicator"
       data-variant={variant}
       data-size={size}
+      render={render}
       className={cn(
         "absolute h-full",
         variant === "default" && [
@@ -502,39 +625,56 @@ type SliderThumbProps = Omit<SliderPrimitive.Thumb.Props, "className" | "render"
   className?: string
 }
 
-function SliderThumb({ className, ...props }: SliderThumbProps) {
-  const { variant, size, percentage, dragging } = useSliderContext()
+function SliderThumb({ className, style, ...props }: SliderThumbProps) {
+  const { variant, size, percentage, dragging, changeReason } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
-  const instantTransition = { duration: 0 }
 
   if (variant === "adjustment") {
     // Thumb is 3px wide, halfThumb = 1.5px
-    // Gap between thumb edge and track edge = 4px
-    // Total offset from track edge to thumb center = 4 + 1.5 = 5.5px
-    const offset = 5.5
+    // Gap between thumb edge and track edge = 9.5px
+    // Total offset from track edge to thumb center = 9.5 + 1.5 = 11px
+    const edgeOffset = 11
+    // Bring the thumb closer to the indicator by 2px without changing edge gaps
+    const midOffset = edgeOffset - 2
 
     // Edge threshold: at ~97%, the +offset would push thumb outside container
     // Start docking early to prevent overflow
-    const edgeThreshold = 3 // percentage from edge to start docking
+    // percentage from edge to start docking (88%/12%)
+    const edgeThreshold = adjustmentEdgeThreshold
 
     // Base UI positions thumb center at percentage% of track width.
     // We apply CSS transform to achieve desired positioning:
     //
     // Near 0% (< threshold): dock at left edge
     // Near 100% (> 100-threshold): dock at right edge
-    // Below 50%: thumb inside indicator (left of indicator edge)
-    // Above 50%: thumb outside indicator (right of indicator edge)
+    // Thumb stays outside indicator (right of indicator edge) except at edges
 
     let thumbX: number
     if (percentage <= edgeThreshold) {
-      thumbX = offset // dock at left edge
+      thumbX = edgeOffset // dock at left edge
     } else if (percentage >= 100 - edgeThreshold) {
-      thumbX = -offset // dock at right edge
-    } else if (percentage < 50) {
-      thumbX = -offset // inside indicator
+      thumbX = -edgeOffset // dock at right edge
     } else {
-      thumbX = offset // outside indicator
+      thumbX = midOffset // outside indicator
     }
+
+    const isAtEdge = percentage <= edgeThreshold || percentage >= 100 - edgeThreshold
+    const isAtMinEdge = percentage <= 0
+    const shouldHideThumb = changeReason !== "keyboard"
+      && percentage >= adjustmentThumbHideThreshold
+      && percentage < 100
+    const thumbHeight = adjustmentThumbHeights[size]
+    const edgeHeight = thumbHeight - 3
+    const shouldShortenThumb = isAtMinEdge || shouldHideThumb
+    const shouldAnimatePosition = !prefersReducedMotion && !dragging && (
+      changeReason === "track-press" || changeReason === "keyboard"
+    )
+    const positionTransitionStyle = {
+      transitionProperty: "inset-inline-start, bottom",
+      transitionDuration: shouldAnimatePosition ? "250ms" : "0ms",
+      transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+    }
+    const mergedStyle = { ...positionTransitionStyle, ...style }
 
     return (
       <SliderPrimitive.Thumb
@@ -542,17 +682,42 @@ function SliderThumb({ className, ...props }: SliderThumbProps) {
         data-variant={variant}
         data-size={size}
         className={cn(
-          "block w-[3px] rounded-[var(--radius-4)]",
+          "relative block w-[3px] overflow-hidden rounded-[var(--radius-4)]",
           sizeConfig[size].thumb,
-          "bg-content-inverse-strong",
+          "bg-actions-secondary-default",
+          "before:absolute before:inset-0 before:rounded-[var(--radius-4)] before:bg-actions-secondary-default before:opacity-60 before:content-['']",
+          "after:absolute after:inset-0 after:rounded-[var(--radius-4)] after:bg-actions-secondary-default after:opacity-40 after:content-['']",
+          "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:before:bg-actions-secondary-disabled data-[disabled]:before:opacity-100",
+          "data-[disabled]:after:bg-actions-secondary-disabled data-[disabled]:after:opacity-100",
+          "z-20",
           "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           className
         )}
+        style={mergedStyle}
         render={
           <motion.span
             initial={false}
-            animate={{ x: thumbX }}
-            transition={prefersReducedMotion || dragging ? instantTransition : thumbTransition}
+            animate={{
+              x: thumbX,
+              height: shouldShortenThumb ? edgeHeight : thumbHeight,
+              opacity: shouldHideThumb ? 0 : 1,
+              scale: shouldHideThumb ? 0.6 : 1,
+            }}
+            transition={prefersReducedMotion
+              ? instantTransition
+              : {
+                  x: dragging
+                    ? adjustmentThumbDragTransition
+                    : isAtEdge
+                    ? adjustmentEdgeSnapTransition
+                    : thumbTransition,
+                  height: adjustmentThumbSizeTransition,
+                  opacity: shouldHideThumb
+                    ? adjustmentThumbFadeOutTransition
+                    : adjustmentThumbFadeTransition,
+                  scale: adjustmentThumbSizeTransition,
+                }}
           />
         }
         {...props}
@@ -572,11 +737,16 @@ function SliderThumb({ className, ...props }: SliderThumbProps) {
         data-size={size}
         data-at-edge={isAtEdge || undefined}
         className={cn(
-          "block w-[3px] rounded-[var(--radius-4)]",
+          "relative block w-[3px] overflow-hidden rounded-[var(--radius-4)]",
           "cursor-grab active:cursor-grabbing",
-          "bg-actions-primary-default data-[disabled]:bg-actions-primary-disabled",
+          "bg-actions-secondary-default",
+          "before:absolute before:inset-0 before:rounded-[var(--radius-4)] before:bg-actions-secondary-default before:opacity-60 before:content-['']",
+          "after:absolute after:inset-0 after:rounded-[var(--radius-4)] after:bg-actions-secondary-default after:opacity-40 after:content-['']",
+          "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:before:bg-actions-secondary-disabled data-[disabled]:before:opacity-100",
+          "data-[disabled]:after:bg-actions-secondary-disabled data-[disabled]:after:opacity-100",
           "z-10",
           "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           className
         )}
         render={
@@ -603,8 +773,20 @@ function SliderThumb({ className, ...props }: SliderThumbProps) {
         "bg-content-inverse-strong",
         "shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
         "focus-visible:shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1),0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+        "has-[:focus-visible]:shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1),0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className
       )}
+      style={{
+        transitionProperty: "inset-inline-start, bottom",
+        transitionDuration:
+          !prefersReducedMotion && !dragging && (
+            changeReason === "track-press" || changeReason === "keyboard"
+          )
+            ? "250ms"
+            : "0ms",
+        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+        ...style,
+      }}
       render={
         <motion.span
           whileHover={prefersReducedMotion ? undefined : { scale: 1.25 }}
@@ -625,8 +807,59 @@ type SliderValueProps = Omit<SliderPrimitive.Value.Props, "className"> & {
   className?: string
 }
 
-function SliderValue({ className, ...props }: SliderValueProps) {
+function SliderValue({ className, render, children, ...props }: SliderValueProps) {
   const { variant, size, percentage, disabled } = useSliderContext()
+  const prefersReducedMotion = usePrefersReducedMotion()
+
+  if (variant === "adjustment") {
+    const valueX = percentage >= 100 ? -adjustmentValueMaxShift : 0
+    const hasCustomChildren = typeof children !== "undefined"
+    const valueChildren = hasCustomChildren
+      ? children
+      : ((_formattedValues: string[], values: readonly number[]) => {
+          const displayValue = values[0] ?? 0
+          return (
+            <NumberFlow
+              value={Math.round(displayValue)}
+              transformTiming={numberFlowTiming.transform}
+              spinTiming={numberFlowTiming.spin}
+              opacityTiming={numberFlowTiming.opacity}
+              willChange
+              respectMotionPreference
+            />
+          )
+        })
+    const valueRender = render ?? ((valueProps: React.ComponentProps<"output">) => (
+      <motion.output
+        {...valueProps}
+        initial={false}
+        animate={{ x: valueX }}
+        transition={prefersReducedMotion ? instantTransition : adjustmentValueTransition}
+      />
+    ))
+
+    return (
+      <SliderPrimitive.Value
+        data-slot="slider-value"
+        data-variant={variant}
+        data-size={size}
+        className={cn(
+          "absolute right-[var(--space-12)] top-1/2 -translate-y-1/2 z-10",
+          "text-[length:var(--font-size-m)] font-normal leading-[var(--line-height-m)]",
+          "pointer-events-none",
+          disabled
+            ? "text-content-disabled"
+            : percentage === 0
+              ? "text-content-muted"
+              : "text-content-strong",
+          className
+        )}
+        render={valueRender}
+        children={valueChildren}
+        {...props}
+      />
+    )
+  }
 
   return (
     <SliderPrimitive.Value
