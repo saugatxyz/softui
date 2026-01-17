@@ -92,9 +92,9 @@ function AdjustmentSlider({
   const prefersReducedMotion = usePrefersReducedMotion()
 
   // Internal state for uncontrolled mode
-  const [internalValue, setInternalValue] = React.useState<number[]>(
-    () => (controlledValue ?? defaultValue ?? [0]) as number[]
-  )
+  const [internalValue, setInternalValue] = React.useState<
+    number | readonly number[]
+  >(() => controlledValue ?? defaultValue ?? 0)
 
   // Use controlled value if provided, otherwise use internal state
   const currentValue = controlledValue ?? internalValue
@@ -111,11 +111,14 @@ function AdjustmentSlider({
 
   // Handle value changes
   const handleValueChange = React.useCallback(
-    (newValue: number[], event: Event) => {
-      if (!controlledValue) {
+    (
+      newValue: number | readonly number[],
+      details: SliderPrimitive.Root.ChangeEventDetails
+    ) => {
+      if (controlledValue === undefined) {
         setInternalValue(newValue)
       }
-      onValueChange?.(newValue, event)
+      onValueChange?.(newValue, details)
     },
     [controlledValue, onValueChange]
   )
