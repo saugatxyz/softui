@@ -38,14 +38,20 @@ function AdjustmentSliderExample(props: SliderExampleProps) {
 
 function SegmentedSliderExample({ defaultValue, ...props }: SliderExampleProps) {
   const [value, setValue] = React.useState<number[]>(
-    Array.isArray(defaultValue) ? defaultValue : [defaultValue ?? 0]
+    Array.isArray(defaultValue) ? [...defaultValue] : [defaultValue ?? 0]
+  )
+  const handleValueChange = React.useCallback(
+    (nextValue: number | readonly number[]) => {
+      setValue(Array.isArray(nextValue) ? [...nextValue] : [nextValue])
+    },
+    []
   )
 
   return (
     <Slider
       variant="segmented"
       value={value}
-      onValueChange={setValue}
+      onValueChange={handleValueChange}
       {...props}
     >
       <Slider.Control>

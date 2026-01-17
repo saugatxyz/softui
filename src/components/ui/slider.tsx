@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Slider as SliderPrimitive } from "@base-ui/react/slider"
 import { mergeProps } from "@base-ui/react/merge-props"
-import { motion, type Transition } from "motion/react"
+import { animate, motion, type Transition } from "motion/react"
 import NumberFlow from "@number-flow/react"
 
 import { cn, usePrefersReducedMotion } from "@/lib/utils"
@@ -46,18 +46,6 @@ const adjustmentValueTransition: Transition = {
   duration: 0.18,
 }
 
-const adjustmentIndicatorTransition: Transition = {
-  type: "spring",
-  bounce: 0.1,
-  duration: 0.18,
-}
-
-const adjustmentIndicatorDragTransition: Transition = {
-  type: "spring",
-  bounce: 0,
-  duration: 0.1,
-}
-
 const adjustmentThumbFadeTransition: Transition = {
   duration: 0.12,
   ease: [0.23, 1, 0.32, 1],
@@ -75,12 +63,6 @@ const segmentedThumbTransition: Transition = {
   duration: 0.2,
 }
 
-const segmentTransition: Transition = {
-  type: "spring",
-  bounce: 0,
-  duration: 0.05,
-}
-
 const adjustmentEdgeThreshold = 12
 const adjustmentThumbHideThreshold = 93
 const adjustmentThumbHeights = {
@@ -94,6 +76,7 @@ const numberFlowTiming = {
   spin: { duration: 200, easing: "ease-out" },
   opacity: { duration: 120, easing: "ease-out" },
 }
+const clampPercentage = (value: number) => Math.min(100, Math.max(0, value))
 // Height values for thumb animation (in pixels)
 const thumbHeightValues = {
   s: { normal: 20, full: 32 },
@@ -113,6 +96,7 @@ type SliderContextValue = {
   variant: SliderVariant
   size: SliderSize
   percentage: number
+  animatedPercentage: number
   disabled: boolean
   dragging: boolean
   changeReason: SliderChangeReason
@@ -122,6 +106,7 @@ const SliderContext = React.createContext<SliderContextValue>({
   variant: "default",
   size: "m",
   percentage: 0,
+  animatedPercentage: 0,
   disabled: false,
   dragging: false,
   changeReason: "none",
@@ -197,38 +182,94 @@ function SliderRoot({
       data-variant={variant}
       data-size={size}
       className={cn("flex w-full flex-col gap-[var(--space-12)]", className)}
-      render={(rootProps, state) => {
-        const currentValue = state.values[0] ?? state.min
-        const range = state.max - state.min
-        const rawPercentage = range > 0 ? ((currentValue - state.min) / range) * 100 : 0
-        const percentage = Number.isFinite(rawPercentage)
-          ? Math.min(100, Math.max(0, rawPercentage))
-          : 0
-
-        const element = render
-          ? typeof render === "function"
-            ? render(rootProps, state)
-            : React.cloneElement(render, { ...mergeProps(rootProps, render.props), ref: rootProps.ref })
-          : <div {...rootProps} />
-
-        return (
-          <SliderContext.Provider
-            value={{
-              variant,
-              size,
-              percentage,
-              disabled: state.disabled,
-              dragging: state.dragging,
-              changeReason: lastChangeReasonRef.current,
-            }}
-          >
-            {element}
-          </SliderContext.Provider>
-        )
-      }}
+      render={(rootProps, state) => (
+        <SliderRootInner
+          rootProps={rootProps}
+          state={state}
+          variant={variant}
+          size={size}
+          render={render}
+          changeReasonRef={lastChangeReasonRef}
+        />
+      )}
       onValueChange={handleValueChange}
       {...props}
     />
+  )
+}
+
+type SliderRootInnerProps = {
+  rootProps: React.HTMLAttributes<HTMLDivElement>
+  state: SliderPrimitive.Root.State
+  variant: SliderVariant
+  size: SliderSize
+  render?: SliderRootProps["render"]
+  changeReasonRef: React.MutableRefObject<SliderChangeReason>
+}
+
+function SliderRootInner({
+  rootProps,
+  state,
+  variant,
+  size,
+  render,
+  changeReasonRef,
+}: SliderRootInnerProps) {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const currentValue = state.values[0] ?? state.min
+  const range = state.max - state.min
+  const rawPercentage = range > 0 ? ((currentValue - state.min) / range) * 100 : 0
+  const percentage = Number.isFinite(rawPercentage)
+    ? Math.min(100, Math.max(0, rawPercentage))
+    : 0
+  const changeReason = changeReasonRef.current
+  const [animatedPercentage, setAnimatedPercentage] = React.useState(percentage)
+  const animatedPercentageRef = React.useRef(percentage)
+
+  React.useEffect(() => {
+    if (prefersReducedMotion) {
+      animatedPercentageRef.current = percentage
+      setAnimatedPercentage(percentage)
+      return
+    }
+
+    const isDragMove = state.dragging && changeReason === "drag"
+    const transition: Transition = isDragMove
+      ? { duration: 0.12, ease: [0.22, 1, 0.36, 1] }
+      : changeReason === "track-press" || changeReason === "keyboard"
+        ? { type: "spring", bounce: 0.1, duration: 0.2 }
+        : { duration: 0 }
+    const controls = animate(animatedPercentageRef.current, percentage, {
+      ...transition,
+      onUpdate: (latest) => {
+        animatedPercentageRef.current = latest
+        setAnimatedPercentage(latest)
+      },
+    })
+
+    return () => controls.stop()
+  }, [percentage, prefersReducedMotion, changeReason, state.dragging])
+
+  const element = render
+    ? typeof render === "function"
+      ? render(rootProps, state)
+      : React.cloneElement(render, { ...mergeProps(rootProps, render.props), ref: rootProps.ref })
+    : <div {...rootProps} />
+
+  return (
+    <SliderContext.Provider
+      value={{
+        variant,
+        size,
+        percentage,
+        animatedPercentage,
+        disabled: state.disabled,
+        dragging: state.dragging,
+        changeReason,
+      }}
+    >
+      {element}
+    </SliderContext.Provider>
   )
 }
 
@@ -353,9 +394,10 @@ const adjustmentRadiusConfig = {
   l: { full: "rounded-[var(--radius-12)]", left: "rounded-l-[var(--radius-12)]" },
 }
 
-function SliderIndicator({ className, render, ...props }: SliderIndicatorProps) {
-  const { variant, size, percentage, disabled, dragging } = useSliderContext()
+function SliderIndicator({ className, render, style, ...props }: SliderIndicatorProps) {
+  const { variant, size, percentage, animatedPercentage, disabled } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
+  const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
 
   // For segmented variant, we don't use the Base UI indicator
   // Use SliderSelectedSegment and SliderUnselectedSegment instead
@@ -364,13 +406,13 @@ function SliderIndicator({ className, render, ...props }: SliderIndicatorProps) 
   }
 
   // At 100%, indicator should have rounded corners on both sides
-  const isAtMax = percentage >= 100
+  const isAtMax = visualPercentage >= 100
 
   if (variant === "adjustment") {
-    const indicatorScale = Math.min(1, Math.max(0, percentage / 100))
+    const indicatorScale = Math.min(1, Math.max(0, visualPercentage / 100))
 
     return (
-      <motion.div
+      <div
         data-slot="slider-indicator"
         data-variant={variant}
         data-size={size}
@@ -385,17 +427,18 @@ function SliderIndicator({ className, render, ...props }: SliderIndicatorProps) 
           "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:group-hover/adjustment:bg-actions-secondary-disabled",
           className
         )}
-        initial={false}
-        animate={{ scaleX: indicatorScale }}
-        transition={prefersReducedMotion
-          ? instantTransition
-          : dragging
-            ? adjustmentIndicatorDragTransition
-            : adjustmentIndicatorTransition}
+        style={{ transform: `scaleX(${indicatorScale})`, ...style }}
         {...props}
       />
     )
   }
+
+  const indicatorStyle = prefersReducedMotion
+    ? undefined
+    : {
+        insetInlineStart: 0,
+        width: `${visualPercentage}%`,
+      }
 
   return (
     <SliderPrimitive.Indicator
@@ -418,6 +461,7 @@ function SliderIndicator({ className, render, ...props }: SliderIndicatorProps) 
         ],
         className
       )}
+      style={{ ...indicatorStyle, ...style }}
       {...props}
     />
   )
@@ -471,26 +515,27 @@ type SliderSelectedSegmentProps = {
 }
 
 function SliderSelectedSegment({ className }: SliderSelectedSegmentProps) {
-  const { variant, size, percentage, disabled } = useSliderContext()
+  const { variant, size, percentage, animatedPercentage, disabled } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
+  const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
 
   if (variant !== "segmented") {
     return null
   }
 
   // At 0%, don't render (use small threshold for floating point)
-  if (percentage <= 0) {
+  if (visualPercentage <= 0) {
     return null
   }
 
   // At 100%, flex-1 fills remaining space after thumb + gap
   // Otherwise, percentage-based width (gap handled by SegmentedGap components)
-  const isAtMax = percentage >= 100
+  const isAtMax = visualPercentage >= 100
 
   // Calculate width for animation
   const width = isAtMax
     ? "100%"
-    : `calc(${percentage}% - ${SEGMENTED_GAP}px - ${SEGMENTED_THUMB_WIDTH / 2}px)`
+    : `calc(${visualPercentage}% - ${SEGMENTED_GAP}px - ${SEGMENTED_THUMB_WIDTH / 2}px)`
 
   return (
     <motion.div
@@ -501,7 +546,7 @@ function SliderSelectedSegment({ className }: SliderSelectedSegmentProps) {
         width,
         marginRight: isAtMax ? SEGMENTED_GAP : 0,
       }}
-      transition={prefersReducedMotion ? { duration: 0 } : segmentTransition}
+      transition={instantTransition}
       className={cn(
         "h-full",
         isAtMax ? "flex-1" : "shrink-0",
@@ -521,21 +566,22 @@ type SliderUnselectedSegmentProps = {
 }
 
 function SliderUnselectedSegment({ className }: SliderUnselectedSegmentProps) {
-  const { variant, size, percentage, disabled } = useSliderContext()
+  const { variant, size, percentage, animatedPercentage, disabled } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
+  const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
 
   if (variant !== "segmented") {
     return null
   }
 
   // At 100%, don't render (use threshold for floating point)
-  if (percentage >= 100) {
+  if (visualPercentage >= 100) {
     return null
   }
 
   // At 0%, just need gap margin since SegmentedThumb handles thumb width
   // In between, gap is handled by SegmentedGap components
-  const isAtMin = percentage <= 0
+  const isAtMin = visualPercentage <= 0
   const marginLeft = isAtMin ? SEGMENTED_GAP : 0
 
   return (
@@ -544,7 +590,7 @@ function SliderUnselectedSegment({ className }: SliderUnselectedSegmentProps) {
       data-size={size}
       initial={false}
       animate={{ marginLeft }}
-      transition={prefersReducedMotion ? { duration: 0 } : segmentTransition}
+      transition={instantTransition}
       className={cn(
         "h-full flex-1",
         "bg-actions-secondary-default",
@@ -563,15 +609,16 @@ type SliderSegmentedGapProps = {
 }
 
 function SliderSegmentedGap({ className }: SliderSegmentedGapProps) {
-  const { variant, percentage } = useSliderContext()
+  const { variant, percentage, animatedPercentage } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
+  const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
 
   if (variant !== "segmented") {
     return null
   }
 
   // Collapse gap at edges (0% or 100%)
-  const isAtEdge = percentage <= 0 || percentage >= 100
+  const isAtEdge = visualPercentage <= 0 || visualPercentage >= 100
 
   return (
     <motion.div
@@ -581,7 +628,7 @@ function SliderSegmentedGap({ className }: SliderSegmentedGapProps) {
         width: isAtEdge ? 0 : SEGMENTED_GAP,
         opacity: isAtEdge ? 0 : 1,
       }}
-      transition={prefersReducedMotion ? { duration: 0 } : segmentTransition}
+      transition={instantTransition}
       className={cn("shrink-0", className)}
     />
   )
@@ -592,15 +639,16 @@ type SliderSegmentedThumbProps = {
 }
 
 function SliderSegmentedThumb({ className }: SliderSegmentedThumbProps) {
-  const { variant, percentage } = useSliderContext()
+  const { variant, percentage, animatedPercentage } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
+  const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
 
   if (variant !== "segmented") {
     return null
   }
 
   // At edges, collapse the spacer since the visible thumb is at the edge
-  const isAtEdge = percentage <= 0 || percentage >= 100
+  const isAtEdge = visualPercentage <= 0 || visualPercentage >= 100
 
   // This is an invisible spacer for layout purposes only
   // The actual visible thumb is rendered by Slider.Thumb (Base UI)
@@ -611,7 +659,7 @@ function SliderSegmentedThumb({ className }: SliderSegmentedThumbProps) {
       animate={{
         width: isAtEdge ? 0 : SEGMENTED_THUMB_WIDTH,
       }}
-      transition={prefersReducedMotion ? { duration: 0 } : segmentTransition}
+      transition={instantTransition}
       className={cn("shrink-0", className)}
     />
   )
@@ -626,8 +674,9 @@ type SliderThumbProps = Omit<SliderPrimitive.Thumb.Props, "className" | "render"
 }
 
 function SliderThumb({ className, style, ...props }: SliderThumbProps) {
-  const { variant, size, percentage, dragging, changeReason } = useSliderContext()
+  const { variant, size, percentage, animatedPercentage, dragging, changeReason } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
+  const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
 
   if (variant === "adjustment") {
     // Thumb is 3px wide, halfThumb = 1.5px
@@ -650,31 +699,22 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
     // Thumb stays outside indicator (right of indicator edge) except at edges
 
     let thumbX: number
-    if (percentage <= edgeThreshold) {
+    if (visualPercentage <= edgeThreshold) {
       thumbX = edgeOffset // dock at left edge
-    } else if (percentage >= 100 - edgeThreshold) {
+    } else if (visualPercentage >= 100 - edgeThreshold) {
       thumbX = -edgeOffset // dock at right edge
     } else {
       thumbX = midOffset // outside indicator
     }
 
-    const isAtEdge = percentage <= edgeThreshold || percentage >= 100 - edgeThreshold
-    const isAtMinEdge = percentage <= 0
+    const isAtEdge = visualPercentage <= edgeThreshold || visualPercentage >= 100 - edgeThreshold
+    const isAtMinEdge = visualPercentage <= 0
     const shouldHideThumb = changeReason !== "keyboard"
-      && percentage >= adjustmentThumbHideThreshold
-      && percentage < 100
+      && visualPercentage >= adjustmentThumbHideThreshold
+      && visualPercentage < 100
     const thumbHeight = adjustmentThumbHeights[size]
     const edgeHeight = thumbHeight - 3
     const shouldShortenThumb = isAtMinEdge || shouldHideThumb
-    const shouldAnimatePosition = !prefersReducedMotion && !dragging && (
-      changeReason === "track-press" || changeReason === "keyboard"
-    )
-    const positionTransitionStyle = {
-      transitionProperty: "inset-inline-start, bottom",
-      transitionDuration: shouldAnimatePosition ? "250ms" : "0ms",
-      transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-    }
-    const mergedStyle = { ...positionTransitionStyle, ...style }
 
     return (
       <SliderPrimitive.Thumb
@@ -694,7 +734,7 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
           "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           className
         )}
-        style={mergedStyle}
+        style={{ insetInlineStart: `${visualPercentage}%`, ...style }}
         render={
           <motion.span
             initial={false}
@@ -727,7 +767,7 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
 
   if (variant === "segmented") {
     // For segmented variant, animate thumb height at edges
-    const isAtEdge = percentage <= 0 || percentage >= 100
+    const isAtEdge = visualPercentage <= 0 || visualPercentage >= 100
     const heights = thumbHeightValues[size]
 
     return (
@@ -749,6 +789,7 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
           "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           className
         )}
+        style={{ insetInlineStart: `${visualPercentage}%`, ...style }}
         render={
           <motion.span
             initial={false}
@@ -776,17 +817,7 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
         "has-[:focus-visible]:shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1),0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         className
       )}
-      style={{
-        transitionProperty: "inset-inline-start, bottom",
-        transitionDuration:
-          !prefersReducedMotion && !dragging && (
-            changeReason === "track-press" || changeReason === "keyboard"
-          )
-            ? "250ms"
-            : "0ms",
-        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-        ...style,
-      }}
+      style={{ insetInlineStart: `${visualPercentage}%`, ...style }}
       render={
         <motion.span
           whileHover={prefersReducedMotion ? undefined : { scale: 1.25 }}
@@ -808,11 +839,12 @@ type SliderValueProps = Omit<SliderPrimitive.Value.Props, "className"> & {
 }
 
 function SliderValue({ className, render, children, ...props }: SliderValueProps) {
-  const { variant, size, percentage, disabled } = useSliderContext()
+  const { variant, size, percentage, animatedPercentage, disabled } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
 
   if (variant === "adjustment") {
-    const valueX = percentage >= 100 ? -adjustmentValueMaxShift : 0
+  const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
+    const valueX = visualPercentage >= 100 ? -adjustmentValueMaxShift : 0
     const hasCustomChildren = typeof children !== "undefined"
     const valueChildren = hasCustomChildren
       ? children
