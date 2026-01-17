@@ -57,8 +57,11 @@ export {
   RiThumbUpFill as ThumbUpFillIcon,
   RiEyeLine as EyeIcon,
   RiEyeOffLine as EyeOffIcon,
+  RiVolumeMuteFill as MuteFillIcon,
   RiVolumeMuteLine as MuteIcon,
+  RiVolumeUpFill as VolumeFillIcon,
   RiVolumeUpLine as VolumeIcon,
+  RiContrast2Fill as ContrastFillIcon,
   RiNotificationLine as NotificationIcon,
   RiNotificationOffLine as NotificationOffIcon,
 } from "@remixicon/react"

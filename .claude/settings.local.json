@@ -68,7 +68,8 @@
       "Bash(swift build:*)",
       "mcp__chrome-devtools__select_page",
       "mcp__chrome-devtools__hover",
-      "mcp__chrome-devtools__evaluate_script"
+      "mcp__chrome-devtools__evaluate_script",
+      "WebFetch(domain:number-flow.barvian.me)"
     ]
   }
 }
