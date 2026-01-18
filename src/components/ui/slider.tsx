@@ -253,7 +253,16 @@ function SliderRootInner({
   const element = render
     ? typeof render === "function"
       ? render(rootProps, state)
-      : React.cloneElement(render, { ...mergeProps(rootProps, render.props), ref: rootProps.ref })
+      : React.cloneElement(
+          render as React.ReactElement<React.HTMLAttributes<HTMLDivElement>>,
+          {
+            ...mergeProps(
+              rootProps,
+              (render as React.ReactElement<React.HTMLAttributes<HTMLDivElement>>).props
+            ),
+            ref: rootProps.ref,
+          }
+        )
     : <div {...rootProps} />
 
   return (
