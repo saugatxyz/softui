@@ -199,7 +199,7 @@ function SliderRoot({
 }
 
 type SliderRootInnerProps = {
-  rootProps: React.HTMLAttributes<HTMLDivElement>
+  rootProps: React.ComponentPropsWithRef<"div">
   state: SliderPrimitive.Root.State
   variant: SliderVariant
   size: SliderSize
@@ -254,11 +254,11 @@ function SliderRootInner({
     ? typeof render === "function"
       ? render(rootProps, state)
       : React.cloneElement(
-          render as React.ReactElement<React.HTMLAttributes<HTMLDivElement>>,
+          render as React.ReactElement<React.ComponentPropsWithRef<"div">>,
           {
             ...mergeProps(
               rootProps,
-              (render as React.ReactElement<React.HTMLAttributes<HTMLDivElement>>).props
+              (render as React.ReactElement<React.ComponentPropsWithRef<"div">>).props
             ),
             ref: rootProps.ref,
           }
