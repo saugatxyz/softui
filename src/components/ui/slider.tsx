@@ -376,8 +376,8 @@ function SliderAdjustmentTrack({ className, children }: SliderAdjustmentTrackPro
         "group/adjustment relative w-full",
         sizeConfig[size].track,
         // Visual styling: background, rounded corners
-        "bg-actions-secondary-default",
-        disabled && "bg-actions-secondary-disabled backdrop-blur-sm",
+        "bg-surface-interactive-default",
+        disabled && "bg-surface-interactive-default backdrop-blur-sm",
         // Clip thumb if it ever exceeds bounds during drag
         "overflow-hidden",
         className
