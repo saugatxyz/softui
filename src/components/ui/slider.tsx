@@ -843,12 +843,12 @@ function SliderValue({ className, render, children, ...props }: SliderValueProps
   const prefersReducedMotion = usePrefersReducedMotion()
 
   if (variant === "adjustment") {
-  const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
+    const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
     const valueX = visualPercentage >= 100 ? -adjustmentValueMaxShift : 0
     const hasCustomChildren = typeof children !== "undefined"
     const valueChildren = hasCustomChildren
       ? children
-      : ((_formattedValues: string[], values: readonly number[]) => {
+      : ((_formattedValues: readonly string[], values: readonly number[]) => {
           const displayValue = values[0] ?? 0
           return (
             <NumberFlow
@@ -861,14 +861,28 @@ function SliderValue({ className, render, children, ...props }: SliderValueProps
             />
           )
         })
-    const valueRender = render ?? ((valueProps: React.ComponentProps<"output">) => (
-      <motion.output
-        {...valueProps}
-        initial={false}
-        animate={{ x: valueX }}
-        transition={prefersReducedMotion ? instantTransition : adjustmentValueTransition}
-      />
-    ))
+    const valueRender = render ?? ((valueProps: React.ComponentPropsWithRef<"output">) => {
+      const {
+        onDrag,
+        onDragStart,
+        onDragEnd,
+        onDragEnter,
+        onDragLeave,
+        onDragOver,
+        onDrop,
+        onAnimationStart,
+        ...rest
+      } = valueProps
+
+      return (
+        <motion.output
+          {...rest}
+          initial={false}
+          animate={{ x: valueX }}
+          transition={prefersReducedMotion ? instantTransition : adjustmentValueTransition}
+        />
+      )
+    })
 
     return (
       <SliderPrimitive.Value
