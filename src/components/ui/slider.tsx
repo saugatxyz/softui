@@ -457,17 +457,8 @@ function SliderIndicator({ className, render, style, ...props }: SliderIndicator
       render={render}
       className={cn(
         "absolute h-full",
-        variant === "default" && [
-          "rounded-[var(--radius-max)]",
-          "bg-actions-primary-default data-[disabled]:bg-actions-primary-disabled",
-        ],
-        variant === "adjustment" && [
-          // Indicator fills edge to edge, hardcode radius to match container
-          isAtMax
-            ? adjustmentRadiusConfig[size].full
-            : [adjustmentRadiusConfig[size].left, "rounded-r-[var(--radius-4)]"],
-          "bg-actions-secondary-hover data-[disabled]:bg-actions-secondary-disabled",
-        ],
+        "rounded-[var(--radius-max)]",
+        "bg-actions-primary-default data-[disabled]:bg-actions-primary-disabled",
         className
       )}
       style={{ ...indicatorStyle, ...style }}
