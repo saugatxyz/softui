@@ -144,13 +144,14 @@ function AdjustmentSlider({
       >
         <SliderPrimitive.Track
           data-slot="adjustment-slider-track"
-          className={cn(
-            "relative h-full w-full overflow-hidden",
-            sizeConfig[size].track,
-            "bg-actions-secondary-default",
-            "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:backdrop-blur-sm"
-          )}
-        >
+        className={cn(
+          "relative h-full w-full overflow-hidden",
+          sizeConfig[size].track,
+          "bg-actions-secondary-default",
+          "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:backdrop-blur-sm",
+          "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]"
+        )}
+      >
           {/* Animated fill indicator */}
           <motion.div
             data-slot="adjustment-slider-indicator"
