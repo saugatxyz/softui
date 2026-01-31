@@ -262,6 +262,8 @@ function AutocompletePopup({ className, ...props }: AutocompletePopupProps) {
         listPopupStyles.base,
         listPopupStyles.width,
         "min-w-[var(--anchor-width)] max-w-[var(--anchor-width)] w-[var(--anchor-width)]",
+        // Instant exit prevents flash of unfiltered items when input is cleared
+        "data-[ending-style]:!duration-0",
         className
       )}
       {...props}
