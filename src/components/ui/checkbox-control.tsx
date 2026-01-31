@@ -41,11 +41,14 @@ const checkboxControlVariants = cva(
 type CheckboxControlProps = Omit<Checkbox.Root.Props, "className"> &
   VariantProps<typeof checkboxControlVariants> & {
     indeterminate?: boolean
+    /** When true, applies hover styles when a parent group/checkbox-cell is hovered */
+    cellHover?: boolean
     className?: string
   }
 
 function CheckboxControl({
   className,
+  cellHover,
   onPointerDown,
   onFocus,
   onBlur,
@@ -77,8 +80,11 @@ function CheckboxControl({
         "group",
         "bg-actions-tertiary-default shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1),0_0_0_1px_var(--color-utility-shadow-l1)]",
         "hover:bg-actions-tertiary-hover",
+        cellHover && "group-hover/checkbox-cell:bg-actions-tertiary-hover",
         "data-[checked]:bg-actions-primary-default data-[checked]:shadow-none data-[checked]:hover:bg-actions-primary-hover",
+        cellHover && "data-[checked]:group-hover/checkbox-cell:bg-actions-primary-hover",
         "data-[indeterminate]:bg-actions-primary-default data-[indeterminate]:shadow-none data-[indeterminate]:hover:bg-actions-primary-hover",
+        cellHover && "data-[indeterminate]:group-hover/checkbox-cell:bg-actions-primary-hover",
         "data-[disabled]:bg-actions-tertiary-disabled data-[disabled]:border data-[disabled]:border-border-muted data-[disabled]:shadow-none data-[disabled]:hover:bg-actions-tertiary-disabled",
         "data-[disabled]:data-[checked]:bg-actions-primary-disabled",
         "data-[disabled]:data-[indeterminate]:bg-actions-primary-disabled",

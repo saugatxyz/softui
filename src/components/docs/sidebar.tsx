@@ -23,15 +23,19 @@ export function DocsSidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={cn(
-                      "flex h-[32px] w-fit items-center rounded-[var(--radius-10)] px-[var(--space-12)] text-[14px] leading-[20px] font-[var(--font-weight-default)] transition",
-                      isActive
-                        ? "bg-surface-interactive-default text-content-strong font-[var(--font-weight-medium)]"
-                        : "text-content-subtle hover:bg-surface-interactive-hover"
-                    )}
+                    className="group flex w-full items-center"
                   >
-                    {Icon ? <Icon className="mr-[var(--space-6)] size-4" /> : null}
-                    {item.label}
+                    <span
+                      className={cn(
+                        "flex h-[32px] w-fit items-center rounded-[var(--radius-10)] px-[var(--space-12)] text-[14px] leading-[20px] font-[var(--font-weight-default)] transition",
+                        isActive
+                          ? "bg-surface-interactive-default text-content-strong font-[var(--font-weight-medium)]"
+                          : "text-content-subtle group-hover:bg-surface-interactive-hover"
+                      )}
+                    >
+                      {Icon ? <Icon className="mr-[var(--space-6)] size-4" /> : null}
+                      {item.label}
+                    </span>
                   </Link>
                 )
               })}

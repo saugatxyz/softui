@@ -112,7 +112,7 @@ function FileItem({
 
       <div className="relative z-10 flex min-w-0 flex-1 flex-col gap-[var(--space-4)]">
         <div className="flex items-center gap-[var(--space-6)]">
-          <p className="truncate text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)] text-content-strong">{file.name}</p>
+          <p title={file.name} className="truncate text-[length:var(--font-size-m)] font-[var(--font-weight-medium)] leading-[var(--line-height-m)] text-content-strong">{file.name}</p>
           <span className="relative flex size-[var(--space-16)] shrink-0 items-center justify-center">
             <AnimatePresence mode="popLayout" initial={false}>
               {state === "uploading" && (

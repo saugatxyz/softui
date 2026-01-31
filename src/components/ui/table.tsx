@@ -322,16 +322,23 @@ function TableCheckboxCell({
     xl: "w-[calc(var(--space-16)+var(--space-16)+var(--space-12))] pl-[var(--space-16)] pr-[var(--space-12)] py-[var(--space-12)]",
   }
 
+  const handleCellClick = () => {
+    onCheckedChange?.(!checked)
+  }
+
   return (
     <td
       data-slot="table-checkbox-cell"
-      className={cn(checkboxCellStyles[size], className)}
+      className={cn("group/checkbox-cell cursor-pointer", checkboxCellStyles[size], className)}
+      onClick={handleCellClick}
     >
       <div className="flex size-[var(--space-16)] items-center justify-center">
         <CheckboxControl
           checked={checked}
           onCheckedChange={onCheckedChange}
           indeterminate={indeterminate}
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          cellHover
         />
       </div>
     </td>

@@ -17,6 +17,7 @@ function FileStatesDemo() {
     { file: createMockFile("KPI Review.docx"), size: 8 * 1024 * 1024, state: "uploading" as const, progress: 45 },
     { file: createMockFile("Project Roadmap.pptx"), size: 1.2 * 1024 * 1024, state: "error" as const, progress: 0 },
     { file: createMockFile("Budget Analysis.pdf"), size: 3.4 * 1024 * 1024, state: "warning" as const, progress: 0 },
+    { file: createMockFile("2025 Annual Performance Review - Engineering Department Final Draft (Revised).pdf"), size: 5.1 * 1024 * 1024, state: "uploaded" as const, progress: 100 },
   ]
 
   return (

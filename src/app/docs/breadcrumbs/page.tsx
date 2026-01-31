@@ -22,9 +22,9 @@ export default function BreadcrumbsDocsPage() {
           code={`import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components/ui/breadcrumbs"
 
 <Breadcrumbs separator="slash">
-  <BreadcrumbsItem href="/" showHomeIcon>Home</BreadcrumbsItem>
+  <BreadcrumbsItem showHomeIcon>Home</BreadcrumbsItem>
   <BreadcrumbsSeparator />
-  <BreadcrumbsItem href="/settings">Settings</BreadcrumbsItem>
+  <BreadcrumbsItem>Settings</BreadcrumbsItem>
   <BreadcrumbsSeparator />
   <BreadcrumbsItem isCurrent>Account</BreadcrumbsItem>
 </Breadcrumbs>`}
@@ -40,13 +40,13 @@ export default function BreadcrumbsDocsPage() {
         </div>
         <div className="flex flex-col gap-[var(--space-16)] rounded-[var(--radius-12)] border border-border-muted p-[var(--space-24)]">
           <Breadcrumbs separator="slash">
-            <BreadcrumbsItem href="/" showHomeIcon>
+            <BreadcrumbsItem showHomeIcon>
               Home
             </BreadcrumbsItem>
             <BreadcrumbsSeparator />
-            <BreadcrumbsItem href="/settings">Settings</BreadcrumbsItem>
+            <BreadcrumbsItem>Settings</BreadcrumbsItem>
             <BreadcrumbsSeparator />
-            <BreadcrumbsItem href="/settings/account">Account</BreadcrumbsItem>
+            <BreadcrumbsItem>Account</BreadcrumbsItem>
             <BreadcrumbsSeparator />
             <BreadcrumbsItem isCurrent>Profile</BreadcrumbsItem>
           </Breadcrumbs>
@@ -62,13 +62,13 @@ export default function BreadcrumbsDocsPage() {
         </div>
         <div className="flex flex-col gap-[var(--space-16)] rounded-[var(--radius-12)] border border-border-muted p-[var(--space-24)]">
           <Breadcrumbs separator="chevron">
-            <BreadcrumbsItem href="/" showHomeIcon>
+            <BreadcrumbsItem showHomeIcon>
               Home
             </BreadcrumbsItem>
             <BreadcrumbsSeparator />
-            <BreadcrumbsItem href="/settings">Settings</BreadcrumbsItem>
+            <BreadcrumbsItem>Settings</BreadcrumbsItem>
             <BreadcrumbsSeparator />
-            <BreadcrumbsItem href="/settings/account">Account</BreadcrumbsItem>
+            <BreadcrumbsItem>Account</BreadcrumbsItem>
             <BreadcrumbsSeparator />
             <BreadcrumbsItem isCurrent>Profile</BreadcrumbsItem>
           </Breadcrumbs>
@@ -84,9 +84,9 @@ export default function BreadcrumbsDocsPage() {
         </div>
         <div className="flex flex-col gap-[var(--space-16)] rounded-[var(--radius-12)] border border-border-muted p-[var(--space-24)]">
           <Breadcrumbs separator="slash">
-            <BreadcrumbsItem href="/">Home</BreadcrumbsItem>
+            <BreadcrumbsItem>Home</BreadcrumbsItem>
             <BreadcrumbsSeparator />
-            <BreadcrumbsItem href="/products">Products</BreadcrumbsItem>
+            <BreadcrumbsItem>Products</BreadcrumbsItem>
             <BreadcrumbsSeparator />
             <BreadcrumbsItem isCurrent>Electronics</BreadcrumbsItem>
           </Breadcrumbs>
@@ -102,7 +102,7 @@ export default function BreadcrumbsDocsPage() {
         </div>
         <div className="flex flex-col gap-[var(--space-16)] rounded-[var(--radius-12)] border border-border-muted p-[var(--space-24)]">
           <Breadcrumbs separator="chevron">
-            <BreadcrumbsItem href="/" showHomeIcon>
+            <BreadcrumbsItem showHomeIcon>
               Home
             </BreadcrumbsItem>
             <BreadcrumbsSeparator />
