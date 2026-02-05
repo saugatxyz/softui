@@ -1,4 +1,3 @@
-import { ColorValue } from "@/components/docs/color-value"
 import { PaletteIcon } from "@/icons"
 import { getColorTokenSections } from "@/lib/token-data"
 
@@ -26,24 +25,51 @@ export default function TokensColorsPage() {
               <h2 className="text-body-xl-semibold">{section.title}</h2>
             </div>
             <div className="flex flex-col">
+              {/* Header row - hidden on mobile */}
+              <div className="hidden items-center justify-between gap-[var(--space-16)] border-b border-border-muted py-[var(--space-8)] md:flex">
+                <div className="text-body-s-medium text-content-muted">Token</div>
+                <div className="flex items-center gap-[var(--space-24)]">
+                  <div className="flex w-[140px] items-center justify-end gap-[var(--space-8)] text-body-s-medium text-content-muted">
+                    Light
+                  </div>
+                  <div className="flex w-[140px] items-center justify-end gap-[var(--space-8)] text-body-s-medium text-content-muted">
+                    Dark
+                  </div>
+                </div>
+              </div>
               {section.tokens.map((token, index) => (
                 <div
                   key={token.name}
-                  className={`flex items-center justify-between py-[var(--space-16)] ${
+                  className={`flex flex-col gap-[var(--space-8)] py-[var(--space-12)] md:flex-row md:items-center md:justify-between md:gap-[var(--space-16)] md:py-[var(--space-16)] ${
                     index === section.tokens.length - 1
                       ? ""
                       : "border-b border-border-muted"
                   }`}
                 >
-                  <div className="text-body-m text-content-strong">
-                    {token.name}
+                  <div className="min-w-0 text-body-m text-content-strong">
+                    <span className="break-all">{token.name}</span>
                   </div>
-                  <div className="flex items-center gap-[var(--space-8)]">
-                    <ColorValue cssVar={token.cssVar} alias={token.alias} />
-                    <div
-                      className="size-[20px] shrink-0 rounded-full border border-border-subtle"
-                      style={{ background: `rgb(var(${token.cssVar}))` }}
-                    />
+                  <div className="flex w-full items-center gap-[var(--space-12)] md:w-auto md:gap-[var(--space-24)]">
+                    {/* Light mode */}
+                    <div className="flex flex-1 items-center gap-[var(--space-6)] md:w-[140px] md:flex-none md:justify-end md:gap-[var(--space-8)]">
+                      <div
+                        className="size-[20px] shrink-0 rounded-full border border-border-subtle"
+                        style={{ background: token.lightHex || "transparent" }}
+                      />
+                      <span className="text-body-s text-content-subtle md:order-first md:text-body-m">
+                        {token.lightAlias || "--"}
+                      </span>
+                    </div>
+                    {/* Dark mode */}
+                    <div className="flex flex-1 items-center gap-[var(--space-6)] md:w-[140px] md:flex-none md:justify-end md:gap-[var(--space-8)]">
+                      <div
+                        className="size-[20px] shrink-0 rounded-full border border-border-subtle"
+                        style={{ background: token.darkHex || "transparent" }}
+                      />
+                      <span className="text-body-s text-content-subtle md:order-first md:text-body-m">
+                        {token.darkAlias || "--"}
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}
