@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { cva } from "class-variance-authority"
+import { RiExpandUpDownLine, RiCheckFill } from "@remixicon/react"
 
 import { cn } from "@/lib/utils"
 import { listPopupStyles, listItemVariants } from "./list-item-styles"
@@ -155,13 +156,15 @@ type SelectIconProps = Omit<SelectPrimitive.Icon.Props, "className"> & {
   className?: string
 }
 
-function SelectIcon({ className, ...props }: SelectIconProps) {
+function SelectIcon({ className, children, ...props }: SelectIconProps) {
   return (
     <SelectPrimitive.Icon
       data-slot="icon"
       className={cn(iconVariants(), "text-content-muted", className)}
       {...props}
-    />
+    >
+      {children ?? <RiExpandUpDownLine />}
+    </SelectPrimitive.Icon>
   )
 }
 
@@ -290,17 +293,19 @@ type SelectItemIndicatorProps = Omit<SelectPrimitive.ItemIndicator.Props, "class
   className?: string
 }
 
-function SelectItemIndicator({ className, ...props }: SelectItemIndicatorProps) {
+function SelectItemIndicator({ className, children, ...props }: SelectItemIndicatorProps) {
   return (
     <SelectPrimitive.ItemIndicator
       data-slot="indicator"
       className={cn(
-        "flex size-[var(--space-20)] shrink-0 items-center justify-center",
+        "flex size-[var(--space-20)] shrink-0 items-center justify-center text-content-strong",
         "group-has-[[data-slot=item-description]]:self-start group-has-[[data-slot=item-description]]:mt-[var(--space-2)]",
         className
       )}
       {...props}
-    />
+    >
+      {children ?? <RiCheckFill className="size-[var(--space-16)]" />}
+    </SelectPrimitive.ItemIndicator>
   )
 }
 

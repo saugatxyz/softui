@@ -183,19 +183,23 @@ import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components
 - `Select.Root` - Container, manages state
 - `Select.Trigger` - Button that opens dropdown
 - `Select.Value` - Displays selected value
-- `Select.Icon` - Trailing icon slot
+- `Select.Icon` - Trailing chevron icon (default: `RiExpandUpDownLine`)
 - `Select.Portal` - Renders dropdown in portal
-- `Select.Positioner` - Handles positioning
+- `Select.Positioner` - Handles positioning (defaults: `sideOffset={4}`, `collisionPadding={8}`)
 - `Select.Popup` - Dropdown container
 - `Select.Backdrop` - Optional backdrop for modal behavior
 - `Select.List` - List of items
 - `Select.Item` - Individual option
 - `Select.ItemText` - Item label
-- `Select.ItemIndicator` - Checkmark for selected option
+- `Select.ItemIndicator` - Checkmark for selected option (default: `RiCheckFill`)
 - `Select.Group` - Option group container
 - `Select.GroupLabel` - Group header
 - `Select.Arrow` - Optional arrow element
 - `Select.ScrollUpArrow` / `Select.ScrollDownArrow` - Scroll affordances
+
+**Built-in defaults:**
+- `Select.Icon` renders `RiExpandUpDownLine` if no children provided
+- `Select.ItemIndicator` renders `RiCheckFill` if no children provided
 
 **Data Attributes:**
 | Element | Attribute | When Applied |
@@ -204,6 +208,8 @@ import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components
 | `Select.Item` | `data-highlighted` | Option has keyboard/hover focus |
 | `Select.Item` | `data-selected` | Option is the current value |
 | `Select.Item` | `data-disabled` | Option is disabled |
+
+**Item order:** Always put `ItemText` BEFORE `ItemIndicator` so the checkmark appears on the right.
 
 ```tsx
 <Select defaultValue="option1">

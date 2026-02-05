@@ -4,9 +4,10 @@ import * as React from "react"
 import { Toast, useToastManager, defaultAnimConfig, type ToastAnimationConfig } from "@/components/ui/toast"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { Slider } from "@/components/ui/slider"
+import { AdjustmentSlider } from "@/components/ui/adjustment-slider"
 import { NumberField } from "@/components/ui/number-field"
 import { Field } from "@/components/ui/field"
+import { Select } from "@/components/ui/select"
 import { ChipGroup } from "@/components/ui/chip-group"
 import { Chip } from "@/components/ui/chip"
 import { RiPlayLine, RiStopLine, RiDeleteBinLine, RiAddLine, RiRefreshLine } from "@remixicon/react"
@@ -416,40 +417,53 @@ function PlaygroundContent({
 
         {/* Transform Origin */}
         <ControlGroup label="Transform Origin">
-          <ChipGroup size="m">
-            {transformOriginOptions.map((origin) => (
-              <Chip
-                key={origin}
-                selected={config.entry.transformOrigin === origin}
-                onClick={() => updateEntryConfig("transformOrigin", origin)}
-                hideRemove
-              >
-                {origin}
-              </Chip>
-            ))}
-          </ChipGroup>
+          <Select
+            size="m"
+            variant="secondary"
+            value={config.entry.transformOrigin}
+            onValueChange={(value) => updateEntryConfig("transformOrigin", value as string)}
+          >
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Icon />
+            </Select.Trigger>
+            <Select.Portal>
+              <Select.Positioner>
+                <Select.Popup>
+                  <Select.List>
+                    {transformOriginOptions.map((origin) => (
+                      <Select.Item key={origin} value={origin}>
+                        <Select.ItemText>{origin}</Select.ItemText>
+                        <Select.ItemIndicator />
+                      </Select.Item>
+                    ))}
+                  </Select.List>
+                </Select.Popup>
+              </Select.Positioner>
+            </Select.Portal>
+          </Select>
         </ControlGroup>
 
         {/* Position */}
         <ControlGroup label="Position">
           <div className="grid gap-[var(--space-16)] sm:grid-cols-2">
-            <SliderField
+            <AdjustmentSlider
               label="X"
               value={config.entry.initialX}
-              onChange={(v) => updateEntryConfig("initialX", v)}
+              onValueChange={(v) => updateEntryConfig("initialX", Array.isArray(v) ? v[0] : v)}
               min={-100}
               max={100}
               step={1}
-              unit="px"
+              renderValue={(v) => `${v}px`}
             />
-            <SliderField
+            <AdjustmentSlider
               label="Y"
               value={config.entry.initialY}
-              onChange={(v) => updateEntryConfig("initialY", v)}
+              onValueChange={(v) => updateEntryConfig("initialY", Array.isArray(v) ? v[0] : v)}
               min={-100}
               max={100}
               step={1}
-              unit="px"
+              renderValue={(v) => `${v}px`}
             />
           </div>
         </ControlGroup>
@@ -457,32 +471,32 @@ function PlaygroundContent({
         {/* Appearance */}
         <ControlGroup label="Appearance">
           <div className="grid gap-[var(--space-16)] sm:grid-cols-3">
-            <SliderField
+            <AdjustmentSlider
               label="Opacity"
               value={config.entry.initialOpacity}
-              onChange={(v) => updateEntryConfig("initialOpacity", v)}
+              onValueChange={(v) => updateEntryConfig("initialOpacity", Array.isArray(v) ? v[0] : v)}
               min={0}
               max={1}
               step={0.05}
-              decimals={2}
+              renderValue={(v) => v.toFixed(2)}
             />
-            <SliderField
+            <AdjustmentSlider
               label="Scale"
               value={config.entry.initialScale}
-              onChange={(v) => updateEntryConfig("initialScale", v)}
+              onValueChange={(v) => updateEntryConfig("initialScale", Array.isArray(v) ? v[0] : v)}
               min={0.5}
               max={1.2}
               step={0.01}
-              decimals={2}
+              renderValue={(v) => v.toFixed(2)}
             />
-            <SliderField
+            <AdjustmentSlider
               label="Blur"
               value={config.entry.initialBlur}
-              onChange={(v) => updateEntryConfig("initialBlur", v)}
+              onValueChange={(v) => updateEntryConfig("initialBlur", Array.isArray(v) ? v[0] : v)}
               min={0}
               max={20}
               step={1}
-              unit="px"
+              renderValue={(v) => `${Math.round(v)}px`}
             />
           </div>
         </ControlGroup>
@@ -490,24 +504,23 @@ function PlaygroundContent({
         {/* Spring Physics */}
         <ControlGroup label="Spring Physics">
           <div className="grid gap-[var(--space-16)] sm:grid-cols-2">
-            <SliderField
+            <AdjustmentSlider
               label="Bounce"
               value={config.entry.springBounce}
-              onChange={(v) => updateEntryConfig("springBounce", v)}
+              onValueChange={(v) => updateEntryConfig("springBounce", Array.isArray(v) ? v[0] : v)}
               min={0}
               max={0.5}
               step={0.01}
-              decimals={2}
+              renderValue={(v) => v.toFixed(2)}
             />
-            <SliderField
+            <AdjustmentSlider
               label="Duration"
               value={config.entry.springDuration}
-              onChange={(v) => updateEntryConfig("springDuration", v)}
+              onValueChange={(v) => updateEntryConfig("springDuration", Array.isArray(v) ? v[0] : v)}
               min={0.1}
               max={1}
               step={0.05}
-              unit="s"
-              decimals={2}
+              renderValue={(v) => `${v.toFixed(2)}s`}
             />
           </div>
         </ControlGroup>
@@ -524,40 +537,53 @@ function PlaygroundContent({
 
         {/* Transform Origin */}
         <ControlGroup label="Transform Origin">
-          <ChipGroup size="m">
-            {transformOriginOptions.map((origin) => (
-              <Chip
-                key={origin}
-                selected={config.exit.transformOrigin === origin}
-                onClick={() => updateExitConfig("transformOrigin", origin)}
-                hideRemove
-              >
-                {origin}
-              </Chip>
-            ))}
-          </ChipGroup>
+          <Select
+            size="m"
+            variant="secondary"
+            value={config.exit.transformOrigin}
+            onValueChange={(value) => updateExitConfig("transformOrigin", value as string)}
+          >
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Icon />
+            </Select.Trigger>
+            <Select.Portal>
+              <Select.Positioner>
+                <Select.Popup>
+                  <Select.List>
+                    {transformOriginOptions.map((origin) => (
+                      <Select.Item key={origin} value={origin}>
+                        <Select.ItemText>{origin}</Select.ItemText>
+                        <Select.ItemIndicator />
+                      </Select.Item>
+                    ))}
+                  </Select.List>
+                </Select.Popup>
+              </Select.Positioner>
+            </Select.Portal>
+          </Select>
         </ControlGroup>
 
         {/* Position */}
         <ControlGroup label="Position">
           <div className="grid gap-[var(--space-16)] sm:grid-cols-2">
-            <SliderField
+            <AdjustmentSlider
               label="X"
               value={config.exit.x}
-              onChange={(v) => updateExitConfig("x", v)}
+              onValueChange={(v) => updateExitConfig("x", Array.isArray(v) ? v[0] : v)}
               min={-100}
               max={100}
               step={1}
-              unit="px"
+              renderValue={(v) => `${v}px`}
             />
-            <SliderField
+            <AdjustmentSlider
               label="Y"
               value={config.exit.y}
-              onChange={(v) => updateExitConfig("y", v)}
+              onValueChange={(v) => updateExitConfig("y", Array.isArray(v) ? v[0] : v)}
               min={-100}
               max={100}
               step={1}
-              unit="px"
+              renderValue={(v) => `${v}px`}
             />
           </div>
         </ControlGroup>
@@ -565,32 +591,32 @@ function PlaygroundContent({
         {/* Appearance */}
         <ControlGroup label="Appearance">
           <div className="grid gap-[var(--space-16)] sm:grid-cols-3">
-            <SliderField
+            <AdjustmentSlider
               label="Opacity"
               value={config.exit.opacity}
-              onChange={(v) => updateExitConfig("opacity", v)}
+              onValueChange={(v) => updateExitConfig("opacity", Array.isArray(v) ? v[0] : v)}
               min={0}
               max={1}
               step={0.05}
-              decimals={2}
+              renderValue={(v) => v.toFixed(2)}
             />
-            <SliderField
+            <AdjustmentSlider
               label="Scale"
               value={config.exit.scale}
-              onChange={(v) => updateExitConfig("scale", v)}
+              onValueChange={(v) => updateExitConfig("scale", Array.isArray(v) ? v[0] : v)}
               min={0.5}
               max={1.2}
               step={0.01}
-              decimals={2}
+              renderValue={(v) => v.toFixed(2)}
             />
-            <SliderField
+            <AdjustmentSlider
               label="Blur"
               value={config.exit.blur}
-              onChange={(v) => updateExitConfig("blur", v)}
+              onValueChange={(v) => updateExitConfig("blur", Array.isArray(v) ? v[0] : v)}
               min={0}
               max={20}
               step={1}
-              unit="px"
+              renderValue={(v) => `${Math.round(v)}px`}
             />
           </div>
         </ControlGroup>
@@ -598,24 +624,23 @@ function PlaygroundContent({
         {/* Spring Physics */}
         <ControlGroup label="Spring Physics">
           <div className="grid gap-[var(--space-16)] sm:grid-cols-2">
-            <SliderField
+            <AdjustmentSlider
               label="Bounce"
               value={config.exit.springBounce}
-              onChange={(v) => updateExitConfig("springBounce", v)}
+              onValueChange={(v) => updateExitConfig("springBounce", Array.isArray(v) ? v[0] : v)}
               min={0}
               max={0.5}
               step={0.01}
-              decimals={2}
+              renderValue={(v) => v.toFixed(2)}
             />
-            <SliderField
+            <AdjustmentSlider
               label="Duration"
               value={config.exit.springDuration}
-              onChange={(v) => updateExitConfig("springDuration", v)}
+              onValueChange={(v) => updateExitConfig("springDuration", Array.isArray(v) ? v[0] : v)}
               min={0.1}
               max={1}
               step={0.05}
-              unit="s"
-              decimals={2}
+              renderValue={(v) => `${v.toFixed(2)}s`}
             />
           </div>
         </ControlGroup>
@@ -641,24 +666,23 @@ function PlaygroundContent({
         {config.layout.enabled && (
           <ControlGroup label="Spring Physics">
             <div className="grid gap-[var(--space-16)] sm:grid-cols-2">
-              <SliderField
+              <AdjustmentSlider
                 label="Bounce"
                 value={config.layout.springBounce}
-                onChange={(v) => updateLayoutConfig("springBounce", v)}
+                onValueChange={(v) => updateLayoutConfig("springBounce", Array.isArray(v) ? v[0] : v)}
                 min={0}
                 max={0.5}
                 step={0.01}
-                decimals={2}
+                renderValue={(v) => v.toFixed(2)}
               />
-              <SliderField
+              <AdjustmentSlider
                 label="Duration"
                 value={config.layout.springDuration}
-                onChange={(v) => updateLayoutConfig("springDuration", v)}
+                onValueChange={(v) => updateLayoutConfig("springDuration", Array.isArray(v) ? v[0] : v)}
                 min={0.1}
                 max={1}
                 step={0.05}
-                unit="s"
-                decimals={2}
+                renderValue={(v) => `${v.toFixed(2)}s`}
               />
             </div>
           </ControlGroup>
@@ -719,55 +743,5 @@ function ControlGroup({ label, children }: { label: string; children: React.Reac
       <span className="text-body-s-medium text-content-strong">{label}</span>
       {children}
     </div>
-  )
-}
-
-// Format value with appropriate precision and unit
-function formatValue(value: number, unit?: string, decimals?: number): string {
-  const formatted = decimals !== undefined ? value.toFixed(decimals) : String(value)
-  return unit ? `${formatted}${unit}` : formatted
-}
-
-// Custom SliderField component that wraps our Slider with a label and value display
-function SliderField({
-  label,
-  value,
-  onChange,
-  min,
-  max,
-  step,
-  unit,
-  decimals,
-}: {
-  label: string
-  value: number
-  onChange: (value: number) => void
-  min: number
-  max: number
-  step: number
-  unit?: string
-  decimals?: number
-}) {
-  const handleValueChange = (val: number | readonly number[]) => {
-    // Slider can return number or array, we only use single values
-    const numValue = Array.isArray(val) ? val[0] : val
-    onChange(numValue)
-  }
-
-  return (
-    <Slider value={value} onValueChange={handleValueChange} min={min} max={max} step={step}>
-      <div className="flex items-center justify-between">
-        <span className="text-body-s-medium text-content-strong">{label}</span>
-        <span className="text-body-s tabular-nums text-content-strong">
-          {formatValue(value, unit, decimals)}
-        </span>
-      </div>
-      <Slider.Control>
-        <Slider.Track>
-          <Slider.Indicator />
-          <Slider.Thumb />
-        </Slider.Track>
-      </Slider.Control>
-    </Slider>
   )
 }

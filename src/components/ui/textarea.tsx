@@ -64,6 +64,8 @@ type TextareaProps = Omit<
     rows?: number
     /** Resize behavior */
     resize?: TextareaResize
+    /** Only show focus ring on keyboard navigation (default: true) */
+    focusVisibleOnly?: boolean
   }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -74,6 +76,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       variant,
       rows = 3,
       resize = "vertical",
+      focusVisibleOnly = true,
       disabled,
       ...props
     },
@@ -81,14 +84,55 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ) {
     const resolvedSize: TextareaSize = size ?? "m"
     const resolvedVariant: TextareaVariant = variant ?? "secondary"
-    const containerRef = React.useRef<HTMLDivElement>(null)
+    const internalRef = React.useRef<HTMLTextAreaElement>(null)
+    const [showFocusRing, setShowFocusRing] = React.useState(false)
+    const wasPointerDown = React.useRef(false)
+
+    // Stable ref merging
+    const forwardedRef = React.useRef(ref)
+
+    React.useEffect(() => {
+      forwardedRef.current = ref
+    }, [ref])
+
+    const mergedRef = React.useCallback((node: HTMLTextAreaElement | null) => {
+      internalRef.current = node
+      const fwdRef = forwardedRef.current
+      if (typeof fwdRef === "function") {
+        fwdRef(node)
+      } else if (fwdRef) {
+        fwdRef.current = node
+      }
+    }, [])
+
+    const handlePointerDown = () => {
+      wasPointerDown.current = true
+    }
+
+    const handleFocus = () => {
+      if (focusVisibleOnly) {
+        setShowFocusRing(!wasPointerDown.current)
+      } else {
+        setShowFocusRing(true)
+      }
+      wasPointerDown.current = false
+    }
+
+    const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+      if (event.currentTarget.contains(event.relatedTarget as Node)) return
+      setShowFocusRing(false)
+      wasPointerDown.current = false
+    }
+
+    const handleClick = () => {
+      internalRef.current?.focus()
+    }
 
     const isSecondary = resolvedVariant === "secondary"
     const isTertiary = resolvedVariant === "tertiary"
 
     return (
       <div
-        ref={containerRef}
         data-slot="textarea"
         data-size={resolvedSize}
         data-variant={resolvedVariant}
@@ -104,13 +148,17 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             : "cursor-text",
           !disabled && isSecondary && "hover:bg-actions-secondary-hover",
           !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
-          "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          showFocusRing &&
+            "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           className
         )}
-        onClick={() => containerRef.current?.querySelector("textarea")?.focus()}
+        onPointerDown={handlePointerDown}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onClick={handleClick}
       >
         <InputPrimitive
-          ref={ref as React.Ref<HTMLInputElement>}
+          ref={mergedRef as React.Ref<HTMLInputElement>}
           data-slot="control"
           disabled={disabled}
           render={<textarea rows={rows} />}
