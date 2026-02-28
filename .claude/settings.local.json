@@ -69,7 +69,8 @@
       "mcp__chrome-devtools__select_page",
       "mcp__chrome-devtools__hover",
       "mcp__chrome-devtools__evaluate_script",
-      "WebFetch(domain:number-flow.barvian.me)"
+      "WebFetch(domain:number-flow.barvian.me)",
+      "Bash(rsync:*)"
     ]
   }
 }
