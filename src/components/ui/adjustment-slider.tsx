@@ -185,7 +185,7 @@ function AdjustmentSlider({
             )}
             <span
               className={cn(
-                "text-[length:var(--font-size-s)] font-medium leading-[var(--line-height-s)]",
+                "text-[length:var(--font-size-m)] font-medium leading-[var(--line-height-m)]",
                 disabled ? "text-content-disabled" : "text-content-strong",
                 icon && "ml-[var(--space-8)]"
               )}
