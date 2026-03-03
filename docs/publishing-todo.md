@@ -12,11 +12,7 @@ Use this checklist when you are ready to publish `@soft-ui/*` publicly.
 
 ### 1) Validate the monorepo
 ```bash
-pnpm install --frozen-lockfile
-pnpm typecheck
-pnpm lint
-pnpm build
-pnpm test:smoke
+pnpm verify:ci
 ```
 
 ### 2) Package like npm (tarball simulation)
@@ -58,6 +54,7 @@ Required setup in consumer:
 - Icon overrides work via `SoftUIIconProvider`.
 
 ## Publishing Prep (Do Later)
+- [ ] In Vercel project settings, set **Root Directory** to `apps/docs`.
 - [ ] Create/verify npm org scope: `@soft-ui`.
 - [ ] Ensure package publish rights for all 3 packages.
 - [ ] Add `NPM_TOKEN` in GitHub repository secrets.

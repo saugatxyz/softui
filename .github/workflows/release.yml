@@ -3,6 +3,7 @@ name: Release
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   release:
@@ -23,11 +24,21 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
-      - run: pnpm install --no-frozen-lockfile
-      - run: pnpm typecheck
-      - run: pnpm lint
-      - run: pnpm build
-      - uses: changesets/action@v1
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify
+
+      - name: Detect pending changesets
+        id: changesets
+        run: |
+          if compgen -G ".changeset/*.md" > /dev/null; then
+            echo "has_changesets=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changesets=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish with Changesets
+        if: ${{ steps.changesets.outputs.has_changesets == 'true' && secrets.NPM_TOKEN != '' }}
+        uses: changesets/action@v1
         with:
           publish: pnpm dlx @changesets/cli publish
           version: pnpm dlx @changesets/cli version
@@ -36,3 +47,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Skip publish (no changesets or missing NPM token)
+        if: ${{ steps.changesets.outputs.has_changesets != 'true' || secrets.NPM_TOKEN == '' }}
+        run: |
+          echo "Skipping publish."
+          echo "has_changesets=${{ steps.changesets.outputs.has_changesets }}"
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "NPM_TOKEN is not configured."
+          fi

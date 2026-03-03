@@ -8,6 +8,8 @@
     "lint": "pnpm -r --filter './packages/*' lint && pnpm --filter @soft-ui/docs lint",
     "typecheck": "pnpm -r --filter './packages/*' typecheck && pnpm --filter @soft-ui/docs typecheck",
     "test:smoke": "pnpm --filter @soft-ui/docs smoke",
+    "verify": "pnpm typecheck && pnpm lint && pnpm build && pnpm test:smoke",
+    "verify:ci": "pnpm install --frozen-lockfile && pnpm verify",
     "release": "pnpm dlx @changesets/cli version && pnpm dlx @changesets/cli publish"
   }
 }

@@ -17,7 +17,16 @@ pnpm typecheck   # packages + docs
 pnpm lint        # packages + docs
 pnpm build       # packages + docs production build
 pnpm test:smoke  # docs smoke build
+pnpm verify      # full local gate (same checks as CI)
 ```
+
+## Vercel Setup (Docs App)
+
+This repo is a monorepo. Set your Vercel project **Root Directory** to:
+
+`apps/docs`
+
+If Root Directory points to repo root, Vercel cannot detect the Next.js app correctly.
 
 ## Consumer Setup (v1)
 
