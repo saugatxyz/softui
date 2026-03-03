@@ -3,6 +3,13 @@ import { getColorTokenSections } from "@/lib/token-data"
 
 export default function TokensColorsPage() {
   const colorSections = getColorTokenSections()
+  const getSwatchBackground = (
+    alias: string | null | undefined,
+    hex: string | null | undefined
+  ) => {
+    if (alias) return `rgb(var(--${alias}))`
+    return hex || "transparent"
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-[var(--space-48)] px-[var(--space-16)] py-[var(--space-32)] md:px-[var(--space-24)]">
@@ -54,7 +61,9 @@ export default function TokensColorsPage() {
                     <div className="flex flex-1 items-center gap-[var(--space-6)] md:w-[140px] md:flex-none md:justify-end md:gap-[var(--space-8)]">
                       <div
                         className="size-[20px] shrink-0 rounded-full border border-border-subtle"
-                        style={{ background: token.lightHex || "transparent" }}
+                        style={{
+                          background: getSwatchBackground(token.lightAlias, token.lightHex),
+                        }}
                       />
                       <span className="text-body-s text-content-subtle md:order-first md:text-body-m">
                         {token.lightAlias || "--"}
@@ -64,7 +73,9 @@ export default function TokensColorsPage() {
                     <div className="flex flex-1 items-center gap-[var(--space-6)] md:w-[140px] md:flex-none md:justify-end md:gap-[var(--space-8)]">
                       <div
                         className="size-[20px] shrink-0 rounded-full border border-border-subtle"
-                        style={{ background: token.darkHex || "transparent" }}
+                        style={{
+                          background: getSwatchBackground(token.darkAlias, token.darkHex),
+                        }}
                       />
                       <span className="text-body-s text-content-subtle md:order-first md:text-body-m">
                         {token.darkAlias || "--"}

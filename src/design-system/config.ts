@@ -18,9 +18,23 @@ export const themeColors = [
   "fuchsia",
   "pink",
   "rose",
+  "mauve",
+  "mist",
+  "olive",
+  "taupe",
 ] as const
 
-export const baseColors = ["neutral", "slate", "gray", "zinc", "stone"] as const
+export const baseColors = [
+  "neutral",
+  "slate",
+  "gray",
+  "zinc",
+  "stone",
+  "mauve",
+  "mist",
+  "olive",
+  "taupe",
+] as const
 
 export const designSystemConfig = {
   defaultMode: "light",

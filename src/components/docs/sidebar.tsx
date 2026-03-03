@@ -23,11 +23,11 @@ export function DocsSidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="group flex w-full items-center"
+                    className="group flex w-full items-center focus-visible:outline-none"
                   >
                     <span
                       className={cn(
-                        "flex h-[32px] w-fit items-center rounded-[var(--radius-10)] px-[var(--space-12)] text-[14px] leading-[20px] font-[var(--font-weight-default)] transition",
+                        "flex h-[32px] w-fit items-center rounded-[var(--radius-10)] px-[var(--space-12)] text-[14px] leading-[20px] font-[var(--font-weight-default)] transition group-focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
                         isActive
                           ? "bg-surface-interactive-default text-content-strong font-[var(--font-weight-medium)]"
                           : "text-content-subtle group-hover:bg-surface-interactive-hover"

@@ -21,17 +21,17 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sugar-high": "^0.9.5",
-    "tailwind-merge": "latest",
+    "tailwind-merge": "^3.5.0",
     "tw-animate-css": "latest"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.2.1",
     "typescript": "^5"
   }
 }
