@@ -1,37 +1,13 @@
 {
-  "name": "soft",
+  "name": "soft-ui-workspace",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:fresh": "./scripts/dev.sh",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "@base-ui/react": "^1.0.0",
-    "@number-flow/react": "^0.5.10",
-    "@remixicon/react": "latest",
-    "class-variance-authority": "latest",
-    "clsx": "latest",
-    "cmdk": "^1.1.1",
-    "motion": "latest",
-    "next": "16.1.1",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "sugar-high": "^0.9.5",
-    "tailwind-merge": "^3.5.0",
-    "tw-animate-css": "latest"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.2.1",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.1",
-    "tailwindcss": "^4.2.1",
-    "typescript": "^5"
+    "dev": "pnpm --filter @soft-ui/docs dev",
+    "build": "pnpm -r --filter './packages/*' build && pnpm --filter @soft-ui/docs build",
+    "lint": "pnpm -r --filter './packages/*' lint && pnpm --filter @soft-ui/docs lint",
+    "typecheck": "pnpm -r --filter './packages/*' typecheck && pnpm --filter @soft-ui/docs typecheck",
+    "test:smoke": "pnpm --filter @soft-ui/docs smoke",
+    "release": "pnpm dlx @changesets/cli version && pnpm dlx @changesets/cli publish"
   }
 }

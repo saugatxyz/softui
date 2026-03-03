@@ -131,7 +131,7 @@ Use this matrix when generating UI with agents.
 | `showHomeIcon` | `boolean` | `false` | Show home icon before label |
 
 ```tsx
-import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components/ui/breadcrumbs"
+import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "-ui/react/breadcrumbs"
 
 <Breadcrumbs separator="slash">
   <BreadcrumbsItem href="/" showHomeIcon>Home</BreadcrumbsItem>
@@ -304,7 +304,7 @@ import { Breadcrumbs, BreadcrumbsItem, BreadcrumbsSeparator } from "@/components
 **Usage:** Pass `items` to `Combobox.Root` (flat array or grouped). For external filtering, pass `filteredItems` and `onInputValueChange`.
 
 ```tsx
-import { Combobox } from "@/components/ui/combobox"
+import { Combobox } from "-ui/react/combobox"
 import { RiCheckFill, RiExpandUpDownLine } from "@remixicon/react"
 
 const items = [
@@ -400,8 +400,8 @@ const items = [
 | `disabled` | `boolean` | `false` | Disable item |
 
 ```tsx
-import { CheckboxGroup } from "@/components/ui/checkbox-group"
-import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
+import { CheckboxGroup } from "-ui/react/checkbox-group"
+import { CheckboxGroupItem } from "-ui/react/checkbox-group-item"
 
 <CheckboxGroup style="list">
   <CheckboxGroupItem label="Slack notifications" />
@@ -453,8 +453,8 @@ import { CheckboxGroupItem } from "@/components/ui/checkbox-group-item"
 | `disabled` | `boolean` | `false` | Disable item |
 
 ```tsx
-import { SwitchGroup } from "@/components/ui/switch-group"
-import { SwitchGroupItem } from "@/components/ui/switch-group-item"
+import { SwitchGroup } from "-ui/react/switch-group"
+import { SwitchGroupItem } from "-ui/react/switch-group-item"
 
 <SwitchGroup style="simple">
   <SwitchGroupItem label="Push notifications" defaultChecked />
@@ -485,7 +485,7 @@ import { SwitchGroupItem } from "@/components/ui/switch-group-item"
 | `Toggle.Root` | `data-pressed` | Toggle is active |
 
 ```tsx
-import { ToggleButton } from "@/components/ui/toggle-button"
+import { ToggleButton } from "-ui/react/toggle-button"
 
 <ToggleButton leadingIcon={<HeartIcon />}>Like</ToggleButton>
 ```
@@ -551,7 +551,7 @@ import { ToggleButton } from "@/components/ui/toggle-button"
 | `data-disabled` | When disabled |
 
 ```tsx
-import { Filter } from "@/components/ui/filter"
+import { Filter } from "-ui/react/filter"
 
 // Without value (inactive state)
 <Filter label="Status" />
@@ -697,7 +697,7 @@ import { Filter } from "@/components/ui/filter"
 | `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
 
 ```tsx
-import { Button } from "@/components/ui/button"
+import { Button } from "-ui/react/button"
 
 <Button variant="primary" size="m" leadingIcon={<RiAddLine />}>
   Create
@@ -722,7 +722,7 @@ import { Button } from "@/components/ui/button"
 **Accessibility:** Icon-only buttons require `aria-label` for screen readers.
 
 ```tsx
-import { IconButton } from "@/components/ui/icon-button"
+import { IconButton } from "-ui/react/icon-button"
 
 <IconButton variant="ghost" size="xs" aria-label="More options">
   <RiMoreLine />
@@ -752,7 +752,7 @@ import { IconButton } from "@/components/ui/icon-button"
 | `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
 
 ```tsx
-import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group"
+import { ButtonGroup, ButtonGroupItem } from "-ui/react/button-group"
 
 <ButtonGroup size="s">
   <ButtonGroupItem leadingIcon={<RiAlignLeft />} />
@@ -782,7 +782,7 @@ import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group"
 | `trailingDot` | `boolean` | `false` | Status dot after label |
 
 ```tsx
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "-ui/react/badge"
 
 <Badge variant="success" isEmphasized leadingDot>Active</Badge>
 <Badge variant="info" size="xs">Beta</Badge>
@@ -806,7 +806,7 @@ import { Badge } from "@/components/ui/badge"
 | `onRemove` | `() => void` | - | Callback when X is clicked |
 
 ```tsx
-import { Chip } from "@/components/ui/chip"
+import { Chip } from "-ui/react/chip"
 
 <Chip selected onRemove={() => {}}>Active Filter</Chip>
 <Chip leadingIcon={<RiFilterLine />}>Type</Chip>
@@ -826,8 +826,8 @@ import { Chip } from "@/components/ui/chip"
 | `size` | `"s"` \| `"m"` | `"s"` | Size for all chips |
 
 ```tsx
-import { ChipGroup } from "@/components/ui/chip-group"
-import { Chip } from "@/components/ui/chip"
+import { ChipGroup } from "-ui/react/chip-group"
+import { Chip } from "-ui/react/chip"
 
 <ChipGroup size="s">
   <Chip selected>Active</Chip>
@@ -856,7 +856,7 @@ import { Chip } from "@/components/ui/chip"
 | `color` | Decorative color | - | Background color when emphasized |
 
 ```tsx
-import { Avatar } from "@/components/ui/avatar"
+import { Avatar } from "-ui/react/avatar"
 
 <Avatar src="/avatars/avatar-1.png" size="m" />
 <Avatar initials="JD" isEmphasized color="blue" />
@@ -878,8 +878,8 @@ import { Avatar } from "@/components/ui/avatar"
 | `max` | `number` | - | Max visible avatars (shows +N) |
 
 ```tsx
-import { AvatarGroup } from "@/components/ui/avatar-group"
-import { Avatar } from "@/components/ui/avatar"
+import { AvatarGroup } from "-ui/react/avatar-group"
+import { Avatar } from "-ui/react/avatar"
 
 <AvatarGroup size="s" max={3}>
   <Avatar src="/avatars/avatar-1.png" />
@@ -902,7 +902,7 @@ import { Avatar } from "@/components/ui/avatar"
 | `orientation` | `"horizontal"` \| `"vertical"` | `"horizontal"` | Separator direction |
 
 ```tsx
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "-ui/react/separator"
 
 <Separator />
 <Separator orientation="vertical" />
@@ -916,7 +916,7 @@ import { Separator } from "@/components/ui/separator"
 **Note:** Custom component, not a Base UI primitive.
 
 ```tsx
-import { Kbd } from "@/components/ui/kbd"
+import { Kbd } from "-ui/react/kbd"
 
 <Kbd>⌘</Kbd>
 <Kbd>K</Kbd>
@@ -936,7 +936,7 @@ import { Kbd } from "@/components/ui/kbd"
 | `size` | `number` | `24` | Logo size in pixels |
 
 ```tsx
-import { Logo } from "@/components/ui/logo"
+import { Logo } from "-ui/react/logo"
 
 <Logo logo="discord" size={24} />
 <Logo logo="github" size={20} />
@@ -973,7 +973,7 @@ import { Logo } from "@/components/ui/logo"
 
 **Helper function:**
 ```ts
-import { getFileTypeFromExtension } from "@/components/ui/file-icon"
+import { getFileTypeFromExtension } from "-ui/react/file-icon"
 
 // Automatically determines file type from filename
 getFileTypeFromExtension("document.pdf") // returns "pdf"
@@ -981,7 +981,7 @@ getFileTypeFromExtension("image.png")    // returns "image"
 ```
 
 ```tsx
-import { FileIcon, UploadIcon, getFileTypeFromExtension } from "@/components/ui/file-icon"
+import { FileIcon, UploadIcon, getFileTypeFromExtension } from "-ui/react/file-icon"
 
 <FileIcon fileType="pdf" size="m" />
 <FileIcon fileType="image" src="/preview.jpg" />
@@ -1007,7 +1007,7 @@ import { FileIcon, UploadIcon, getFileTypeFromExtension } from "@/components/ui/
 
 **Helper exports:**
 ```ts
-import { cryptos, cryptoColors, cryptoNames } from "@/components/ui/crypto"
+import { cryptos, cryptoColors, cryptoNames } from "-ui/react/crypto"
 
 cryptos        // Array of all crypto types
 cryptoColors   // Record<CryptoType, string> - brand colors
@@ -1015,7 +1015,7 @@ cryptoNames    // Record<CryptoType, string> - display names
 ```
 
 ```tsx
-import { Crypto } from "@/components/ui/crypto"
+import { Crypto } from "-ui/react/crypto"
 
 <Crypto crypto="btc" size={24} />
 <Crypto crypto="eth" size={32} />
@@ -1040,7 +1040,7 @@ import { Crypto } from "@/components/ui/crypto"
 | `size` | `"s"` \| `"m"` | `"s"` | Track height |
 
 ```tsx
-import { Progress } from "@/components/ui/progress"
+import { Progress } from "-ui/react/progress"
 
 <Progress.Root value={65} tone="success" size="m">
   <Progress.Label>Uploading</Progress.Label>
@@ -1070,7 +1070,7 @@ import { Progress } from "@/components/ui/progress"
 | `size` | `"s"` \| `"m"` | `"s"` | Track height |
 
 ```tsx
-import { Meter } from "@/components/ui/meter"
+import { Meter } from "-ui/react/meter"
 
 <Meter.Root value={75} min={0} max={100} tone="warning" size="m">
   <Meter.Label>Storage</Meter.Label>
@@ -1100,7 +1100,7 @@ import { Meter } from "@/components/ui/meter"
 **Guardrail:** Do not restyle value text or thumb positioning via `className`. Use `variant` + `size` first.
 
 ```tsx
-import { Slider } from "@/components/ui/slider"
+import { Slider } from "-ui/react/slider"
 
 <Slider defaultValue={50} min={0} max={100}>
   <Slider.Control>
@@ -1131,7 +1131,7 @@ import { Slider } from "@/components/ui/slider"
 | `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
 
 ```tsx
-import { AdjustmentSlider } from "@/components/ui/adjustment-slider"
+import { AdjustmentSlider } from "-ui/react/adjustment-slider"
 
 <AdjustmentSlider
   label="Exposure"
@@ -1169,7 +1169,7 @@ import { AdjustmentSlider } from "@/components/ui/adjustment-slider"
 | `tone` | `"default"` \| `"info"` \| `"success"` \| `"warning"` \| `"danger"` | `"default"` | Icon color |
 
 ```tsx
-import { Toast, useToastManager } from "@/components/ui/toast"
+import { Toast, useToastManager } from "-ui/react/toast"
 
 // Card variant
 <Toast.Root variant="card">
@@ -1213,7 +1213,7 @@ import { Toast, useToastManager } from "@/components/ui/toast"
 | `onDismiss` | `() => void` | - | Dismiss callback (shows X) |
 
 ```tsx
-import { Banner } from "@/components/ui/banner"
+import { Banner } from "-ui/react/banner"
 
 <Banner
   tone="info"
@@ -1241,7 +1241,7 @@ import { Banner } from "@/components/ui/banner"
 | `onDismiss` | `() => void` | - | Dismiss callback (shows X) |
 
 ```tsx
-import { InlineNotification } from "@/components/ui/inline-notification"
+import { InlineNotification } from "-ui/react/inline-notification"
 
 <InlineNotification
   tone="warning"
@@ -1266,7 +1266,7 @@ import { InlineNotification } from "@/components/ui/inline-notification"
 | `action` | `ReactNode` | - | Action button |
 
 ```tsx
-import { EmptyState } from "@/components/ui/empty-state"
+import { EmptyState } from "-ui/react/empty-state"
 
 <EmptyState
   icon={<RiInboxLine />}
@@ -1315,7 +1315,7 @@ import { EmptyState } from "@/components/ui/empty-state"
 | `emphasized` | `boolean` | `false` | Bold text |
 
 ```tsx
-import { Table } from "@/components/ui/table"
+import { Table } from "-ui/react/table"
 
 <Table.Root size="m">
   <Table.Header>
@@ -1355,7 +1355,7 @@ import { Table } from "@/components/ui/table"
 | `isActive` | `boolean` | `false` | Current page |
 
 ```tsx
-import { Pagination, PaginationContent, PageIndicator, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination"
+import { Pagination, PaginationContent, PageIndicator, PaginationPrevious, PaginationNext, PaginationEllipsis } from "-ui/react/pagination"
 
 <Pagination size="m">
   <PaginationPrevious />
@@ -1402,7 +1402,7 @@ import { Pagination, PaginationContent, PageIndicator, PaginationPrevious, Pagin
 | `disabled` | `boolean` | `false` | Disable textarea |
 
 ```tsx
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "-ui/react/textarea"
 
 <Textarea placeholder="Enter your message..." rows={5} />
 <Textarea size="l" resize="none" />
@@ -1423,7 +1423,7 @@ import { Textarea } from "@/components/ui/textarea"
 **Note:** Custom component for input composition.
 
 ```tsx
-import { InputGroup } from "@/components/ui/input-group"
+import { InputGroup } from "-ui/react/input-group"
 
 <InputGroup
   type="number"
@@ -1442,7 +1442,7 @@ import { InputGroup } from "@/components/ui/input-group"
 **Sub-components:** `Field`, `Field.Label`, `Field.Description`, `Field.Error`
 
 ```tsx
-import { Field } from "@/components/ui/field"
+import { Field } from "-ui/react/field"
 
 <Field>
   <Field.Label>Email</Field.Label>
@@ -1467,7 +1467,7 @@ import { Field } from "@/components/ui/field"
 | `disabled` | `boolean` | `false` | Disable all fields |
 
 ```tsx
-import { Fieldset } from "@/components/ui/fieldset"
+import { Fieldset } from "-ui/react/fieldset"
 
 <Fieldset>
   <Fieldset.Legend>Account Information</Fieldset.Legend>
@@ -1486,7 +1486,7 @@ import { Fieldset } from "@/components/ui/fieldset"
 **Base UI Primitive:** `@base-ui/react/form`
 
 ```tsx
-import { Form } from "@/components/ui/form"
+import { Form } from "-ui/react/form"
 
 <Form onSubmit={(data) => console.log(data)}>
   <Field>
@@ -1509,7 +1509,7 @@ import { Form } from "@/components/ui/form"
 **Difference from Combobox:** Autocomplete allows free-form input (selection is optional), while Combobox is primarily a selection control.
 
 ```tsx
-import { Autocomplete } from "@/components/ui/autocomplete"
+import { Autocomplete } from "-ui/react/autocomplete"
 
 const items = [
   { value: "apple", label: "Apple" },
@@ -1577,7 +1577,7 @@ type FileUploadFile = {
 | `onRemove` | `() => void` | - | Remove callback |
 
 ```tsx
-import { FileUpload, FileItem } from "@/components/ui/file-upload"
+import { FileUpload, FileItem } from "-ui/react/file-upload"
 
 // Basic usage (uncontrolled)
 <FileUpload

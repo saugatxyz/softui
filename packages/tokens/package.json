@@ -1,0 +1,42 @@
+{
+  "name": "@soft-ui/tokens",
+  "version": "0.1.0",
+  "description": "Soft UI design tokens, theme helpers, and CSS utilities",
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src/styles.css",
+    "src/tokens.css",
+    "src/utilities.css"
+  ],
+  "sideEffects": [
+    "*.css",
+    "src/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles.css",
+    "./tokens.css": "./src/tokens.css",
+    "./utilities.css": "./src/utilities.css"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint src --ext .ts --config ../../apps/docs/eslint.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.0.0"
+  },
+  "dependencies": {
+    "tw-animate-css": "latest"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "typescript": "^5.9.3"
+  }
+}

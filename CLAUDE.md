@@ -12,9 +12,9 @@ Soft UI is a token-driven design system built on Next.js 16 (App Router) with Re
 pnpm dev      # Start development server on localhost:3000
 pnpm build    # Production build
 pnpm lint     # Run ESLint
+pnpm typecheck
+pnpm test:smoke
 ```
-
-No test suite is currently configured.
 
 ## Documentation Resources
 
@@ -42,10 +42,10 @@ No test suite is currently configured.
 ## Architecture
 
 ### Key Directories
-- `src/components/ui/` - Reusable UI components (Button, Tabs, Dialog, Select, etc.)
-- `src/components/docs/` - Documentation components (sidebar, theme-switcher, code-block)
-- `src/design-system/` - Token system: `tokens.css` (CSS variables), `config.ts` (theme config)
-- `src/app/docs/` - Documentation pages for components and tokens
+- `packages/react/src/components/` - Reusable UI component package source
+- `apps/docs/src/components/docs/` - Documentation components (sidebar, theme-switcher, code-block)
+- `packages/tokens/src/` - Token system: `tokens.css` and `theme.ts`
+- `apps/docs/src/app/docs/` - Documentation pages for components and tokens
 - `tokens/` - Design token JSON files synced from Figma
 
 ### Dependencies
@@ -55,7 +55,11 @@ No test suite is currently configured.
 - `sugar-high` - Syntax highlighting in docs
 
 ### Path Aliases
-`@/*` maps to `./src/*`
+Docs app alias only: `@/*` maps to `./apps/docs/src/*`
+
+### Package-First Imports
+- For component usage in docs/examples, prefer package imports (`@soft-ui/react/*`, `@soft-ui/icons`, `@soft-ui/tokens`).
+- Do not reintroduce legacy `@/components/ui/*` imports.
 
 ---
 
@@ -94,14 +98,14 @@ Components follow this structure:
 **Follow these steps IN ORDER when creating a new component:**
 
 #### Step 1: Research
-- [ ] **First**, search for an existing Base UI component or matching component in `src/components/ui/`
+- [ ] **First**, search for an existing Base UI component or matching component in `packages/react/src/components/`
 - [ ] If no direct match exists, identify the Base UI primitive to use and **ask the user to confirm** they're okay with using that primitive before proceeding
 - [ ] Check `COMPONENTS.md` for similar components and their Base UI primitives
 - [ ] Note the exact data attributes from the reference table above
-- [ ] Look at existing components in `src/components/ui/` for patterns
+- [ ] Look at existing components in `packages/react/src/components/` for patterns
 
 #### Step 2: Implement Component
-- [ ] Create `src/components/ui/[component-name].tsx`
+- [ ] Create `packages/react/src/components/[component-name].tsx`
 - [ ] Import primitive from `@base-ui/react/[primitive]`
 - [ ] Extend Base UI types with `& { variant?: ..., size?: ... }`
 - [ ] Spread `{...props}` on all Base UI primitives
@@ -111,10 +115,10 @@ Components follow this structure:
 - [ ] Add `data-slot` attributes for styling hooks
 
 #### Step 3: Create Documentation Page
-- [ ] Create `src/app/docs/[component-name]/page.tsx`
+- [ ] Create `apps/docs/src/app/docs/[component-name]/page.tsx`
 - [ ] Add import example in `<CodeBlock>`
 - [ ] Add sections: Sizes, Variants, States, Disabled (as applicable)
-- [ ] Follow existing doc page patterns (see `src/app/docs/tabs/page.tsx`)
+- [ ] Follow existing doc page patterns (see `apps/docs/src/app/docs/tabs/page.tsx`)
 
 #### Step 4: Update Navigation
 - [ ] Add component to `src/components/docs/nav-sections.ts` (alphabetical order)
@@ -159,7 +163,7 @@ Understand the layout, components, spacing, and visual details. Record exact spe
 - Shadows, borders, alignment
 
 #### Step 2: Map to Tokens
-Map Figma values to existing tokens in `src/design-system/tokens.css`. Only propose new tokens if no existing token matches.
+Map Figma values to existing tokens in `packages/tokens/src/tokens.css`. Only propose new tokens if no existing token matches.
 
 #### Step 3: Build First Pass
 Implement the component based on Base UI + design system conventions. **It will be wrong. That's expected.**
@@ -292,9 +296,9 @@ The following components use hardcoded colors by design. **Do not replace these 
 
 | File | Reason |
 |------|--------|
-| `src/components/ui/logo.tsx` | Third-party brand logos (Claude, Airbnb, Discord, Linear, etc.) must use official brand colors |
-| `src/components/ui/crypto.tsx` | Cryptocurrency brand colors (BTC, ETH, USDT, etc.) must match official coin colors |
-| `src/components/ui/file-icon.tsx` | File type icons use standardized colors (matching Google Workspace conventions) |
+| `packages/react/src/components/logo.tsx` | Third-party brand logos (Claude, Airbnb, Discord, Linear, etc.) must use official brand colors |
+| `packages/react/src/components/crypto.tsx` | Cryptocurrency brand colors (BTC, ETH, USDT, etc.) must match official coin colors |
+| `packages/react/src/components/file-icon.tsx` | File type icons use standardized colors (matching Google Workspace conventions) |
 
 These exceptions exist because:
 - Brand colors are legally mandated and cannot be theme-adapted
@@ -332,8 +336,8 @@ Section headers describe what the component can do, not what example data is sho
 **Files changed:**
 | File | Action |
 |------|--------|
-| `src/components/ui/xyz.tsx` | Created/Modified |
-| `src/app/docs/xyz/page.tsx` | Created/Modified |
+| `packages/react/src/components/xyz.tsx` | Created/Modified |
+| `apps/docs/src/app/docs/xyz/page.tsx` | Created/Modified |
 
 **Features:**
 - Variants: [list]

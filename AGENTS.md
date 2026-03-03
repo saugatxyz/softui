@@ -17,17 +17,24 @@ This document defines how AI/agents (Codex, Cursor, etc.) should implement compo
 - Treat this as source-of-truth for agent workflow and repo conventions.
 
 ## Project Structure (key paths)
-- Components: `src/components/ui/*`
-- Docs pages: `src/app/docs/*`
-- Docs layout + controls: `src/components/docs/*`
-- Tokens + theme system: `src/design-system/tokens.css`, `src/design-system/config.ts`
-- Token data helpers: `src/lib/token-data.ts`
-- Global typography utilities: `src/app/globals.css`
+- Components package source: `packages/react/src/components/*`
+- Docs pages: `apps/docs/src/app/docs/*`
+- Docs layout + controls: `apps/docs/src/components/docs/*`
+- Tokens + theme system: `packages/tokens/src/tokens.css`, `packages/tokens/src/theme.ts`
+- Token data helpers (docs app): `apps/docs/src/lib/token-data.ts`
+- Token utilities layer: `packages/tokens/src/utilities.css`
+- Docs app global CSS entry: `apps/docs/src/app/globals.css`
+
+## Monorepo Import Rules
+- Shared docs and examples must import published package paths, not local legacy aliases.
+- Use `@soft-ui/react/*` for components, `@soft-ui/icons` for icons, and `@soft-ui/tokens` for theme helpers.
+- Do not reintroduce `@/components/ui/*` or old `src/components/ui/*` import patterns.
+- Keep docs dogfooding behavior intact: docs pages should represent real consumer usage.
 
 ## Global Design System Rules
-- Use CSS variables defined in `src/design-system/tokens.css` for all colors and spacing.
+- Use CSS variables defined in `packages/tokens/src/tokens.css` for all colors and spacing.
 - Focus rings: use `utility-focus-inner` (1px) + `utility-focus-outer` (3px) combo.
-- Always use existing utility classes from `src/app/globals.css` before inventing new ones.
+- Always use existing utility classes from `packages/tokens/src/utilities.css` before inventing new ones.
 - Never resize/reposition component internals with ad-hoc `className`; prefer component props (`variant`, `size`, etc.).
 - Use `unsafeClassName` only when an intentional structural override is required and reviewed.
 
@@ -40,8 +47,8 @@ Follow this pattern for any new components:
 
 
 ## Docs Page Layout (all component/token pages)
-Files: `src/app/docs/*`
-- Preserve the existing documentation page structure; do not reformat sections unless explicitly requested (use `src/app/docs/button/page.tsx` as the layout reference).
+Files: `apps/docs/src/app/docs/*`
+- Preserve the existing documentation page structure; do not reformat sections unless explicitly requested (use `apps/docs/src/app/docs/button/page.tsx` as the layout reference).
 - After changing component styles, recheck docs/examples to avoid unintended visual regressions.
 
 ## MCP + Figma Workflow
@@ -70,7 +77,7 @@ Understand the layout, components, spacing, and visual details. Record exact spe
 - Shadows, borders, alignment
 
 ### Step 2: Map to Tokens
-Map Figma values to existing tokens in `src/design-system/tokens.css`. Only propose new tokens if no existing token matches.
+Map Figma values to existing tokens in `packages/tokens/src/tokens.css`. Only propose new tokens if no existing token matches.
 
 ### Step 3: Build First Pass
 Implement the component based on Base UI + design system conventions. **It will be wrong. That's expected.**
@@ -104,7 +111,7 @@ If something in the design is ambiguous or impossible to implement as spec'd, **
 Add/update docs page for usage, variants, and sizes.
 
 ## Token Changes
-- Tokens are sourced from `tokens/*.json` and compiled into `src/design-system/tokens.css`.
+- Tokens are sourced from `tokens/*.json` and compiled into `packages/tokens/src/tokens.css`.
 - If adding new tokens:
   1. Update JSON source or edit `tokens.css` directly (if needed).
   2. Ensure `@theme inline` and theme-mode blocks are updated.

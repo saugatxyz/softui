@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Soft UI Monorepo
 
-## Getting Started
+Soft UI is a package-first design system for React/Next.js prototyping.
 
-First, run the development server:
+## Workspace Packages
+
+- `@soft-ui/tokens` - design tokens, CSS entrypoints, and theme init helper
+- `@soft-ui/icons` - swappable icon adapter with default Remix implementation
+- `@soft-ui/react` - UI component package (subpath imports)
+- `@soft-ui/docs` - dogfooding docs app in `apps/docs`
+
+## Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm dev         # docs app
+pnpm typecheck   # packages + docs
+pnpm lint        # packages + docs
+pnpm build       # packages + docs production build
+pnpm test:smoke  # docs smoke build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Consumer Setup (v1)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Install packages:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm i @soft-ui/tokens @soft-ui/icons @soft-ui/react
+```
 
-## Learn More
+2. Import styles once:
 
-To learn more about Next.js, take a look at the following resources:
+```ts
+import "@soft-ui/tokens/styles.css"
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Add Tailwind v4 source scanning:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```css
+@source "../node_modules/@soft-ui/react/dist/**/*.{js,mjs}";
+```
 
-## Deploy on Vercel
+4. Import components via subpaths:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```tsx
+import { Button } from "@soft-ui/react/button"
+```

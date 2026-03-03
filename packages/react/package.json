@@ -1,0 +1,331 @@
+{
+  "name": "@soft-ui/react",
+  "version": "0.1.0",
+  "description": "Soft UI React components",
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./utils": {
+      "types": "./dist/lib/utils.d.ts",
+      "import": "./dist/lib/utils.js"
+    },
+    "./accordion": {
+      "types": "./dist/components/accordion.d.ts",
+      "import": "./dist/components/accordion.js"
+    },
+    "./adjustment-slider": {
+      "types": "./dist/components/adjustment-slider.d.ts",
+      "import": "./dist/components/adjustment-slider.js"
+    },
+    "./alert-dialog": {
+      "types": "./dist/components/alert-dialog.d.ts",
+      "import": "./dist/components/alert-dialog.js"
+    },
+    "./autocomplete": {
+      "types": "./dist/components/autocomplete.d.ts",
+      "import": "./dist/components/autocomplete.js"
+    },
+    "./avatar": {
+      "types": "./dist/components/avatar.d.ts",
+      "import": "./dist/components/avatar.js"
+    },
+    "./avatar-group": {
+      "types": "./dist/components/avatar-group.d.ts",
+      "import": "./dist/components/avatar-group.js"
+    },
+    "./badge": {
+      "types": "./dist/components/badge.d.ts",
+      "import": "./dist/components/badge.js"
+    },
+    "./banner": {
+      "types": "./dist/components/banner.d.ts",
+      "import": "./dist/components/banner.js"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/components/breadcrumbs.d.ts",
+      "import": "./dist/components/breadcrumbs.js"
+    },
+    "./button": {
+      "types": "./dist/components/button.d.ts",
+      "import": "./dist/components/button.js"
+    },
+    "./button-group": {
+      "types": "./dist/components/button-group.d.ts",
+      "import": "./dist/components/button-group.js"
+    },
+    "./checkbox": {
+      "types": "./dist/components/checkbox.d.ts",
+      "import": "./dist/components/checkbox.js"
+    },
+    "./checkbox-control": {
+      "types": "./dist/components/checkbox-control.d.ts",
+      "import": "./dist/components/checkbox-control.js"
+    },
+    "./checkbox-group": {
+      "types": "./dist/components/checkbox-group.d.ts",
+      "import": "./dist/components/checkbox-group.js"
+    },
+    "./checkbox-group-item": {
+      "types": "./dist/components/checkbox-group-item.d.ts",
+      "import": "./dist/components/checkbox-group-item.js"
+    },
+    "./checkbox-prefix": {
+      "types": "./dist/components/checkbox-prefix.d.ts",
+      "import": "./dist/components/checkbox-prefix.js"
+    },
+    "./chip": {
+      "types": "./dist/components/chip.d.ts",
+      "import": "./dist/components/chip.js"
+    },
+    "./chip-group": {
+      "types": "./dist/components/chip-group.d.ts",
+      "import": "./dist/components/chip-group.js"
+    },
+    "./chip-prefix": {
+      "types": "./dist/components/chip-prefix.d.ts",
+      "import": "./dist/components/chip-prefix.js"
+    },
+    "./combobox": {
+      "types": "./dist/components/combobox.d.ts",
+      "import": "./dist/components/combobox.js"
+    },
+    "./command-palette": {
+      "types": "./dist/components/command-palette.d.ts",
+      "import": "./dist/components/command-palette.js"
+    },
+    "./context-menu": {
+      "types": "./dist/components/context-menu.d.ts",
+      "import": "./dist/components/context-menu.js"
+    },
+    "./crypto": {
+      "types": "./dist/components/crypto.d.ts",
+      "import": "./dist/components/crypto.js"
+    },
+    "./dialog": {
+      "types": "./dist/components/dialog.d.ts",
+      "import": "./dist/components/dialog.js"
+    },
+    "./empty-state": {
+      "types": "./dist/components/empty-state.d.ts",
+      "import": "./dist/components/empty-state.js"
+    },
+    "./field": {
+      "types": "./dist/components/field.d.ts",
+      "import": "./dist/components/field.js"
+    },
+    "./fieldset": {
+      "types": "./dist/components/fieldset.d.ts",
+      "import": "./dist/components/fieldset.js"
+    },
+    "./file-icon": {
+      "types": "./dist/components/file-icon.d.ts",
+      "import": "./dist/components/file-icon.js"
+    },
+    "./file-upload": {
+      "types": "./dist/components/file-upload.d.ts",
+      "import": "./dist/components/file-upload.js"
+    },
+    "./filter": {
+      "types": "./dist/components/filter.d.ts",
+      "import": "./dist/components/filter.js"
+    },
+    "./form": {
+      "types": "./dist/components/form.d.ts",
+      "import": "./dist/components/form.js"
+    },
+    "./icon-button": {
+      "types": "./dist/components/icon-button.d.ts",
+      "import": "./dist/components/icon-button.js"
+    },
+    "./inline-notification": {
+      "types": "./dist/components/inline-notification.d.ts",
+      "import": "./dist/components/inline-notification.js"
+    },
+    "./input": {
+      "types": "./dist/components/input.d.ts",
+      "import": "./dist/components/input.js"
+    },
+    "./input-group": {
+      "types": "./dist/components/input-group.d.ts",
+      "import": "./dist/components/input-group.js"
+    },
+    "./kbd": {
+      "types": "./dist/components/kbd.d.ts",
+      "import": "./dist/components/kbd.js"
+    },
+    "./list-item-styles": {
+      "types": "./dist/components/list-item-styles.d.ts",
+      "import": "./dist/components/list-item-styles.js"
+    },
+    "./logo": {
+      "types": "./dist/components/logo.d.ts",
+      "import": "./dist/components/logo.js"
+    },
+    "./menu": {
+      "types": "./dist/components/menu.d.ts",
+      "import": "./dist/components/menu.js"
+    },
+    "./menu-empty": {
+      "types": "./dist/components/menu-empty.d.ts",
+      "import": "./dist/components/menu-empty.js"
+    },
+    "./menu-group": {
+      "types": "./dist/components/menu-group.d.ts",
+      "import": "./dist/components/menu-group.js"
+    },
+    "./menu-item": {
+      "types": "./dist/components/menu-item.d.ts",
+      "import": "./dist/components/menu-item.js"
+    },
+    "./menu-prefix": {
+      "types": "./dist/components/menu-prefix.d.ts",
+      "import": "./dist/components/menu-prefix.js"
+    },
+    "./menu-separator": {
+      "types": "./dist/components/menu-separator.d.ts",
+      "import": "./dist/components/menu-separator.js"
+    },
+    "./menu-suffix": {
+      "types": "./dist/components/menu-suffix.d.ts",
+      "import": "./dist/components/menu-suffix.js"
+    },
+    "./meter": {
+      "types": "./dist/components/meter.d.ts",
+      "import": "./dist/components/meter.js"
+    },
+    "./number-field": {
+      "types": "./dist/components/number-field.d.ts",
+      "import": "./dist/components/number-field.js"
+    },
+    "./pagination": {
+      "types": "./dist/components/pagination.d.ts",
+      "import": "./dist/components/pagination.js"
+    },
+    "./popover": {
+      "types": "./dist/components/popover.d.ts",
+      "import": "./dist/components/popover.js"
+    },
+    "./progress": {
+      "types": "./dist/components/progress.d.ts",
+      "import": "./dist/components/progress.js"
+    },
+    "./radio-control": {
+      "types": "./dist/components/radio-control.d.ts",
+      "import": "./dist/components/radio-control.js"
+    },
+    "./radio-group": {
+      "types": "./dist/components/radio-group.d.ts",
+      "import": "./dist/components/radio-group.js"
+    },
+    "./radio-group-item": {
+      "types": "./dist/components/radio-group-item.d.ts",
+      "import": "./dist/components/radio-group-item.js"
+    },
+    "./radio-prefix": {
+      "types": "./dist/components/radio-prefix.d.ts",
+      "import": "./dist/components/radio-prefix.js"
+    },
+    "./segmented-control": {
+      "types": "./dist/components/segmented-control.d.ts",
+      "import": "./dist/components/segmented-control.js"
+    },
+    "./select": {
+      "types": "./dist/components/select.d.ts",
+      "import": "./dist/components/select.js"
+    },
+    "./separator": {
+      "types": "./dist/components/separator.d.ts",
+      "import": "./dist/components/separator.js"
+    },
+    "./slider": {
+      "types": "./dist/components/slider.d.ts",
+      "import": "./dist/components/slider.js"
+    },
+    "./switch": {
+      "types": "./dist/components/switch.d.ts",
+      "import": "./dist/components/switch.js"
+    },
+    "./switch-control": {
+      "types": "./dist/components/switch-control.d.ts",
+      "import": "./dist/components/switch-control.js"
+    },
+    "./switch-group": {
+      "types": "./dist/components/switch-group.d.ts",
+      "import": "./dist/components/switch-group.js"
+    },
+    "./switch-group-item": {
+      "types": "./dist/components/switch-group-item.d.ts",
+      "import": "./dist/components/switch-group-item.js"
+    },
+    "./switch-prefix": {
+      "types": "./dist/components/switch-prefix.d.ts",
+      "import": "./dist/components/switch-prefix.js"
+    },
+    "./table": {
+      "types": "./dist/components/table.d.ts",
+      "import": "./dist/components/table.js"
+    },
+    "./table-prefix": {
+      "types": "./dist/components/table-prefix.d.ts",
+      "import": "./dist/components/table-prefix.js"
+    },
+    "./tabs": {
+      "types": "./dist/components/tabs.d.ts",
+      "import": "./dist/components/tabs.js"
+    },
+    "./textarea": {
+      "types": "./dist/components/textarea.d.ts",
+      "import": "./dist/components/textarea.js"
+    },
+    "./toast": {
+      "types": "./dist/components/toast.d.ts",
+      "import": "./dist/components/toast.js"
+    },
+    "./toggle-button": {
+      "types": "./dist/components/toggle-button.d.ts",
+      "import": "./dist/components/toggle-button.js"
+    },
+    "./toggle-group": {
+      "types": "./dist/components/toggle-group.d.ts",
+      "import": "./dist/components/toggle-group.js"
+    },
+    "./tooltip": {
+      "types": "./dist/components/tooltip.d.ts",
+      "import": "./dist/components/tooltip.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint src --ext .ts,.tsx --config ../../apps/docs/eslint.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=19",
+    "react-dom": ">=19",
+    "next": ">=16"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.0.0",
+    "@number-flow/react": "^0.5.10",
+    "@soft-ui/icons": "workspace:*",
+    "class-variance-authority": "latest",
+    "clsx": "latest",
+    "cmdk": "^1.1.1",
+    "motion": "latest",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "typescript": "^5.9.3"
+  }
+}

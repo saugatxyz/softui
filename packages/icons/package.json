@@ -1,0 +1,33 @@
+{
+  "name": "@soft-ui/icons",
+  "version": "0.1.0",
+  "description": "Swappable icon adapter for Soft UI",
+  "type": "module",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint src --ext .ts,.tsx --config ../../apps/docs/eslint.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=19"
+  },
+  "dependencies": {
+    "@remixicon/react": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "eslint": "^9",
+    "typescript": "^5.9.3"
+  }
+}

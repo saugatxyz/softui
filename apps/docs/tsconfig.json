@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@soft-ui/icons": ["../../packages/icons/src/index.ts"],
+      "@soft-ui/react": ["../../packages/react/src/index.ts"],
+      "@soft-ui/react/*": ["../../packages/react/src/components/*"],
+      "@soft-ui/tokens": ["../../packages/tokens/src/index.ts"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
