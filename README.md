@@ -28,6 +28,7 @@ This repo is a monorepo. Set your Vercel project **Root Directory** to:
 `apps/docs`
 
 If Root Directory points to repo root, Vercel cannot detect the Next.js app correctly.
+The docs app also runs `prebuild` (`pnpm -w check:vercel-config`) before `next build` to fail fast on Vercel config drift.
 
 To validate this setting before deploys, set these GitHub secrets and run `pnpm check:vercel-config` in CI:
 - `VERCEL_TOKEN`
