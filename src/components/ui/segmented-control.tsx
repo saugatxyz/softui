@@ -35,12 +35,15 @@ function useSegmentedControlContext() {
 type SegmentedControlRootProps = TabsPrimitive.Root.Props & {
   size?: SegmentedControlSize
   variant?: SegmentedControlVariant
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 function SegmentedControlRoot({
   size = "m",
   variant = "default",
   className,
+  unsafeClassName,
   ...props
 }: SegmentedControlRootProps) {
   return (
@@ -49,7 +52,7 @@ function SegmentedControlRoot({
         data-slot="segmented-control"
         data-size={size}
         data-variant={variant}
-        className={cn("flex flex-col", className)}
+        className={cn(className, "flex flex-col", unsafeClassName)}
         {...props}
       />
     </SegmentedControlContext.Provider>
@@ -83,10 +86,14 @@ const listVariants = cva(
   }
 )
 
-type SegmentedControlListProps = TabsPrimitive.List.Props
+type SegmentedControlListProps = TabsPrimitive.List.Props & {
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
+}
 
 function SegmentedControlList({
   className,
+  unsafeClassName,
   ...props
 }: SegmentedControlListProps) {
   const { size, variant } = useSegmentedControlContext()
@@ -94,7 +101,7 @@ function SegmentedControlList({
   return (
     <TabsPrimitive.List
       data-slot="segmented-control-list"
-      className={cn(listVariants({ size, variant }), className)}
+      className={cn(className, listVariants({ size, variant }), unsafeClassName)}
       {...props}
     />
   )
@@ -150,10 +157,13 @@ const iconVariants = cva(
 
 type SegmentedControlItemProps = TabsPrimitive.Tab.Props & {
   leadingIcon?: React.ReactNode
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 function SegmentedControlItem({
   className,
+  unsafeClassName,
   children,
   leadingIcon,
   ...props
@@ -164,7 +174,7 @@ function SegmentedControlItem({
   return (
     <TabsPrimitive.Tab
       data-slot="segmented-control-item"
-      className={cn(itemVariants({ size }), "gap-[var(--space-6)]", className)}
+      className={cn(className, itemVariants({ size }), "gap-[var(--space-6)]", unsafeClassName)}
       {...props}
     >
       {leadingIcon && (
@@ -208,10 +218,14 @@ const indicatorVariants = cva(
   }
 )
 
-type SegmentedControlIndicatorProps = TabsPrimitive.Indicator.Props
+type SegmentedControlIndicatorProps = TabsPrimitive.Indicator.Props & {
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
+}
 
 function SegmentedControlIndicator({
   className,
+  unsafeClassName,
   ...props
 }: SegmentedControlIndicatorProps) {
   const { size, variant } = useSegmentedControlContext()
@@ -222,7 +236,7 @@ function SegmentedControlIndicator({
   return (
     <TabsPrimitive.Indicator
       data-slot="segmented-control-indicator"
-      className={cn(indicatorVariants({ size, variant }), className)}
+      className={cn(className, indicatorVariants({ size, variant }), unsafeClassName)}
       style={{
         left: "var(--active-tab-left)",
         width: "var(--active-tab-width)",
@@ -243,16 +257,20 @@ function SegmentedControlIndicator({
 // SegmentedControlContent
 // -----------------------------------------------------------------------------
 
-type SegmentedControlContentProps = TabsPrimitive.Panel.Props
+type SegmentedControlContentProps = TabsPrimitive.Panel.Props & {
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
+}
 
 function SegmentedControlContent({
   className,
+  unsafeClassName,
   ...props
 }: SegmentedControlContentProps) {
   return (
     <TabsPrimitive.Panel
       data-slot="segmented-control-content"
-      className={cn("mt-[var(--space-16)] outline-none", className)}
+      className={cn(className, "mt-[var(--space-16)] outline-none", unsafeClassName)}
       {...props}
     />
   )

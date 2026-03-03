@@ -28,6 +28,8 @@ This document defines how AI/agents (Codex, Cursor, etc.) should implement compo
 - Use CSS variables defined in `src/design-system/tokens.css` for all colors and spacing.
 - Focus rings: use `utility-focus-inner` (1px) + `utility-focus-outer` (3px) combo.
 - Always use existing utility classes from `src/app/globals.css` before inventing new ones.
+- Never resize/reposition component internals with ad-hoc `className`; prefer component props (`variant`, `size`, etc.).
+- Use `unsafeClassName` only when an intentional structural override is required and reviewed.
 
 Follow this pattern for any new components:
 1. Base UI primitives (preferred): import from `@base-ui/react/*`.
@@ -113,6 +115,7 @@ Add/update docs page for usage, variants, and sizes.
 - For any task that involves updating design tokens, always ask a user for confirmation with a summary table.
 - Use tokens + existing utilities first.
 - Keep spacing and typography consistent with other pages.
+- Keep `AdjustmentSlider` and `Slider` guidance separate; do not merge their APIs in docs or examples.
 
 # Animation
 

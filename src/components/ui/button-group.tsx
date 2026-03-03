@@ -89,10 +89,14 @@ const buttonGroupVariants = cva(
 )
 
 type ButtonGroupProps = React.ComponentPropsWithoutRef<"div"> &
-  VariantProps<typeof buttonGroupVariants>
+  VariantProps<typeof buttonGroupVariants> & {
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
+  }
 
 function ButtonGroup({
   className,
+  unsafeClassName,
   size = "m",
   children,
   ...props
@@ -106,7 +110,7 @@ function ButtonGroup({
         role="group"
         data-slot="button-group"
         data-size={size}
-        className={cn(buttonGroupVariants({ size, className }))}
+        className={cn(className, buttonGroupVariants({ size }), unsafeClassName)}
         {...props}
       >
         {React.Children.map(children, (child, index) => {
@@ -190,10 +194,13 @@ type ButtonGroupItemProps = ButtonPrimitive.Props & {
   trailingIcon?: React.ReactNode
   position?: "only" | "first" | "middle" | "last"
   tone?: ButtonGroupItemTone
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 function ButtonGroupItem({
   className,
+  unsafeClassName,
   leadingIcon,
   trailingIcon,
   position = "only",
@@ -212,7 +219,7 @@ function ButtonGroupItem({
       data-size={size}
       data-position={position}
       data-tone={tone}
-      className={cn(itemVariants({ size, position, className }), toneClass)}
+      className={cn(className, itemVariants({ size, position }), toneClass, unsafeClassName)}
       {...props}
     >
       <span

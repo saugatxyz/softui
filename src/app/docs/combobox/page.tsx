@@ -287,6 +287,7 @@ function ComboboxDemo({
   size = "m",
   multiple,
   className,
+  unsafeClassName,
   ...props
 }: ComboboxDemoProps) {
   const items = groups?.length
@@ -301,7 +302,7 @@ function ComboboxDemo({
       items={items}
       size={size}
       multiple={multiple}
-      className={className}
+      unsafeClassName={unsafeClassName ?? className}
       {...props}
     >
       {leadingIcon && (
@@ -321,7 +322,7 @@ function ComboboxDemo({
         // Uses CSS :has() for conditional styling when chips are present
         <>
           <Combobox.Chips
-            className={cn(
+            unsafeClassName={cn(
               "flex min-w-0 flex-1 flex-wrap items-center gap-[var(--space-4)]",
               "has-[[data-slot=chip]]:py-[var(--space-6)] has-[[data-slot=chip]]:-ml-[var(--space-6)]"
             )}
@@ -375,7 +376,7 @@ function ComboboxDemo({
       <Combobox.Portal>
         <Combobox.Positioner align="start" sideOffset={4} collisionPadding={8}>
           <Combobox.Popup>
-            <Combobox.List className="p-[var(--space-4)]">
+            <Combobox.List>
               {groups?.length ? (
                 groups.map((group) => (
                   <Combobox.Group key={group.label} items={group.options}>
@@ -417,10 +418,10 @@ function SearchableSelect({
     <Combobox.Root
       items={options}
       defaultValue={defaultValue}
-      className="bg-transparent hover:bg-transparent p-0 min-h-0 rounded-none shadow-none"
+      unsafeClassName="bg-transparent hover:bg-transparent p-0 min-h-0 rounded-none shadow-none"
     >
       <Combobox.Trigger
-        className={cn(
+        unsafeClassName={cn(
           "flex w-full items-center gap-[var(--space-6)] rounded-[var(--radius-10)]",
           "h-[var(--space-36)] px-[var(--space-12)]",
           "bg-actions-secondary-default transition-colors duration-200 outline-none cursor-pointer",
@@ -465,19 +466,21 @@ function SearchableSelect({
                 <span className="flex size-[16px] shrink-0 items-center justify-center text-content-subtle [&_svg]:size-full">
                   <RiSearchLine />
                 </span>
-                <Combobox.Input placeholder="Search..." autoFocus className="px-[var(--space-4)]" />
+                <Combobox.Input placeholder="Search..." autoFocus />
                 <Combobox.Clear>
                   <RiCloseLine />
                 </Combobox.Clear>
               </div>
             </div>
 
-            <Combobox.List className="max-h-[280px] overflow-auto p-[var(--space-4)] pt-0">
-              <Combobox.Collection>
-                {(option) => renderComboboxItem(option as ComboboxOption)}
-              </Combobox.Collection>
-              <Combobox.Empty>No results found</Combobox.Empty>
-            </Combobox.List>
+            <div className="max-h-[280px] overflow-auto">
+              <Combobox.List>
+                <Combobox.Collection>
+                  {(option) => renderComboboxItem(option as ComboboxOption)}
+                </Combobox.Collection>
+                <Combobox.Empty>No results found</Combobox.Empty>
+              </Combobox.List>
+            </div>
           </Combobox.Popup>
         </Combobox.Positioner>
       </Combobox.Portal>

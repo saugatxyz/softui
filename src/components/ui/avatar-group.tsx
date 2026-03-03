@@ -56,10 +56,13 @@ type AvatarGroupProps = React.ComponentPropsWithoutRef<"div"> &
   VariantProps<typeof avatarGroupVariants> & {
     max?: number
     children?: React.ReactNode
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function AvatarGroup({
   className,
+  unsafeClassName,
   size,
   max = 4,
   children,
@@ -100,9 +103,10 @@ function AvatarGroup({
       data-slot="avatar-group"
       data-size={resolvedSize}
       className={cn(
+        className,
         avatarGroupVariants({ size: resolvedSize }),
         useWebkitGap && "gap-[var(--space-2)]",
-        className
+        unsafeClassName
       )}
       {...props}
     >

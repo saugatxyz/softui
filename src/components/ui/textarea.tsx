@@ -66,6 +66,8 @@ type TextareaProps = Omit<
     resize?: TextareaResize
     /** Only show focus ring on keyboard navigation (default: true) */
     focusVisibleOnly?: boolean
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -78,6 +80,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       resize = "vertical",
       focusVisibleOnly = true,
       disabled,
+      unsafeClassName,
       ...props
     },
     ref
@@ -137,6 +140,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         data-size={resolvedSize}
         data-variant={resolvedVariant}
         className={cn(
+          className,
           textareaFieldVariants({ size: resolvedSize, variant: resolvedVariant }),
           "group relative",
           disabled
@@ -150,7 +154,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
           showFocusRing &&
             "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-          className
+          unsafeClassName
         )}
         onPointerDown={handlePointerDown}
         onFocus={handleFocus}

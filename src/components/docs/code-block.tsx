@@ -53,13 +53,13 @@ function CopyButton({
   buttonClassName?: string
 }) {
   return (
-    <div className={className}>
+    <div className={cn("pointer-events-auto", className)}>
       <Button
         type="button"
         size="xs"
         variant="tertiary"
         onClick={onClick}
-        className={cn("pointer-events-auto", buttonClassName)}
+        unsafeClassName={buttonClassName}
         leadingIcon={<CopyButtonIcon copied={copied} />}
       >
         <motion.span

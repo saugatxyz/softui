@@ -112,6 +112,8 @@ const iconVariants = cva(
 type IconButtonProps = ButtonPrimitive.Props &
   VariantProps<typeof iconButtonVariants> & {
     tone?: IconButtonTone
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 const defaultVariant = "secondary"
@@ -121,6 +123,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
   function IconButton(
     {
       className,
+      unsafeClassName,
       variant,
       size,
       tone,
@@ -141,12 +144,13 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         data-size={resolvedSize}
         data-tone={tone}
         className={cn(
+          className,
           iconButtonVariants({
             variant: resolvedVariant,
             size: resolvedSize,
-            className,
           }),
-          toneClass
+          toneClass,
+          unsafeClassName
         )}
         {...props}
       >

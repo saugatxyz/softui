@@ -392,7 +392,14 @@ import { Button } from "@/components/ui/button"
                     <Dialog.Footer>
                       {/* Nested dialog */}
                       <Dialog.Root open={nestedInnerOpen} onOpenChange={setNestedInnerOpen}>
-                        <Dialog.Trigger id="dialog-nested-advanced-trigger" render={<Button variant="ghost" className="mr-auto">Advanced</Button>} />
+                        <Dialog.Trigger
+                          id="dialog-nested-advanced-trigger"
+                          render={(
+                            <div className="mr-auto">
+                              <Button variant="ghost">Advanced</Button>
+                            </div>
+                          )}
+                        />
                         <Dialog.Portal>
                           <Dialog.Popup className="w-[min(400px,calc(100vw-var(--space-32)))]">
                             <Dialog.Content>

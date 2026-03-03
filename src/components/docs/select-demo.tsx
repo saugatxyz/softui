@@ -101,11 +101,7 @@ function SelectDemo({
                   )}
 
                   <div className="flex min-w-0 flex-1 flex-col gap-[var(--space-2)] pl-[var(--space-2)]">
-                    <Select.ItemText
-                      className={cn(
-                        "text-content-strong group-data-[disabled]:text-content-disabled"
-                      )}
-                    >
+                    <Select.ItemText>
                       {option.label}
                     </Select.ItemText>
                     {option.description && (

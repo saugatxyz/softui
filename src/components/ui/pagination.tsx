@@ -31,12 +31,15 @@ const pageIndicatorVariants = cva(
 type PageIndicatorProps = ButtonPrimitive.Props &
   VariantProps<typeof pageIndicatorVariants> & {
     isActive?: boolean
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 const defaultSize = "m"
 
 function PageIndicator({
   className,
+  unsafeClassName,
   isActive = false,
   size,
   children,
@@ -50,11 +53,12 @@ function PageIndicator({
       data-active={isActive}
       data-size={resolvedSize}
       className={cn(
+        className,
         pageIndicatorVariants({
           isActive,
           size: resolvedSize,
-          className,
-        })
+        }),
+        unsafeClassName
       )}
       {...props}
     >
@@ -112,10 +116,14 @@ const iconVariants = cva(
 )
 
 type PaginationNavButtonProps = ButtonPrimitive.Props &
-  VariantProps<typeof navButtonVariants>
+  VariantProps<typeof navButtonVariants> & {
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
+  }
 
 function PaginationPrevious({
   className,
+  unsafeClassName,
   size,
   children,
   ...props
@@ -126,7 +134,7 @@ function PaginationPrevious({
     <ButtonPrimitive
       data-slot="pagination-previous"
       data-size={resolvedSize}
-      className={cn(navButtonVariants({ size: resolvedSize, className }))}
+      className={cn(className, navButtonVariants({ size: resolvedSize }), unsafeClassName)}
       {...props}
     >
       <span
@@ -145,6 +153,7 @@ function PaginationPrevious({
 
 function PaginationNext({
   className,
+  unsafeClassName,
   size,
   children,
   ...props
@@ -155,7 +164,7 @@ function PaginationNext({
     <ButtonPrimitive
       data-slot="pagination-next"
       data-size={resolvedSize}
-      className={cn(navButtonVariants({ size: resolvedSize, className }))}
+      className={cn(className, navButtonVariants({ size: resolvedSize }), unsafeClassName)}
       {...props}
     >
       <span data-slot="label" className={cn(labelVariants({ size: resolvedSize }))}>
@@ -189,9 +198,12 @@ const paginationContainerVariants = cva("inline-flex items-center", {
 const pageIndicatorsContainerVariants = cva("inline-flex items-center gap-[var(--space-4)]")
 
 type PaginationProps = React.ComponentProps<"nav"> &
-  VariantProps<typeof paginationContainerVariants>
+  VariantProps<typeof paginationContainerVariants> & {
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
+  }
 
-function Pagination({ className, size, children, ...props }: PaginationProps) {
+function Pagination({ className, unsafeClassName, size, children, ...props }: PaginationProps) {
   const resolvedSize = size ?? defaultSize
 
   return (
@@ -200,7 +212,7 @@ function Pagination({ className, size, children, ...props }: PaginationProps) {
       aria-label="pagination"
       data-slot="pagination"
       data-size={resolvedSize}
-      className={cn(paginationContainerVariants({ size: resolvedSize, className }))}
+      className={cn(className, paginationContainerVariants({ size: resolvedSize }), unsafeClassName)}
       {...props}
     >
       {React.Children.map(children, (child) => {
@@ -226,10 +238,13 @@ function Pagination({ className, size, children, ...props }: PaginationProps) {
 type PaginationContentProps = React.ComponentProps<"div"> &
   VariantProps<typeof pageIndicatorsContainerVariants> & {
     size?: "xs" | "s" | "m" | "l"
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function PaginationContent({
   className,
+  unsafeClassName,
   size,
   children,
   ...props
@@ -239,7 +254,7 @@ function PaginationContent({
   return (
     <div
       data-slot="pagination-content"
-      className={cn(pageIndicatorsContainerVariants({ className }))}
+      className={cn(className, pageIndicatorsContainerVariants(), unsafeClassName)}
       {...props}
     >
       {React.Children.map(children, (child) => {
@@ -259,6 +274,7 @@ function PaginationContent({
 
 function PaginationEllipsis({
   className,
+  unsafeClassName,
   size,
   ...props
 }: Omit<PageIndicatorProps, "children">) {
@@ -267,6 +283,7 @@ function PaginationEllipsis({
   return (
     <PageIndicator
       className={className}
+      unsafeClassName={unsafeClassName}
       size={resolvedSize}
       disabled
       aria-hidden

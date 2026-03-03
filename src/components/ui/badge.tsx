@@ -102,6 +102,8 @@ type BadgeProps = React.HTMLAttributes<HTMLSpanElement> &
     trailingIcon?: React.ReactNode
     leadingDot?: boolean
     trailingDot?: boolean
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 const feedbackStrongClass = {
@@ -226,6 +228,7 @@ function Badge({
   trailingIcon,
   leadingDot,
   trailingDot,
+  unsafeClassName,
   children,
   ...props
 }: BadgeProps) {
@@ -274,12 +277,13 @@ function Badge({
       data-size={resolvedSize}
       data-emphasized={resolvedIsEmphasized || undefined}
       className={cn(
+        className,
         badgeVariants({
           size: resolvedSize,
           isEmphasized: resolvedIsEmphasized,
         }),
         toneClass,
-        className
+        unsafeClassName
       )}
       {...props}
     >

@@ -337,25 +337,28 @@ const sizeConfig = {
 
 type SliderRootProps = Omit<SliderPrimitive.Root.Props, "className"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
   variant?: SliderVariant
   size?: SliderSize
 }
 
 function SliderRoot({
   className,
+  unsafeClassName,
   variant = "default",
   size = "m",
   render,
   onValueChange,
   ...props
 }: SliderRootProps) {
-  const lastChangeReasonRef = React.useRef<SliderChangeReason>("none")
+  const [changeReason, setChangeReason] = React.useState<SliderChangeReason>("none")
   const handleValueChange = React.useCallback(
     (
       value: number | readonly number[],
       details: SliderPrimitive.Root.ChangeEventDetails
     ) => {
-      lastChangeReasonRef.current = details.reason
+      setChangeReason(details.reason)
       onValueChange?.(value as never, details)
     },
     [onValueChange]
@@ -366,7 +369,7 @@ function SliderRoot({
       data-slot="slider"
       data-variant={variant}
       data-size={size}
-      className={cn("flex w-full flex-col gap-[var(--space-12)]", className)}
+      className={cn(className, "flex w-full flex-col gap-[var(--space-12)]", unsafeClassName)}
       render={(rootProps, state) => (
         <SliderRootInner
           rootProps={rootProps}
@@ -374,7 +377,7 @@ function SliderRoot({
           variant={variant}
           size={size}
           render={render}
-          changeReasonRef={lastChangeReasonRef}
+          changeReason={changeReason}
         />
       )}
       onValueChange={handleValueChange}
@@ -389,7 +392,7 @@ type SliderRootInnerProps = {
   variant: SliderVariant
   size: SliderSize
   render?: SliderRootProps["render"]
-  changeReasonRef: React.MutableRefObject<SliderChangeReason>
+  changeReason: SliderChangeReason
 }
 
 function SliderRootInner({
@@ -398,7 +401,7 @@ function SliderRootInner({
   variant,
   size,
   render,
-  changeReasonRef,
+  changeReason,
 }: SliderRootInnerProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const animationConfig = getSliderAnimConfig()
@@ -408,7 +411,6 @@ function SliderRootInner({
   const percentage = Number.isFinite(rawPercentage)
     ? Math.min(100, Math.max(0, rawPercentage))
     : 0
-  const changeReason = changeReasonRef.current
   const [animatedPercentage, setAnimatedPercentage] = React.useState(percentage)
   const animatedPercentageRef = React.useRef(percentage)
   const [adjustmentTrackWidth, setAdjustmentTrackElement] = useMeasuredWidth<HTMLDivElement>()
@@ -497,9 +499,11 @@ function SliderRootInner({
 
 type SliderControlProps = Omit<SliderPrimitive.Control.Props, "className"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
-function SliderControl({ className, ...props }: SliderControlProps) {
+function SliderControl({ className, unsafeClassName, ...props }: SliderControlProps) {
   const { variant, size } = useSliderContext()
 
   return (
@@ -508,10 +512,11 @@ function SliderControl({ className, ...props }: SliderControlProps) {
       data-variant={variant}
       data-size={size}
       className={cn(
+        className,
         "flex w-full touch-none items-center cursor-pointer data-[disabled]:cursor-not-allowed",
         variant === "default" && "h-[var(--space-20)]",
         (variant === "adjustment" || variant === "segmented") && sizeConfig[size].control,
-        className
+        unsafeClassName
       )}
       {...props}
     />
@@ -524,9 +529,11 @@ function SliderControl({ className, ...props }: SliderControlProps) {
 
 type SliderTrackProps = Omit<SliderPrimitive.Track.Props, "className"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
-function SliderTrack({ className, ...props }: SliderTrackProps) {
+function SliderTrack({ className, unsafeClassName, ...props }: SliderTrackProps) {
   const { variant, size } = useSliderContext()
 
   return (
@@ -535,6 +542,7 @@ function SliderTrack({ className, ...props }: SliderTrackProps) {
       data-variant={variant}
       data-size={size}
       className={cn(
+        className,
         "relative w-full transition-colors duration-200 ease-out",
         variant === "default" && [
           "h-[var(--space-4)] rounded-[var(--radius-max)]",
@@ -552,7 +560,7 @@ function SliderTrack({ className, ...props }: SliderTrackProps) {
           // Add horizontal padding so thumb stays within visual bounds at 0%/100%
           "px-[4px]",
         ],
-        className
+        unsafeClassName
       )}
       {...props}
     />
@@ -565,10 +573,12 @@ function SliderTrack({ className, ...props }: SliderTrackProps) {
 
 type SliderAdjustmentTrackProps = {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
   children?: React.ReactNode
 }
 
-function SliderAdjustmentTrack({ className, children }: SliderAdjustmentTrackProps) {
+function SliderAdjustmentTrack({ className, unsafeClassName, children }: SliderAdjustmentTrackProps) {
   const { variant, size, disabled, setAdjustmentTrackElement } = useSliderContext()
 
   // Only render for adjustment variant
@@ -583,6 +593,7 @@ function SliderAdjustmentTrack({ className, children }: SliderAdjustmentTrackPro
       data-size={size}
       data-disabled={disabled || undefined}
       className={cn(
+        className,
         "group/adjustment relative w-full",
         sizeConfig[size].track,
         // Visual styling: background, rounded corners
@@ -590,7 +601,7 @@ function SliderAdjustmentTrack({ className, children }: SliderAdjustmentTrackPro
         disabled && "bg-surface-interactive-default backdrop-blur-sm",
         // Clip thumb if it ever exceeds bounds during drag
         "overflow-hidden",
-        className
+        unsafeClassName
       )}
     >
       {children}
@@ -604,6 +615,8 @@ function SliderAdjustmentTrack({ className, children }: SliderAdjustmentTrackPro
 
 type SliderIndicatorProps = Omit<SliderPrimitive.Indicator.Props, "className"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 // Size-based radius for adjustment indicator (matches container radius)
@@ -613,7 +626,7 @@ const adjustmentRadiusConfig = {
   l: { full: "rounded-[var(--radius-12)]", left: "rounded-l-[var(--radius-12)]" },
 }
 
-function SliderIndicator({ className, render, style, ...props }: SliderIndicatorProps) {
+function SliderIndicator({ className, unsafeClassName, render, style, ...props }: SliderIndicatorProps) {
   const { variant, size, percentage, animatedPercentage, disabled } = useSliderContext()
   const prefersReducedMotion = usePrefersReducedMotion()
   const visualPercentage = clampPercentage(prefersReducedMotion ? percentage : animatedPercentage)
@@ -637,6 +650,7 @@ function SliderIndicator({ className, render, style, ...props }: SliderIndicator
         data-size={size}
         data-disabled={disabled || undefined}
         className={cn(
+          className,
           "absolute left-0 top-0 h-full w-full origin-left",
           // Indicator fills edge to edge, hardcode radius to match container
           isAtMax
@@ -644,7 +658,7 @@ function SliderIndicator({ className, render, style, ...props }: SliderIndicator
             : [adjustmentRadiusConfig[size].left, "rounded-r-[var(--radius-4)]"],
           "bg-actions-secondary-default group-hover/adjustment:bg-actions-secondary-hover",
           "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:group-hover/adjustment:bg-actions-secondary-disabled",
-          className
+          unsafeClassName
         )}
         style={{ transform: `scaleX(${indicatorScale})`, ...style }}
         {...props}
@@ -666,10 +680,11 @@ function SliderIndicator({ className, render, style, ...props }: SliderIndicator
       data-size={size}
       render={render}
       className={cn(
+        className,
         "absolute h-full",
         "rounded-[var(--radius-max)]",
         "bg-actions-primary-default data-[disabled]:bg-actions-primary-disabled",
-        className
+        unsafeClassName
       )}
       style={{ ...indicatorStyle, ...style }}
       {...props}
@@ -881,9 +896,11 @@ function SliderSegmentedThumb({ className }: SliderSegmentedThumbProps) {
 
 type SliderThumbProps = Omit<SliderPrimitive.Thumb.Props, "className" | "render"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
-function SliderThumb({ className, style, ...props }: SliderThumbProps) {
+function SliderThumb({ className, unsafeClassName, style, ...props }: SliderThumbProps) {
   const animationConfig = getSliderAnimConfig()
   const [thumbPressed, setThumbPressed] = React.useState(false)
   const {
@@ -976,6 +993,7 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
         data-variant={variant}
         data-size={size}
         className={cn(
+          className,
           "relative block w-[3px] overflow-hidden rounded-[var(--radius-4)]",
           sizeConfig[size].thumb,
           "bg-actions-secondary-default",
@@ -986,7 +1004,7 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
           "z-20",
           "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-          className
+          unsafeClassName
         )}
         style={{ insetInlineStart: `${adjustedVisualPercentage}%`, ...style }}
         render={
@@ -1037,6 +1055,7 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
         data-size={size}
         data-at-edge={isAtEdge || undefined}
         className={cn(
+          className,
           "relative block w-[3px] overflow-hidden rounded-[var(--radius-4)]",
           "cursor-grab active:cursor-grabbing",
           "bg-actions-secondary-default",
@@ -1047,7 +1066,7 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
           "z-10",
           "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
           "has-[:focus-visible]:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-          className
+          unsafeClassName
         )}
         style={{ insetInlineStart: `${visualPercentage}%`, ...style }}
         render={
@@ -1072,12 +1091,13 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
       data-variant={variant}
       data-size={size}
       className={cn(
+        className,
         "block size-[var(--space-16)] rounded-full",
         "bg-content-inverse-strong",
         "shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1)]",
         "focus-visible:shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1),inset_0_0_0_1px_var(--color-utility-focus-inner),inset_0_0_0_3px_var(--color-utility-focus-outer)]",
         "has-[:focus-visible]:shadow-[0_2px_4px_0_var(--color-utility-shadow-l3),0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l3),0_0_0_1px_var(--color-utility-shadow-l1),inset_0_0_0_1px_var(--color-utility-focus-inner),inset_0_0_0_3px_var(--color-utility-focus-outer)]",
-        className
+        unsafeClassName
       )}
       style={{ insetInlineStart: `${visualPercentage}%`, ...style }}
       render={
@@ -1100,9 +1120,11 @@ function SliderThumb({ className, style, ...props }: SliderThumbProps) {
 
 type SliderValueProps = Omit<SliderPrimitive.Value.Props, "className"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
-function SliderValue({ className, render, children, ...props }: SliderValueProps) {
+function SliderValue({ className, unsafeClassName, render, children, ...props }: SliderValueProps) {
   const animationConfig = getSliderAnimConfig()
   const {
     variant,
@@ -1170,6 +1192,7 @@ function SliderValue({ className, render, children, ...props }: SliderValueProps
           data-variant={variant}
           data-size={size}
           className={cn(
+            className,
             "inline-flex items-center",
             "text-[length:var(--font-size-s)] font-normal leading-[var(--line-height-s)]",
             disabled
@@ -1177,7 +1200,7 @@ function SliderValue({ className, render, children, ...props }: SliderValueProps
               : percentage === 0
                 ? "text-content-muted"
                 : "text-content-strong",
-            className
+            unsafeClassName
           )}
           render={valueRender}
           {...props}
@@ -1194,6 +1217,7 @@ function SliderValue({ className, render, children, ...props }: SliderValueProps
       data-variant={variant}
       data-size={size}
       className={cn(
+        className,
         "absolute right-[var(--space-12)] top-1/2 -translate-y-1/2 z-10",
         "text-[length:var(--font-size-s)] font-normal leading-[var(--line-height-s)]",
         "pointer-events-none",
@@ -1202,7 +1226,7 @@ function SliderValue({ className, render, children, ...props }: SliderValueProps
           : percentage === 0
             ? "text-content-muted"
             : "text-content-strong",
-        className
+        unsafeClassName
       )}
       {...props}
     />

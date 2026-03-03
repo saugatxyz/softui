@@ -44,10 +44,13 @@ type CheckboxControlProps = Omit<Checkbox.Root.Props, "className"> &
     /** When true, applies hover styles when a parent group/checkbox-cell is hovered */
     cellHover?: boolean
     className?: string
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function CheckboxControl({
   className,
+  unsafeClassName,
   cellHover,
   onPointerDown,
   onFocus,
@@ -76,6 +79,7 @@ function CheckboxControl({
     <Checkbox.Root
       data-slot="checkbox-control"
       className={cn(
+        className,
         checkboxControlVariants(),
         "group",
         "bg-actions-tertiary-default shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1),0_0_0_1px_var(--color-utility-shadow-l1)]",
@@ -89,10 +93,11 @@ function CheckboxControl({
         "data-[disabled]:data-[checked]:bg-actions-primary-disabled",
         "data-[disabled]:data-[indeterminate]:bg-actions-primary-disabled",
         showFocusRing && [
-          "bg-actions-tertiary-hover shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-          "data-[checked]:bg-actions-primary-hover data-[indeterminate]:bg-actions-primary-hover",
+          "bg-actions-tertiary-hover !shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          "data-[checked]:bg-actions-primary-hover data-[checked]:!shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
+          "data-[indeterminate]:bg-actions-primary-hover data-[indeterminate]:!shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         ].join(" "),
-        className
+        unsafeClassName
       )}
       onPointerDown={onPointerDown}
       onFocus={handleFocus}

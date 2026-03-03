@@ -35,6 +35,8 @@ type AdjustmentSliderSize = "s" | "m" | "l"
 
 type AdjustmentSliderProps = Omit<SliderPrimitive.Root.Props, "className" | "children"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
   /** Size variant matching input component sizes */
   size?: AdjustmentSliderSize
   /** Icon displayed at the start of the slider */
@@ -77,6 +79,7 @@ const sizeConfig = {
 
 function AdjustmentSlider({
   className,
+  unsafeClassName,
   size = "m",
   icon,
   label,
@@ -127,7 +130,7 @@ function AdjustmentSlider({
     <SliderPrimitive.Root
       data-slot="adjustment-slider"
       data-size={size}
-      className={cn("relative w-full", className)}
+      className={cn(className, "relative w-full", unsafeClassName)}
       defaultValue={defaultValue}
       value={controlledValue}
       onValueChange={handleValueChange}

@@ -223,10 +223,13 @@ type ToggleGroupProps = Omit<ToggleGroupPrimitive.Props, "className"> &
     /** Hide separators between items */
     hideSeparator?: boolean
     className?: string
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function ToggleGroup({
   className,
+  unsafeClassName,
   size = "m",
   variant = "ghost",
   hideSeparator = false,
@@ -267,7 +270,7 @@ function ToggleGroup({
         data-slot="toggle-group"
         data-size={size}
         data-variant={variant}
-        className={cn(toggleGroupVariants({ size, className }))}
+        className={cn(className, toggleGroupVariants({ size }), unsafeClassName)}
         {...(isControlled ? { value } : { defaultValue })}
         onValueChange={handleValueChange}
         {...props}
@@ -310,11 +313,14 @@ type ToggleGroupItemProps = Omit<Toggle.Props, "className"> & {
   /** Enable morph animation between icons */
   morph?: boolean
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
   children?: React.ReactNode
 }
 
 function ToggleGroupItem({
   className,
+  unsafeClassName,
   value,
   leadingIcon,
   pressedIcon,
@@ -336,7 +342,7 @@ function ToggleGroupItem({
       data-variant={variant}
       data-size={size}
       value={value}
-      className={cn(itemVariants({ variant, size, iconOnly, className }))}
+      className={cn(className, itemVariants({ variant, size, iconOnly }), unsafeClassName)}
       {...props}
     >
       {leadingIcon ? (

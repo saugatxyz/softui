@@ -44,6 +44,8 @@ type FieldProps = Omit<FieldPrimitive.Root.Props, "className" | "children"> &
   children: React.ReactNode
   /** Additional class name */
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 // ============================================================================
@@ -58,6 +60,7 @@ function Field({
   error,
   invalid: invalidProp,
   disabled,
+  unsafeClassName,
   children,
   ...props
 }: FieldProps) {
@@ -107,7 +110,7 @@ function Field({
       data-size={resolvedSize}
       disabled={disabled}
       invalid={invalid}
-      className={cn("flex w-full flex-col gap-[var(--space-8)]", className)}
+      className={cn(className, "flex w-full flex-col gap-[var(--space-8)]", unsafeClassName)}
       {...props}
     >
       {/* Label section */}

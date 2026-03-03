@@ -22,10 +22,13 @@ type ChipGroupProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof chipGroupVariants> & {
     label?: string
     description?: string
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function ChipGroup({
   className,
+  unsafeClassName,
   size = "s",
   label,
   description,
@@ -68,7 +71,7 @@ function ChipGroup({
         )}
         <div
           role="group"
-          className={cn(chipGroupVariants({ size }), className)}
+          className={cn(className, chipGroupVariants({ size }), unsafeClassName)}
           {...props}
         >
           {children}

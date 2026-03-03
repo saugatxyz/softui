@@ -154,6 +154,8 @@ type ToggleButtonProps = Omit<TogglePrimitive.Props, "className"> &
     /** Enable morphing animation between icons (blur, scale, y-position). Defaults to false (smooth fade). */
     morph?: boolean
     className?: string
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 // ============================================================================
@@ -262,6 +264,7 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
   function ToggleButton(
     {
       className,
+      unsafeClassName,
       variant = "tertiary",
       size = "m",
       icon,
@@ -325,7 +328,11 @@ const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(
         pressed={pressed}
         defaultPressed={defaultPressed}
         onPressedChange={handlePressedChange}
-        className={cn(toggleButtonVariants({ variant, size: resolvedSize, iconOnly: !hasLabel, className }))}
+        className={cn(
+          className,
+          toggleButtonVariants({ variant, size: resolvedSize, iconOnly: !hasLabel }),
+          unsafeClassName
+        )}
         {...props}
       >
         <MorphingIcon

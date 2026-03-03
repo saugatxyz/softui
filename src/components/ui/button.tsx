@@ -132,6 +132,8 @@ type ButtonProps = ButtonPrimitive.Props &
     leadingIcon?: React.ReactNode
     trailingIcon?: React.ReactNode
     tone?: ButtonTone
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 const defaultVariant = "primary"
@@ -141,6 +143,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
     {
       className,
+      unsafeClassName,
       variant,
       size,
       tone,
@@ -165,8 +168,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-size={resolvedSize}
         data-tone={tone}
         className={cn(
-          buttonVariants({ variant: resolvedVariant, size: resolvedSize, className }),
-          toneClass
+          className,
+          buttonVariants({ variant: resolvedVariant, size: resolvedSize }),
+          toneClass,
+          unsafeClassName
         )}
         {...props}
       >

@@ -23,12 +23,15 @@ const radioControlVariants = cva(
 type RadioControlProps = Omit<Radio.Root.Props, "className"> &
   VariantProps<typeof radioControlVariants> & {
     className?: string
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function RadioControl({
   value,
   disabled = false,
   className,
+  unsafeClassName,
   ...props
 }: RadioControlProps) {
   // Determine visual state classes based on selection state
@@ -53,7 +56,7 @@ function RadioControl({
       value={value}
       disabled={disabled}
       className={({ checked }) =>
-        cn(radioControlVariants(), getStateClasses(checked), className)
+        cn(className, radioControlVariants(), getStateClasses(checked), unsafeClassName)
       }
       {...props}
     >

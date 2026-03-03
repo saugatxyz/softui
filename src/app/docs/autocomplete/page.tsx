@@ -119,6 +119,7 @@ function AutocompleteDemo({
   leadingIcon,
   size = "m",
   className,
+  unsafeClassName,
   ...props
 }: AutocompleteDemoProps) {
   const items = groups?.length
@@ -132,7 +133,7 @@ function AutocompleteDemo({
     <Autocomplete.Root
       items={items}
       size={size}
-      className={className}
+      unsafeClassName={unsafeClassName ?? className}
       {...props}
     >
       {leadingIcon && (
@@ -152,7 +153,7 @@ function AutocompleteDemo({
       <Autocomplete.Portal>
         <Autocomplete.Positioner align="start" sideOffset={4} collisionPadding={8}>
           <Autocomplete.Popup>
-            <Autocomplete.List className="p-[var(--space-4)]">
+            <Autocomplete.List>
               {groups?.length ? (
                 groups.map((group) => (
                   <Autocomplete.Group key={group.label} items={group.options}>

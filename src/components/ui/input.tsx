@@ -68,6 +68,8 @@ type InputProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size"> &
     leadingIcon?: React.ReactNode
     trailingIcon?: React.ReactNode
     focusVisibleOnly?: boolean
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -80,6 +82,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       trailingIcon,
       focusVisibleOnly = true,
       disabled,
+      unsafeClassName,
       ...props
     },
     ref
@@ -140,6 +143,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         data-size={resolvedSize}
         data-variant={resolvedVariant}
         className={cn(
+          className,
           inputFieldVariants({ size: resolvedSize, variant: resolvedVariant }),
           "group relative",
           disabled
@@ -153,7 +157,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           !disabled && isTertiary && "hover:bg-actions-tertiary-hover",
           showFocusRing &&
             "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-          className
+          unsafeClassName
         )}
         onPointerDown={handlePointerDown}
         onFocus={handleFocus}

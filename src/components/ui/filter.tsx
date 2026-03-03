@@ -108,13 +108,15 @@ type FilterProps = Omit<
     label: string
     value?: string
     onClear?: () => void
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 const Filter = React.forwardRef<
   HTMLButtonElement,
   FilterProps
 >(function Filter(
-  { className, size = "m", icon, label, value, onClear, disabled, ...props },
+  { className, size = "m", icon, label, value, onClear, disabled, unsafeClassName, ...props },
   ref
 ) {
   const hasValue = Boolean(value)
@@ -157,9 +159,10 @@ const Filter = React.forwardRef<
       disabled={disabled}
       onKeyDown={handleKeyDown}
       className={cn(
+        className,
         filterChipTriggerVariants({ size }),
         paddingVariants({ size, hasValue }),
-        className
+        unsafeClassName
       )}
       {...props}
     >

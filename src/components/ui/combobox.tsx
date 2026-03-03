@@ -95,12 +95,15 @@ type ComboboxRootProps<Value = unknown, Multiple extends boolean | undefined = b
   size?: ComboboxSize
   variant?: ComboboxVariant
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = boolean>({
   size = "m",
   variant = "secondary",
   className,
+  unsafeClassName,
   children,
   ...props
 }: ComboboxRootProps<Value, Multiple>) {
@@ -140,11 +143,12 @@ function ComboboxRoot<Value = unknown, Multiple extends boolean | undefined = bo
           data-size={size}
           data-variant={variant}
           className={cn(
+            className,
             rootVariants({ size, variant }),
             isSecondary && "hover:bg-actions-secondary-hover",
             isTertiary && "hover:bg-actions-tertiary-hover",
             showFocusRing && "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-            className
+            unsafeClassName
           )}
           onPointerDown={handlePointerDown}
           onFocus={handleFocus}
@@ -177,16 +181,19 @@ function ComboboxInput({ className, ...props }: ComboboxInputProps) {
 
 type ComboboxTriggerProps = Omit<ComboboxPrimitive.Trigger.Props, "className"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
-function ComboboxTrigger({ className, ...props }: ComboboxTriggerProps) {
+function ComboboxTrigger({ className, unsafeClassName, ...props }: ComboboxTriggerProps) {
   return (
     <ComboboxPrimitive.Trigger
       data-slot="trigger"
       className={cn(
+        className,
         iconVariants(),
         "cursor-pointer text-content-muted data-[disabled]:cursor-not-allowed data-[disabled]:text-content-disabled",
-        className
+        unsafeClassName
       )}
       {...props}
     />
@@ -277,7 +284,7 @@ function ComboboxList({ className, ...props }: ComboboxListProps) {
   return (
     <ComboboxPrimitive.List
       data-slot="list"
-      className={cn("flex flex-col gap-0 empty:hidden", className)}
+      className={cn("flex flex-col gap-0 p-[var(--space-4)] empty:hidden", className)}
       {...props}
     />
   )
@@ -374,13 +381,15 @@ function ComboboxGroupLabel({ className, ...props }: ComboboxGroupLabelProps) {
 
 type ComboboxChipsProps = Omit<ComboboxPrimitive.Chips.Props, "className"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
-function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
+function ComboboxChips({ className, unsafeClassName, ...props }: ComboboxChipsProps) {
   return (
     <ComboboxPrimitive.Chips
       data-slot="chips"
-      className={className}
+      className={cn(className, unsafeClassName)}
       {...props}
     />
   )

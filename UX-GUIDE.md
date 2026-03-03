@@ -225,8 +225,10 @@ For interactive cards or clickable areas, use `surface-interactive-*` tokens:
 - NEVER add custom colors, sizes, padding, or any styling to components
 - NEVER use className to override component appearance
 - Use ONLY the props components provide (`variant`, `size`, `tone`, etc.)
+- If you must intentionally break component structure, use `unsafeClassName` (only on components that expose it) and treat it as an exception path
 - If a component doesn't support what you need, use it as-is or ask—do not hack it
 - Components are designed to work together—custom styling breaks consistency
+- For per-family allowed vs forbidden overrides, see `COMPONENTS.md` → **Allowed vs Forbidden Overrides Matrix**
 
 ---
 
@@ -534,6 +536,8 @@ What type of filter interaction?
 - Use action verbs: "Save", "Delete", "View", "Clear"
 - Context from surrounding UI eliminates need for verbose labels
 - "View" not "View All Memories" when the setting label provides context
+- Do not override intrinsic sizing/text styles via `className`; use `variant`, `size`, and `tone`
+- Use `unsafeClassName` only for intentional, reviewed structural overrides
 
 **Layout guidance:**
 - Buttons should NOT stretch to fill containers. They maintain their intrinsic width.
@@ -553,9 +557,11 @@ What type of filter interaction?
   <Button>Save</Button>
 </div>
 
-// GOOD - Or use self-start on button
+// GOOD - Keep button untouched, apply layout on wrapper
 <div className="flex flex-col gap-[var(--space-16)]">
-  <Button className="self-start">Save</Button>
+  <div className="self-start">
+    <Button>Save</Button>
+  </div>
 </div>
 ```
 
@@ -617,6 +623,7 @@ What type of filter interaction?
 | `l` | Hero/prominent icon actions |
 
 **Accessibility:** All IconButtons require `aria-label` for screen readers.
+**Do not override size with `className`; use `size` prop.**
 
 ---
 
@@ -1126,8 +1133,8 @@ Each group type has its own prefix component. The card style automatically deter
 - Formatting options (bold/italic/underline)
 
 **Guidelines:**
-- Only use `secondary` or `tertiary` variants
-- All buttons share the same size
+- Set group sizing with `size` on `ButtonGroup`
+- Use `tone` on `ButtonGroupItem` for semantic/decorative emphasis when needed
 - Buttons render with connected styling (no gap)
 
 ---
@@ -1208,19 +1215,35 @@ Each group type has its own prefix component. The card style automatically deter
 
 ### Slider
 
-**Use when:** Selecting a value within a range by dragging.
+**Use when:** You need composable slider primitives (default, segmented, or adjustment variant) and want full slot-level control.
 
 | Use Case | Configuration |
 |----------|---------------|
-| Volume/brightness | `min={0}` `max={100}` |
-| Price range | `min={0}` `max={1000}` `formatValue={(v) => `$${v}`}` |
-| Rating/score | `min={1}` `max={10}` `step={1}` |
+| Basic range | `variant="default"` `min={0}` `max={100}` |
+| Segmented media/editor controls | `variant="segmented"` `size="m"` |
+| Custom adjustment composition | `variant="adjustment"` + `Slider.AdjustmentTrack` + `Slider.Value` |
 
 **Guidelines:**
-- Use `label` for the slider name
-- Use `formatValue` to display units or formatted values
-- `editableValue` allows direct number input
-- `showValue={false}` to hide the value display
+- Prefer `variant` + `size` props; avoid style overrides on `Thumb`/`Value` slots
+- Do not manually shift value text/thumb positioning with `className`
+- Use `unsafeClassName` only when you intentionally need structural overrides
+
+---
+
+### AdjustmentSlider
+
+**Use when:** You want a ready-made adjustment control with built-in icon + label + value layout.
+
+| Use Case | Configuration |
+|----------|---------------|
+| Image/video adjustments | `label`, `icon`, `min/max`, optional `renderValue` |
+| Token/parameter tuning | `showValue={true}` with `animated` defaults |
+| Dense editor rows | `size="s"` |
+
+**Guidelines:**
+- Keep `AdjustmentSlider` separate from `Slider`; they serve different integration needs
+- Use `renderValue` for units or formatting (e.g. percentages, `dB`)
+- Avoid overriding track/value typography via `className`; use provided props first
 
 ---
 

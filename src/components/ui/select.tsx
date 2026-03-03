@@ -100,9 +100,11 @@ function SelectRoot<Value = unknown, Multiple extends boolean | undefined = bool
 
 type SelectTriggerProps = Omit<SelectPrimitive.Trigger.Props, "className"> & {
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
-function SelectTrigger({ className, ...props }: SelectTriggerProps) {
+function SelectTrigger({ className, unsafeClassName, ...props }: SelectTriggerProps) {
   const { size, variant } = useSelectContext()
   const isSecondary = variant === "secondary"
   const isTertiary = variant === "tertiary"
@@ -112,6 +114,7 @@ function SelectTrigger({ className, ...props }: SelectTriggerProps) {
       data-slot="trigger"
       data-variant={variant}
       className={cn(
+        className,
         triggerVariants({ size, variant }),
         isSecondary && "hover:bg-actions-secondary-hover",
         isTertiary && "hover:bg-actions-tertiary-hover",
@@ -119,7 +122,7 @@ function SelectTrigger({ className, ...props }: SelectTriggerProps) {
         isSecondary && "data-[disabled]:bg-actions-secondary-disabled",
         isTertiary && "data-[disabled]:bg-actions-tertiary-disabled data-[disabled]:shadow-none",
         "data-[disabled]:cursor-not-allowed",
-        className
+        unsafeClassName
       )}
       {...props}
     />

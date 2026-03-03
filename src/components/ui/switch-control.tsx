@@ -23,6 +23,8 @@ const switchControlVariants = cva(
 type SwitchControlProps = Omit<Switch.Root.Props, "className"> &
   VariantProps<typeof switchControlVariants> & {
     className?: string
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 const thumbTransition: Transition = {
@@ -31,7 +33,7 @@ const thumbTransition: Transition = {
   duration: 0.25,
 }
 
-function SwitchControl({ className, ...props }: SwitchControlProps) {
+function SwitchControl({ className, unsafeClassName, ...props }: SwitchControlProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const instantTransition = { duration: 0 }
 
@@ -39,6 +41,7 @@ function SwitchControl({ className, ...props }: SwitchControlProps) {
     <Switch.Root
       data-slot="switch-control"
       className={cn(
+        className,
         switchControlVariants(),
         "group",
         "bg-actions-secondary-default hover:bg-actions-secondary-hover",
@@ -46,7 +49,7 @@ function SwitchControl({ className, ...props }: SwitchControlProps) {
         "data-[disabled]:bg-actions-secondary-disabled data-[disabled]:cursor-not-allowed",
         "data-[disabled]:data-[checked]:bg-actions-primary-disabled",
         "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-        className
+        unsafeClassName
       )}
       {...props}
     >

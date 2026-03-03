@@ -32,12 +32,15 @@ function useTabsContext() {
 type TabsRootProps = TabsPrimitive.Root.Props & {
   variant?: TabsVariant
   size?: TabsSize
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 function TabsRoot({
   variant = "stroke",
   size = "m",
   className,
+  unsafeClassName,
   ...props
 }: TabsRootProps) {
   return (
@@ -46,7 +49,7 @@ function TabsRoot({
         data-slot="tabs"
         data-variant={variant}
         data-size={size}
-        className={cn("flex flex-col", className)}
+        className={cn(className, "flex flex-col", unsafeClassName)}
         {...props}
       />
     </TabsContext.Provider>
@@ -70,15 +73,18 @@ const listVariants = cva("relative inline-flex items-center", {
   },
 })
 
-type TabsListProps = TabsPrimitive.List.Props
+type TabsListProps = TabsPrimitive.List.Props & {
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
+}
 
-function TabsList({ className, ...props }: TabsListProps) {
+function TabsList({ className, unsafeClassName, ...props }: TabsListProps) {
   const { variant } = useTabsContext()
 
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      className={cn(listVariants({ variant }), className)}
+      className={cn(className, listVariants({ variant }), unsafeClassName)}
       {...props}
     />
   )
@@ -148,10 +154,13 @@ const iconVariants =
 
 type TabsTriggerProps = TabsPrimitive.Tab.Props & {
   leadingIcon?: React.ReactNode
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 function TabsTrigger({
   className,
+  unsafeClassName,
   children,
   leadingIcon,
   ...props
@@ -163,11 +172,12 @@ function TabsTrigger({
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
+        className,
         triggerVariants({ variant, size }),
         variant !== "stroke" &&
           "focus-visible:shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         "focus-visible:outline-none",
-        className
+        unsafeClassName
       )}
       {...props}
     >
@@ -225,16 +235,19 @@ const indicatorVariants = cva(
   }
 )
 
-type TabsIndicatorProps = TabsPrimitive.Indicator.Props
+type TabsIndicatorProps = TabsPrimitive.Indicator.Props & {
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
+}
 
-function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
+function TabsIndicator({ className, unsafeClassName, ...props }: TabsIndicatorProps) {
   const { variant, size } = useTabsContext()
   const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
     <TabsPrimitive.Indicator
       data-slot="tabs-indicator"
-      className={cn(indicatorVariants({ variant, size }), className)}
+      className={cn(className, indicatorVariants({ variant, size }), unsafeClassName)}
       style={{
         left: "var(--active-tab-left)",
         width: "var(--active-tab-width)",
@@ -255,13 +268,16 @@ function TabsIndicator({ className, ...props }: TabsIndicatorProps) {
 // TabsContent
 // -----------------------------------------------------------------------------
 
-type TabsContentProps = TabsPrimitive.Panel.Props
+type TabsContentProps = TabsPrimitive.Panel.Props & {
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
+}
 
-function TabsContent({ className, ...props }: TabsContentProps) {
+function TabsContent({ className, unsafeClassName, ...props }: TabsContentProps) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"
-      className={cn("mt-[var(--space-32)] outline-none", className)}
+      className={cn(className, "mt-[var(--space-32)] outline-none", unsafeClassName)}
       {...props}
     />
   )

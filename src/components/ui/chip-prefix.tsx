@@ -119,6 +119,8 @@ type ChipPrefixProps = VariantProps<typeof prefixSizeVariants> & {
   src?: string
   alt?: string
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 function parseEmphasizedColor(type: ChipPrefixType): DecorativeColor | "neutral" | "default" | null {
@@ -140,6 +142,7 @@ function ChipPrefix({
   src,
   alt = "",
   className,
+  unsafeClassName,
 }: ChipPrefixProps) {
   const resolvedSize = size ?? "s"
   const iconSize = resolvedSize === "m" ? 16 : 12
@@ -162,9 +165,10 @@ function ChipPrefix({
         data-type={type}
         data-size={resolvedSize}
         className={cn(
+          className,
           iconWrapperVariants({ size: resolvedSize }),
           bgClass,
-          className
+          unsafeClassName
         )}
       >
         <span
@@ -188,9 +192,10 @@ function ChipPrefix({
         data-type={type}
         data-size={resolvedSize}
         className={cn(
+          className,
           prefixSizeVariants({ size: resolvedSize }),
           "overflow-hidden rounded-[var(--radius-max)]",
-          className
+          unsafeClassName
         )}
       >
         {src ? (
@@ -214,7 +219,7 @@ function ChipPrefix({
         data-slot="chip-prefix"
         data-type={type}
         data-size={resolvedSize}
-        className={cn(prefixSizeVariants({ size: resolvedSize }), className)}
+        className={cn(className, prefixSizeVariants({ size: resolvedSize }), unsafeClassName)}
       >
         <Crypto crypto={token} size={assetSize} />
       </span>
@@ -229,9 +234,10 @@ function ChipPrefix({
         data-type={type}
         data-size={resolvedSize}
         className={cn(
+          className,
           prefixSizeVariants({ size: resolvedSize }),
           "overflow-hidden rounded-[var(--radius-max)]",
-          className
+          unsafeClassName
         )}
       >
         <Logo logo={logo} variant="filled" size={assetSize} />
@@ -245,7 +251,7 @@ function ChipPrefix({
       data-slot="chip-prefix"
       data-type={type}
       data-size={resolvedSize}
-      className={cn(prefixSizeVariants({ size: resolvedSize }), className)}
+      className={cn(className, prefixSizeVariants({ size: resolvedSize }), unsafeClassName)}
     />
   )
 }

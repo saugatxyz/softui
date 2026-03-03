@@ -162,6 +162,8 @@ type SwitchPrefixProps = VariantProps<typeof prefixVariants> & {
   containerStyle?: ContainerStyle
   containerColor?: ContainerColor
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 function SwitchPrefix({
@@ -173,6 +175,7 @@ function SwitchPrefix({
   containerStyle,
   containerColor = "default",
   className,
+  unsafeClassName,
 }: SwitchPrefixProps) {
   const resolvedSize = size ?? "s"
   const iconSize = resolvedSize === "m" ? 17 : 16
@@ -194,7 +197,7 @@ function SwitchPrefix({
             data-slot="switch-prefix"
             data-type={type}
             data-size={resolvedSize}
-            className={cn("flex shrink-0 items-start pt-[var(--space-2)]", className)}
+            className={cn(className, "flex shrink-0 items-start pt-[var(--space-2)]", unsafeClassName)}
             style={{ width: iconSize }}
           >
             <span
@@ -211,7 +214,7 @@ function SwitchPrefix({
           data-slot="switch-prefix"
           data-type={type}
           data-size={resolvedSize}
-          className={cn(iconWrapperVariants({ size: resolvedSize }), className)}
+          className={cn(className, iconWrapperVariants({ size: resolvedSize }), unsafeClassName)}
         >
           <span
             className="flex shrink-0 items-center justify-center text-content-strong [&_svg]:size-full"
@@ -239,9 +242,10 @@ function SwitchPrefix({
         data-container-style={containerStyle}
         data-container-color={containerColor}
         className={cn(
+          className,
           iconWrapperVariants({ size: resolvedSize }),
           bgClass,
-          className
+          unsafeClassName
         )}
       >
         <span
@@ -264,7 +268,7 @@ function SwitchPrefix({
         data-slot="switch-prefix"
         data-type={type}
         data-size={resolvedSize}
-        className={cn(prefixVariants({ size: resolvedSize }), className)}
+        className={cn(className, prefixVariants({ size: resolvedSize }), unsafeClassName)}
       >
         <Crypto crypto={token} size={assetSize} />
       </span>
@@ -278,7 +282,7 @@ function SwitchPrefix({
         data-slot="switch-prefix"
         data-type={type}
         data-size={resolvedSize}
-        className={cn(prefixVariants({ size: resolvedSize }), className)}
+        className={cn(className, prefixVariants({ size: resolvedSize }), unsafeClassName)}
       >
         <Logo logo={logo} variant="filled" size={assetSize} />
       </span>
@@ -291,7 +295,7 @@ function SwitchPrefix({
       data-slot="switch-prefix"
       data-type={type}
       data-size={resolvedSize}
-      className={cn(prefixVariants({ size: resolvedSize }), className)}
+      className={cn(className, prefixVariants({ size: resolvedSize }), unsafeClassName)}
     />
   )
 }

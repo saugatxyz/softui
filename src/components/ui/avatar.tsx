@@ -174,6 +174,8 @@ type AvatarProps = AvatarPrimitive.Root.Props &
     icon?: React.ReactNode
     fallback?: "initials" | "icon"
     color?: DecorativeColor
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function Avatar({
@@ -187,6 +189,7 @@ function Avatar({
   icon,
   fallback = "icon",
   color,
+  unsafeClassName,
   ...props
 }: AvatarProps) {
   const resolvedSize = size ?? "m"
@@ -210,13 +213,14 @@ function Avatar({
       data-color={color || undefined}
       data-emphasized={resolvedIsEmphasized || undefined}
       className={cn(
+        className,
         avatarVariants({
           size: resolvedSize,
           shape: resolvedShape,
           isEmphasized: resolvedIsEmphasized,
         }),
         colorClass,
-        className
+        unsafeClassName
       )}
       {...props}
     >

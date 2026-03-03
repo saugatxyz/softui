@@ -74,6 +74,8 @@ type AutocompleteRootBaseProps = {
   size?: AutocompleteSize
   variant?: AutocompleteVariant
   className?: string
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
 type AutocompleteRootFlatProps<ItemValue> =
@@ -103,6 +105,7 @@ function AutocompleteRoot<ItemValue = unknown>({
   size = "m",
   variant = "secondary",
   className,
+  unsafeClassName,
   children,
   items,
   ...props
@@ -139,12 +142,13 @@ function AutocompleteRoot<ItemValue = unknown>({
       data-size={size}
       data-variant={variant}
       className={cn(
+        className,
         rootVariants({ size, variant }),
         isSecondary && "hover:bg-actions-secondary-hover",
         isTertiary && "hover:bg-actions-tertiary-hover",
         showFocusRing &&
           "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
-        className
+        unsafeClassName
       )}
       onPointerDown={handlePointerDown}
       onFocus={handleFocus}
@@ -283,7 +287,7 @@ function AutocompleteList({ className, ...props }: AutocompleteListProps) {
   return (
     <AutocompletePrimitive.List
       data-slot="list"
-      className={cn("flex flex-col gap-0 empty:hidden", className)}
+      className={cn("flex flex-col gap-0 p-[var(--space-4)] empty:hidden", className)}
       {...props}
     />
   )

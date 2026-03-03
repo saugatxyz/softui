@@ -458,7 +458,9 @@ export default function MenuDocsPage() {
                       <MenuItem>
                         <MenuPrefix type="icon" icon={<RiRobot2Line />} />
                         <span className={menuItemLabelClassName}>AI Assistant</span>
-                        <Badge size="xs" isEmphasized variant="info" className="ml-auto">New</Badge>
+                        <span className="ml-auto">
+                          <Badge size="xs" isEmphasized variant="info">New</Badge>
+                        </span>
                       </MenuItem>
                       <MenuItem>
                         <MenuPrefix type="icon" icon={<RiSettings3Line />} />

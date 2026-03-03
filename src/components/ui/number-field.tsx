@@ -111,12 +111,15 @@ const iconVariants = cva(
 type NumberFieldRootProps = NumberFieldPrimitive.Root.Props &
   VariantProps<typeof groupVariants> & {
     size?: NumberFieldSize
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function Root({
   className,
   size = "m",
   disabled,
+  unsafeClassName,
   children,
   ...props
 }: NumberFieldRootProps) {
@@ -126,7 +129,7 @@ function Root({
         data-slot="number-field"
         data-size={size}
         disabled={disabled}
-        className={cn("inline-flex flex-col gap-[var(--space-6)]", className)}
+        className={cn(className, "inline-flex flex-col gap-[var(--space-6)]", unsafeClassName)}
         {...props}
       >
         {children}
@@ -137,9 +140,11 @@ function Root({
 
 type NumberFieldGroupProps = NumberFieldPrimitive.Group.Props & {
   focusVisibleOnly?: boolean
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
 }
 
-function Group({ className, focusVisibleOnly = true, ...props }: NumberFieldGroupProps) {
+function Group({ className, focusVisibleOnly = true, unsafeClassName, ...props }: NumberFieldGroupProps) {
   const { size, disabled } = useNumberFieldContext()
   const [showFocusRing, setShowFocusRing] = React.useState(false)
   const wasPointerDown = React.useRef(false)
@@ -167,12 +172,13 @@ function Group({ className, focusVisibleOnly = true, ...props }: NumberFieldGrou
     <NumberFieldPrimitive.Group
       data-slot="number-field-group"
       className={cn(
+        className,
         groupVariants({ size }),
         !disabled && "hover:bg-surface-interactive-hover",
         showFocusRing &&
           "shadow-[0_0_0_1px_var(--color-utility-focus-inner),0_0_0_3px_var(--color-utility-focus-outer)]",
         disabled && "opacity-50 cursor-not-allowed",
-        className
+        unsafeClassName
       )}
       onPointerDownCapture={handlePointerDown}
       onFocus={handleFocus}
@@ -200,16 +206,19 @@ function Input({ className, ...props }: NumberFieldInputProps) {
   )
 }
 
-type NumberFieldIncrementProps = NumberFieldPrimitive.Increment.Props
+type NumberFieldIncrementProps = NumberFieldPrimitive.Increment.Props & {
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
+}
 
-function Increment({ className, children, ...props }: NumberFieldIncrementProps) {
+function Increment({ className, children, unsafeClassName, ...props }: NumberFieldIncrementProps) {
   const { size } = useNumberFieldContext()
 
   return (
     <NumberFieldPrimitive.Increment
       data-slot="number-field-increment"
       tabIndex={-1}
-      className={cn(stepperContainerVariants({ size, position: "increment" }), className)}
+      className={cn(className, stepperContainerVariants({ size, position: "increment" }), unsafeClassName)}
       {...props}
     >
       <span className={cn(stepperButtonVariants({ size }), "group-disabled:bg-actions-tertiary-disabled group-disabled:text-content-disabled group-disabled:shadow-none")}>
@@ -223,16 +232,19 @@ function Increment({ className, children, ...props }: NumberFieldIncrementProps)
   )
 }
 
-type NumberFieldDecrementProps = NumberFieldPrimitive.Decrement.Props
+type NumberFieldDecrementProps = NumberFieldPrimitive.Decrement.Props & {
+  /** Explicit escape hatch for intentional structural overrides. */
+  unsafeClassName?: string
+}
 
-function Decrement({ className, children, ...props }: NumberFieldDecrementProps) {
+function Decrement({ className, children, unsafeClassName, ...props }: NumberFieldDecrementProps) {
   const { size } = useNumberFieldContext()
 
   return (
     <NumberFieldPrimitive.Decrement
       data-slot="number-field-decrement"
       tabIndex={-1}
-      className={cn(stepperContainerVariants({ size, position: "decrement" }), className)}
+      className={cn(className, stepperContainerVariants({ size, position: "decrement" }), unsafeClassName)}
       {...props}
     >
       <span className={cn(stepperButtonVariants({ size }), "group-disabled:bg-actions-tertiary-disabled group-disabled:text-content-disabled group-disabled:shadow-none")}>

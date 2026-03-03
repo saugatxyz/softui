@@ -76,6 +76,39 @@ This document details when to use each component and how to implement them corre
 
 ---
 
+## Component Integrity Rules
+
+To prevent AI-generated layouts from squishing or restyling components unexpectedly:
+
+- Prefer semantic props (`variant`, `size`, `tone`, `state`, component-specific props) over `className`.
+- Treat `className` as additive only (spacing, layout placement in parent), not as a way to redefine component internals.
+- For components that support it, use `unsafeClassName` only when you intentionally need structural overrides.
+- Never change slot text styling/positioning (`Slider.Value`, button labels/icons, segmented indicators) unless design review explicitly requires it.
+- Keep `AdjustmentSlider` and `Slider` separate. They are different APIs and should not be conflated.
+
+Hardened components with explicit override escape hatch: `Button`, `IconButton`, `ButtonGroup`, `ButtonGroupItem`, `ToggleButton`, `ToggleGroup`, `ToggleGroupItem`, `Pagination*`, `Slider*`, `AdjustmentSlider`, `Autocomplete.Root`, `Combobox.Root`, `Select.Trigger`, `Tabs*`, `SegmentedControl*`, `Input`, `Textarea`, `InputGroup`, `NumberField*`, `CheckboxControl`, `RadioControl`, `SwitchControl`, `CheckboxPrefix`, `RadioPrefix`, `SwitchPrefix`, `Chip`, `ChipGroup`, `ChipPrefix`, `Badge`, `Avatar`, `AvatarGroup`, `Field`, `Filter`.
+
+---
+
+## Allowed vs Forbidden Overrides Matrix
+
+Use this matrix when generating UI with agents.
+
+| Component Family | Allowed (default path) | Forbidden (without explicit intent) | Intentional Escape Hatch |
+|------------------|------------------------|-------------------------------------|--------------------------|
+| Buttons (`Button`, `IconButton`, `ButtonGroup*`, `Toggle*`, `Pagination*`) | `variant`, `size`, `tone`, icon/label props, disabled/state props | Forcing `h-*`, `w-*`, `px-*`, `text-*`, `rounded-*`, icon slot size overrides via `className` | `unsafeClassName` |
+| Sliders (`Slider*`) | `variant`, `size`, min/max/step/value props, provided slider slots | Repositioning thumb/value text, overriding adjustment/segmented geometry classes | `unsafeClassName` |
+| `AdjustmentSlider` | `size`, `label`, `icon`, `showValue`, `renderValue`, `animated` | Overriding value typography/positioning, track fill geometry, paddings | `unsafeClassName` |
+| Inputs (`Input`, `Textarea`, `InputGroup`, `NumberField`) | `variant`, `size`, prefix/suffix props, focus behavior props | Overriding control heights/paddings/typography with `className` | `unsafeClassName` |
+| Selection Controls (`CheckboxControl`, `RadioControl`, `SwitchControl`) | checked/disabled/indeterminate states and component props | Changing control dimensions or indicator geometry with `className` | `unsafeClassName` |
+| Prefix Components (`CheckboxPrefix`, `RadioPrefix`, `SwitchPrefix`, `ChipPrefix`) | `type`, `size`, `containerStyle`, `containerColor`, asset/icon props | Manual icon wrapper sizing/alignment overrides that break optical alignment | `unsafeClassName` |
+| Selection Containers (`Tabs*`, `SegmentedControl*`, `Select.Trigger`, `Autocomplete.Root`, `Combobox.Root`) | `variant`, `size`, semantic props, provided slots | Overriding internal tab/segment trigger heights, indicator dimensions, trigger paddings | `unsafeClassName` |
+| Display Chips/Badges/Avatars (`Chip`, `ChipGroup`, `Badge`, `Avatar`, `AvatarGroup`, `Filter`, `Field`) | semantic props (`size`, selected/emphasis, tone/color), content props | Directly restyling intrinsic geometry/text tokens with ad-hoc classes | `unsafeClassName` |
+
+**Placement rule:** For layout placement (`self-start`, width constraints, container gaps), prefer wrapper/container classes over styling component internals.
+
+---
+
 ## Navigation Components
 
 ### Breadcrumbs
@@ -661,6 +694,7 @@ import { Filter } from "@/components/ui/filter"
 | `tone` | Semantic or decorative color | - | Color override for ghost/link variants |
 | `leadingIcon` | `ReactNode` | - | Icon before label |
 | `trailingIcon` | `ReactNode` | - | Icon after label |
+| `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -683,6 +717,7 @@ import { Button } from "@/components/ui/button"
 | `variant` | `"primary"` \| `"secondary"` \| `"tertiary"` \| `"ghost"` \| `"icon"` \| `"plain"` \| `"danger"` | `"secondary"` | Visual style |
 | `size` | `"3xs"` \| `"2xs"` \| `"xs"` \| `"s"` \| `"m"` \| `"l"` | `"m"` | Button size |
 | `tone` | Semantic or decorative color | - | Color override |
+| `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
 
 **Accessibility:** Icon-only buttons require `aria-label` for screen readers.
 
@@ -704,14 +739,22 @@ import { IconButton } from "@/components/ui/icon-button"
 **Props:**
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `variant` | `"secondary"` \| `"tertiary"` | `"secondary"` | Visual style for all buttons |
 | `size` | `"xs"` \| `"s"` \| `"m"` \| `"l"` | `"m"` | Size for all buttons |
-| `disabled` | `boolean` | `false` | Disable all buttons |
+| `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
+
+**Props (ButtonGroupItem):**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `leadingIcon` | `ReactNode` | - | Icon before label |
+| `trailingIcon` | `ReactNode` | - | Icon after label |
+| `tone` | Semantic or decorative color | - | Color override |
+| `disabled` | `boolean` | `false` | Disable this item |
+| `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
 
 ```tsx
 import { ButtonGroup, ButtonGroupItem } from "@/components/ui/button-group"
 
-<ButtonGroup variant="secondary" size="s">
+<ButtonGroup size="s">
   <ButtonGroupItem leadingIcon={<RiAlignLeft />} />
   <ButtonGroupItem leadingIcon={<RiAlignCenter />} />
   <ButtonGroupItem leadingIcon={<RiAlignRight />} />
@@ -1041,9 +1084,20 @@ import { Meter } from "@/components/ui/meter"
 ---
 
 ### Slider
-**When to use:** Select a numeric value by dragging a thumb.
+**When to use:** Composable slider primitives (default, segmented, and adjustment variants) when you need slot-level control.
 
 **Base UI Primitive:** `@base-ui/react/slider`
+
+**Root Props:**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"default"` \| `"adjustment"` \| `"segmented"` | `"default"` | Visual/interaction variant |
+| `size` | `"s"` \| `"m"` \| `"l"` | `"m"` | Component size |
+| `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
+
+**Key sub-components:** `Slider.Control`, `Slider.Track`, `Slider.Indicator`, `Slider.Thumb`, `Slider.Value`, `Slider.AdjustmentTrack`, `Slider.SegmentedTrack`, `Slider.SelectedSegment`, `Slider.SegmentedGap`, `Slider.SegmentedThumb`, `Slider.UnselectedSegment`.
+
+**Guardrail:** Do not restyle value text or thumb positioning via `className`. Use `variant` + `size` first.
 
 ```tsx
 import { Slider } from "@/components/ui/slider"
@@ -1056,6 +1110,36 @@ import { Slider } from "@/components/ui/slider"
     </Slider.Track>
   </Slider.Control>
 </Slider>
+```
+
+---
+
+### AdjustmentSlider
+**When to use:** Single, opinionated adjustment control with built-in icon/label/value layout.
+
+**Base UI Primitive:** `@base-ui/react/slider` (wrapped)
+
+**Props:**
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `"s"` \| `"m"` \| `"l"` | `"m"` | Height + padding scale |
+| `icon` | `ReactNode` | - | Leading icon |
+| `label` | `string` | required | Control label |
+| `showValue` | `boolean` | `true` | Show numeric value |
+| `renderValue` | `(value: number) => ReactNode` | - | Custom value renderer |
+| `animated` | `boolean` | `true` | Enable NumberFlow value animation |
+| `unsafeClassName` | `string` | - | Explicit structural override escape hatch (avoid unless intentional) |
+
+```tsx
+import { AdjustmentSlider } from "@/components/ui/adjustment-slider"
+
+<AdjustmentSlider
+  label="Exposure"
+  icon={<RiSunLine />}
+  defaultValue={24}
+  min={0}
+  max={100}
+/>
 ```
 
 ---
@@ -1531,4 +1615,6 @@ Before implementing any component:
    - Spread `{...props}` on primitives
    - Use `cva` for variants
    - Use design tokens for all values
+   - Keep structural sizing/positioning in component variants, not ad-hoc docs examples
+   - Only use `unsafeClassName` for intentional, reviewed structural overrides
 5. **Run the audit checklist** after implementation

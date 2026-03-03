@@ -149,6 +149,8 @@ type InputGroupProps = Omit<React.ComponentProps<typeof InputPrimitive>, "size" 
     trailingIcon?: React.ReactNode
     /** Only show focus ring on keyboard focus (default: true) */
     focusVisibleOnly?: boolean
+    /** Explicit escape hatch for intentional structural overrides. */
+    unsafeClassName?: string
   }
 
 function InputGroup({
@@ -167,6 +169,7 @@ function InputGroup({
   trailingIcon,
   focusVisibleOnly = true,
   disabled,
+  unsafeClassName,
   ...props
 }: InputGroupProps) {
   const resolvedSize: InputGroupSize = size ?? "m"
@@ -215,10 +218,11 @@ function InputGroup({
       data-size={resolvedSize}
       data-variant={resolvedVariant}
       className={cn(
+        className,
         fieldContainerVariants({ size: resolvedSize }),
         "relative rounded-[var(--radius-10)]",
         isTertiary && "backdrop-blur-[12px] shadow-[0_1px_2px_0_var(--color-utility-shadow-l3),0_0_1px_0_var(--color-utility-shadow-l2),0_0_0_1px_var(--color-utility-shadow-l1)]",
-        className
+        unsafeClassName
       )}
     >
       {/* Prefix segment */}
