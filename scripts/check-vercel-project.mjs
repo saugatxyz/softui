@@ -2,11 +2,16 @@ const expectedRootDirectory = process.env.VERCEL_EXPECTED_ROOT_DIR || "apps/docs
 const token = process.env.VERCEL_TOKEN;
 const projectId = process.env.VERCEL_PROJECT_ID;
 const teamId = process.env.VERCEL_TEAM_ID || process.env.VERCEL_ORG_ID;
+const configRequired = process.env.VERCEL_CONFIG_REQUIRED === "true";
 
 if (!token || !projectId) {
-  console.log(
-    "Skipping Vercel project check (missing VERCEL_TOKEN or VERCEL_PROJECT_ID)."
-  );
+  const message =
+    "Missing VERCEL_TOKEN or VERCEL_PROJECT_ID for Vercel config preflight.";
+  if (configRequired) {
+    console.error(message);
+    process.exit(1);
+  }
+  console.log(`Skipping Vercel project check: ${message}`);
   process.exit(0);
 }
 

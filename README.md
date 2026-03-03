@@ -35,6 +35,8 @@ To validate this setting before deploys, set these GitHub secrets and run `pnpm 
 - `VERCEL_PROJECT_ID`
 - `VERCEL_ORG_ID` (or `VERCEL_TEAM_ID`)
 
+CI is configured to require these secrets for the preflight check.
+
 ## Consumer Setup (v1)
 
 1. Install packages:
