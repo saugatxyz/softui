@@ -55,6 +55,10 @@ Required setup in consumer:
 
 ## Publishing Prep (Do Later)
 - [ ] In Vercel project settings, set **Root Directory** to `apps/docs`.
+- [ ] Add GitHub secrets for preflight validation:
+  - `VERCEL_TOKEN`
+  - `VERCEL_PROJECT_ID`
+  - `VERCEL_ORG_ID` (or `VERCEL_TEAM_ID`)
 - [ ] Create/verify npm org scope: `@soft-ui`.
 - [ ] Ensure package publish rights for all 3 packages.
 - [ ] Add `NPM_TOKEN` in GitHub repository secrets.
